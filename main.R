@@ -80,14 +80,16 @@ m_crsp[, quarter := quarter(as.Date(as.character(DATE),format="%Y%m%d"))]
 m_crsp[!is.na(vwretd.tp1), c("vwretd.tp3","vwretx.tp3") := lapply(.SD,function(x){
   exp(shift(runSum(log1p(x),n = 3),type="lead",n=2)) - 1
 }), .SDcol = c("vwretd.tp1","vwretx.tp1")]
-data = merge(data,m_crsp,by=c("year","month"),all.x=TRUE)
+data = merge(data,m_crsp,by=c("year","month","quarter"),all.x=TRUE,suffixes = c(".daily",".monthly"))
+
+gc()
 
 #### offline cor calculations ####
 ### functions within data.table ####
 # cor_var = function(mtrx) {
 #   mtrx1 = subset(mtrx,select = c("date","PERMNO","RET"))
 #   mtrx2 = subset(mtrx,select = c("weight","PERMNO"))
-#   mtrx3 = subset(mtrx,select = c("date","vwretd"))
+#   mtrx3 = subset(mtrx,select = c("date","vwretd.daily"))
 #   tmp_m = dcast(data = mtrx1, formula = date ~ ..., value.var = "RET")
 #   tmp_m = as.data.table(tmp_m)
 #   tmp_m[, date := NULL]
@@ -100,14 +102,16 @@ data = merge(data,m_crsp,by=c("year","month"),all.x=TRUE)
 #   diag(c_m) = 0
 #   avg_cor = crossprod(weight,crossprod(c_m,weight)) 
 #   unweighted_avg_cor = avg_cor / (1 - sum(weight^2))
-#   mkt_r = unique(mtrx3,by="date")$vwretd
+#   mkt_r = unique(mtrx3,by="date")$vwretd.daily
 #   mkt_var = var(mkt_r)
 #   return(c(avg_var,avg_cor,mkt_var,unweighted_avg_var,unweighted_avg_cor))
 # }
-# data[all_month, c("avg_var","avg_cor","mkt_var","unweighted_avg_var","unweighted_avg_cor") := as.list(cor_var(.SD)), 
+#
+# setkey(data,date,PERMNO)
+# data[all_month==1, c("avg_var","avg_cor","mkt_var","unweighted_avg_var","unweighted_avg_cor") := as.list(cor_var(.SD)), 
 #      .SDcols = c("date","PERMNO","RET","weight","vwretd"), by = c("year","month")]
 # 
-# data[all_quarter, c("q_avg_var","q_avg_cor","q_mkt_var","q_unweighted_avg_var","q_unweighted_avg_cor") := as.list(cor_var(.SD)), 
+# data[all_quarter==1, c("q_avg_var","q_avg_cor","q_mkt_var","q_unweighted_avg_var","q_unweighted_avg_cor") := as.list(cor_var(.SD)), 
 #      .SDcols = c("date","PERMNO","RET","q_weight","vwretd"), by = c("year","quarter")]
 
 
