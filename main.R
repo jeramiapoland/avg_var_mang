@@ -62,7 +62,7 @@ min_weight = tmp_mcap[, .(minw = min(weight)), by = c("year","month")]
 
 data = merge(subset(tmp_crsp,select = c("PERMNO","date","year","month","quarter","SICCD","TSYMBOL","PRC","RET","RETX","all_month","all_quarter",
                                         "vwretd")),
-             subset(tmp_mcap,select = c("PERMNO","year","month","quarter","weight")),by=c("year","month","quarter","PERMNO"))
+             subset(tmp_mcap,select = c("PERMNO","year","month","quarter","weight","q_weight")),by=c("year","month","quarter","PERMNO"))
 setkey(data,date,PERMNO)
 tmp_crsp = NULL
 tmp_mcap = NULL
