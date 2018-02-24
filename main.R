@@ -1,7 +1,7 @@
-paks <- c("Quandl","RCurl","data.table","lubridate","ggplot2","stringr","sandwich","stargazer","pracma","RColorBrewer",
-          "CADFtest","complexplus","nlme","readxl","reshape2","quantmod","xlsx","tikzDevice","MASS","timeSeries","plm", "reshape2",
+paks <- c("RCurl","data.table","lubridate","ggplot2","stringr","sandwich","stargazer","pracma","RColorBrewer",
+          "CADFtest","complexplus","readxl","reshape2","quantmod","xlsx","tikzDevice","MASS","timeSeries",
           "PortfolioAnalytics","PerformanceAnalytics","backtest","tidyr","broom","stringdist","BH","parallel","doMC","foreach",
-          "doParallel","lfe","lmtest","hypergeo","abind","pcaMethods","pls","lubridate") 
+          "doParallel","lmtest","hypergeo") 
 # note: tikzDevice requires a working latex installation
 # and xlsx require rJava so a properly configured java (try javareconf)
 for (p in paks){
@@ -16,7 +16,6 @@ setkey(tmp_crsp,date,PERMNO)
 # tmp_crsp = subset(tmp_crsp,subset = year(date) >= 1961)
 tmp_crsp[, year := year(date)]
 tmp_crsp[, month := month(date)]
-tmp_crsp[, quarter := quarter(date)]
 tmp_crsp[, PRC := as.numeric(PRC)]
 tmp_crsp[PRC < 0, PRC := abs(PRC)]
 tmp_crsp[, RET := as.numeric(RET)]
@@ -26,14 +25,14 @@ tmp_crsp[is.na(RET)&!is.na(ALTRET)] # no simple fix for missing returns
 tmp_crsp[, RETX := as.numeric(RETX)]
 tmp_crsp[, vwretd := as.numeric(vwretd)]
 tmp_crsp[, vwretx := as.numeric(vwretx)]
+fwrite(tmp_crsp,file = 'all_tmp_crsp.csv')
 tmp_crsp[, tdays := length(unique(date)), by=c("year","month")]
 m_tday = tmp_crsp[, .(tdays = unique(tdays)), by =c("year","month")]
-tmp_crsp[, asset_tdays := length(na.omit(PRC)), by=c("year","month","PERMNO")]
+tmp_crsp[, asset_tdays := length(na.omit(RET)), by=c("year","month","PERMNO")]
 tmp_crsp[, all_month := tdays==asset_tdays]
-tmp_crsp[, tdays := length(unique(date)), by=c("year","quarter")]
-q_tday = tmp_crsp[, .(tdays = unique(tdays)), by =c("year","quarter")]
-tmp_crsp[, asset_tdays := length(na.omit(PRC)), by=c("year","quarter","PERMNO")]
-tmp_crsp[, all_quarter := tdays==asset_tdays]
+tmp_crsp[, not_zero := (!sum(RET==0)==length(RET)),by=c("year","month","PERMNO")]
+tmp_crsp = subset(tmp_crsp,subset= (all_month & not_zero))
+gc()
 setkey(tmp_crsp,date,PERMNO)
 setkey(tmp_crsp,year,month)
 crsp_permnos = tmp_crsp[, .(PERMNO = unique(PERMNO), num_PERMNO = length(unique(PERMNO))), by = c("year","month")]
@@ -41,7 +40,6 @@ crsp_permnos = tmp_crsp[, .(PERMNO = unique(PERMNO), num_PERMNO = length(unique(
 tmp_mcap = fread(input = '9cfd0c24e4fad219.csv',colClasses = "character")
 tmp_mcap[, date := as.Date(date,format="%Y%m%d")]
 setkey(tmp_mcap,date,PERMNO)
-# tmp_mcap = subset(tmp_mcap,subset = year(date) >= 1961)
 tmp_mcap[, PRC := as.numeric(PRC)]
 tmp_mcap[, ALTPRC := as.numeric(ALTPRC)]
 tmp_mcap[, SHROUT := as.integer(SHROUT)]
@@ -50,26 +48,35 @@ tmp_mcap[, PRC := abs(PRC)]
 tmp_mcap[, month_mcap := PRC * SHROUT]
 tmp_mcap[, year := year(date)]
 tmp_mcap[, month := month(date)]
-tmp_mcap[, quarter := quarter(date)]
 tmp_mcap = tmp_mcap[!is.na(month_mcap)]
+fwrite(x = tmp_mcap,file = 'all_tmp_mcap.csv')
 tmp_mcap = setorder(setDT(tmp_mcap), year,month, -month_mcap)[, indx := seq_len(.N), by = c("year","month")][indx <= 1500]
 tmp_mcap = merge(tmp_mcap,subset(crsp_permnos,select=c("year","month","PERMNO")),by=c("year","month","PERMNO"))
-tmp_mcap[, weight := month_mcap / sum(month_mcap), by = c("year","month")]
-tmp_mcap[, q_weight := mean(weight,na.rm=TRUE), by = c("year","quarter","PERMNO")] # quarter mcap mean of monthly mcaps
-asset_count = tmp_mcap[, .(count = length(unique(PERMNO))), by = c("year","month")]
-max_weight = tmp_mcap[, .(maxw = max(weight)), by = c("year","month")]
-min_weight = tmp_mcap[, .(minw = min(weight)), by = c("year","month")]
 
-data = merge(subset(tmp_crsp,select = c("PERMNO","date","year","month","quarter","SICCD","TSYMBOL","PRC","RET","RETX","all_month","all_quarter",
-                                        "vwretd")),
-             subset(tmp_mcap,select = c("PERMNO","year","month","quarter","weight","q_weight")),by=c("year","month","quarter","PERMNO"))
+gc()
+
+tmp_crsp = subset(tmp_crsp,select = c("PERMNO","date","year","month","SICCD","TSYMBOL","PRC","RET","RETX","vwretd",
+                                      "vwretx"))
+tmp_mcap = subset(tmp_mcap,select = c("PERMNO","year","month","month_mcap"))
+
+gc()
+
+data = merge(tmp_crsp,tmp_mcap,by=c("year","month","PERMNO"))
 setkey(data,date,PERMNO)
 tmp_crsp = NULL
 tmp_mcap = NULL
 crsp_permnos = NULL
 gc()
 
+ 
 
+# data[, tdays := length(unique(date)), by=c("year","month")]
+# m_tday = data[, .(tdays = unique(tdays)), by =c("year","month")]
+# data[, asset_tdays := length(na.omit(RET)), by=c("year","month","PERMNO")]
+# data[, all_month := tdays==asset_tdays]
+# data[, not_zero := (!sum(RET==0)==length(RET)),by=c("year","month","PERMNO")]
+
+#### HERE ####
 
 # monthly index returns
 m_crsp = fread(input = 'a85c415bc7ca7abb.csv')
@@ -84,40 +91,45 @@ data = merge(data,m_crsp,by=c("year","month","quarter"),all.x=TRUE,suffixes = c(
 
 gc()
 
-#### offline cor calculations ####
 ### functions within data.table ####
-# cor_var = function(mtrx) {
-#   mtrx1 = subset(mtrx,select = c("date","PERMNO","RET"))
-#   mtrx2 = subset(mtrx,select = c("weight","PERMNO"))
-#   mtrx3 = subset(mtrx,select = c("date","vwretd.daily"))
-#   tmp_m = dcast(data = mtrx1, formula = date ~ ..., value.var = "RET")
-#   tmp_m = as.data.table(tmp_m)
-#   tmp_m[, date := NULL]
-#   c_m = cor(tmp_m,use = "pairwise.complete.obs")
-#   v_m = cov(tmp_m,use = "pairwise.complete.obs")
-#   m_tr = diag(v_m)
-#   weight = unique(mtrx2,by=c("PERMNO"))$weight
-#   avg_var = (m_tr %*% weight) 
-#   unweighted_avg_var = m_tr / nrow(v_m)
-#   diag(c_m) = 0
-#   avg_cor = crossprod(weight,crossprod(c_m,weight)) 
-#   unweighted_avg_cor = avg_cor / (1 - sum(weight^2))
-#   mkt_r = unique(mtrx3,by="date")$vwretd.daily
-#   mkt_var = var(mkt_r)
-#   return(c(avg_var,avg_cor,mkt_var,unweighted_avg_var,unweighted_avg_cor))
-# }
-#
-# setkey(data,date,PERMNO)
-# data[all_month==1, c("avg_var","avg_cor","mkt_var","unweighted_avg_var","unweighted_avg_cor") := as.list(cor_var(.SD)), 
-#      .SDcols = c("date","PERMNO","RET","weight","vwretd"), by = c("year","month")]
-# 
-# data[all_quarter==1, c("q_avg_var","q_avg_cor","q_mkt_var","q_unweighted_avg_var","q_unweighted_avg_cor") := as.list(cor_var(.SD)), 
-#      .SDcols = c("date","PERMNO","RET","q_weight","vwretd"), by = c("year","quarter")]
+cor_var = function(mtrx,freq) {
+  if(freq=="monthly"){
+    X = "weight"
+  } else { X = "q_weight"}
+  mtrx1 = subset(mtrx,select = c("date","PERMNO","RET"))
+  mtrx2 = subset(mtrx,select = c(X,"PERMNO"))
+  mtrx3 = subset(mtrx,select = c("date","vwretd.daily"))
+  tmp_m = dcast(data = mtrx1, formula = date ~ ..., value.var = "RET")
+  tmp_m = as.data.table(tmp_m)
+  tmp_m[, date := NULL]
+  c_m = cor(tmp_m,use = "pairwise.complete.obs")
+  m_tr = apply(X = tmp_m,MARGIN = 2,FUN = var,na.rm=TRUE)
+  weight = unlist(unique(mtrx2,by=c("PERMNO"))[, X, with = FALSE])
+  avg_var = (m_tr %*% weight) 
+  diag(c_m) = 0
+  avg_cor = crossprod(weight,crossprod(c_m,weight)) 
+  avg_cor_ta = avg_cor / (1 - sum(weight^2))
+  mkt_r = unique(mtrx3,by="date")$vwretd.daily
+  mkt_var = var(mkt_r)
+  return(c(avg_var,avg_cor,mkt_var,avg_cor_ta))
+}
+
+setkey(data,date,PERMNO)
+
+data[, c("avg_var","avg_cor","mkt_var","avg_cor_ta") := as.list(cor_var(.SD,"monthly")), 
+     .SDcols = c("date","PERMNO","RET","weight","vwretd.daily"), by = c("year","month")]
+
+p_check = unique(data[all_month==1 & not_zero == 1 & is.na(avg_cor), .(year,month,PERMNO)], by = c("year","month"))
 
 
-m_data = unique(subset(data,select = c("year","month","avg_var","avg_cor","mkt_var","q_avg_var","q_avg_cor",
-                                       "q_mkt_var","q_unweighted_avg_var","q_unweighted_avg_cor")),by=c("year","month"))
-q_data = subset(m_data,subset = month %in% c(12,3,6,9),select = c("year","quarter","vwretd","vwretx","q_avg_var","q_avg_cor","q_mkt_var"))
+
+m_data = unique(subset(data[all_month==1 & not_zero == 1],
+                       select = c("year","month","avg_var","avg_cor","mkt_var","q_avg_var","q_avg_cor","q_mkt_var",
+                                  "q_unweighted_avg_var","q_unweighted_avg_cor","vwretd.monthly","vwretd.tp1","vwretx.tp1",
+                                  "vwretd.tp3","vwretx.tp3")),by=c("year","month"))
+q_data = unique(subset(data,subset = month %in% c(12,3,6,9) & all_quarter==1 & q_not_zero == 1,
+                select = c("year","month","quarter","q_avg_var","q_avg_cor","q_mkt_var","q_unweighted_avg_var","q_unweighted_avg_cor",
+                           "vwretd.tp3","vwretx.tp3")),by=c("year","quarter"))
 
 # ff_data = fread(input = '../value_momentum_spread/F-F_Research_Data_Factors.CSV')
 # ff_data[, V1 := as.character(V1)]

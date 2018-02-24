@@ -1,7 +1,7 @@
-paks <- c("Quandl","RCurl","data.table","lubridate","ggplot2","stringr","sandwich","stargazer","pracma","RColorBrewer",
-          "CADFtest","complexplus","nlme","readxl","reshape2","quantmod","xlsx","tikzDevice","MASS","timeSeries","plm", "reshape2",
+paks <- c("RCurl","data.table","lubridate","ggplot2","stringr","sandwich","stargazer","pracma","RColorBrewer",
+          "CADFtest","complexplus","readxl","reshape2","quantmod","xlsx","tikzDevice","MASS","timeSeries",
           "PortfolioAnalytics","PerformanceAnalytics","backtest","tidyr","broom","stringdist","BH","parallel","doMC","foreach",
-          "doParallel","lfe","lmtest","hypergeo","abind","pcaMethods","pls","lubridate") 
+          "doParallel","lmtest","hypergeo") 
 # note: tikzDevice requires a working latex installation
 # and xlsx require rJava so a properly configured java (try javareconf)
 for (p in paks){
@@ -34,8 +34,12 @@ cor_var = function(mtrx,freq) {
 
 setkey(data,date,PERMNO)
 
-data[all_month==1, c("avg_var","avg_cor","mkt_var","unweighted_avg_var","unweighted_avg_cor") := as.list(cor_var(.SD,"monthly")), 
+data[, c("avg_var","avg_cor","mkt_var","avg_cor_ta") := as.list(cor_var(.SD,"monthly")), 
      .SDcols = c("date","PERMNO","RET","weight","vwretd.daily"), by = c("year","month")]
 
-data[all_quarter==1, c("q_avg_var","q_avg_cor","q_mkt_var","q_unweighted_avg_var","q_unweighted_avg_cor") := as.list(cor_var(.SD,"quarterly")), 
+p_check = unique(data[all_month==1 & not_zero == 1 & is.na(avg_cor), .(year,month,PERMNO)], by = c("year","month"))
+
+data[all_quarter == 1 & q_not_zero == 1, c("q_avg_var","q_avg_cor","q_mkt_var","q_avg_cor_ta") := as.list(cor_var(.SD,"quarterly")), 
      .SDcols = c("date","PERMNO","RET","q_weight","vwretd.daily"), by = c("year","quarter")]
+
+q_p_check = unique(data[all_quarter==1 & q_not_zero == 1 & is.na(q_avg_cor), .(year,quarter,PERMNO)], by = c("year","quarter"))
