@@ -1,0 +1,124 @@
+% $Id$
+\documentclass[11pt]{article}
+
+% DEFAULT PACKAGE SETUP
+
+\usepackage{setspace,graphicx,epstopdf,amsmath,amsfonts,amssymb,amsthm,versionPO}
+\usepackage{marginnote,datetime,enumitem,subfigure,rotating,fancyvrb}
+\usepackage{hyperref,float}
+\usepackage[longnamesfirst]{natbib}
+\usdate
+
+% These next lines allow including or excluding different versions of text
+% using versionPO.sty
+
+\includeversion{notes}		% Include notes?
+\includeversion{links}          % Turn hyperlinks on?
+
+% Turn off hyperlinking if links is excluded
+\iflinks{}{\hypersetup{draft=true}}
+
+% Notes options
+\ifnotes{%
+\usepackage[margin=1in,paperwidth=10in,right=2.5in]{geometry}%
+\usepackage[textwidth=1.4in,shadow,colorinlistoftodos]{todonotes}%
+}{%
+\usepackage[margin=1in]{geometry}%
+\usepackage[disable]{todonotes}%
+}
+
+% Allow todonotes inside footnotes without blowing up LaTeX
+% Next command works but now notes can overlap. Instead, we'll define 
+% a special footnote note command that performs this redefinition.
+%\renewcommand{\marginpar}{\marginnote}%
+
+% Save original definition of \marginpar
+\let\oldmarginpar\marginpar
+
+% Workaround for todonotes problem with natbib (To Do list title comes out wrong)
+\makeatletter\let\chapter\@undefined\makeatother % Undefine \chapter for todonotes
+
+% Define note commands
+\newcommand{\smalltodo}[2][] {\todo[caption={#2}, size=\scriptsize, fancyline, #1] {\begin{spacing}{.5}#2\end{spacing}}}
+\newcommand{\rhs}[2][]{\smalltodo[color=green!30,#1]{{\bf RS:} #2}}
+\newcommand{\rhsnolist}[2][]{\smalltodo[nolist,color=green!30,#1]{{\bf RS:} #2}}
+\newcommand{\rhsfn}[2][]{%  To be used in footnotes (and in floats)
+\renewcommand{\marginpar}{\marginnote}%
+\smalltodo[color=green!30,#1]{{\bf RS:} #2}%
+\renewcommand{\marginpar}{\oldmarginpar}}
+%\newcommand{\textnote}[1]{\ifnotes{{\noindent\color{red}#1}}{}}
+\newcommand{\textnote}[1]{\ifnotes{{\colorbox{yellow}{{\color{red}#1}}}}{}}
+
+% Command to start a new page, starting on odd-numbered page if twoside option 
+% is selected above
+\newcommand{\clearRHS}{\clearpage\thispagestyle{empty}\cleardoublepage\thispagestyle{plain}}
+
+% Number paragraphs and subparagraphs and include them in TOC
+\setcounter{tocdepth}{2}
+
+% JF-specific includes:
+
+\usepackage{indentfirst} % Indent first sentence of a new section.
+\usepackage{endnotes}    % Use endnotes instead of footnotes
+\usepackage{jfIA}        % JF-specific formatting of sections, etc.
+\usepackage{xr}          % Allow references to equations in main paper.
+\usepackage[labelfont=bf,labelsep=period]{caption}   % Format figure captions
+\captionsetup[table]{labelsep=none}
+\externaldocument[paper-]{jfsample}   % Set up reference to main paper
+
+% Define theorem-like commands and a few random function names.
+\newtheorem{condition}{CONDITION}
+\newtheorem{corollary}{COROLLARY}
+\newtheorem{hypothesis}{PREDICTION}
+\newtheorem{lemma}{Lemma}
+\newtheorem{proposition}{PROPOSITION}
+\newtheorem{obs}{OBSERVATION}
+\newcommand{\argmax}{\mathop{\rm arg\,max}}
+\newcommand{\sign}{\mathop{\rm sign}}
+\newcommand{\defeq}{\stackrel{\rm def}{=}}
+\newcommand{\cov}{\mathop{\rm cov}}
+
+\begin{document}
+
+\setlist{noitemsep}  % Reduce space between list items (itemize, enumerate, etc.)
+\singlespacing      % Single spacing
+\renewcommand{\thefootnote}{\fnsymbol{footnote}} % Symbol for first footnote
+
+\centerline{\Large \bf Internet Appendix to}
+\centerline{\Large \bf ``Financial Flexibility, Bank Capital Flows, and Asset Prices''\footnote{Citation format: Richard Stanton, \rhsfn{Update when we get proofs, omitting square brackets.}{\color{red}[year]}, Internet Appendix to ``A Sample JF Paper,'' \emph{Journal of Finance} {\color{red}[vol \#], [pages]}, http://www.afajof.org/supplements.asp. Please note: Wiley-Blackwell is not responsible for the content or functionality of any supporting information supplied by the authors. Any queries (other than missing material) should be directed to the authors of the article.}}
+
+\vspace{0.3in}
+
+% Switch back to numerical footnotes and start counting again.
+\renewcommand{\thefootnote}{\arabic{footnote}}
+\setcounter{footnote}{0}
+
+\section{A Section}\label{sec:sec1}
+
+
+
+
+Add lots of interesting additional material (proofs, etc.) that you didn't have space to include in the main paper. Here's a sample equation:
+\begin{equation}
+  E = mc^2.
+  \label{eq:eqA}
+\end{equation}
+The Internet Appendix has its own equation numbering scheme, so there is a separate \LaTeX\ style file, \texttt{jfIA.sty}, specifically for the JF Internet Appendix.
+
+Note that Equation~\eqref{eq:eqA} is quite similar to Equation~\eqref{paper-eq:eqA} in Appendix~\ref{paper-sec:app1} of the main paper. These references were created using the \texttt{xr} package, which allows you to refer to equations, etc., using the same labels as in the main paper (i.e., \emph{without} having to enter the numbers manually).
+
+\begin{thebibliography}{23}
+\expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
+
+\bibitem[Acemoglu and Zilibotti(1997)]{Acemoglu:97}
+Acemoglu, Daron, and Fabrizion Zilibotti, 1997, Was {Prometheus} unbound by
+  chance? {Risk}, diversification, and growth, {\em Journal of Political
+  Economy\/} 105, 709--751.
+
+\bibitem[Allen and Gale(1997)]{AllenGale:97}
+Allen, Franklin, and Douglas Gale, 1997, Financial markets, intermediaries, and
+  intertemporal smoothing, {\em Journal of Political Economy\/} 105, 523--546.
+
+\end{thebibliography}
+
+\end{document}

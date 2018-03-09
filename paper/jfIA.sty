@@ -1,0 +1,41 @@
+% Formatting for Journal of Finance Internet Appendix
+
+% Theorems, etc. (need to load amsthm first)
+\newtheoremstyle{jf}% name
+{6pt}% Space above
+{6pt}% Space below
+{\itshape}% Body font
+{}% Indent amount
+{}% Theorem head font
+{:}% Punctuation after theorem head
+{.5em}% Space after theorem head
+{}% Theorem head spec (can be left empty, meaning normal)
+
+\theoremstyle{jf}
+
+% Make References title all caps.
+\renewcommand{\refname}{REFERENCES}
+
+% Put dots after numbers in section headers.
+\renewcommand{\@seccntformat}[1]{{\csname the#1\endcsname}.\hspace{1em}}
+
+% Section and table numbers 
+\def\thesection       {\Alph{section}}
+\def\thesubsection    {\Alph{subsection}}
+\def\thetable         {\Roman{table}}
+
+% Section header format
+\renewcommand{\section}{\@startsection
+  {section}{1}{0mm}{-3.5ex \@plus -1ex \@minus -.2ex}{2.3ex \@plus.2ex}{\normalfont\Large\itshape}}
+
+\renewcommand{\subsection}{\@startsection
+  {subsection}{2}{0mm}{-3.25ex \@plus -1ex \@minus -.2ex}{1.5ex \@plus.2ex}{\normalfont\large\itshape}}
+
+% Put section number back in references to subsections
+\renewcommand{\p@subsection}{\thesection .}
+\renewcommand{\p@subsubsection}{\thesection .}
+
+% Add "IA" to equation, figure and table numbers.
+\renewcommand{\theequation}{IA.\arabic{equation}}%
+\renewcommand{\thefigure}{IA.\arabic{figure}}%
+\renewcommand{\thetable}{IA.\arabic{table}}%

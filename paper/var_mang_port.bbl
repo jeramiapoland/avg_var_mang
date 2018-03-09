@@ -1,0 +1,57 @@
+\begin{thebibliography}{12}
+\expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
+
+\bibitem[Asness et~al.(2018)Asness, Frazzini, Gormsen, and
+  Pedersen]{asness_betting_2018}
+Asness, Clifford~S., Andrea Frazzini, Niels~Joachim Gormsen, and Lasse~Heje
+  Pedersen, 2018, Betting against correlation: testing theories of the low-risk
+  effect .
+
+\bibitem[Barroso and Santa-Clara(2015)]{barroso_momentum_2015}
+Barroso, Pedro, and Pedro Santa-Clara, 2015, Momentum has its moments, {\em
+  Journal of Financial Economics\/} 116, 111--120.
+
+\bibitem[Cao(2016)]{cao_risk_2016}
+Cao, Larry, 2016, Risk {Parity} {Made} {Easy}: {Cliff}’s {Notes} and {Other}
+  {Key} {Readings}.
+
+\bibitem[Fama and French(2016)]{fama_dissecting_2016}
+Fama, Eugene~F., and Kenneth~R. French, 2016, Dissecting {Anomalies} with a
+  {Five}-{Factor} {Model}, {\em Review of Financial Studies\/} 29, 69--103.
+
+\bibitem[Frazzini and Pedersen(2014)]{frazzini_betting_2014}
+Frazzini, Andrea, and Lasse~Heje Pedersen, 2014, Betting against beta, {\em
+  Journal of Financial Economics\/} 111, 1--25.
+
+\bibitem[Haugen and A.(1972)]{haugen_1972}
+Haugen, Robert~A., and Heins A., 1972, On the evidence supporting the existence
+  of risk premiums in the capital market, Technical report, Working Paper,
+  University of Wisconsin-Madison.
+
+\bibitem[Kim et~al.(2016)Kim, Tse, and Wald]{kim_time_2016}
+Kim, Abby~Y., Yiuman Tse, and John~K. Wald, 2016, Time series momentum and
+  volatility scaling, {\em Journal of Financial Markets\/} 30, 103--124.
+
+\bibitem[Markowitz(1952)]{markowitz_portfolio_1952}
+Markowitz, Harry, 1952, Portfolio {Selection}, {\em The Journal of Finance\/}
+  7, 77.
+
+\bibitem[Moreira and Muir(2017)]{moreira_volatility-managed_2017}
+Moreira, Alan, and Tyler Muir, 2017, Volatility-{Managed} {Portfolios}:
+  {Volatility}-{Managed} {Portfolios}, {\em The Journal of Finance\/} 72,
+  1611--1644.
+
+\bibitem[Pollet and Wilson(2010)]{pollet_average_2010}
+Pollet, Joshua~M., and Mungo Wilson, 2010, Average correlation and stock market
+  returns, {\em Journal of Financial Economics\/} 96, 364--380.
+
+\bibitem[Rutterford and Sotiropoulos(2016)]{rutterford_financial_2016}
+Rutterford, Janette, and Dimitris~P. Sotiropoulos, 2016, Financial
+  diversification before modern portfolio theory: {UK} financial advice
+  documents in the late nineteenth and the beginning of the twentieth century,
+  {\em The European Journal of the History of Economic Thought\/} 23, 919--945.
+
+\bibitem[Steward(2010)]{steward_truly_2010}
+Steward, Martin, 2010, The truly balanced portfolio.
+
+\end{thebibliography}
