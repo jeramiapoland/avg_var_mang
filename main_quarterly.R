@@ -1,13 +1,13 @@
-paks <- c("RCurl","data.table","lubridate","ggplot2","stringr","sandwich","stargazer","pracma","RColorBrewer",
-          "CADFtest","complexplus","readxl","reshape2","quantmod","xlsx","tikzDevice","MASS","timeSeries",
-          "PortfolioAnalytics","PerformanceAnalytics","backtest","tidyr","broom","stringdist","BH","parallel","doMC","foreach",
-          "doParallel","lmtest","hypergeo") 
-# note: tikzDevice requires a working latex installation
-# and xlsx require rJava so a properly configured java (try javareconf)
-for (p in paks){
-  require(p,character.only = TRUE) || {install.packages(p) 
-    require(p,character.only = TRUE)}
-}
+# paks <- c("RCurl","data.table","lubridate","ggplot2","stringr","sandwich","stargazer","pracma","RColorBrewer",
+#           "CADFtest","complexplus","readxl","reshape2","quantmod","xlsx","tikzDevice","MASS","timeSeries",
+#           "PortfolioAnalytics","PerformanceAnalytics","backtest","tidyr","broom","stringdist","BH","parallel","doMC","foreach",
+#           "doParallel","lmtest","hypergeo") 
+# # note: tikzDevice requires a working latex installation
+# # and xlsx require rJava so a properly configured java (try javareconf)
+# for (p in paks){
+#   require(p,character.only = TRUE) || {install.packages(p) 
+#     require(p,character.only = TRUE)}
+# }
 # source(file = 'functions.R')
 # tmp_crsp = fread(input = '../data/CRSP/crsp_daily_long.csv',colClasses = "character")
 # setkey(tmp_crsp,date,PERMNO)
@@ -97,7 +97,7 @@ data = merge(data,m_crsp,by=c("year","quarter"),suffixes = c(".daily",".quarterl
 setkey(data,date,PERMNO)
 setkey(data,year,quarter)
 
-data[, c("avg_var","avg_cor","mkt_var","avg_cor_ta") := as.list(cor_var(.SD)), 
+data[, c("avg_var","avg_cor","mkt_var","avg_cor_ta","avg_var_alt","mkt_var_alt") := as.list(cor_var(.SD)), 
      .SDcols = c("date","PERMNO","RET","weight","vwretd.daily"), by = c("year","quarter")]
 data[, month := month(DATE)]
 
@@ -108,7 +108,7 @@ data = NULL
 gc()
 
 tbill3 = fread(input = 'TB3MS.csv')
-tbill3[, TB3MS := log1p(TB3MS/100)]
+tbill3[, TB3MS := log1p(TB3MS/100)/4]
 tbill3[, DATE := as.Date(DATE,format="%Y-%m-%d")]
 tbill3[, year := year(DATE)]
 tbill3[, month := month(DATE)]
@@ -117,3 +117,66 @@ tbill3[, DATE := NULL]
 q_data = merge(q_data,tbill3,by=c("year","month"),all.x=TRUE)
 q_data[, TB3_lag := shift(TB3MS)]
 q_data[, logxret.tp3 := vwretd.tp3 - TB3_lag]
+
+q_data = merge(q_data,subset(m_data,select=c("year","month","avg_cor","avg_var","mkt_var","vwretd.tp1","vwretx.tp1",
+                                             "xlogret.tp1"),by=c("year","month")),all.x=TRUE,
+               suffixes = c(".quarterly",".monthly"))
+
+#### summary stats ####
+pw_start = which(q_data$year == 1963 & q_data$quarter == 1)
+pw_end = which(q_data$year == 2006 & q_data$quarter == 4)
+s1 = q_data[pw_start:pw_end, .(RET = logxret.tp3, AC = avg_cor.quarterly, AV = avg_var.quarterly * 100, SV = mkt_var.quarterly * 100)]
+stargazer(s1,summary = TRUE,out = 'summary1.tex')
+s1[, .(autoC = lapply(.SD,get_ac,1)), .SDcols = colnames(s1)]
+
+s2 = q_data[, .(RET = logxret.tp3, AC = avg_cor.quarterly, AV = avg_var.quarterly * 100, SV = mkt_var.quarterly * 100)]
+stargazer(s2,summary = TRUE,out = 'summary2.tex')
+s2[!is.na(RET), .(autoC = lapply(.SD,get_ac,1)), .SDcols = colnames(s2)]
+
+s3 = m_data[, .(RET = logxret.tp1, AC = avg_cor, AV = avg_var * 100, SV = mkt_var * 100)]
+stargazer(s3,summary = TRUE,out = 'summary3.tex')
+s3[!is.na(RET), .(autoC = lapply(.SD,get_ac,1)), .SDcols = colnames(s3)]
+
+#### asset allocation ####
+q_bh_returns = q_data$logxret.tp3
+m_bh_returns = m_data$logxret.tp1
+
+q_mkt_ret_sd = sd(q_bh_returns,na.rm = TRUE)
+m_mkt_ret_sd = sd(m_bh_returns,na.rm = TRUE)
+
+q_manage_sd = q_data$logxret.tp3/q_data$mkt_var.quarterly
+m_manage_sd = m_data$logxret.tp1/m_data$mkt_var
+
+q_c_adj = q_mkt_ret_sd/sd(q_manage_sd,na.rm = TRUE)
+m_c_adj = m_mkt_ret_sd/sd(m_manage_sd,na.rm = TRUE)
+
+sd(q_c_adj * q_manage_sd, na.rm = TRUE) # check
+sd(m_c_adj * m_manage_sd, na.rm = TRUE) # check
+
+q_vol_weights <- q_c_adj * (1/q_data$mkt_var.quarterly)
+m_vol_weights <- m_c_adj * (1/m_data$mkt_var)
+
+
+q_vol_returns = q_vol_weights * q_bh_returns
+m_vol_returns = m_vol_weights * m_bh_returns
+
+vol_sharpe <- mean(vol_returns) / sd(vol_returns) * sqrt(12)
+
+vol_weights2 <- vol_weights[121:372]
+vol_weights2[vol_weights2 >= 1.5] <- 1.5
+vol_returns2 <- vol_weights2 * x_dt$x_log_ret_m1_avg[121:372]
+vol_sharpe2 <- mean(vol_returns2) / sd(vol_returns2) * sqrt(12)
+
+vol_weights <- c * (1/variable)
+vol_returns = shift(vol_weights) * risky
+vol_sharpe <- mean(vol_returns) / sd(vol_returns) * sqrt(r)
+vol_cer <- (mean(vol_returns) - .5*3*var(vol_returns))*r*100
+
+vol_weights2 <- c(vol_weights)
+vol_weights2[vol_weights2 >= 1.5] <- 1.5
+vol_returns2 <- vol_weights2 * risky
+vol_sharpe2 <- mean(vol_returns2) / sd(vol_returns2) * sqrt(r)
+vol_cer2 <- (mean(vol_returns2) - .5*3*var(vol_returns2))*r*100
+
+list(unrestricted = list(ann.ret = mean(vol_returns) * r * 100, ann.sharpe = vol_sharpe, ann.cer = vol_cer),
+            restricted = list(ann.ret = mean(vol_returns2) * r * 100, ann.sharpe = vol_sharpe2, ann.cer = vol_cer2))

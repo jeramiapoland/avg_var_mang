@@ -1,7 +1,7 @@
-paks <- c("RCurl","data.table","lubridate","ggplot2","stringr","sandwich","stargazer","pracma","RColorBrewer",
-          "CADFtest","complexplus","readxl","reshape2","quantmod","xlsx","tikzDevice","MASS","timeSeries",
+paks <- c("RCurl","data.table","tis","lubridate","ggplot2","stringr","sandwich","stargazer","pracma","RColorBrewer",
+          "CADFtest","complexplus","readxl","reshape2","quantmod","xlsx","tikzDevice","MASS","timeSeries","vars","PortfolioEffectHFT",
           "PortfolioAnalytics","PerformanceAnalytics","backtest","tidyr","broom","stringdist","BH","parallel","doMC","foreach",
-          "doParallel","lmtest","hypergeo") 
+          "doParallel","lmtest","hypergeo","strucchange","formula.tools","multiwave","outliers","forecast","SharpeR","fastmatch") 
 # note: tikzDevice requires a working latex installation
 # and xlsx require rJava so a properly configured java (try javareconf)
 for (p in paks){
@@ -9,11 +9,13 @@ for (p in paks){
     require(p,character.only = TRUE)}
 }
 source(file = 'functions.R')
+
+### Monthly Data ####
+# crsp daily returns
 tmp_crsp = fread(input = '../data/CRSP/crsp_daily_long.csv',colClasses = "character")
 setkey(tmp_crsp,date,PERMNO)
 tmp_crsp[, date := as.Date(as.character(date),format="%Y%m%d")]
 setkey(tmp_crsp,date,PERMNO)
-# tmp_crsp = subset(tmp_crsp,subset = year(date) >= 1961)
 tmp_crsp[, year := year(date)]
 tmp_crsp[, month := month(date)]
 tmp_crsp[, PRC := as.numeric(PRC)]
@@ -22,12 +24,9 @@ tmp_crsp[, RET := as.numeric(RET)]
 setkey(tmp_crsp,PERMNO,date)
 tmp_crsp[, ALTRET := ROC(PRC,type = "discrete"), by = PERMNO]
 tmp_crsp[is.na(RET)&!is.na(ALTRET)] # no simple fix for missing returns
-#tmp_crsp[, RET := log1p(RET)]
 tmp_crsp[, RETX := as.numeric(RETX)]
-#tmp_crsp[, RETX := log1p(RETX)]
 tmp_crsp[, vwretd := as.numeric(vwretd)]
 tmp_crsp[, vwretx := as.numeric(vwretx)]
-#tmp_crsp[, c("ln_vwretd","ln_vwretx") := lapply(.SD,log1p), .SDcols = c("vwretd","vwretx")]
 fwrite(tmp_crsp,file = 'all_tmp_crsp.csv')
 tmp_crsp[, tdays := length(unique(date)), by=c("year","month")]
 m_tday = tmp_crsp[, .(tdays = unique(tdays)), by =c("year","month")]
@@ -40,6 +39,14 @@ setkey(tmp_crsp,date,PERMNO)
 setkey(tmp_crsp,year,month)
 crsp_permnos = tmp_crsp[, .(PERMNO = unique(PERMNO), num_PERMNO = length(unique(PERMNO))), by = c("year","month")]
 
+#### French daily data ####
+ff_daily = fread(input = 'F-F_Research_Data_Factors_daily.CSV')
+ff_daily[,date:=as.Date(as.character(V1),format="%Y%m%d")]
+ff_daily[, Mkt_RF := `Mkt-RF`]
+ff_daily[, `Mkt-RF` := NULL]
+ff_daily[, c("Mkt_RF","SMB","HML","RF") := lapply(.SD,function(x){x/100}), .SDcols = c("Mkt_RF","SMB","HML","RF")]
+
+# monthly market cap #
 tmp_mcap = fread(input = '9cfd0c24e4fad219.csv',colClasses = "character")
 tmp_mcap[, date := as.Date(date,format="%Y%m%d")]
 setkey(tmp_mcap,date,PERMNO)
@@ -57,15 +64,13 @@ setkey(tmp_mcap,year,month,PERMNO)
 tmp_mcap = merge(tmp_mcap,subset(crsp_permnos,select=c("year","month","PERMNO")),by=c("year","month","PERMNO"))
 tmp_mcap = setorder(setDT(tmp_mcap), year,month, -month_mcap)[, indx := seq_len(.N), by = c("year","month")][indx <= 500]
 
-
 gc()
-
 tmp_crsp = subset(tmp_crsp,select = c("PERMNO","date","year","month","SICCD","TSYMBOL","PRC","RET","RETX","vwretd",
                                       "vwretx"))
 tmp_mcap = subset(tmp_mcap,select = c("PERMNO","year","month","month_mcap"))
-
 gc()
 
+# merge
 data = merge(tmp_crsp,tmp_mcap,by=c("year","month","PERMNO"))
 data[, weight := month_mcap / sum(unique(month_mcap)), by = c("year","month")]
 setkey(data,date,PERMNO)
@@ -76,14 +81,6 @@ tmp_crsp = NULL
 tmp_mcap = NULL
 crsp_permnos = NULL
 gc()
-
-# data[, tdays := length(unique(date)), by=c("year","month")]
-# m_tday = data[, .(tdays = unique(tdays)), by =c("year","month")]
-# data[, asset_tdays := length(na.omit(RET)), by=c("year","month","PERMNO")]
-# data[, all_month := tdays==asset_tdays]
-# data[, not_zero := (!sum(RET==0)==length(RET)),by=c("year","month","PERMNO")]
-
-#### HERE ####
 
 # monthly index returns
 m_crsp = fread(input = 'a85c415bc7ca7abb.csv')
@@ -98,15 +95,16 @@ data = merge(data,m_crsp,by=c("year","month"),all.x=TRUE,suffixes = c(".daily","
 
 gc()
 
-setkey(data,date,PERMNO)
-setkey(data,year,month)
+setkey(data,year,month,date,PERMNO)
 
-data[, c("avg_var","avg_cor","mkt_var","avg_cor_ta") := as.list(cor_var(.SD)), 
+data[, c("avg_var","avg_cor","mkt_var","avg_cor_ta","avg_var_alt","mkt_var_alt","avg_sd","avg_down","avg_downp") := as.list(cor_var(.SD)), 
      .SDcols = c("date","PERMNO","RET","weight","vwretd.daily"), by = c("year","month")]
 
-
-m_data = unique(subset(data,select = c("year","month","avg_var","avg_cor","mkt_var","vwretd.monthly","vwretd.tp1",
+m_data = unique(subset(data,select = c("year","month","avg_var","avg_var_alt","avg_cor","avg_cor_ta","mkt_var","mkt_var_alt",
+                                       "vwretd.monthly","vwretd.tp1",
                                        "vwretx.tp1","vwretd.tp3","vwretx.tp3")),by=c("year","month"))
+
+
 ff_data = fread(input = '../value_momentum_spread/F-F_Research_Data_Factors.CSV')
 ff_data[, V1 := as.character(V1)]
 ff_data[, year := as.integer(substr(V1,1,4))]
@@ -115,34 +113,524 @@ ff_data[, SMB := SMB / 100]
 ff_data[, HML := HML / 100]
 ff_data[, RF := RF / 100]
 ff_data[, RF_lag := shift(RF)]
-ff_data[, c("SMB","HML","RF","RF_lag") := lapply(.SD,log1p), .SDcols = c("SMB","HML","RF","RF_lag")]
+ff_data[, Mkt_RF := `Mkt-RF` / 100]
+ff_data[, `Mkt-RF` := NULL]
+ff_data[, c("Mkt_RF","SMB","HML","RF","RF_lag") := lapply(.SD,log1p), .SDcols = c("Mkt_RF","SMB","HML","RF","RF_lag")]
 
-m_data = merge(m_data,subset(ff_data,select=c("year","month","SMB","HML","RF","RF_lag")),by=c("year","month"))
+m_data = merge(m_data,subset(ff_data,select=c("year","month","Mkt_RF","SMB","HML","RF","RF_lag")),by=c("year","month"))
 m_data[, logxret.tp1 := vwretd.tp1 - RF_lag]
-
+#### Monthly data file ####
 fwrite(x = m_data,file = 'm_data.csv')
+data = NULL
+gc()
+
+#### Quarterly Data ####
+# bring crsp back
+tmp_crsp = fread(input = 'all_tmp_crsp.csv',colClasses = c("character","Date","character","character","character","numeric",
+                                                           "numeric","character","numeric","numeric","numeric","character",
+                                                           "character","character","numeric","numeric","numeric" ))
+setkey(tmp_crsp,date,PERMNO)
+tmp_crsp[, quarter := quarter(date)]
+tmp_crsp[, q_tdays := length(unique(date)), by=c("year","quarter")]
+q_tday = tmp_crsp[, .(q_tdays = unique(q_tdays)), by =c("year","quarter")]
+tmp_crsp[, q_asset_tdays := length(na.omit(RET)), by=c("year","quarter","PERMNO")]
+tmp_crsp[, q_not_zero := (!sum(RET==0)==length(RET)),by=c("year","quarter","PERMNO")]
+tmp_crsp[, all_quarter := q_tdays==q_asset_tdays]
+tmp_crsp = subset(tmp_crsp,subset= (all_quarter & q_not_zero))
+gc()
+setkey(tmp_crsp,date,PERMNO)
+setkey(tmp_crsp,year,quarter)
+q_crsp_permnos = tmp_crsp[, .(PERMNO = unique(PERMNO), num_PERMNO = length(unique(PERMNO))), by = c("year","quarter")]
+
+# bring back the monthly market caps
+tmp_mcap = fread(input = 'all_tmp_mcap.csv', colClasses = c("character","Date","character","character","character","numeric",
+                                                            "integer","numeric","numeric","numeric","numeric"))
+setkey(tmp_mcap,date,PERMNO)
+tmp_mcap[, quarter := quarter(date)]
+tmp_mcap[, quarter_mcap := mean(month_mcap, na.rm = TRUE), by = c("year","quarter","PERMNO")]
+tmp_mcap = tmp_mcap[!is.na(quarter_mcap)]
+tmp_mcap = merge(tmp_mcap,subset(q_crsp_permnos,select=c("year","quarter","PERMNO")),by=c("year","quarter","PERMNO"))
+tmp_mcap = unique(tmp_mcap,by=c("year","quarter","PERMNO"))
+tmp_mcap = setorder(setDT(tmp_mcap), year,quarter, -quarter_mcap)[, indx := seq_len(.N), by = c("year","quarter")][indx <= 500]
+q_crsp_permnos = NULL
+
+gc()
+tmp_crsp = subset(tmp_crsp,select = c("PERMNO","date","year","quarter","SICCD","TSYMBOL","PRC","RET","RETX","vwretd",
+                                      "vwretx"))
+tmp_mcap = subset(tmp_mcap,select = c("PERMNO","year","quarter","quarter_mcap"))
+gc()
+
+data = merge(tmp_crsp,tmp_mcap,by=c("year","quarter","PERMNO"))
+setkey(data,date,PERMNO)
+data[, weight := quarter_mcap / sum(unique(quarter_mcap)), by = c("year","quarter")]
+q_asset_count = data[, (num_assets = length(unique(PERMNO))), by = c("year","quarter")]
+q_min_weight = data[, (min_w = min(weight)), by = c("year","quarter")]
+q_max_weight = data[, (max_w = max(weight)), by = c("year","quarter")]
+tmp_crsp = NULL
+tmp_mcap = NULL
+gc()
+
+# monthly returns again
+m_crsp = fread(input = 'a85c415bc7ca7abb.csv')
+m_crsp[, DATE := as.character(DATE)]
+m_crsp[, DATE := as.Date(DATE,format="%Y%m%d")]
+m_crsp[, quarter := quarter(DATE)]
+m_crsp[, year := year(DATE)]
+m_crsp[, c("vwretd","vwretx","sprtrn") := lapply(.SD,log1p), .SDcols = c("vwretd","vwretx","sprtrn")]
+m_crsp[, c("vwretd.tp1","vwretx.tp1","sprtrn.tp1") := lapply(.SD,shift,type="lead"), .SDcols = c("vwretd","vwretx","sprtrn")]
+m_crsp[!is.na(vwretd.tp1), c("vwretd.tp3","vwretx.tp3") := lapply(.SD,function(x){
+  shift(runSum(x,n = 3),type="lead",n=2)}), .SDcol = c("vwretd.tp1","vwretx.tp1")]
+setorder(m_crsp,-DATE)
+m_crsp = unique(m_crsp,by=c("year","quarter"))
+data = merge(data,m_crsp,by=c("year","quarter"),suffixes = c(".daily",".quarterly"))
+
+setkey(data,date,PERMNO)
+setkey(data,year,quarter)
+
+data[, c("avg_var","avg_cor","mkt_var","avg_cor_ta","avg_var_alt","mkt_var_alt","avg_sd","avg_down","avg_downp") := as.list(cor_var(.SD)), 
+     .SDcols = c("date","PERMNO","RET","weight","vwretd.daily"), by = c("year","quarter")]
+data[, month := month(DATE)]
+
+q_data = unique(subset(data,subset = month %in% c(12,3,6,9),
+                       select = c("year","month","quarter","avg_var","avg_cor","mkt_var","avg_cor_ta",
+                                  "vwretd.tp3","vwretx.tp3")),by=c("year","quarter"))
+data = NULL
+gc()
+
+# quarterly risk free rate 
+tbill3 = fread(input = 'TB3MS.csv')
+tbill3[, TB3MS := log1p(TB3MS/100)/4]
+tbill3[, DATE := as.Date(DATE,format="%Y-%m-%d")]
+tbill3[, year := year(DATE)]
+tbill3[, month := month(DATE)]
+tbill3[, DATE := NULL]
+
+q_data = merge(q_data,tbill3,by=c("year","month"),all.x=TRUE)
+q_data[, TB3_lag := shift(TB3MS)]
+q_data[, logxret.tp3 := vwretd.tp3 - TB3_lag]
+
+q_data = merge(q_data,subset(m_data,select=c("year","month","avg_cor","avg_var","mkt_var","vwretd.tp1","vwretx.tp1",
+                                             "logxret.tp1","avg_sd","avg_down","avg_downp"),by=c("year","month")),all.x=TRUE,
+               suffixes = c(".quarterly",".monthly"))
+#### Quarterly data file ####
+fwrite(q_data,file = 'q_data.csv')
+
+#### summary stats ####
+pw_start = which(q_data$year == 1963 & q_data$quarter == 1)
+pw_end = which(q_data$year == 2006 & q_data$quarter == 4)
+s1 = q_data[pw_start:pw_end, .(RET = logxret.tp3 * 100, AC = avg_cor.quarterly, AV = avg_var.quarterly * 100, SV = mkt_var.quarterly * 100)]
+stargazer(s1,summary = TRUE,out = 'summary1.tex',out.header = FALSE)
+s1[, .(autoC = lapply(.SD,get_ac,1)), .SDcols = colnames(s1)]
+
+s2 = q_data[, .(RET = logxret.tp3 * 100, AC = avg_cor.quarterly, AV = avg_var.quarterly * 100, SV = mkt_var.quarterly * 100)]
+stargazer(s2,summary = TRUE,out = 'summary2.tex',out.header = FALSE)
+s2[!is.na(RET), .(autoC = lapply(.SD,get_ac,1)), .SDcols = colnames(s2)]
+
+s3 = m_data[, .(RET = logxret.tp1 * 100, AC = avg_cor, AV = avg_var * 100, SV = mkt_var * 100)]
+stargazer(s3,summary = TRUE,out = 'summary3.tex')
+s3[!is.na(RET), .(autoC = lapply(.SD,get_ac,1)), .SDcols = colnames(s3)]
+
+#### time series plots ####
+tmpPalette = c(brewer.pal(name = "Set1",3))
+cbPalette = c(tmpPalette[1:2],rep(tmpPalette[1:3],2))
+cbPalette = c("#000000",cbPalette)
+names(cbPalette) = c("market","vol_mang","av_mang","avg_var.quarterly","avg_cor.quarterly","mkt_var.quarterly",
+                     "avg_var","avg_cor","mkt_var")
+linePalette <- c("solid", "dotted", "longdash","longdash","dotdash","dotted","longdash","dotdash","dotted")
+names(linePalette) <- c("market","vol_mang","av_mang","avg_var.quarterly","avg_cor.quarterly","mkt_var.quarterly",
+                        "avg_var","avg_cor","mkt_var")
+plotq = melt(q_data,id.vars = c("year","month","quarter"),measure.vars = c("avg_var.quarterly","avg_cor.quarterly","mkt_var.quarterly"),
+             variable.name = "stat")
+plotq[, date := as.Date(paste0(year,"-",month,"-28"))]
+plotq[stat=="avg_var.quarterly", value := value * 100]
+plotq[stat=="mkt_var.quarterly", value := value * 100]
+q_plot = ggplot(data=plotq) + geom_line(mapping = aes(x=date,y=value,color=stat,linetype=stat)) +
+  labs(title = "Quarterly Measures of Daily Return Statistics\n", x = "", y = "") + 
+  scale_x_date(date_breaks = "5 year", date_labels =  "%Y") +
+  scale_colour_manual(name = "Statistic",values=cbPalette,labels =c("AV","AC","SV")) + 
+  scale_linetype_manual(name = "Statistic",values=linePalette,labels =c("AV","AC","SV")) +
+  theme(text = element_text(size=11),panel.grid.major.x = element_blank(),
+        panel.grid.major.y = element_line( size=.1, color="black"))+ theme_bw()
+q_plot = tis::nberShade(q_plot,xrange = c(min(plotq$date), max(plotq$date)),openShade = FALSE)
+tikz("q_plot.tex",width = 5.90551, height = 3,sanitize = FALSE)
+plot(q_plot)
+dev.off()
+
+plotm = melt(m_data,id.vars = c("year","month"),measure.vars = c("avg_var","avg_cor","mkt_var"),
+             variable.name = "stat")
+plotm[, date := as.Date(paste0(year,"-",month,"-28"))]
+plotm[stat=="avg_var", value := value * 100]
+plotm[stat=="mkt_var", value := value * 100]
+m_plot = ggplot(data=plotm) + geom_line(mapping = aes(x=date,y=value,color=stat,linetype=stat)) +
+  labs(title = "Monthly Measures of Daily Return Statistics\n", x = "", y = "") + 
+  scale_x_date(date_breaks = "5 year", date_labels =  "%Y") +
+  scale_colour_manual(name = "Statistic",values=cbPalette,labels =c("AV","AC","SV")) + 
+  scale_linetype_manual(name = "Statistic",values=linePalette,labels =c("AV","AC","SV")) +
+  theme(text = element_text(size=11),panel.grid.major.x = element_blank(),
+        panel.grid.major.y = element_line( size=.1, color="black"))+ theme_bw()
+m_plot = tis::nberShade(m_plot,xrange = c(min(plotm$date), max(plotm$date)),openShade = FALSE)
+tikz("m_plot.tex",width = 5.90551, height = 3, sanitize = FALSE)
+plot(m_plot)
+dev.off()
+
+#### regressions ####
+# market variance
+# replication
+q_var_in1 = lm(mkt_var.quarterly ~ avg_cor.quarterly,q_data[pw_start:pw_end])
+q_var_in2 = lm(mkt_var.quarterly ~ avg_var.quarterly,q_data[pw_start:pw_end])
+q_var_in3 = lm(mkt_var.quarterly ~ avg_cor.quarterly + avg_var.quarterly,q_data[pw_start:pw_end])
+q_var_in4 = lm(mkt_var.quarterly ~ (avg_cor.quarterly:avg_var.quarterly),q_data[pw_start:pw_end])
+stargazer(q_var_in1,q_var_in2,q_var_in4,out.header = FALSE,covariate.labels = c("AC","AV","AC * AV"),
+          dep.var.labels = "SV",
+          out = 'tab_var_rep_1.tex')
+# expansion
+q_var_in5 = lm(mkt_var.quarterly ~ avg_cor.quarterly,q_data)
+q_var_in6 = lm(mkt_var.quarterly ~ avg_var.quarterly,q_data)
+q_var_in7 = lm(mkt_var.quarterly ~ avg_cor.quarterly + avg_var.quarterly,q_data)
+q_var_in8 = lm(mkt_var.quarterly ~ (avg_cor.quarterly:avg_var.quarterly),q_data)
+stargazer(q_var_in5,q_var_in6,q_var_in7,q_var_in8,out.header = FALSE,covariate.labels = c("AC","AV","AC * AV"),
+          dep.var.labels = "SV",
+          out = 'tab_var2.tex')
+# monthly
+m_var_in1 = lm(mkt_var ~ avg_cor,m_data)
+m_var_in2 = lm(mkt_var ~ avg_var,m_data)
+m_var_in3 = lm(mkt_var ~ avg_cor + avg_var,m_data)
+m_var_in4 = lm(mkt_var ~ (avg_cor:avg_var),m_data)
+stargazer(m_var_in1,m_var_in2,m_var_in3,m_var_in4,out.header = FALSE,covariate.labels = c("AC","AV","AC * AV"),
+          dep.var.labels = "SV",
+          out = 'tab_var3.tex')
+# market variance (t+1)
+# replication
+q_var_in9 = lm(shift(mkt_var.quarterly,type="lead") ~ avg_cor.quarterly,q_data[pw_start:pw_end])
+q_var_in10 = lm(shift(mkt_var.quarterly,type="lead") ~ avg_var.quarterly,q_data[pw_start:pw_end])
+q_var_in11 = lm(shift(mkt_var.quarterly,type="lead") ~ avg_cor.quarterly + avg_var.quarterly,q_data[pw_start:pw_end])
+q_var_in12 = lm(shift(mkt_var.quarterly,type="lead") ~ (avg_cor.quarterly:avg_var.quarterly),q_data[pw_start:pw_end])
+q_var_in13 = lm(shift(mkt_var.quarterly,type="lead") ~ mkt_var.quarterly,q_data[pw_start:pw_end])
+stargazer(q_var_in9,q_var_in10,q_var_in11,q_var_in12,q_var_in13,out.header = FALSE,
+          covariate.labels = c("AC","AV","AC * AV","SV"),
+          dep.var.labels = "SV",
+          out = 'tab_var_rep_4.tex')
+# expansion
+q_var_in14 = lm(shift(mkt_var.quarterly,type="lead") ~ avg_cor.quarterly,q_data)
+q_var_in15 = lm(shift(mkt_var.quarterly,type="lead") ~ avg_var.quarterly,q_data)
+q_var_in16 = lm(shift(mkt_var.quarterly,type="lead") ~ avg_cor.quarterly + avg_var.quarterly,q_data)
+q_var_in17 = lm(shift(mkt_var.quarterly,type="lead") ~ (avg_cor.quarterly:avg_var.quarterly),q_data)
+q_var_in18 = lm(shift(mkt_var.quarterly,type="lead") ~ mkt_var.quarterly,q_data)
+stargazer(q_var_in14,q_var_in15,q_var_in16,q_var_in17,q_var_in18,out.header = FALSE,
+          covariate.labels = c("AC","AV","AC * AV","SV"),
+          dep.var.labels = "SV",
+          out = 'tab_var5.tex')
+# monthly
+m_var_in5 = lm(shift(mkt_var,type="lead") ~ avg_cor,m_data)
+m_var_in6 = lm(shift(mkt_var,type="lead") ~ avg_var,m_data)
+m_var_in7 = lm(shift(mkt_var,type="lead") ~ avg_cor + avg_var,m_data)
+m_var_in8 = lm(shift(mkt_var,type="lead") ~ (avg_cor:avg_var),m_data)
+m_var_in9 = lm(shift(mkt_var,type="lead") ~ mkt_var,m_data)
+stargazer(m_var_in5,m_var_in6,m_var_in7,m_var_in8,m_var_in9,out.header = FALSE,
+          covariate.labels = c("AC","AV","AC * AV","SV"),
+          dep.var.labels = "SV",
+          out = 'tab_var6.tex')
+
+#market returns (t+1)
+# replication
+q_ret_in1 = lm(logxret.tp3 ~ avg_cor.quarterly,q_data[pw_start:pw_end])
+q_ret_in2 = lm(logxret.tp3 ~ avg_var.quarterly,q_data[pw_start:pw_end])
+q_ret_in3 = lm(logxret.tp3 ~ avg_cor.quarterly + avg_var.quarterly,q_data[pw_start:pw_end])
+q_ret_in4 = lm(logxret.tp3 ~ (avg_cor.quarterly:avg_var.quarterly),q_data[pw_start:pw_end])
+q_ret_in5 = lm(logxret.tp3 ~ mkt_var.quarterly,q_data[pw_start:pw_end])
+stargazer(q_ret_in1,q_ret_in2,q_ret_in3,q_ret_in4,q_ret_in5,out.header = FALSE,
+          covariate.labels = c("AC","AV","AC * AV","SV"),
+          dep.var.labels = "RET$_{t+1}",
+          out = 'tab_ret_rep1.tex')
+
+# expansion
+q_ret_in6 = lm(logxret.tp3 ~ avg_cor.quarterly,q_data)
+q_ret_in7 = lm(logxret.tp3 ~ avg_var.quarterly,q_data)
+q_ret_in8 = lm(logxret.tp3 ~ avg_cor.quarterly + avg_var.quarterly,q_data)
+q_ret_in9 = lm(logxret.tp3 ~ (avg_cor.quarterly:avg_var.quarterly),q_data)
+q_ret_in10 = lm(logxret.tp3 ~ mkt_var.quarterly,q_data)
+stargazer(q_ret_in6,q_ret_in7,q_ret_in8,q_ret_in9,q_ret_in10,out.header = FALSE,
+          covariate.labels = c("AC","AV","AC * AV","SV"),
+          dep.var.labels = "RET$_{t+1}$",
+          out = 'tab_ret2.tex')
+# monthly
+m_ret_in1 = lm(logxret.tp1 ~ avg_cor,m_data)
+m_ret_in2 = lm(logxret.tp1 ~ avg_var,m_data)
+m_ret_in3 = lm(logxret.tp1 ~ avg_cor + avg_var,m_data)
+m_ret_in4 = lm(logxret.tp1 ~ (avg_cor:avg_var),m_data)
+m_ret_in5 = lm(logxret.tp1 ~ mkt_var,m_data)
+stargazer(m_ret_in1,m_ret_in2,m_ret_in3,m_ret_in4,m_ret_in5,out.header = FALSE,
+          covariate.labels = c("AC","AV","AC * AV","SV"),
+          dep.var.labels = "RET$_{t+1}$",
+          out = 'tab_ret3.tex')
+
+#### out of sample regressions ####
+q_data[, mkt_var.quarterly.tp1 := shift(mkt_var.quarterly,type = "lead")]
+m_data[, mkt_var.tp1 := shift(mkt_var,type = "lead")]
+q_start = floor(.25 * nrow(q_data))
+m_start = floor(.25 * nrow(m_data))
+
+q_st_date = q_data$date[q_start]
+m_st_date = m_data$date[m_start]
+
+y_list = list(quarterly = c("mkt_var.quarterly.tp1","logxret.tp3"), monthly = c("mkt_var.tp1","logxret.tp1"))
+y_names = c(mkt_var.quarterly.tp1 = "SV$_{t+1}$", mkt_var.tp1 = "SV$_{t+1}$",logxret.tp3 = "RET$_{t+1}$", logxret.tp1 = "RET$_{t+1}$")
+x_vars = c(quarterly = "avg_var.quarterly", monthly = "avg_var")
+sp = c("1963Q2:2007Q1","Quarterly","Monthly")
+freq = c("quarterly","quarterly","monthly")
+names(freq) = sp
+b_freq = c(quarterly = "mkt_var.quarterly",monthly = "mkt_var")
+
+oos_table = data.table(variable = c(rep("SV$_{t+1}$",3),rep("RET$_{t+1}$",3)),Sample = rep(sp,2))
+oos_table2 = data.table(variable = c(rep("SV$_{t+1}$",3),rep("RET$_{t+1}$",3)),Sample = rep(sp,2))
+
+
+for(s in sp){
+  fq = freq[s]
+  y_vars = y_list[[fq]]
+  x = x_vars[fq]
+  for(y in y_vars){
+    yn = y_names[y]
+    f = as.formula(paste0(y,"~",x))
+    if(fq=="quarterly"){
+      dt = q_data
+    } else {dt = m_data}
+    if(s == "1963Q2:2007Q1"){
+      dt = dt[pw_start:pw_end]
+      train = 81
+    } else {
+      train = floor(.25 * nrow(dt))
+    }
+    oos_table[variable == yn & Sample == s, 
+              c("$R^{2}_{oos}$","MSE-F","DM","ENC-NEW","ENC-HLN") := as.list(lm.oos(f,dt,bench=NULL,train)$Statistics)]
+    oos_table2[variable == yn & Sample == s, 
+               c("$R^{2}_{oos}$","MSE-F","DM","ENC-NEW","ENC-HLN") := as.list(lm.oos(f,dt,bench=b_freq[fq],train)$Statistics)]
+  }
+}
+
+stargazer(oos_table,summary = FALSE,out = 'tab_oos.tex',rownames = FALSE,
+          column.labels = c("","Sample",c("$R^{2}_{oos}$","MSE-F","DM","ENC-NEW","ENC-HLN")))
+stargazer(oos_table2,summary = FALSE,out = 'tab_oos.tex',rownames = FALSE,
+          column.labels = c("","Sample",c("$R^{2}_{oos}$","MSE-F","DM","ENC-NEW","ENC-HLN")))
+
+#### Business Cycle Subsets ####
+m_data[, date := as.Date(paste0(year,"-",month,"-28"))]
+q_data[, date := as.Date(paste0(year,"-",month,"-28"))]
+nberD = nberDates()
+nberD = as.data.table(nberD)
+nberD[, Start := as.Date(as.character(Start),format="%Y%m%d")]
+nberD[, End := as.Date(as.character(End),format="%Y%m%d")]
+nberD = subset(nberD,subset = Start >= q_st_date)
+contractions = seq(from = nberD[1,Start],to = nberD[1,End], by = "1 month")
+for(n in 2:nrow(nberD)){
+  contractions = c(contractions,seq(from = nberD[n,Start],to = nberD[n,End], by = "1 month"))
+}
+contractions = str_replace(contractions,"-01","-28")
+contractions = m_data$date[m_data$date %fin% as.Date(contractions,format = "%Y-%m-%d")]
+
+oos_table3 = data.table(Sample = c(rep("Quarterly",4),rep("Monthly",4)),Stat = rep(c("$R^{2}_{oos}$","MSE-F","ENC-NEW","ENC-HLN"),2))
+
+stats = c("$R^{2}_{oos}$","MSE-F","ENC-NEW","ENC-HLN")
+stats_fun = c("oos_wraper","msef_wraper","encnew_wraper","enchln_wraper")
+
+y_vars = c(Quarterly = "mkt_var.quarterly.tp1",Monthly = "mkt_var.tp1")
+
+names(stats_fun) = stats
+for(s in sp[2:3]){
+  for(v in stats){
+    x = x_vars[s]
+    y = y_vars[s]
+    f = as.formula(paste0(y,"~",x))
+    if(s=="Quarterly"){
+      dt = q_data
+    } else {dt = m_data}
+    train = floor(.25 * nrow(dt))
+    m1 = lm.oos(f,dt,bench=NULL,train)
+    m2 = lm.oos(f,dt,bench=b_freq[s],train)
+    c = dt[(nrow(dt)*.25):(nrow(dt)-1)]$date %fin% contractions 
+    oos_table3[Sample == s & Stat == v, 
+               c("Contractions","Expansions",paste0(c("Contractions","Expansions"),2)) := 
+                 as.list(
+                   c(
+                     do.call(what = stats_fun[v], args = list(bench = m1$bench_values,estm = m1$forecast_values,
+                                                              hist = m1$hist_values, sub = c)),
+                     do.call(what = stats_fun[v], args = list(bench = m1$bench_values,estm = m1$forecast_values,
+                                                              hist = m1$hist_values, sub = !c)),
+                     do.call(what = stats_fun[v], args = list(m2$bench_values,m2$forecast_values,m2$hist_values,c)),
+                     do.call(what = stats_fun[v], args = list(m2$bench_values,m2$forecast_values,m2$hist_values,!c))
+                   ))]
+  }
+}
+
+
+#### out of sample variance robust stats ####
+y_vars = c(Quarterly = "mkt_var.quarterly.tp1", Monthly = "mkt_var.tp1")
+x_vars = c(Quarterly = "avg_var.quarterly", Monthly = "avg_var")
+freq = c("Quarterly","Monthly")
+b_freq = c(Quarterly = "mkt_var.quarterly", Monthly = "mkt_var")
+
+robust_table = data.table(Stat = c(rep("$R_{T}$",2),rep("$A_{T}$",2)), Sample = rep(c("Quarterly","Monthly"),2))
+# robust_table2 = data.table(Stat = c(rep("$R_{T}$",2),rep("$A_{T}$",2)), Sample = rep(c("Quarterly","Monthly"),2))
+
+
+for(fq in freq){
+  y = y_vars[fq]
+  x = x_vars[fq]
+  f = as.formula(paste0(y,"~",x))
+  if(fq=="Quarterly"){
+    dt = q_data
+  } else {dt = m_data}
+  lowR = floor(.25 * nrow(dt))
+  highR = ceiling(.75*nrow(dt))
+  # m1 = mspe.adjRobust(formula = f,data = dt,bench = b_freq[fq],lowR,highR)
+  m2 = enc.newRobust(formula = f,data = dt,bench = b_freq[fq],lowR,highR)
+  m3 = enc.hln.Robust(formula = f,data = dt,bench = b_freq[fq],lowR,highR)
+  robust_table[Sample == fq & Stat == "$R_{T}$", 
+               c("ENC-NEW","ENC-HLN",paste0(c("ENC-NEW","ENC-HLN"),"2")) := as.list(c(
+                 m2$Exp_RET, m3$Exp_RET, m2$Roll_RET, m3$Roll_RET))]
+  robust_table[Sample == fq &  Stat == "$A_{T}$", 
+                c("ENC-NEW","ENC-HLN",paste0(c("ENC-NEW","ENC-HLN"),"2")) := as.list(
+                  c(m2$Exp_AET, m3$Exp_AET, m2$Roll_AET, m3$Roll_AET))]
+}
+
+#### asset allocation ####
+# quarterly 
+q_bh_returns = q_data$logxret.tp3[q_start:nrow(q_data)]
+target_sd = sd(q_bh_returns)
+q_vol_weights = (1/q_data[q_start:nrow(q_data)]$mkt_var.quarterly)
+q_vol_returns = q_vol_weights * q_bh_returns
+vol_sd = sd(q_vol_returns)
+q_c_adj = target_sd / vol_sd
+adj_q_vol_weights = q_c_adj * q_vol_weights
+adj_q_vol_returns = adj_q_vol_weights * q_bh_returns
+
+sd(adj_q_vol_returns)
+sd(q_bh_returns) # check
+
+q_av_weights = (1/q_data[q_start:nrow(q_data)]$avg_var.quarterly)
+q_av_returns = q_av_weights * q_bh_returns
+av_sd = sd(q_av_returns)
+q_c_adj_av = target_sd / av_sd
+adj_q_av_weights = q_c_adj_av * q_av_weights
+adj_q_av_returns = adj_q_av_weights * q_bh_returns
+
+ann_q_av_ret = mean(adj_q_av_returns) * 400
+q_sr_test = sr_test(adj_q_vol_returns,adj_q_av_returns,ope = 4,paired = TRUE)
+
+q_bh_sortino = sortinoR(q_bh_returns,annualize = TRUE,freq = "quarterly")
+q_vol_sortino = sortinoR(adj_q_vol_returns,annualize = TRUE,freq = "quarterly")
+q_av_sortino = sortinoR(adj_q_av_returns,annualize = TRUE,freq = "quarterly")
 
 
 
-# ff_data = fread(input = '../value_momentum_spread/F-F_Research_Data_Factors.CSV')
-# ff_data[, V1 := as.character(V1)]
-# ff_data[, year := as.integer(substr(V1,1,4))]
-# ff_data[, month := as.integer(substr(V1,5,6))]
-# ff_data[, Mkt_RF := `Mkt-RF`]
-# ff_data[, `Mkt-RF` := NULL]
-# ff_data[, Mkt_RF := Mkt_RF / 100]
-# ff_data[, SMB := SMB / 100]
-# ff_data[, HML := HML / 100]
-# ff_data[, RF := RF / 100]
-# ff_data[, RF_lag := shift(RF)]
-# 
-# m_data = merge(m_data,subset(ff_data,select=c("year","month","SMB","HML","RF","RF_lag","Mkt_RF")),by=c("year","month"),all.x=TRUE)
-# m_data[, xlogret.tp1 := log1p(vwretd.tp1) - log1p(RF_lag)]
-# m_data[, mkt_var.tp1 := shift(mkt_var,type = "lead")]
-# m_data[, avg_var_p := avg_var*100]
-# m_data[, mkt_var_p := mkt_var*100]
-# m_data[, mkt_var_p.tp1 := shift(mkt_var_p,type = "lead")]
-summary(m_data$avg_var_p)
-avg_var_p_ar = ar(m_data$avg_var_p,order.max = 1)
-avg_var_p_ar$ar
-avg_var_p_ar_free = ar(m_data$avg_var_p)
+# monthly
+m_bh_returns = m_data$logxret.tp1[m_start:nrow(m_data)]
+tar_sd = sd(m_bh_returns)
+m_vol_weights = (1/m_data[m_start:nrow(m_data)]$mkt_var)
+m_vol_returns = m_vol_weights * m_bh_returns
+vol_sd = sd(m_vol_returns)
+m_c_adj = tar_sd / vol_sd
+adj_m_vol_weights = m_c_adj * m_vol_weights
+adj_m_vol_returns = adj_m_vol_weights * m_bh_returns
+sd(adj_m_vol_returns)
+
+m_av_weights = (1/m_data[m_start:nrow(m_data)]$avg_var)
+m_av_returns = m_av_weights * m_bh_returns
+av_sd = sd(m_av_returns)
+m_c_adj_av = tar_sd / av_sd
+adj_m_av_weights = m_c_adj_av * m_av_weights
+adj_m_av_returns = adj_m_av_weights * m_bh_returns
+sd(adj_m_av_returns)
+
+m_av_annRET = mean(adj_m_av_returns)*12
+m_sr_test = sr_test(adj_m_vol_returns,adj_m_av_returns,ope = 12,paired = TRUE)
+
+m_bh_sortino = sortinoR(m_bh_returns,annualize = TRUE,freq = "monthly")
+m_av_sortino = sortinoR(adj_m_av_returns,annualize = TRUE,freq = "monthly")
+m_vol_sortino = sortinoR(adj_m_vol_returns,annualize = TRUE,freq = "monthly")
+
+#### performance table ####
+perf_dt = data.table(Sample = c(rep("Quarterly",2),rep("Monthly",2)),Strategy = rep(c("SV","AV"),2))
+for(f in c("Quarterly","Monthly")){
+  if(f=="Quarterly"){
+    r1 = adj_q_vol_returns
+    r2 = adj_q_av_returns
+    fq = 4
+  } else {
+    r1 = adj_m_vol_returns
+    r2 = adj_m_av_returns
+    fq = 12
+  }
+  perf_dt[Sample==f & Strategy == "SV", RET := round(mean(r1)*fq*100,3)]
+  sharpep = sr_test(r2,r1,ope = fq,paired = TRUE,alternative = "less")$p.value
+  sp = data.table(SR = (mean(r1)/sd(r1))*sqrt(fq), pval = sharpep)
+  sp = round(matrix(as.numeric(sp),nrow=1),3)
+  perf_dt[Sample==f & Strategy == "SV", Sharpe := see.stars(round(as.matrix(sp),3),1,2)[1]]
+  sp = data.table(SR = SortinoRatio(r1), pval = ratio.test(r2,r1,ratio = "sortinoR")[3])
+  sp = round(matrix(as.numeric(sp),nrow=1),3)
+  perf_dt[Sample==f & Strategy == "SV", Sortino := see.stars(round(as.matrix(sp),3),1,2)[1]]
+  sp = data.table(SR = Kappa0(r1), pval = ratio.test(r2,r1,ratio = "Kappa0")[3])
+  sp = round(matrix(as.numeric(sp),nrow=1),3)
+  perf_dt[Sample==f & Strategy == "SV", Kappa := see.stars(round(as.matrix(sp),3),1,2)[1]]
+  sp = data.table(SR = UpsidePotentialRatio(r1), pval = ratio.test(r2,r1,ratio = "UpsidePotentialRatio")[3])
+  sp = round(matrix(as.numeric(sp),nrow=1),3)
+  perf_dt[Sample==f & Strategy == "SV", UpsidePotential := see.stars(round(as.matrix(sp),3),1,2)[1]]
+  sp = data.table(SR = genRachev.ratio(r1), pval = ratio.test(r2,r1,ratio = "genRachev.ratio")[3])
+  sp = round(matrix(as.numeric(sp),nrow=1),3)
+  perf_dt[Sample==f & Strategy == "SV", Rachev := see.stars(round(as.matrix(sp),3),1,2)[1]]
+  
+  perf_dt[Sample==f & Strategy == "AV", RET := round(mean(r2)*fq*100,3)]
+  sharpep = sr_test(r1,r2,ope = fq,paired = TRUE,alternative="less")$p.value
+  sp = data.table(SR = (mean(r2)/sd(r2))*sqrt(fq), pval = sharpep)
+  sp = round(matrix(as.numeric(sp),nrow=1),3)
+  perf_dt[Sample==f & Strategy == "AV", Sharpe := see.stars(round(as.matrix(sp),3),1,2)[1]]
+  sp = data.table(SR = SortinoRatio(r2), pval = ratio.test(r1,r2,ratio = "sortinoR")[3])
+  sp = round(matrix(as.numeric(sp),nrow=1),3)
+  perf_dt[Sample==f & Strategy == "AV", Sortino := see.stars(round(as.matrix(sp),3),1,2)[1]]
+  sp = data.table(SR = Kappa0(r2), pval = ratio.test(r1,r2,ratio = "Kappa0")[3])
+  sp = round(matrix(as.numeric(sp),nrow=1),3)
+  perf_dt[Sample==f & Strategy == "AV", Kappa := see.stars(round(as.matrix(sp),3),1,2)[1]]
+  sp = data.table(SR = UpsidePotentialRatio(r2), pval = ratio.test(r1,r2,ratio = "UpsidePotentialRatio")[3])
+  sp = round(matrix(as.numeric(sp),nrow=1),3)
+  perf_dt[Sample==f & Strategy == "AV", UpsidePotential := see.stars(round(as.matrix(sp),3),1,2)[1]]
+  sp = data.table(SR = genRachev.ratio(r2), pval = ratio.test(r1,r2,ratio = "genRachev.ratio")[3])
+  sp = round(matrix(as.numeric(sp),nrow=1),3)
+  perf_dt[Sample==f & Strategy == "AV", Rachev := see.stars(round(as.matrix(sp),3),1,2)[1]]
+}
+
+#### return plots ####
+p1 = data.table(Date = rep(m_data[m_start:nrow(m_data)]$date,3), 
+                Strategy = c(rep("avg_var",length(adj_m_av_returns)),rep("mkt_var",length(adj_m_vol_returns)),rep("market",length(m_bh_returns))),
+                Return = c(adj_m_av_returns,adj_m_vol_returns,m_bh_returns))
+p1[, Return := cumsum(Return), by = Strategy]
+
+m_ret_plot = ggplot(data=p1) + geom_line(aes(x=Date,y=Return,color=Strategy,linetype=Strategy)) + 
+  labs(title = "Cummulative Excess Log Returns - Monthly", x = "", y = "") + 
+  scale_x_date(date_breaks = "5 year", date_labels =  "%Y") +
+  scale_colour_manual(name = "Strategy",values=cbPalette,labels =c("AV","Market","SV")) + 
+  scale_linetype_manual(name = "Strategy",values=linePalette,labels =c("AV","Market","SV")) +
+  theme(text = element_text(size=11),panel.grid.major.x = element_blank(),
+        panel.grid.major.y = element_line( size=.1, color="black"))+ theme_bw()
+m_ret_plot = nberShade(m_ret_plot,xrange = c(min(p1$Date), max(p1$Date)),openShade = FALSE)
+
+p2 = data.table(Date = rep(q_data[q_start:nrow(q_data)]$date,3), 
+                Strategy = c(rep("avg_var",length(adj_q_av_returns)),rep("mkt_var",length(adj_q_vol_returns)),rep("market",length(q_bh_returns))),
+                Return = c(adj_q_av_returns,adj_q_vol_returns,q_bh_returns))
+p2[, Return := cumsum(Return), by = Strategy]
+q_ret_plot = ggplot(data=p2) + geom_line(aes(x=Date,y=Return,color=Strategy,linetype=Strategy)) + 
+  labs(title = "Cummulative Excess Log Returns - Quarterly", x = "", y = "") + 
+  scale_x_date(date_breaks = "5 year", date_labels =  "%Y") +
+  scale_colour_manual(name = "Strategy",values=cbPalette,labels =c("AV","Market","SV")) + 
+  scale_linetype_manual(name = "Strategy",values=linePalette,labels =c("AV","Market","SV")) +
+  theme(text = element_text(size=11),panel.grid.major.x = element_blank(),
+        panel.grid.major.y = element_line( size=.1, color="black"))+ theme_bw()
+q_ret_plot = nberShade(q_ret_plot,xrange = c(min(p2$Date), max(p2$Date)),openShade = FALSE)
+
+#### VAR tests ####
+var_model_q = VAR(data.table(subset(q_data[q_start:nrow(q_data)],
+                                    select = c("avg_var.quarterly","mkt_var.quarterly","avg_cor.quarterly"))))
+irf_q = irf(var_model_q)
+
+var_model_m = VAR(data.table(subset(m_data[m_start:nrow(m_data)],select = c("avg_var","mkt_var","avg_cor")),
+                             xlogret = shift(m_data$logxret.tp1)[m_start:nrow(m_data)]),type = "none")
+irf_m = irf(var_model_m)
