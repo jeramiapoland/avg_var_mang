@@ -1,4 +1,4 @@
-\begin{thebibliography}{12}
+\begin{thebibliography}{21}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 
 \bibitem[Asness et~al.(2018)Asness, Frazzini, Gormsen, and
@@ -7,9 +7,37 @@ Asness, Clifford~S., Andrea Frazzini, Niels~Joachim Gormsen, and Lasse~Heje
   Pedersen, 2018, Betting against correlation: testing theories of the low-risk
   effect .
 
+\bibitem[Barberis and Huang(2008)]{barberis_stocks_2008}
+Barberis, Nicholas, and Ming Huang, 2008, Stocks as {Lotteries}: {The}
+  {Implications} of {Probability} {Weighting} for {Security} {Prices}, {\em
+  American Economic Review\/} 98, 2066--2100.
+
 \bibitem[Barroso and Santa-Clara(2015)]{barroso_momentum_2015}
 Barroso, Pedro, and Pedro Santa-Clara, 2015, Momentum has its moments, {\em
   Journal of Financial Economics\/} 116, 111--120.
+
+\bibitem[Boguth and Simutin(2018)]{boguth_leverage_2018}
+Boguth, Oliver, and Mikhail Simutin, 2018, Leverage constraints and asset
+  prices: {Insights} from mutual fund risk taking, {\em Journal of Financial
+  Economics\/} 127, 325--341.
+
+\bibitem[Brunnermeier et~al.(2007)Brunnermeier, Gollier, and
+  Parker]{brunnermeier_optimal_2007}
+Brunnermeier, Markus~K., Christian Gollier, and Jonathan~A. Parker, 2007,
+  Optimal beliefs, asset prices, and the preference for skewed returns, {\em
+  American Economic Review\/} 97, 159--165.
+
+\bibitem[Campbell et~al.(2001)Campbell, Lettau, Malkiel, and
+  Xu]{campbell_have_2001}
+Campbell, John~Y., Martin Lettau, Burton~G. Malkiel, and Yexiao Xu, 2001, Have
+  individual stocks become more volatile? {An} empirical exploration of
+  idiosyncratic risk, {\em The Journal of Finance\/} 56, 1--43.
+
+\bibitem[Campbell et~al.(1997)Campbell, Lo, MacKinlay,
+  et~al.]{campbell1997econometrics}
+Campbell, John~Y, Andrew Wen-Chuan Lo, Archie~Craig MacKinlay, et~al., 1997,
+  {\em The econometrics of financial markets\/}, volume~2 (princeton University
+  press Princeton, NJ).
 
 \bibitem[Cao(2016)]{cao_risk_2016}
 Cao, Larry, 2016, Risk {Parity} {Made} {Easy}: {Cliff}’s {Notes} and {Other}
@@ -28,9 +56,19 @@ Haugen, Robert~A., and Heins A., 1972, On the evidence supporting the existence
   of risk premiums in the capital market, Technical report, Working Paper,
   University of Wisconsin-Madison.
 
+\bibitem[Jensen et~al.(1972)Jensen, Black, and Scholes]{jensen1972capital}
+Jensen, Michael~C, Fischer Black, and Myron~S Scholes, 1972, The capital asset
+  pricing model: Some empirical tests, {\em In Studies in the Theory of Capital
+  Markets\/} .
+
 \bibitem[Kim et~al.(2016)Kim, Tse, and Wald]{kim_time_2016}
 Kim, Abby~Y., Yiuman Tse, and John~K. Wald, 2016, Time series momentum and
   volatility scaling, {\em Journal of Financial Markets\/} 30, 103--124.
+
+\bibitem[Malkhozov et~al.(2017)Malkhozov, Mueller, Vedolin, and
+  Venter]{malkhozov_international_2017}
+Malkhozov, Aytek, Philippe Mueller, Andrea Vedolin, and Gyuri Venter, 2017,
+  International illiquidity .
 
 \bibitem[Markowitz(1952)]{markowitz_portfolio_1952}
 Markowitz, Harry, 1952, Portfolio {Selection}, {\em The Journal of Finance\/}
@@ -45,6 +83,11 @@ Moreira, Alan, and Tyler Muir, 2017, Volatility-{Managed} {Portfolios}:
 Pollet, Joshua~M., and Mungo Wilson, 2010, Average correlation and stock market
   returns, {\em Journal of Financial Economics\/} 96, 364--380.
 
+\bibitem[Rossi and Inoue(2012)]{rossi_out--sample_2012}
+Rossi, Barbara, and Atsushi Inoue, 2012, Out-of-{Sample} {Forecast} {Tests}
+  {Robust} to the {Choice} of {Window} {Size}, {\em Journal of Business \&
+  Economic Statistics\/} 30, 432--453.
+
 \bibitem[Rutterford and Sotiropoulos(2016)]{rutterford_financial_2016}
 Rutterford, Janette, and Dimitris~P. Sotiropoulos, 2016, Financial
   diversification before modern portfolio theory: {UK} financial advice
@@ -53,5 +96,10 @@ Rutterford, Janette, and Dimitris~P. Sotiropoulos, 2016, Financial
 
 \bibitem[Steward(2010)]{steward_truly_2010}
 Steward, Martin, 2010, The truly balanced portfolio.
+
+\bibitem[Wolpert and Macready(1997)]{wolpert_no_1997}
+Wolpert, David~H., and William~G. Macready, 1997, No free lunch theorems for
+  optimization, {\em IEEE transactions on evolutionary computation\/} 1,
+  67--82.
 
 \end{thebibliography}

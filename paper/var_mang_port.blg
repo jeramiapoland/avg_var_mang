@@ -3,54 +3,50 @@ Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
 The top-level auxiliary file: var_mang_port.aux
 The style file: jf.bst
 Database file #1: avg_var_mang.bib
-I was expecting a `,' or a `}'---line 432 of file avg_var_mang.bib
- :  
- :  file = {Snapshot:/home/jeramia/.zotero/zotero/fb5ioud9.default/zotero/storage/Z4TFG3FY/risk-parity-made-easy-cliffs-notes-and-other-key-readings.html:text/html}
-(Error may have been on previous line)
-I'm skipping whatever remains of this entry
 Warning--I didn't find a database entry for "Stanton:95"
 Warning--I didn't find a database entry for "CarpenterStantonWallace:12"
 Warning--I didn't find a database entry for "Campbell:03"
 Warning--empty journal in asness_betting_2018
-You've used 12 entries,
+Warning--empty journal in malkhozov_international_2017
+You've used 21 entries,
             2716 wiz_defined-function locations,
-            680 strings with 6394 characters,
-and the built_in function-call counts, 4955 in all, are:
-= -- 460
-> -- 249
-< -- 10
-+ -- 86
-- -- 72
-* -- 455
-:= -- 917
-add.period$ -- 12
-call.type$ -- 12
-change.case$ -- 85
-chr.to.int$ -- 12
-cite$ -- 13
-duplicate$ -- 204
-empty$ -- 321
-format.name$ -- 98
-if$ -- 927
+            727 strings with 7919 characters,
+and the built_in function-call counts, 9140 in all, are:
+= -- 830
+> -- 510
+< -- 15
++ -- 177
+- -- 150
+* -- 869
+:= -- 1681
+add.period$ -- 21
+call.type$ -- 21
+change.case$ -- 154
+chr.to.int$ -- 21
+cite$ -- 23
+duplicate$ -- 363
+empty$ -- 578
+format.name$ -- 193
+if$ -- 1713
 int.to.chr$ -- 1
 int.to.str$ -- 1
-missing$ -- 9
-newline$ -- 40
-num.names$ -- 48
-pop$ -- 55
+missing$ -- 19
+newline$ -- 67
+num.names$ -- 84
+pop$ -- 108
 preamble$ -- 1
-purify$ -- 72
+purify$ -- 133
 quote$ -- 0
-skip$ -- 152
+skip$ -- 267
 stack$ -- 0
-substring$ -- 309
-swap$ -- 45
-text.length$ -- 0
+substring$ -- 553
+swap$ -- 83
+text.length$ -- 1
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 108
-warning$ -- 1
-while$ -- 51
+type$ -- 186
+warning$ -- 2
+while$ -- 90
 width$ -- 0
-write$ -- 129
-(There was 1 error message)
+write$ -- 225
+(There were 5 warnings)
