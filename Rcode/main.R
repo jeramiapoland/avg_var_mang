@@ -1,7 +1,8 @@
 paks <- c("RCurl","data.table","tis","lubridate","ggplot2","stringr","sandwich","stargazer","pracma","RColorBrewer",
           "CADFtest","complexplus","readxl","reshape2","quantmod","xlsx","tikzDevice","MASS","timeSeries","vars","PortfolioEffectHFT",
           "PortfolioAnalytics","PerformanceAnalytics","backtest","tidyr","broom","stringdist","BH","parallel","doMC","foreach",
-          "doParallel","lmtest","hypergeo","strucchange","formula.tools","multiwave","outliers","forecast","SharpeR","fastmatch") 
+          "doParallel","lmtest","hypergeo","strucchange","formula.tools","multiwave","outliers","forecast","SharpeR","fastmatch",
+          "bvarsv") 
 # note: tikzDevice requires a working latex installation
 # and xlsx require rJava so a properly configured java (try javareconf)
 for (p in paks){
@@ -627,10 +628,136 @@ q_ret_plot = ggplot(data=p2) + geom_line(aes(x=Date,y=Return,color=Strategy,line
 q_ret_plot = nberShade(q_ret_plot,xrange = c(min(p2$Date), max(p2$Date)),openShade = FALSE)
 
 #### VAR tests ####
-var_model_q = VAR(data.table(subset(q_data[q_start:nrow(q_data)],
-                                    select = c("avg_var.quarterly","mkt_var.quarterly","avg_cor.quarterly"))))
-irf_q = irf(var_model_q)
+# var_model_q = VAR(data.table(subset(q_data[q_start:nrow(q_data)],
+#                                     select = c("avg_var.quarterly","avg_cor.quarterly","mkt_var.quarterly","logxret.tp3"))))
+# irf_q = irf(var_model_q)
+# var_dt = data.table(subset(q_data,select = c("avg_var.quarterly","avg_cor.quarterly","","logxret.tp3")))
+# 
+# var_model_q3 = VAR(data.table(subset(q_data[q_start:nrow(q_data)],select = c("avg_var.quarterly","mkt_var.quarterly"))))
+# 
+# var_model_q2 = bvar.sv.tvp(Y = as.matrix(var_dt[!is.na(logxret.tp3)]),tau = q_start-33,thinfac = 5,nf = 8)
+# 
+# var_dt_m = data.table(logxret = shift(m_data$logxret.tp1)[m_start:nrow(m_data)],
+#                       subset(m_data[m_start:nrow(m_data)],select = c("avg_cor","mkt_var","avg_var")))
+# var_model_m = VAR(var_dt_m,type = "none")
+# irf_m = irf(var_model_m)
+# 
+# # scaled irf plot
+# irf_melt = as.data.table(melt(data.frame(time = seq(nrow(irf_m$irf$logxret)),
+#                                       irf_m$irf$logxret),id.vars = "time",variable.name = "variable",value.name = "estimate"))
+# irf_melt[, plot := "logxret"]
+# irf_melt2 = as.data.table(melt(data.frame(time = seq(nrow(irf_m$irf$avg_cor)),
+#                                       irf_m$irf$avg_var),id.vars = "time",variable.name = "variable",value.name = "estimate"))
+# irf_melt2[, plot := "avg_cor"]
+# irf_melt3 = as.data.table(melt(data.frame(time = seq(nrow(irf_m$irf$mkt_var)),
+#                                        irf_m$irf$mkt_var),id.vars = "time",variable.name = "variable",value.name = "estimate"))
+# irf_melt3[, plot := "mkt_var"]
+# irf_melt4 = as.data.table(melt(data.frame(time = seq(nrow(irf_m$irf$avg_var)),
+#                                           irf_m$irf$avg_var),id.vars = "time",variable.name = "variable",value.name = "estimate"))
+# irf_melt4[, plot := "avg_var"]
+# 
+# irf_plot_dt = rbindlist(list(irf_melt,irf_melt2,irf_melt3,irf_melt4))
+# 
+# ggplot() + geom_line(data = irf_plot_dt,mapping = aes(x=time,y=estimate,linetype=variable,color=variable)) + 
+#   facet_grid(variable ~ plot,scales = "free_y")
 
-var_model_m = VAR(data.table(subset(m_data[m_start:nrow(m_data)],select = c("avg_var","mkt_var","avg_cor")),
-                             xlogret = shift(m_data$logxret.tp1)[m_start:nrow(m_data)]),type = "none")
-irf_m = irf(var_model_m)
+# bayesian monthly
+m_data[, logxret := shift(logxret.tp1)]
+m_data[m_start:nrow(m_data), av_weight := adj_m_av_weights]
+m_data[1:m_start, av_weight := m_c_adj_av * 1/avg_var]
+m_data[m_start:nrow(m_data), sv_weight := adj_m_vol_weights]
+m_data[1:m_start, sv_weight := m_c_adj * 1/mkt_var]
+cape_dt = read_excel(path = 'i')
+bvar_m_dt = as.matrix(subset(m_data[!is.na(logxret)],select = c("avg_var","mkt_var","avg_cor","logxret"))) # c("logxret","avg_cor","mkt_var","avg_var")
+m_var_model = bvar.sv.tvp(Y = bvar_m_dt,tau = (m_start-2),nf = 12)
+# impulse avg_var
+# avg_var response
+avg_var_avg_var = impulse.responses(m_var_model,impulse.variable = 4,response.variable = 4,nhor = 24,draw.plot = FALSE)
+av_av = colMeans(avg_var_avg_var$irf)
+av_av_sd = colSds(avg_var_avg_var$irf)
+av_av_95 = qnorm(.95,mean = av_av, sd = av_av_sd)
+av_av_5 = qnorm(.05,mean = av_av, sd = av_av_sd)
+av_av_dt = data.table(time = seq_along(av_av),avg_var = av_av, lower = av_av_5, upper = av_av_95, impulse = "avg_var", response = "avg_var")
+melt_av_av_dt = melt(av_av_dt,id.vars = c("time","impulse","response"),variable.name = "line",value.name = "estimate")
+
+# investment decrease
+mean_av_weight = mean(adj_m_av_weights)
+id_av_m1 = mean(m_data[m_start:nrow(m_data)]$avg_var) / (mean(m_data[m_start:nrow(m_data)]$avg_var) + av_av[1])
+id_av_m2 = mean(m_data[m_start:nrow(m_data)]$avg_var) / (mean(m_data[m_start:nrow(m_data)]$avg_var) + av_av[2])
+id_av_m3 = mean(m_data[m_start:nrow(m_data)]$avg_var) / (mean(m_data[m_start:nrow(m_data)]$avg_var) + av_av[3])
+id_av_m6 = mean(m_data[m_start:nrow(m_data)]$avg_var) / (mean(m_data[m_start:nrow(m_data)]$avg_var) + av_av[6])
+id_av_m12 = mean(m_data[m_start:nrow(m_data)]$avg_var) / (mean(m_data[m_start:nrow(m_data)]$avg_var) + av_av[12])
+
+cbPalette = c(upper = "#000000", lower = "#000000",cbPalette)
+linePalette <- c(upper = "4C88C488",lower = "4C88C488",linePalette)
+av_av_plot = ggplot() + geom_line(data = melt_av_av_dt, mapping = aes(x = time, y = estimate, color = line, linetype = line)) + 
+  scale_x_continuous(name = "Month", breaks = 1:24,labels = 1:24) + 
+  labs(title = "Average Variance Response", x = "", y = "") +
+  scale_colour_manual(name = "Strategy",values=cbPalette,guide=FALSE) + 
+  scale_linetype_manual(name = "Strategy",values=linePalette,guide=FALSE) +
+  theme(text = element_text(size=11),panel.grid.major.x = element_blank(),
+        panel.grid.major.y = element_line( size=.1, color="black"))+ theme_bw()
+
+# return response
+avg_var_logxret = impulse.responses(m_var_model,impulse.variable = 4,response.variable = 1,nhor = 24,draw.plot = FALSE)
+av_logxret = colMeans(avg_var_logxret$irf)
+av_logxret_sd = colSds(avg_var_logxret$irf)
+av_logxret_95 = qnorm(.95,mean = av_logxret, sd = av_logxret_sd)
+av_logxret_5 = qnorm(.05,mean = av_logxret, sd = av_logxret_sd)
+av_logxret_dt = data.table(time = seq_along(av_logxret),logxret = av_logxret, lower = av_logxret_5, upper = av_logxret_95, impulse = "avg_var", response = "logxret")
+melt_av_logxret_dt = melt(av_logxret_dt,id.vars = c("time","impulse","response"),variable.name = "line",value.name = "estimate")
+
+cbPalette = c(logxret = "darkviolet",cbPalette)
+linePalette <- c(logxret = "solid",linePalette)
+
+av_logxret_plot = ggplot() + geom_line(data = melt_av_logxret_dt, mapping = aes(x = time, y = estimate, color = line, linetype = line)) + 
+  scale_x_continuous(name = "Month", breaks = 1:24,labels = 1:24) + 
+  labs(title = "Excess Log Return Response", x = "", y = "") +
+  scale_colour_manual(values=cbPalette,guide=FALSE) + 
+  scale_linetype_manual(values=linePalette,guide=FALSE) +
+  theme(text = element_text(size=11),panel.grid.major.x = element_blank(),
+        panel.grid.major.y = element_line( size=.1, color="black"))+ theme_bw()
+
+# mkt_var impulse
+# mkt_var response
+mkt_var_mkt_var = impulse.responses(m_var_model,impulse.variable = 3,response.variable = 3,nhor = 24,draw.plot = FALSE)
+sv_sv = colMeans(mkt_var_mkt_var$irf)
+sv_sv_sd = colSds(mkt_var_mkt_var$irf)
+sv_sv_95 = qnorm(.95,mean = sv_sv, sd = sv_sv_sd)
+sv_sv_5 = qnorm(.05,mean = sv_sv, sd = sv_sv_sd)
+sv_sv_dt = data.table(time = seq_along(sv_sv),mkt_var = sv_sv, lower = sv_sv_5, upper = sv_sv_95, impulse = "mkt_var", response = "mkt_var")
+melt_sv_sv_dt = melt(sv_sv_dt,id.vars = c("time","impulse","response"),variable.name = "line",value.name = "estimate")
+
+sv_sv_plot = ggplot() + geom_line(data = melt_sv_sv_dt, mapping = aes(x = time, y = estimate, color = line, linetype = line)) + 
+  scale_x_continuous(name = "Month", breaks = 1:24,labels = 1:24) + 
+  labs(title = "Market Variance Response", x = "", y = "") +
+  scale_colour_manual(values=cbPalette,guide=FALSE) + 
+  scale_linetype_manual(values=linePalette,guide=FALSE) +
+  theme(text = element_text(size=11),panel.grid.major.x = element_blank(),
+        panel.grid.major.y = element_line( size=.1, color="black"))+ theme_bw()
+
+# investment effects
+mean_sv_weight = mean(adj_m_vol_weights)
+
+weight_sv_m1 = mean(m_c_adj * (1/(m_data[m_start:nrow(m_data)]$mkt_var + sv_sv[1])))
+id_sv_m2 = m_c_adj / (mean(m_data[m_start:nrow(m_data)]$mkt_var) + sv_sv[2])
+id_sv_m3 = m_c_adj/ (mean(m_data[m_start:nrow(m_data)]$mkt_var) + sv_sv[3])
+id_sv_m6 = m_c_adj / (mean(m_data[m_start:nrow(m_data)]$mkt_var) + sv_sv[6])
+weight_sv_m12 = mean(m_c_adj * (1/(m_data[m_start:nrow(m_data)]$mkt_var + sv_sv[12])))
+
+# excess return response
+mkt_var_logxret = impulse.responses(m_var_model,impulse.variable = 3,response.variable = 1,nhor = 24,draw.plot = FALSE)
+sv_logxret = colMeans(mkt_var_logxret$irf)
+sv_logxret_sd = colSds(mkt_var_logxret$irf)
+sv_logxret_95 = qnorm(.95,mean = sv_logxret, sd = sv_logxret_sd)
+sv_logxret_5 = qnorm(.05,mean = sv_logxret, sd = sv_logxret_sd)
+sv_logxret_dt = data.table(time = seq_along(sv_logxret),mkt_var = sv_logxret, lower = sv_logxret_5, upper = sv_logxret_95, impulse = "mkt_var", response = "mkt_var")
+melt_logxretmkt_var_dt = melt(sv_logxret_dt,id.vars = c("time","impulse","response"),variable.name = "line",value.name = "estimate")
+
+sv_logxret_plot = ggplot() + geom_line(data = melt_logxretmkt_var_dt, mapping = aes(x = time, y = estimate, color = line, linetype = line)) + 
+  scale_x_continuous(name = "Month", breaks = 1:24,labels = 1:24) + 
+  labs(title = "Excess Log Return Response", x = "", y = "") +
+  scale_colour_manual(values=cbPalette,guide=FALSE) + 
+  scale_linetype_manual(values=linePalette,guide=FALSE) +
+  theme(text = element_text(size=11),panel.grid.major.x = element_blank(),
+        panel.grid.major.y = element_line( size=.1, color="black"))+ theme_bw()
