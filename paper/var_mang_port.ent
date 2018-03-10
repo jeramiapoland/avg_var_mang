@@ -16,10 +16,10 @@ Company.
 macro:->See,
 for
 example,
-\cite
+\citet
 {barroso_momentum_2015}
 and
-\cite
+\citet
 {kim_time_2016}
 for
 discussions

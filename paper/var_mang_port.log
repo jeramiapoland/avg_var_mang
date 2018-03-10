@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2017.9.18)  9 MAR 2018 19:24
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2017.9.18)  10 MAR 2018 02:34
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -975,20 +975,20 @@ Missing character: There is no ™ in font cmr10!
 
 [2
 
-])
+] [3])
 
-Package natbib Warning: Citation `Stanton:95' on page 3 undefined on input line
+Package natbib Warning: Citation `Stanton:95' on page 4 undefined on input line
  113.
 
 
-Package natbib Warning: Citation `CarpenterStantonWallace:12' on page 3 undefin
+Package natbib Warning: Citation `CarpenterStantonWallace:12' on page 4 undefin
 ed on input line 113.
 
 
-Package natbib Warning: Citation `Campbell:03' on page 3 undefined on input lin
+Package natbib Warning: Citation `Campbell:03' on page 4 undefined on input lin
 e 113.
 
-[3]
+[4]
 Overfull \hbox (10.76077pt too wide) in paragraph at lines 136--140
 [][]\OT1/cmr/m/n/10.95 PROPOSITION 1: []\OT1/cmr/m/it/10.95 If Con-di-tion []1[
 ] is sat-is-fied, a so-lu-tion to the cen-tral plan-ner's prob-lem, $\OML/cmm/m
@@ -996,7 +996,7 @@ Overfull \hbox (10.76077pt too wide) in paragraph at lines 136--140
 \OMS/cmsy/m/n/10.95 2
  []
 
-[4]pdfTeX warning (ext4): destination with the same identifier (name{section.1}
+[5]pdfTeX warning (ext4): destination with the same identifier (name{section.1}
 ) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
@@ -1021,46 +1021,46 @@ er (name{equation.1.1}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
 l.153 \begin{equation}
-                       [5
+                       [6
 
 ] (./var_mang_port.bbl
 Missing character: There is no â in font cmr10!
 Missing character: There is no € in font cmr10!
 Missing character: There is no ™ in font cmr10!
-) [6
+ [7
 
-] (./var_mang_port.ent)
-[7
+]) [8] (./var_mang_port.ent)
+[9
 
 ] (./figures.tex (./q_plot.tex) (./m_plot.tex)
 
 LaTeX Warning: Float too large for page by 2.06497pt on input line 6.
 
-[8]) (./tables.tex (./table_summary.tex (./summary1.tex) (./summary2.tex)
-(./summary3.tex)) (./table_in_sample.tex [9
+[10]) (./tables.tex (./table_summary.tex (./summary1.tex) (./summary2.tex)
+(./summary3.tex)) (./table_in_sample.tex [11
 
 
 
-] (./tab_var_rep_1.tex) [10
-
-]
-(./tab_var_rep_4.tex) [11
-
-
-] (./tab_var5.tex) [12
-
-
-] (./tab_var6.tex) [13
-
+] (./tab_var_rep_1.tex) [12
 
 ]
-(./tab_ret_rep1.tex) [14
+(./tab_var_rep_4.tex) [13
 
 
-] (./tab_ret2.tex) [15
+] (./tab_var5.tex) [14
 
 
-] (./tab_ret3.tex) [16
+] (./tab_var6.tex) [15
+
+
+]
+(./tab_ret_rep1.tex) [16
+
+
+] (./tab_ret2.tex) [17
+
+
+] (./tab_ret3.tex) [18
 
 
 ])
@@ -1068,7 +1068,7 @@ LaTeX Warning: Float too large for page by 2.06497pt on input line 6.
 
 Package natbib Warning: There were undefined citations.
 
-[17
+[19
 
 ]
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 191.
@@ -1084,13 +1084,13 @@ LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 21032 strings out of 493029
- 380189 string characters out of 6136234
- 662412 words of memory out of 5000000
- 24027 multiletter control sequences out of 15000+600000
+ 21079 strings out of 493029
+ 381436 string characters out of 6136234
+ 662970 words of memory out of 5000000
+ 24063 multiletter control sequences out of 15000+600000
  14096 words of font info for 54 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 62i,11n,92p,2579b,739s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 62i,11n,92p,2583b,739s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></us
 r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/shar
 e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texl
@@ -1106,10 +1106,10 @@ y6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
 share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/share/
 texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/share/texliv
 e/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on var_mang_port.pdf (17 pages, 235828 bytes).
+Output written on var_mang_port.pdf (19 pages, 244060 bytes).
 PDF statistics:
- 247 PDF objects out of 1000 (max. 8388607)
- 209 compressed objects within 3 object streams
- 51 named destinations out of 1000 (max. 500000)
+ 289 PDF objects out of 1000 (max. 8388607)
+ 249 compressed objects within 3 object streams
+ 62 named destinations out of 1000 (max. 500000)
  53 words of extra memory for PDF output out of 10000 (max. 10000000)
 
