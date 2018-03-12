@@ -8,6 +8,9 @@
 \usepackage{hyperref,float,lscape,adjustbox,array}
 \newcolumntype{H}{>{\setbox0=\hbox\bgroup}c<{\egroup}@{}}
 \usepackage[longnamesfirst]{natbib}
+\usepackage[firstpage]{draftwatermark}
+\SetWatermarkLightness{0.5}
+\SetWatermarkScale{4}
 \usdate
 
 % These next lines allow including or excluding different versions of text
@@ -104,13 +107,23 @@
 
 \input{introduction.tex}
 
-\section{The Model} \label{sec:Model}
+\section{Data} \label{sec:Data}
 
-There's not actually a model here as it's not really a paper, but this is about where a model might go. Note that the first sentence of this section is indented (as required by the JF) using the \texttt{indentfirst} package.
+\input{data}
 
-\subsection{A Subsection}
+\section{Regression Analysis}
 
-Note that subsections in JF are just labeled with letters.  When referring to them in the text, you need to add the section number back, e.g., Section~\ref{sec:subsec} or~\ref{sec:subsub}. This is taken care of in \texttt{jf.sty}. Let's also add some parenthetical citations (see~\cite{Stanton:95}, \cite{CarpenterStantonWallace:12}, \cite{Campbell:03}). 
+\subsection{In Sample}
+
+\input{in_sample}
+
+\subsection{Out of Sample}
+
+\input{out_sample}
+
+\subsubsection{Robustness}
+
+\input{robustness}
 
 To justify adding a subsection here, from now on, we'll assume
 \begin{condition}\label{cond:rates}
@@ -119,14 +132,8 @@ $0 <  \hat{\mu} < \gamma\sigma^2$.
 \end{condition}
 This condition might be useful if there was a model. 
 
-\subsection{Another Subsection, With a Figure}
-\label{sec:subsec}
 
-Figures get put at the end, with a note marking where they should go in the text, like this:
 
-\bigskip
-\centerline{\bf [Place Figure~\ref{fig:0} about here]}
-\bigskip
 
 \subsubsection{A Subsubsection with a Proposition}
 \label{sec:subsub}
@@ -170,7 +177,7 @@ Note that this is quite similar to Equation~\eqref{eq:eqA} in Appendix~\ref{sec:
 
 \begin{doublespacing}   % Double-space the bibliography
 \bibliographystyle{jf}
-\bibliography{avg_var_mang}
+\bibliography{avg_var_mang,margin_credit}
 \end{doublespacing}
 
 \clearpage

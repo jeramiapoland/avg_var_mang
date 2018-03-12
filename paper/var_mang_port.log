@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2017.9.18)  10 MAR 2018 02:34
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2017.9.18)  12 MAR 2018 10:57
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -484,6 +484,25 @@ Package: natbib 2010/09/13 8.31b (PWD, AO)
 LaTeX Info: Redefining \cite on input line 694.
 \c@NAT@ctr=\count150
 )
+(/usr/share/texlive/texmf-dist/tex/latex/draftwatermark/draftwatermark.sty
+Package: draftwatermark 2015/02/19 1.2 Put a gray textual watermark on document
+ pages
+
+(/usr/share/texlive/texmf-dist/tex/latex/everypage/everypage.sty
+Package: everypage 2007/06/20 1.1 Hooks to run on every page
+)
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/color.sty
+Package: color 2016/01/03 v1.1b Standard LaTeX Color (DPC)
+
+(/usr/share/texlive/texmf-dist/tex/latex/latexconfig/color.cfg
+File: color.cfg 2007/01/18 v1.5 color configuration of teTeX/TeXLive
+)
+Package color Info: Driver file: pdftex.def on input line 143.
+)
+\sc@wm@hcenter=\skip63
+\sc@wm@vcenter=\skip64
+\sc@wm@fontsize=\skip65
+)
 (/usr/share/texlive/texmf-dist/tex/latex/geometry/geometry.sty
 Package: geometry 2010/09/12 v5.6 Page Geometry
 \Gm@cnth=\count151
@@ -510,6 +529,7 @@ Package: xcolor 2007/01/21 v2.11 LaTeX color extensions (UK)
 File: color.cfg 2007/01/18 v1.5 color configuration of teTeX/TeXLive
 )
 Package xcolor Info: Driver file: pdftex.def on input line 225.
+LaTeX Info: Redefining \color on input line 702.
 Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1337.
 Package xcolor Info: Model `hsb' substituted by `rgb' on input line 1341.
 Package xcolor Info: Model `RGB' extended on input line 1353.
@@ -791,12 +811,12 @@ Package: calc 2014/10/28 v4.3 Infix arithmetic (KKT,FJ)
 \calc@Bcount=\count174
 \calc@Adimen=\dimen187
 \calc@Bdimen=\dimen188
-\calc@Askip=\skip63
-\calc@Bskip=\skip64
+\calc@Askip=\skip66
+\calc@Bskip=\skip67
 LaTeX Info: Redefining \setlength on input line 80.
 LaTeX Info: Redefining \addtolength on input line 81.
 \calc@Ccount=\count175
-\calc@Cskip=\skip65
+\calc@Cskip=\skip68
 )
 \c@@todonotes@numberoftodonotes=\count176
 )
@@ -833,46 +853,25 @@ Package caption Info: subfigure package is loaded.
 \c@proposition=\count181
 \c@obs=\count182
 
-(./var_mang_port.aux
-
-LaTeX Warning: Label `' multiply defined.
-
-
-LaTeX Warning: Label `' multiply defined.
-
-
-LaTeX Warning: Label `' multiply defined.
-
-
-LaTeX Warning: Label `' multiply defined.
-
-
-LaTeX Warning: Label `' multiply defined.
-
-
-LaTeX Warning: Label `' multiply defined.
-
-
-LaTeX Warning: Label `' multiply defined.
-
-)
+(./var_mang_port.aux)
 \openout1 = `var_mang_port.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 77.
-LaTeX Font Info:    ... okay on input line 77.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 77.
-LaTeX Font Info:    ... okay on input line 77.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 77.
-LaTeX Font Info:    ... okay on input line 77.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 77.
-LaTeX Font Info:    ... okay on input line 77.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 77.
-LaTeX Font Info:    ... okay on input line 77.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 77.
-LaTeX Font Info:    ... okay on input line 77.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 77.
-LaTeX Font Info:    ... okay on input line 77.
- (/usr/share/texlive/texmf-dist/tex/context/base/supp-pdf.mkii
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 80.
+LaTeX Font Info:    ... okay on input line 80.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 80.
+LaTeX Font Info:    ... okay on input line 80.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 80.
+LaTeX Font Info:    ... okay on input line 80.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 80.
+LaTeX Font Info:    ... okay on input line 80.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 80.
+LaTeX Font Info:    ... okay on input line 80.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 80.
+LaTeX Font Info:    ... okay on input line 80.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 80.
+LaTeX Font Info:    ... okay on input line 80.
+
+(/usr/share/texlive/texmf-dist/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count183
 \scratchdimen=\dimen197
@@ -889,7 +888,7 @@ LaTeX Font Info:    ... okay on input line 77.
 Package marginnote Info: \pdfoutput not 0 and \pdflastxpos available.
 (marginnote)             Extended position detection mode activated.
 \AtBeginShipoutBox=\box47
-Package hyperref Info: Link coloring OFF on input line 77.
+Package hyperref Info: Link coloring OFF on input line 80.
  (/usr/share/texlive/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2012/10/27 v2.43 Cross-referencing by name of section
 
@@ -898,9 +897,9 @@ Package: gettitlestring 2010/12/03 v1.4 Cleanup title references (HO)
 )
 \c@section@level=\count189
 )
-LaTeX Info: Redefining \ref on input line 77.
-LaTeX Info: Redefining \pageref on input line 77.
-LaTeX Info: Redefining \nameref on input line 77.
+LaTeX Info: Redefining \ref on input line 80.
+LaTeX Info: Redefining \pageref on input line 80.
+LaTeX Info: Redefining \nameref on input line 80.
 
 (./var_mang_port.out) (./var_mang_port.out)
 \@outlinefile=\write6
@@ -944,172 +943,166 @@ LaTeX Info: Redefining \nameref on input line 77.
 ABD: EveryShipout initializing macros
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: End \AtBeginDocument code.
-LaTeX Font Info:    Try loading font information for U+msa on input line 93.
+LaTeX Font Info:    Try loading font information for U+msa on input line 96.
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 93.
+LaTeX Font Info:    Try loading font information for U+msb on input line 96.
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 93.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 96.
 
 (/usr/share/texlive/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <8> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 93.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 96.
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <6> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 93.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 96.
  (./abstract.tex)
-[1
 
-{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] (./introduction.tex
+LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <142.26378> not available
+(Font)              size <24.88> substituted on input line 106.
+
+[1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}
+
+] (./introduction.tex
 \openout5 = `var_mang_port.ent'.
 
-Missing character: There is no â in font cmr10!
-Missing character: There is no € in font cmr10!
-Missing character: There is no ™ in font cmr10!
 
 [2
 
-] [3])
+]
+Missing character: There is no â in font cmr10!
+Missing character: There is no € in font cmr10!
+Missing character: There is no ™ in font cmr10!
+ [3] [4]) (./data.tex [5] [6]) (./in_sample.tex [7]) [8] (./out_sample.tex
+[9]
 
-Package natbib Warning: Citation `Stanton:95' on page 4 undefined on input line
- 113.
+LaTeX Warning: Reference `tab_oos' on page 10 undefined on input line 37.
 
+[10]) (./robustness.tex [11]
 
-Package natbib Warning: Citation `CarpenterStantonWallace:12' on page 4 undefin
-ed on input line 113.
+LaTeX Warning: Reference `tab_robust' on page 12 undefined on input line 8.
 
-
-Package natbib Warning: Citation `Campbell:03' on page 4 undefined on input lin
-e 113.
-
-[4]
-Overfull \hbox (10.76077pt too wide) in paragraph at lines 136--140
+)
+Overfull \hbox (10.76077pt too wide) in paragraph at lines 143--147
 [][]\OT1/cmr/m/n/10.95 PROPOSITION 1: []\OT1/cmr/m/it/10.95 If Con-di-tion []1[
 ] is sat-is-fied, a so-lu-tion to the cen-tral plan-ner's prob-lem, $\OML/cmm/m
 /it/10.95 V\OT1/cmr/m/n/10.95 (\OML/cmm/m/it/10.95 B; D; t\OT1/cmr/m/n/10.95 ) 
 \OMS/cmsy/m/n/10.95 2
  []
 
-[5]pdfTeX warning (ext4): destination with the same identifier (name{section.1}
-) has been already used, duplicate ignored
+[12]pdfTeX warning (ext4): destination with the same identifier (name{section.1
+}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.149 \section{An Appendix}
+l.156 \section{An Appendix}
                            pdfTeX warning (ext4): destination with the same ide
 ntifier (name{equation.1.1}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.153 \begin{equation}
+l.160 \begin{equation}
                       pdfTeX warning (ext4): destination with the same identifi
 er (name{equation.1.1}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.153 \begin{equation}
+l.160 \begin{equation}
                       pdfTeX warning (ext4): destination with the same identifi
 er (name{equation.1.1}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.153 \begin{equation}
+l.160 \begin{equation}
                       pdfTeX warning (ext4): destination with the same identifi
 er (name{equation.1.1}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.153 \begin{equation}
-                       [6
+l.160 \begin{equation}
+                      pdfTeX warning (ext4): destination with the same identifi
+er (name{section.2}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.165 \section{Another Appendix}
+                                 [13
 
 ] (./var_mang_port.bbl
 Missing character: There is no â in font cmr10!
 Missing character: There is no € in font cmr10!
 Missing character: There is no ™ in font cmr10!
- [7
+ [14
 
-]) [8] (./var_mang_port.ent)
-[9
+] [15] [16])
+[17] (./var_mang_port.ent) [18
 
 ] (./figures.tex (./q_plot.tex) (./m_plot.tex)
 
 LaTeX Warning: Float too large for page by 2.06497pt on input line 6.
 
-[10]) (./tables.tex (./table_summary.tex (./summary1.tex) (./summary2.tex)
-(./summary3.tex)) (./table_in_sample.tex [11
+[19]) (./tables.tex (./table_summary.tex (./summary1.tex) (./summary2.tex)
+(./summary3.tex)) (./table_in_sample.tex (./tab_var_rep_1.tex) [20
 
 
 
-] (./tab_var_rep_1.tex) [12
+] [21]
+(./tab_var_rep_4.tex
 
-]
-(./tab_var_rep_4.tex) [13
+LaTeX Warning: Float too large for page by 1.31516pt on input line 88.
 
-
-] (./tab_var5.tex) [14
-
-
-] (./tab_var6.tex) [15
+) [22] (./tab_ret_rep1.tex)) (./tab_oos.tex)) [23
 
 
 ]
-(./tab_ret_rep1.tex) [16
-
-
-] (./tab_ret2.tex) [17
-
-
-] (./tab_ret3.tex) [18
-
-
-])
-(./tab_oos.tex))
-
-Package natbib Warning: There were undefined citations.
-
-[19
-
-]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 191.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 191.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 198.
+ [24]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 198.
  (./var_mang_port.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 191.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 191.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 198.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 198.
 Package rerunfilecheck Info: File `var_mang_port.out' has not changed.
-(rerunfilecheck)             Checksum: 5DD7B9BF0B763C2DA92334AE7839F630;284.
+(rerunfilecheck)             Checksum: B254F1EB842217CF1C427D9C4CA7B146;310.
 
 
-LaTeX Warning: There were multiply-defined labels.
+LaTeX Font Warning: Size substitutions with differences
+(Font)              up to 117.38377pt have occurred.
+
+
+LaTeX Warning: There were undefined references.
 
  ) 
 Here is how much of TeX's memory you used:
- 21079 strings out of 493029
- 381436 string characters out of 6136234
- 662970 words of memory out of 5000000
- 24063 multiletter control sequences out of 15000+600000
- 14096 words of font info for 54 fonts, out of 8000000 for 9000
+ 21289 strings out of 493029
+ 385378 string characters out of 6136234
+ 665867 words of memory out of 5000000
+ 24219 multiletter control sequences out of 15000+600000
+ 14395 words of font info for 55 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 62i,11n,92p,2583b,739s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 62i,11n,92p,2458b,739s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></us
 r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/shar
 e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texl
-ive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/te
-xmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texlive/texmf-dis
-t/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts
-/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/
-public/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/a
-msfonts/cm/cmr9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/
-cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cms
-y6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
-</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/
-share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/share/
-texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/share/texliv
-e/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on var_mang_port.pdf (19 pages, 244060 bytes).
+ive/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmex8.pfb></usr/share/texliv
+e/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texm
+f-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/share/texlive/texmf-dist/
+fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texlive/texmf-dist/fonts/t
+ype1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/pu
+blic/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/am
+sfonts/cm/cmr17.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/
+cm/cmr6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.
+pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></us
+r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/shar
+e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/share/texli
+ve/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/share/texlive/texm
+f-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/share/texlive/texmf-dist
+/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/share/texlive/texmf-dist/fonts
+/type1/public/amsfonts/cm/cmtt10.pfb></usr/share/texlive/texmf-dist/fonts/type1
+/public/amsfonts/symbols/msbm10.pfb>
+Output written on var_mang_port.pdf (24 pages, 316233 bytes).
 PDF statistics:
- 289 PDF objects out of 1000 (max. 8388607)
- 249 compressed objects within 3 object streams
- 62 named destinations out of 1000 (max. 500000)
- 53 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 465 PDF objects out of 1000 (max. 8388607)
+ 410 compressed objects within 5 object streams
+ 104 named destinations out of 1000 (max. 500000)
+ 61 words of extra memory for PDF output out of 10000 (max. 10000000)
 

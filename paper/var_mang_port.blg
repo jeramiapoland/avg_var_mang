@@ -3,50 +3,63 @@ Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
 The top-level auxiliary file: var_mang_port.aux
 The style file: jf.bst
 Database file #1: avg_var_mang.bib
-Warning--I didn't find a database entry for "Stanton:95"
-Warning--I didn't find a database entry for "CarpenterStantonWallace:12"
-Warning--I didn't find a database entry for "Campbell:03"
+Database file #2: margin_credit.bib
+I was expecting a `,' or a `}'---line 1308 of file margin_credit.bib
+ :   
+ :   %  pages={qjx017},
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+I was expecting a `,' or a `}'---line 1646 of file margin_credit.bib
+ :   
+ :   editor = {Elliott, Graham and Granger, Clive W.J.  and Timmermann, Allan},
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+You're missing a field name---line 1684 of file margin_credit.bib
+ : 
+ : % title={GDPNow: A Model for GDP`Nowcasting'},
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
 Warning--empty journal in asness_betting_2018
 Warning--empty journal in malkhozov_international_2017
-You've used 21 entries,
+You've used 45 entries,
             2716 wiz_defined-function locations,
-            727 strings with 7919 characters,
-and the built_in function-call counts, 9140 in all, are:
-= -- 830
-> -- 510
-< -- 15
-+ -- 177
-- -- 150
-* -- 869
-:= -- 1681
-add.period$ -- 21
-call.type$ -- 21
-change.case$ -- 154
-chr.to.int$ -- 21
-cite$ -- 23
-duplicate$ -- 363
-empty$ -- 578
-format.name$ -- 193
-if$ -- 1713
+            888 strings with 11533 characters,
+and the built_in function-call counts, 20535 in all, are:
+= -- 1909
+> -- 1072
+< -- 33
++ -- 365
+- -- 314
+* -- 1971
+:= -- 3700
+add.period$ -- 45
+call.type$ -- 45
+change.case$ -- 328
+chr.to.int$ -- 45
+cite$ -- 47
+duplicate$ -- 807
+empty$ -- 1353
+format.name$ -- 407
+if$ -- 3918
 int.to.chr$ -- 1
 int.to.str$ -- 1
-missing$ -- 19
-newline$ -- 67
-num.names$ -- 84
-pop$ -- 108
+missing$ -- 43
+newline$ -- 139
+num.names$ -- 182
+pop$ -- 214
 preamble$ -- 1
-purify$ -- 133
+purify$ -- 283
 quote$ -- 0
-skip$ -- 267
+skip$ -- 586
 stack$ -- 0
-substring$ -- 553
-swap$ -- 83
-text.length$ -- 1
+substring$ -- 1426
+swap$ -- 197
+text.length$ -- 3
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 186
+type$ -- 402
 warning$ -- 2
-while$ -- 90
+while$ -- 205
 width$ -- 0
-write$ -- 225
-(There were 5 warnings)
+write$ -- 491
+(There were 3 error messages)
