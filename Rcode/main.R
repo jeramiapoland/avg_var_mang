@@ -13,7 +13,7 @@ source(file = 'functions.R')
 
 ### Monthly Data ####
 # crsp daily returns
-tmp_crsp = fread(input = '../data/CRSP/crsp_daily_long.csv',colClasses = "character")
+tmp_crsp = fread(input = '../../data/CRSP/crsp_daily_long.csv',colClasses = "character")
 setkey(tmp_crsp,date,PERMNO)
 tmp_crsp[, date := as.Date(as.character(date),format="%Y%m%d")]
 setkey(tmp_crsp,date,PERMNO)
@@ -40,12 +40,12 @@ setkey(tmp_crsp,date,PERMNO)
 setkey(tmp_crsp,year,month)
 crsp_permnos = tmp_crsp[, .(PERMNO = unique(PERMNO), num_PERMNO = length(unique(PERMNO))), by = c("year","month")]
 
-#### French daily data ####
-ff_daily = fread(input = 'F-F_Research_Data_Factors_daily.CSV')
-ff_daily[,date:=as.Date(as.character(V1),format="%Y%m%d")]
-ff_daily[, Mkt_RF := `Mkt-RF`]
-ff_daily[, `Mkt-RF` := NULL]
-ff_daily[, c("Mkt_RF","SMB","HML","RF") := lapply(.SD,function(x){x/100}), .SDcols = c("Mkt_RF","SMB","HML","RF")]
+# #### French daily data ####
+# ff_daily = fread(input = 'F-F_Research_Data_Factors_daily.CSV')
+# ff_daily[,date:=as.Date(as.character(V1),format="%Y%m%d")]
+# ff_daily[, Mkt_RF := `Mkt-RF`]
+# ff_daily[, `Mkt-RF` := NULL]
+# ff_daily[, c("Mkt_RF","SMB","HML","RF") := lapply(.SD,function(x){x/100}), .SDcols = c("Mkt_RF","SMB","HML","RF")]
 
 # monthly market cap #
 tmp_mcap = fread(input = '9cfd0c24e4fad219.csv',colClasses = "character")
@@ -97,16 +97,15 @@ data = merge(data,m_crsp,by=c("year","month"),all.x=TRUE,suffixes = c(".daily","
 gc()
 
 setkey(data,year,month,date,PERMNO)
-
 data[, c("avg_var","avg_cor","mkt_var","avg_cor_ta","avg_var_alt","mkt_var_alt","avg_sd","avg_down","avg_downp") := as.list(cor_var(.SD)), 
      .SDcols = c("date","PERMNO","RET","weight","vwretd.daily"), by = c("year","month")]
 
 m_data = unique(subset(data,select = c("year","month","avg_var","avg_var_alt","avg_cor","avg_cor_ta","mkt_var","mkt_var_alt",
-                                       "vwretd.monthly","vwretd.tp1",
-                                       "vwretx.tp1","vwretd.tp3","vwretx.tp3")),by=c("year","month"))
+                                       "vwretd.monthly","vwretd.tp1","vwretx.tp1","vwretd.tp3","vwretx.tp3",
+                                       "avg_sd","avg_down","avg_downp")),by=c("year","month"))
 
 
-ff_data = fread(input = '../value_momentum_spread/F-F_Research_Data_Factors.CSV')
+ff_data = fread(input = '../../value_momentum_spread/F-F_Research_Data_Factors.CSV')
 ff_data[, V1 := as.character(V1)]
 ff_data[, year := as.integer(substr(V1,1,4))]
 ff_data[, month := as.integer(substr(V1,5,6))]
@@ -187,13 +186,13 @@ data = merge(data,m_crsp,by=c("year","quarter"),suffixes = c(".daily",".quarterl
 
 setkey(data,date,PERMNO)
 setkey(data,year,quarter)
-
+data[, month := month(DATE)]
 data[, c("avg_var","avg_cor","mkt_var","avg_cor_ta","avg_var_alt","mkt_var_alt","avg_sd","avg_down","avg_downp") := as.list(cor_var(.SD)), 
      .SDcols = c("date","PERMNO","RET","weight","vwretd.daily"), by = c("year","quarter")]
-data[, month := month(DATE)]
+
 
 q_data = unique(subset(data,subset = month %in% c(12,3,6,9),
-                       select = c("year","month","quarter","avg_var","avg_cor","mkt_var","avg_cor_ta",
+                       select = c("year","month","quarter","avg_var","avg_cor","mkt_var","avg_cor_ta","avg_sd","avg_down","avg_downp",
                                   "vwretd.tp3","vwretx.tp3")),by=c("year","quarter"))
 data = NULL
 gc()
@@ -307,9 +306,10 @@ q_var_in10 = lm(shift(mkt_var.quarterly,type="lead") ~ avg_var.quarterly,q_data[
 q_var_in11 = lm(shift(mkt_var.quarterly,type="lead") ~ avg_cor.quarterly + avg_var.quarterly,q_data[pw_start:pw_end])
 q_var_in12 = lm(shift(mkt_var.quarterly,type="lead") ~ (avg_cor.quarterly:avg_var.quarterly),q_data[pw_start:pw_end])
 q_var_in13 = lm(shift(mkt_var.quarterly,type="lead") ~ mkt_var.quarterly,q_data[pw_start:pw_end])
-stargazer(q_var_in9,q_var_in10,q_var_in11,q_var_in12,q_var_in13,out.header = FALSE,
-          covariate.labels = c("AC","AV","AC * AV","SV"),
-          dep.var.labels = "SV",
+q_var_in20 = lm(shift(mkt_var.quarterly,type="lead") ~ mkt_var.quarterly + avg_var.quarterly,q_data[pw_start:pw_end])
+stargazer(q_var_in9,q_var_in10,q_var_in13,q_var_in13,q_var_in20,out.header = FALSE,
+          covariate.labels = c("AC$_{t}$","AV$_{t}$","SV$_{t}$"),
+          dep.var.labels = "SV$_{t+1}$",
           out = 'tab_var_rep_4.tex')
 # expansion
 q_var_in14 = lm(shift(mkt_var.quarterly,type="lead") ~ avg_cor.quarterly,q_data)
@@ -317,9 +317,10 @@ q_var_in15 = lm(shift(mkt_var.quarterly,type="lead") ~ avg_var.quarterly,q_data)
 q_var_in16 = lm(shift(mkt_var.quarterly,type="lead") ~ avg_cor.quarterly + avg_var.quarterly,q_data)
 q_var_in17 = lm(shift(mkt_var.quarterly,type="lead") ~ (avg_cor.quarterly:avg_var.quarterly),q_data)
 q_var_in18 = lm(shift(mkt_var.quarterly,type="lead") ~ mkt_var.quarterly,q_data)
-stargazer(q_var_in14,q_var_in15,q_var_in16,q_var_in17,q_var_in18,out.header = FALSE,
-          covariate.labels = c("AC","AV","AC * AV","SV"),
-          dep.var.labels = "SV",
+q_var_in22 = lm(shift(mkt_var.quarterly,type="lead") ~ mkt_var.quarterly + avg_var.quarterly,q_data)
+stargazer(q_var_in14,q_var_in15,q_var_in18,q_var_in22,q_var_in18,out.header = FALSE,
+          covariate.labels = c("AC$_{t}$","AV$_{t}$","SV$_{t}$"),
+          dep.var.labels = "SV$_{t+1}$",
           out = 'tab_var5.tex')
 # monthly
 m_var_in5 = lm(shift(mkt_var,type="lead") ~ avg_cor,m_data)
@@ -327,9 +328,10 @@ m_var_in6 = lm(shift(mkt_var,type="lead") ~ avg_var,m_data)
 m_var_in7 = lm(shift(mkt_var,type="lead") ~ avg_cor + avg_var,m_data)
 m_var_in8 = lm(shift(mkt_var,type="lead") ~ (avg_cor:avg_var),m_data)
 m_var_in9 = lm(shift(mkt_var,type="lead") ~ mkt_var,m_data)
-stargazer(m_var_in5,m_var_in6,m_var_in7,m_var_in8,m_var_in9,out.header = FALSE,
-          covariate.labels = c("AC","AV","AC * AV","SV"),
-          dep.var.labels = "SV",
+m_var_in24 = lm(shift(mkt_var,type="lead") ~ mkt_var + avg_var,m_data)
+stargazer(m_var_in5,m_var_in6,m_var_in9,m_var_in24,out.header = FALSE,
+          covariate.labels = c("AC$_{t}$","AV$_{t}$","SV$_{t}$"),
+          dep.var.labels = "SV$_{t+1}$",
           out = 'tab_var6.tex')
 
 #market returns (t+1)
@@ -663,30 +665,27 @@ q_ret_plot = nberShade(q_ret_plot,xrange = c(min(p2$Date), max(p2$Date)),openSha
 
 # bayesian monthly
 m_data[, logxret := shift(logxret.tp1)]
-m_data[m_start:nrow(m_data), av_weight := adj_m_av_weights]
-m_data[1:m_start, av_weight := m_c_adj_av * 1/avg_var]
-m_data[m_start:nrow(m_data), sv_weight := adj_m_vol_weights]
-m_data[1:m_start, sv_weight := m_c_adj * 1/mkt_var]
-cape_dt = read_excel(path = 'i')
-bvar_m_dt = as.matrix(subset(m_data[!is.na(logxret)],select = c("avg_var","mkt_var","avg_cor","logxret"))) # c("logxret","avg_cor","mkt_var","avg_var")
-m_var_model = bvar.sv.tvp(Y = bvar_m_dt,tau = (m_start-2),nf = 12)
+m_data[, av_weight := m_c_adj_av * 1/avg_var]
+m_data[, sv_weight := m_c_adj * 1/mkt_var]
+cape_dt = read_excel(path = 'ie_data.xls',sheet = "Data",skip = 7,col_types = c("text",rep("numeric",10)),na = "NA")
+cape_dt = as.data.table(cape_dt)
+cape_dt[, year := as.integer(substr(Date,1,4))]
+cape_dt[, month := as.integer(substr(Date,6,7))]
+m_data = merge(m_data,subset(cape_dt,select = c("year","month","CAPE")))
+# m_data[, c("avg_var","mkt_var","avg_cor","logxret") := ]
+bvar_m_dt = as.matrix(subset(m_data[!is.na(logxret)],select = c("CAPE","logxret","av_weight","avg_var"))) # c("avg_var","mkt_var","avg_cor","logxret"))) # 
+m_var_model = bvar.sv.tvp(Y = bvar_m_dt,tau = (m_start-2),nf = 18,p = 2)
+
 # impulse avg_var
 # avg_var response
-avg_var_avg_var = impulse.responses(m_var_model,impulse.variable = 4,response.variable = 4,nhor = 24,draw.plot = FALSE)
+avg_var_avg_var = impulse.responses(m_var_model,impulse.variable = 4,response.variable = 4,nhor = 24,draw.plot = FALSE,scenario = 3)
 av_av = colMeans(avg_var_avg_var$irf)
 av_av_sd = colSds(avg_var_avg_var$irf)
+av_sd = sd(m_data[m_start:nrow(m_data)]$avg_var)
 av_av_95 = qnorm(.95,mean = av_av, sd = av_av_sd)
 av_av_5 = qnorm(.05,mean = av_av, sd = av_av_sd)
 av_av_dt = data.table(time = seq_along(av_av),avg_var = av_av, lower = av_av_5, upper = av_av_95, impulse = "avg_var", response = "avg_var")
 melt_av_av_dt = melt(av_av_dt,id.vars = c("time","impulse","response"),variable.name = "line",value.name = "estimate")
-
-# investment decrease
-mean_av_weight = mean(adj_m_av_weights)
-id_av_m1 = mean(m_data[m_start:nrow(m_data)]$avg_var) / (mean(m_data[m_start:nrow(m_data)]$avg_var) + av_av[1])
-id_av_m2 = mean(m_data[m_start:nrow(m_data)]$avg_var) / (mean(m_data[m_start:nrow(m_data)]$avg_var) + av_av[2])
-id_av_m3 = mean(m_data[m_start:nrow(m_data)]$avg_var) / (mean(m_data[m_start:nrow(m_data)]$avg_var) + av_av[3])
-id_av_m6 = mean(m_data[m_start:nrow(m_data)]$avg_var) / (mean(m_data[m_start:nrow(m_data)]$avg_var) + av_av[6])
-id_av_m12 = mean(m_data[m_start:nrow(m_data)]$avg_var) / (mean(m_data[m_start:nrow(m_data)]$avg_var) + av_av[12])
 
 cbPalette = c(upper = "#000000", lower = "#000000",cbPalette)
 linePalette <- c(upper = "4C88C488",lower = "4C88C488",linePalette)
@@ -697,9 +696,13 @@ av_av_plot = ggplot() + geom_line(data = melt_av_av_dt, mapping = aes(x = time, 
   scale_linetype_manual(name = "Strategy",values=linePalette,guide=FALSE) +
   theme(text = element_text(size=11),panel.grid.major.x = element_blank(),
         panel.grid.major.y = element_line( size=.1, color="black"))+ theme_bw()
+tikz("av_av_plot.tex",width = 5.90551, height = 3,sanitize = FALSE)
+plot(av_av_plot)
+dev.off()
+
 
 # return response
-avg_var_logxret = impulse.responses(m_var_model,impulse.variable = 4,response.variable = 1,nhor = 24,draw.plot = FALSE)
+avg_var_logxret = impulse.responses(m_var_model,impulse.variable = 4,response.variable = 2,nhor = 24,draw.plot = FALSE,scenario = 3)
 av_logxret = colMeans(avg_var_logxret$irf)
 av_logxret_sd = colSds(avg_var_logxret$irf)
 av_logxret_95 = qnorm(.95,mean = av_logxret, sd = av_logxret_sd)
@@ -717,10 +720,38 @@ av_logxret_plot = ggplot() + geom_line(data = melt_av_logxret_dt, mapping = aes(
   scale_linetype_manual(values=linePalette,guide=FALSE) +
   theme(text = element_text(size=11),panel.grid.major.x = element_blank(),
         panel.grid.major.y = element_line( size=.1, color="black"))+ theme_bw()
+tikz("av_logxret_plot.tex",width = 5.90551, height = 3,sanitize = FALSE)
+plot(av_logxret_plot)
+dev.off()
+
+# investment response
+avg_var_av_weight = impulse.responses(m_var_model,impulse.variable = 4,response.variable = 3,nhor = 24,draw.plot = FALSE,scenario = 3)
+av_av_weight = colMeans(avg_var_av_weight$irf)
+av_av_weight_sd = colSds(avg_var_av_weight$irf)
+av_av_weight_95 = qnorm(.95,mean = av_av_weight, sd = av_av_weight_sd)
+av_av_weight_5 = qnorm(.05,mean = av_av_weight, sd = av_av_weight_sd)
+av_av_weight_dt = data.table(time = seq_along(av_av_weight),av_weight = av_av_weight, lower = av_av_weight_5, upper = av_av_weight_95, impulse = "avg_var", response = "av_weight")
+melt_av_av_weight_dt = melt(av_av_weight_dt,id.vars = c("time","impulse","response"),variable.name = "line",value.name = "estimate")
+
+cbPalette = c(av_weight = "green4",cbPalette)
+linePalette <- c(av_weight = "solid",linePalette)
+
+av_av_weight_plot = ggplot() + geom_line(data = melt_av_av_weight_dt, mapping = aes(x = time, y = estimate, color = line, linetype = line)) + 
+  scale_x_continuous(name = "Month", breaks = 1:24,labels = 1:24) + 
+  labs(title = "Investment Weight Response", x = "", y = "") +
+  scale_colour_manual(values=cbPalette,guide=FALSE) + 
+  scale_linetype_manual(values=linePalette,guide=FALSE) +
+  theme(text = element_text(size=11),panel.grid.major.x = element_blank(),
+        panel.grid.major.y = element_line( size=.1, color="black"))+ theme_bw()
+tikz("av_av_weight_plot.tex",width = 5.90551, height = 3,sanitize = FALSE)
+plot(av_av_weight_plot)
+dev.off()
 
 # mkt_var impulse
 # mkt_var response
-mkt_var_mkt_var = impulse.responses(m_var_model,impulse.variable = 3,response.variable = 3,nhor = 24,draw.plot = FALSE)
+bvar_m_dt2 = as.matrix(subset(m_data[!is.na(logxret)],select = c("CAPE","logxret","sv_weight","mkt_var"))) # c("avg_var","mkt_var","avg_cor","logxret"))) # 
+m_var_model2 = bvar.sv.tvp(Y = bvar_m_dt2,tau = (m_start-2),nf = 18,p = 2)
+mkt_var_mkt_var = impulse.responses(m_var_model2,impulse.variable = 4,response.variable = 4,nhor = 24,draw.plot = FALSE)
 sv_sv = colMeans(mkt_var_mkt_var$irf)
 sv_sv_sd = colSds(mkt_var_mkt_var$irf)
 sv_sv_95 = qnorm(.95,mean = sv_sv, sd = sv_sv_sd)
@@ -735,18 +766,12 @@ sv_sv_plot = ggplot() + geom_line(data = melt_sv_sv_dt, mapping = aes(x = time, 
   scale_linetype_manual(values=linePalette,guide=FALSE) +
   theme(text = element_text(size=11),panel.grid.major.x = element_blank(),
         panel.grid.major.y = element_line( size=.1, color="black"))+ theme_bw()
-
-# investment effects
-mean_sv_weight = mean(adj_m_vol_weights)
-
-weight_sv_m1 = mean(m_c_adj * (1/(m_data[m_start:nrow(m_data)]$mkt_var + sv_sv[1])))
-id_sv_m2 = m_c_adj / (mean(m_data[m_start:nrow(m_data)]$mkt_var) + sv_sv[2])
-id_sv_m3 = m_c_adj/ (mean(m_data[m_start:nrow(m_data)]$mkt_var) + sv_sv[3])
-id_sv_m6 = m_c_adj / (mean(m_data[m_start:nrow(m_data)]$mkt_var) + sv_sv[6])
-weight_sv_m12 = mean(m_c_adj * (1/(m_data[m_start:nrow(m_data)]$mkt_var + sv_sv[12])))
+tikz("sv_sv_plot.tex",width = 5.90551, height = 3,sanitize = FALSE)
+plot(sv_sv_plot)
+dev.off()
 
 # excess return response
-mkt_var_logxret = impulse.responses(m_var_model,impulse.variable = 3,response.variable = 1,nhor = 24,draw.plot = FALSE)
+mkt_var_logxret = impulse.responses(m_var_model2,impulse.variable = 4,response.variable = 2,nhor = 24,draw.plot = FALSE,scenario = 3)
 sv_logxret = colMeans(mkt_var_logxret$irf)
 sv_logxret_sd = colSds(mkt_var_logxret$irf)
 sv_logxret_95 = qnorm(.95,mean = sv_logxret, sd = sv_logxret_sd)
@@ -761,3 +786,27 @@ sv_logxret_plot = ggplot() + geom_line(data = melt_logxretmkt_var_dt, mapping = 
   scale_linetype_manual(values=linePalette,guide=FALSE) +
   theme(text = element_text(size=11),panel.grid.major.x = element_blank(),
         panel.grid.major.y = element_line( size=.1, color="black"))+ theme_bw()
+tikz("sv_logxret_plot.tex",width = 5.90551, height = 3,sanitize = FALSE)
+plot(sv_logxret_plot)
+dev.off()
+
+# sv investment response # 
+mkt_var_sv_weight = impulse.responses(m_var_model2,impulse.variable = 4,response.variable = 3,nhor = 24,draw.plot = FALSE,scenario = 3)
+sv_sv_weight = colMeans(mkt_var_sv_weight$irf)
+sv_sv_weight_sd = colSds(mkt_var_sv_weight$irf)
+sv_sv_weight_95 = qnorm(.95,mean = sv_sv_weight, sd = sv_sv_weight_sd)
+sv_sv_weight_5 = qnorm(.05,mean = sv_sv_weight, sd = sv_sv_weight_sd)
+sv_sv_weight_dt = data.table(time = seq_along(sv_sv_weight),mkt_var = sv_sv_weight, lower = sv_sv_weight_5, upper = sv_sv_weight_95, impulse = "mkt_var", response = "mkt_var")
+melt_sv_weightmkt_var_dt = melt(sv_sv_weight_dt,id.vars = c("time","impulse","response"),variable.name = "line",value.name = "estimate")
+
+sv_sv_weight_plot = ggplot() + geom_line(data = melt_sv_weightmkt_var_dt, mapping = aes(x = time, y = estimate, color = line, linetype = line)) + 
+  scale_x_continuous(name = "Month", breaks = 1:24,labels = 1:24) + 
+  labs(title = "Investment Weight Response", x = "", y = "") +
+  scale_colour_manual(values=cbPalette,guide=FALSE) + 
+  scale_linetype_manual(values=linePalette,guide=FALSE) +
+  theme(text = element_text(size=11),panel.grid.major.x = element_blank(),
+        panel.grid.major.y = element_line( size=.1, color="black"))+ theme_bw()
+
+tikz("sv_sv_weight_plot.tex",width = 5.90551, height = 3,sanitize = FALSE)
+plot(sv_sv_weight_plot)
+dev.off()
