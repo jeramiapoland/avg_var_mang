@@ -47,11 +47,11 @@ cor_var = function(mtrx) {
   if(nrow(tmp_m < 33)){
     c_m[] = vapply(c_m, aprox_adj_cor,FUN.VALUE =  numeric(1),nrow(tmp_m))
   }
-  m_tr = apply(X = tmp_m,MARGIN = 2,FUN = out_var, method = "var")
+  m_tr = apply(X = tmp_m,MARGIN = 2,FUN = var)
   m_tr_alt = apply(X = tmp_m,MARGIN = 2,FUN = out_var,method = "alt_var",timep)
-  m_tr_sd = apply(X = tmp_m,MARGIN = 2,FUN = out_var, method = "sd")
-  m_tr_down = apply(X = tmp_m,MARGIN = 2,FUN = out_var, method = "DownsideDeviation")
-  m_tr_downp = apply(X = tmp_m,MARGIN = 2,FUN = out_var, method = "DownsidePotential")
+  m_tr_sd = apply(X = tmp_m,MARGIN = 2,FUN = sd)
+  m_tr_down = apply(X = tmp_m,MARGIN = 2,FUN = DownsideDeviation)
+  m_tr_downp = apply(X = tmp_m,MARGIN = 2,FUN = DownsidePotential)
   weight = unique(mtrx2,by=c("PERMNO"))$weight
   avg_var = (m_tr %*% weight) * timep
   avg_var_alt = (m_tr_alt %*% weight)
@@ -329,9 +329,9 @@ mse.t = function(u1,u2){
 
 mse.f = function(u1,u2){
   P = length(u1)
-  dhat = u1^2 - u2^2
-  dbar = (1/P) * sum(dhat)
-  return(P * (dbar/mean(u2^2)))
+  dhat = u1^2 - u1*u2
+  dbar = sum(dhat)
+  return(P * (dbar/sum(u2^2)))
   
 }
 
