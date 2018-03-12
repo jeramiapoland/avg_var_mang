@@ -1,0 +1,47 @@
+To calculate stock market variance, average asset variance and average asset correlation, I use daily return data from CRSP. Starting second quarter of 1926\footnote{The monthly sample starts in July 1926.} the variance of returns to the CRSP market portfolio is caluclated monthly and quarterly. Where t is the number of trading days in the period, month or quarter, the realized stock market variance is
+\begin{equation}
+	SV_{t} = \frac{1}{t-1}\sum_{\tau = 1}^{t} \left(R^{m}_{\tau} - \frac{\sum_{\tau = 1}^{t} R^{m}_{\tau}}{t}\right)^{2}
+\end{equation}
+where $R^{m}_{t}$ is the return on the CRSP market portfolio at time t.
+To simplify the analysis of individual assets I require that the asset be traded on each day in the time period begin analyzed, the month or quarter. This mitigates any liquidity affects and insures consistent variance, covariance and correlation calculations. This makes the calculation of individual asset variance as straight forward as the calculation of the variance of the market portfolio.
+\begin{equation}
+	\sigma^{2}_{a,t} = \frac{1}{t-1}\sum_{\tau = 1}^{t} \left(R^{a}_{\tau} - \frac{\sum_{\tau = 1}^{t} R^{a}_{\tau}}{t}\right)^{2}.
+\end{equation}
+where $R^{a}_{t}$ is the return, including dividends, on asset a at time t.
+With 63 to 66 trading days in a typical period, quarterly pair-wise asset correlation is calculated using the standard Pearson's correlation where the correlation of assets a and b is
+\begin{equation}
+	\rho^{a,b}_{t} = \frac{\sum^{t}_{\tau = 1}\left(R^{a}_{\tau} - \frac{\sum_{\tau = 1}^{t} R^{a}_{\tau}}{t}\right)\left(R^{b}_{\tau} - \frac{\sum_{\tau = 1}^{t} R^{b}_{\tau}}{t}\right)}{\sqrt{\left(R^{a}_{\tau} - \frac{\sum_{\tau = 1}^{t} R^{a}_{\tau}}{t}\right)^{2}\sum_{\tau=1}^{t}\left(R^{b}_{\tau} - \frac{\sum_{\tau = 1}^{t} R^{b}_{\tau}}{t}\right)^{2} }}.
+\end{equation}
+Unfortunately, for samples as small as the monthly series of daily returns Pearson's correlation is not an unbiased estimator of the true correlation, even if the returns are normal.\cite{hotelling_1953} The average month in my sample has 22 trading days however the number commonly drops into the teens during the later part of the year.\footnote{The shortest trading month in the sample is September 2001 with 15 trading days while 17 is a common number in the holiday months.} For samples of these sizes the bias causes an underestimation of the correlation which is worse the lower the true correlation is between the two assets. As a parital correction, I employ an approximate correction from \cite{olkin_1958} such that the monthly correlation between two assets a and b is
+\begin{equation}
+	\rho^{a,b}_{t} = \widehat{\rho^{a,b}_{t}}\left(1 + \frac{1+\widehat{\rho^{a,b}}^{2}}{2(t-3)}\right)
+\end{equation}
+where $\widehat{\rho^{a,b}_{t}}$ is the Pearson correlation between a and b.\footnote{The exact correction suggested in \cite{olkin_1958} is too computationally taxing for the equiptment to which I have access.} Average variance and average correlation are value-weighted so each month so I calculate market capitalization for all of the assets available in CRSP. The capitalization used in month t for asset a is the product of the end of month price (PRC) and common shares outstanding (SHROUT) values for asset a in month t-1. 
+\begin{equation}
+MCAP^{a}_{t} = PRC^{a}_{t-1}\times SHROUT^{a}_{t-1}
+\end{equation}
+To make the analysis more computationally trackable I use only, at most, the top 500 assets in CRSP by market capitalization for a given month. There are 500 assets available which trade every trading day in a given month consistently starting in October of 1926.\footnote{The least number of assets in the top 500 which trade every day in a given month is 392 in August of 1932} Given this restriction an assets market capitalization weight is defined by
+\begin{equation}
+w^{a}_{t} = \frac{MCAP^{a}_{t}}{\sum_{n=1}^{N}MCAP^{n}_{t}}
+\end{equation}
+with n $\leq$ 500.
+An assets quarterly market capitalization values are just the mean value of the monthly market capitalization which make up the quarter and the quarterly weight is calculated from the top assets trading all quarter in the same way as monthly.\footnote{There are 500 assets trading everyday quarterly starting in the first quarter of 1928.} Thus, the two other series of interest average variance, AV, and average correlation, AC, are defined by
+\begin{align}
+	AV_{t} &= \sum_{n=1}^{N} w^{n}_{t}\sigma^{2}_{n,t}\\
+	AC_{t} &= \sum_{n=1}^{N}\sum_{m \neq n}^{N}w^{n}_{t}w^{m}_{t}\rho^{n,m}_{t}
+\end{align}
+Figure \ref{fig:time_series} shows the time series behavior of market and average variance, in percent, as well as average correlation. With the easily noticable exception of October 1987, spikes in both average market and average variance are concetrated around NBER defined recessions. \\
+\bigskip
+\centerline{\bf [Place Figure~\ref{fig:time_series} about here]}
+\bigskip
+Table \ref{tab_summary_stats} shows the summary statistics for the calculated variables. Dispite the use of the actual number of time period trading days, versus the use of the average of 22, and the restriction to assets that trade every trading day, the calculated values are almost identical to those in \citet{pollet_average_2010} over the same sample. Expanding the time period, average variance has a mean value of 2.53\% quarterly and .64\% monthly. The stock market variance numbers are much lower at .74\% and .25\% a quarter and month respectively. Average correlation is remarkablely consistent at .23 in the \cite{pollet_average_2010} sample, .282 quarterly and .276 monthly in the full sample. Average variance is more volatile than stock market variance, more than twice as much quarterly. In each sample average variance has the strongest autocorrelation. While average correlation is also persistant, stock market variance is only strongly persistant at the monthly frequency with an autocorrelation of .61. All three time series are stationary rejecting the unit root null in the tests of \citet{dickey_distribution_1979}, \citet{Ng2001}, and \citet{ers1996}.\\
+\bigskip
+\centerline{\bf [Place Table~\ref{tab_summary_stats} about here]}
+\bigskip
+
+As my primary interest is in the use of average variance versus market variance in the management of leverage in the CRSP market portfolio, I test AV and SV against CRSP log excess returns. Specifically, I take the difference between the natural log of one plus the CRSP market return\footnote{CRSP monthly returns are compounded into quarterly returns.} and the natural log of one plus the risk free rate using
+\begin{equation}
+	r_{t} = \log R^{m}_{t} - \log R^{f}_{t} 
+\end{equation}
+where $R^{f}_{t}$ is the return on the 3-month or 1-month treasury bill.
+For the quarterly frequency I take the return on the 3-month treasury bill from FRED and the return on the 1-month treasury bill for the monthly frequency, for simplicity I get this from Ken French's website. For in and out of sample market and average variance, and average correlation are regressed against these excess log return values. Out of sample regressions require an "in sample" training period which is set at 25\% of the available time seires for consistent calculation of robust out of sample statistics later in the analysis. This means that out of sample regressions, asset allocation results and VAR analyses all start in the fourth quarter of 1948 when the analysis is quarterly and January 1949 when its monthly.

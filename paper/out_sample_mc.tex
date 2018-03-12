@@ -1,0 +1,53 @@
+We conduct out-of-sample prediction which makes use of only information available to investors at the time of prediction and thus avoids the look-ahead bias. As in \cite{Welch2008}, we generate an equity premium prediction for $t+1$ by a predictor $x$ at time $t$, \vspace{-0.3cm}
+\begin{equation} \label{eq:oos_pred_reg}
+\hat r_{t+1} = \hat \alpha_{t} + \hat \beta_{t}x_{t}
+\end{equation}
+where $\hat \alpha_{t}$ and $\hat \beta_{t}$ are estimated with
+information available only until time $t$. That is, we estimate
+$\hat \alpha_{t}$ and $\hat \beta_{t}$ by regressing
+$\{r_{s+1}\}_{s=1}^{t-1}$ on a constant and
+$\{x_{s}\}_{s=1}^{t-1}$. We follow an expanding window approach so
+that for the next period $t+2$, $\hat r_{t+2}$ is estimated as
+$\hat \alpha_{t+1} + \hat \beta_{t+1}x_{t+1}$, where $\hat
+\alpha_{t+1}$ and $\hat \beta_{t+1}$ by regressing
+$\{r_{s+1}\}_{s=1}^{t}$ on a constant and $\{x_{s}\}_{s=1}^{t}$.
+We follow this process for all subsequent months. Wherever the predictor is a detrended residual, we first detrend only over the training window and then estimate Equation (\ref{eq:oos_pred_reg}) to avoid any look-ahead bias.
+
+We consider the predictors covered in the in-sample tests and
+two new combinations of the Goyal and Welch variables.
+\cite{Timmermann2006} and \cite{Rapach2010} show that a simple
+combination of individual forecasts significantly improves
+predictability. Thus, we also consider an equally-weighted
+combination of 14 individual forecasts from Goyal and Welch
+variables. We call this forecast, $GW\:MEAN$. In a related work,
+\cite{Campbell2008} recommend economically motivated sign
+restrictions on $\hat \beta_{t}$ and $\hat r_{t+1}$  to improve
+forecasts. Following them, we set $\hat
+r_{t+1} = 0$, if $\hat r_{t+1}$ turns out to be negative. We call this forecast, $GW\:MEAN\:CT$
+
+We divide the total sample [1984:01 - 2014:12] into an
+initial training period ($q$ months) and the remaining period
+($q+1, q+2,..,T$) for the out-of-sample forecast evaluation. We
+use the data for the first 10 years from January 1984 through
+December 1993 for the first out-of-sample prediction for January
+1994 ($q+1$). We then generate the subsequent periods'
+predictions as outlined above.
+
+We use the $R^{2}_{OS}$ statistic (\cite{Campbell2008}) to
+evaluate out-of-sample predictions. $R^{2}_{OS}$ is defined as \vspace{-0.3cm}
+\begin{equation} \label{eq:oos_r2}
+R^{2}_{OS} = 1 - \frac{MSFE_{x}}{MSFE_{h}}
+\end{equation}
+where $MSFE_{x}$ is the mean squared forecast error when the
+variable $x$ is used to generate out-of-sample predictions.
+$MSFE_{h}$ is mean squared forecast error when the historical
+mean, $\bar r$, is used to generate out-of-sample predictions.\footnote{Specifically, we define  $MSFE_{x} = \frac {1}{T-q}
+\sum\limits_{t=q}^{T-1} (r_{t+1} - \hat r_{t+1})^{2}$ and
+$MSFE_{h} = \frac {1}{T-q} \sum\limits_{t=q}^{T-1} (r_{t+1} - \bar
+r_{t+1})^{2}$.
+$\bar r_{t+1}$ is the historical mean of log excess returns
+defined as $\bar r_{t+1} = \frac {1}{t} \sum\limits_{s=1}^{t}
+r_{s}$.
+}Additionally, in unreported results, we find the same results if we use the \cite{Diebold1995} test.
+
+$R^{2}_{OS}$ measures proportional reduction in $MSFE$ when variable $x$ is used to forecast returns relative to the use of the historical average equity premium. An $R^{2}_{OS} > 0$ suggests that $MSFE$ based on variable $x$ is less than that based on historical mean. We evaluate the statistical significance of $R^{2}_{OS}$ using \cite{Clark2007} statistic. This statistic tests the null hypothesis that $H_{0}: R^{2}_{OS} \leq 0$ against the alternative $H_{A}: R^{2}_{OS} > 0$. Table~\ref{tab:out_sample} shows that, at all horizons, $MC$ generates highest $R^{2}_{OS}$. At a one month horizon of H=1, it generates $R^{2}_{OS}$ of 7.49\%, which is also highly statistically significant. $MC's$ other versions also do quite well at all horizons with monthly $R^{2}_{OS}$ ranging between 3.77\%-7.11\%. Other non-$MC$ predictors generally show lower $R^{2}_{OS}$. For instance, the next best predictor at H=1 horizon is $S^{PLS}$ with a $R^{2}_{OS}$ of 2.76\%.

@@ -1,5 +1,9 @@
-\begin{thebibliography}{21}
+\begin{thebibliography}{45}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
+
+\bibitem[Ang and Chen(2002)]{ANG2002443}
+Ang, Andrew, and Joseph Chen, 2002, Asymmetric correlations of equity
+  portfolios, {\em Journal of Financial Economics\/} 63, 443 -- 494.
 
 \bibitem[Asness et~al.(2018)Asness, Frazzini, Gormsen, and
   Pedersen]{asness_betting_2018}
@@ -27,6 +31,10 @@ Brunnermeier, Markus~K., Christian Gollier, and Jonathan~A. Parker, 2007,
   Optimal beliefs, asset prices, and the preference for skewed returns, {\em
   American Economic Review\/} 97, 159--165.
 
+\bibitem[Campbell(1987)]{CAMPBELL1987373}
+Campbell, John~Y., 1987, Stock returns and the term structure, {\em Journal of
+  Financial Economics\/} 18, 373 -- 399.
+
 \bibitem[Campbell et~al.(2001)Campbell, Lettau, Malkiel, and
   Xu]{campbell_have_2001}
 Campbell, John~Y., Martin Lettau, Burton~G. Malkiel, and Yexiao Xu, 2001, Have
@@ -39,22 +47,93 @@ Campbell, John~Y, Andrew Wen-Chuan Lo, Archie~Craig MacKinlay, et~al., 1997,
   {\em The econometrics of financial markets\/}, volume~2 (princeton University
   press Princeton, NJ).
 
+\bibitem[Campbell and Thompson(2008)]{Campbell2008}
+Campbell, John~Y., and Samuel~B. Thompson, 2008, {Predicting excess stock
+  returns out of sample: Can anything beat the historical average?}, {\em
+  Review of Financial Studies\/} 21, 1509--1531.
+
 \bibitem[Cao(2016)]{cao_risk_2016}
 Cao, Larry, 2016, Risk {Parity} {Made} {Easy}: {Cliff}’s {Notes} and {Other}
   {Key} {Readings}.
+
+\bibitem[Chong and Hendry(1986)]{Chong1986}
+Chong, Yock~Y, and David~F Hendry, 1986, Econometric evaluation of linear
+  macro-economic models, {\em Review of Economic Studies\/} 53, 671--690.
+
+\bibitem[Clark and McCracken(2001)]{clark_tests_2001}
+Clark, Todd~E., and Michael~W. McCracken, 2001, Tests of equal forecast
+  accuracy and encompassing for nested models, {\em Journal of econometrics\/}
+  105, 85--110.
+
+\bibitem[Clark and West(2007)]{Clark2007}
+Clark, Todd~E, and Kenneth~D West, 2007, Approximately normal tests for equal
+  predictive accuracy in nested models, {\em Journal of Econometrics\/} 138,
+  291--311.
+
+\bibitem[Dickey and Fuller(1979)]{dickey_distribution_1979}
+Dickey, David~A., and Wayne~A. Fuller, 1979, Distribution of the {Estimators}
+  for {Autoregressive} {Time} {Series} with a {Unit} {Root}, {\em Journal of
+  the American Statistical Association\/} 74, 427--431.
+
+\bibitem[Diebold and Mariano(1995)]{Diebold1995}
+Diebold, Francis~X, and Robert~S Mariano, 1995, Comparing predictive accuracy,
+  {\em Journal of Business \& Economic Statistics\/} 13, 253--263.
+
+\bibitem[Elliott et~al.(1996)Elliott, Rothenberg, and Stock]{ers1996}
+Elliott, Graham, Thomas~J. Rothenberg, and James~H. Stock, 1996, Efficient
+  tests for an autoregressive unit root, {\em Econometrica\/} 64, 813--836.
+
+\bibitem[Fair and Shiller(1990)]{Fair1990}
+Fair, Ray~C, and Robert~J Shiller, 1990, Comparing information in forecasts
+  from econometric models, {\em American Economic Review\/} 3, 375--389.
 
 \bibitem[Fama and French(2016)]{fama_dissecting_2016}
 Fama, Eugene~F., and Kenneth~R. French, 2016, Dissecting {Anomalies} with a
   {Five}-{Factor} {Model}, {\em Review of Financial Studies\/} 29, 69--103.
 
+\bibitem[Forbes and Rigobon(2002)]{Forbes_2002}
+Forbes, Kristin~J., and Roberto Rigobon, 2002, No contagion, only
+  interdependence: Measuring stock market comovements, {\em The Journal of
+  Finance\/} 57, 2223--2261.
+
 \bibitem[Frazzini and Pedersen(2014)]{frazzini_betting_2014}
 Frazzini, Andrea, and Lasse~Heje Pedersen, 2014, Betting against beta, {\em
   Journal of Financial Economics\/} 111, 1--25.
+
+\bibitem[French et~al.(1987)French, Schwert, and Stambaugh]{FRENCH19873}
+French, Kenneth R.~F, G.William Schwert, and Robert~F. Stambaugh, 1987,
+  Expected stock returns and volatility, {\em Journal of Financial Economics\/}
+  19, 3 -- 29.
+
+\bibitem[Glosten et~al.(1993)Glosten, Jagannathan, and Runkle]{glosten_1993}
+Glosten, Lawrence, Ravi Jagannathan, and David Runkle, 1993, On the relation
+  between the expected value and the volatility of the nominal excess return on
+  stocks, {\em The Journal of Finance\/} 48, 1779--1801.
+
+\bibitem[Hartmand et~al.(2004)Hartmand, Straetmans, and
+  de~Vries]{Hartmand_2004}
+Hartmand, P, S.~Straetmans, and C.~G. de~Vries, 2004, Asset market linkages in
+  crisis periods, {\em The Review of Economics and Statistics\/} 86, 313--326.
+
+\bibitem[Harvey et~al.(1998)Harvey, Leybourne, and Newbold]{harvey_tests_1998}
+Harvey, David~S., Stephen~J. Leybourne, and Paul Newbold, 1998, Tests for
+  {Forecast} {Encompassing}, {\em Journal of Business \& Economic Statistics\/}
+  16, 254--259.
 
 \bibitem[Haugen and A.(1972)]{haugen_1972}
 Haugen, Robert~A., and Heins A., 1972, On the evidence supporting the existence
   of risk premiums in the capital market, Technical report, Working Paper,
   University of Wisconsin-Madison.
+
+\bibitem[Hotelling(1953)]{hotelling_1953}
+Hotelling, Harold, 1953, New light on the correlation coefficient and its
+  transforms, {\em Journal of the Royal Statistical Society. Series B
+  (Methodological)\/} 15, 193--232.
+
+\bibitem[Huang et~al.(2015)Huang, Jiang, Tu, and Zhou]{Huang2015}
+Huang, Dashan, Fuwei Jiang, Jun Tu, and Guofu Zhou, 2015, {Investor sentiment
+  aligned: A powerful predictor of stock returns}, {\em Review of Financial
+  Studies\/} 28, 791--837.
 
 \bibitem[Jensen et~al.(1972)Jensen, Black, and Scholes]{jensen1972capital}
 Jensen, Michael~C, Fischer Black, and Myron~S Scholes, 1972, The capital asset
@@ -74,14 +153,43 @@ Malkhozov, Aytek, Philippe Mueller, Andrea Vedolin, and Gyuri Venter, 2017,
 Markowitz, Harry, 1952, Portfolio {Selection}, {\em The Journal of Finance\/}
   7, 77.
 
+\bibitem[McCracken(2007)]{mccracken_asymptotics_2007}
+McCracken, Michael~W., 2007, Asymptotics for out of sample tests of {Granger}
+  causality, {\em Journal of Econometrics\/} 140, 719--752.
+
 \bibitem[Moreira and Muir(2017)]{moreira_volatility-managed_2017}
 Moreira, Alan, and Tyler Muir, 2017, Volatility-{Managed} {Portfolios}:
   {Volatility}-{Managed} {Portfolios}, {\em The Journal of Finance\/} 72,
   1611--1644.
 
+\bibitem[Ng and Perron(2001)]{Ng2001}
+Ng, Serena, and Pierre Perron, 2001, {Lag Length Selection and the Construction
+  of Unit Root Tests with Good Size and Power}, {\em Econometrica\/} 69,
+  1519--1554.
+
+\bibitem[Olkin and Pratt(1958)]{olkin_1958}
+Olkin, Ingram, and John~W. Pratt, 1958, Unbiased estimation of certain
+  correlation coefficients, {\em The Annals of Mathematical Statistics\/} 29,
+  201--211.
+
 \bibitem[Pollet and Wilson(2010)]{pollet_average_2010}
 Pollet, Joshua~M., and Mungo Wilson, 2010, Average correlation and stock market
   returns, {\em Journal of Financial Economics\/} 96, 364--380.
+
+\bibitem[Rapach and Zhou(2013)]{Rapach2013}
+Rapach, David, and Guofu Zhou, 2013, {Forecasting stock returns}, in Graham
+  Elliott, and Allan Timmermann, eds., {\em Handbook of Economic
+  Forecasting\/}, volume~2A,  327--383 (Elsevier B.V.).
+
+\bibitem[Rapach et~al.(2016)Rapach, Ringgenberg, and Zhou]{Rapach2016}
+Rapach, David~E., Matthew~C. Ringgenberg, and Guofu Zhou, 2016, {Short interest
+  and aggregate stock returns}, {\em Journal of Financial Economics\/} 121,
+  46--65.
+
+\bibitem[Rapach et~al.(2010)Rapach, Strauss, and Zhou]{Rapach2010}
+Rapach, David~E., Jack~K. Strauss, and Guofu Zhou, 2010, {Out-of-sample equity
+  premium prediction: Combination forecasts and links to the real economy},
+  {\em Review of Financial Studies\/} 23, 821--862.
 
 \bibitem[Rossi and Inoue(2012)]{rossi_out--sample_2012}
 Rossi, Barbara, and Atsushi Inoue, 2012, Out-of-{Sample} {Forecast} {Tests}
@@ -96,6 +204,11 @@ Rutterford, Janette, and Dimitris~P. Sotiropoulos, 2016, Financial
 
 \bibitem[Steward(2010)]{steward_truly_2010}
 Steward, Martin, 2010, The truly balanced portfolio.
+
+\bibitem[Welch and Goyal(2008)]{Welch2008}
+Welch, Ivo, and Amit Goyal, 2008, {A comprehensive look at the empirical
+  performance of equity premium prediction}, {\em Review of Financial
+  Studies\/} 21, 1455--1508.
 
 \bibitem[Wolpert and Macready(1997)]{wolpert_no_1997}
 Wolpert, David~H., and William~G. Macready, 1997, No free lunch theorems for

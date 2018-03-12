@@ -1,0 +1,39 @@
+While the in sample dominance of AV is clear, the out of sample performance remains in doubt. As \citet{Welch2008} definitively show, out of sample performance is not guaranteed by in sample performance and is essential to any investment strategy which hopes to generate positive returns. To determine the out of sample relationships between market and average variance, average correlation and returns, I run regressions of the standard form
+\begin{equation}
+	\label{eq:oos_pred_reg}
+	y_{t+1} = \alpha_{t} + \beta_{t}x_{t} + \epsilon_{t}
+\end{equation}
+where $\alpha_{t}$ and $\beta_{t}$ are estimated with from the data available only until time $t$. That is, I estimate
+$\alpha_{t}$ and $ \beta_{t}$ by regressing $\{y_{s+1}\}_{s=1}^{t-1}$ on a constant and $\{x_{s}\}_{s=1}^{t-1}$. In all the reported results, I follow an expanding window approach so that for the next period $t+2$, $ y_{t+2}$ is estimated as $\alpha_{t+1} +  \beta_{t+1}x_{t+1}$, where $\alpha_{t+1}$ and $ \beta_{t+1}$ by regressing $\{y_{s+1}\}_{s=1}^{t}$ on a constant and $\{x_{s}\}_{s=1}^{t}$. I follow this process for all subsequent months. However, as part of a test on the robustness of the out of sample results, I demonstrate that the results do not depend on the use of an expanding window. Most critically, equation (\ref{eq:oos_pred_reg}) prevents any look-ahead bias. The out of sample prediction tests use the same set of variables as the in sample tests. Each out of sample test requires an "in sample" training period in which parameters are estimated using all the data up to the time period before the first out of sample quarter or month.
+
+For consistency, the first one-fourth of data, either quarterly or monthly, is used as the initial parameter estimation period with the remaining three-fourths of observations moved through recursively  generating out of sample predictions. Four measures of out of sample performance are estimated.\footnote{Additionally, in unreported results, I find the same results if we use the \citet{Diebold1995} test.} I use the $R^{2}_{oos}$ statistic \citet{Campbell2008}, the mean squared error F-statistic of \cite{clark_tests_2001} to evaluate the accuracy of the out-of-sample predictions. $R^{2}_{oos}$ is defined as
+\begin{equation} \label{eq:oos_r2}
+R^{2}_{oos} = 1 - \frac{MSFE_{x}}{MSFE_{b}}
+\end{equation}
+where $MSFE_{x}$ is the mean squared forecast error when the variable $x$ is used to generate out-of-sample predictions. An $R^{2}_{OS} > 0$ suggests that $MSFE$ based on variable $x$ is less than that based on the benchmark, b. We evaluate the statistical significance of $R^{2}_{OS}$ using \cite{Clark2007} statistic. This statistic tests the null hypothesis that $H_{0}: R^{2}_{OS} \leq 0$ against the alternative $H_{A}: R^{2}_{OS} > 0$.
+$MSFE_{b}$ is mean squared forecast error when a benchmark model is used to generate out-of-sample predictions. Mean squared forecast error is defined as
+\begin{equation} \label{eq:msfe}
+	MSFE_{x} = \frac{1}{T} \sum_{\tau=t}^{T} (y_{\tau} - \hat{y}^{x}_{\tau})^{2}
+\end{equation}
+where $\hat{y}^{x}_{t}$ is the out of sample prediction of $y_{t}$ generated from the a model using variable x, t is the first out of sample prediction time period, and T is the total number of out of sample time periods. The F-statistic in \citet{mccracken_asymptotics_2007} is calculated by
+\begin{equation} \label{eq:mse-f}
+MSE-F = T \frac{MSFE_{x}-MSFE_{b}}{MSFE_{b}}.
+\end{equation}
+The significance of the F-statistic is determined from bootstrapped values provided in \citet{mccracken_asymptotics_2007}.
+Each of these two tests depends on the reduction of average squared error by the predictor x relative to a benchmark model. The next two measures used are forecast encompassing statistics. 
+
+Encompassing tests the more stringent requirement that the benchmark forecasts contain no useful information absent in the forecasts of variable x. Forecast encompassing tests come from the literature on optimal forecast combination. \citep{Chong1986,Fair1990} An optimal forecast as a convex combination of two forecasts for time period t +1 defined as
+\begin{equation} \label{eq:forecast_comb}
+\hat y^{*}_{t} = (1-\lambda)\hat y^{b}_{t} + \lambda \hat y^{x}_{t}
+\end{equation}
+where $\hat y^{x}_{t}$ are predicted values generated from the model using variable x and $\hat y^{b}_{t}$ are forecasts from the benchmark model. I use the forecast encompassing tests of \citet{harvey_tests_1998}, ENC-HLN, and the ENC-NEW statistic of \cite{clark_tests_2001}.
+The ENC-NEW statistic is defined as
+\begin{equation}
+ENC-NEW = T \frac{\sum_{\tau = t}^{T}{\left[(y_{\tau} - \hat{y}^{b}_{\tau})^{2}-(y_{\tau} - \hat{y}^{b}_{\tau})(y_{\tau} - \hat{y}^{x}_{\tau})\right]}}{\sum_{\tau = t}^{T}(y_{\tau} - \hat{y}^{x}_{\tau})^{2}}.
+\end{equation}
+The significance of the ENC-NEW is determined from bootstrapped values provided in the same paper.
+The encompassing test of \citet{harvey_tests_1998} directly tests the value and significance of the forecast combination $\lambda$. The test procedure rests on the calculation of a modification to the \citet{Diebold1995} test statistic and the consistent estimation of the long-run covariance between the difference in forecast error between the benchmark model and a model based on a competing variable, x. As such there is no one line equation that sums up the statistic used to judge the significance of $\lambda$.
+
+Table \ref{tab_oos} shows the results of the out of sample tests. Panel A contains the results of running out of sample expanding window regression using AV as the predictor versus using only a constant. The use of only a constant in the rolling regression is effectively using the running historical mean as a benchmark in the tests of out of sample performance. It is clear that AV is a significant improvement in the prediction of next period market variance. It generates postive and significant $R^{2}_{oos}$ values in all samples. The values generated for MSE-F and ENC-NEW are very large and statistically significant; and the near 1 $\lambda$ values for the ENC-HLN tests, in all samples, indicate that AV provides all the information available in the historical mean. Its also clear that AV is not a predictor of future returns. $R^{2}_{oos}$ values are negative or insignificant indicating. Some positive and significant values appear in the MSE-F, ENC-NEW and ENC-HLN tests at the monthly level which is the result of how poor a predictor of monthly returns is the historical mean. Particularly around market downturns use of the historical mean generates massive prediction errors.
+
+Panel B shows the results of running the same test with forecasts generated by SV as the benchmark model. The results for the same but the magnitudes are very different. AV is a significantly better predictor of next period's market variance in all samples. However, the performance over and above SV is much more muted than in the historical mean in panel A. At the monthly frequency, the frequency used later for asset allocation, AV is a significant improvement over SV as indicated by the positive $R^{2}_{oos}$, MSE-F, and ENC-NEW values. However, the ENC-HLN $\lambda$ value is on .56. While this is statistically significant, it indicates that for the best out of sample prediction of monthly stock market variance both AV and SV should be included and at nearly equal weights. The results for the prediction of future excess log returns are even, slightly, better than those in panel A. This is again owning as much to the terrible performance of the benchmark, here SV, as to any positive performance of AV.

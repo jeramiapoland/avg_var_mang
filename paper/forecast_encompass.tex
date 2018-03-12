@@ -1,0 +1,50 @@
+To better understand the channels through which $MC$ operates, we use forecast encompassing tests to compare the information content of $MC$ to that of other predictors. Forecast encompassing tests come from the literature on optimal
+forecast combination \citep{Chong1986,Fair1990}. An optimal
+forecast as a convex combination of two forecasts for month $t+1$
+is
+\begin{equation} \label{eq:forecast_comb}
+\hat r^{*}_{t+1} = (1-\lambda)\hat r_{1,t+1} + \lambda \hat r_{2,t+1},
+\end{equation}
+where $\hat r_{1,t+1}$ is the forecast based on the first
+variable, $\hat r_{2,t+1}$ is the forecast based on the second
+variable, and  $\lambda$ such that $0 \leq \lambda \leq 1$ is
+chosen to minimize $MSFE$ of $\hat r^{*}_{t+1}$. $\lambda=0$
+suggests that the forecast $\hat r_{1,t+1}$ encompasses $\hat
+r_{2,t+1}$. In other words, the second variable does not have any
+information relevant to predict excess market returns beyond the
+information contained in the first variable. However, if $ \lambda
+> 0$, it suggests that that the forecast $\hat r^{*}_{t+1}$ does not
+encompasses $\hat r_{2,t+1}$ and both variables 1 and 2 have
+information useful to predict excess returns. We test the null
+hypothesis that $H_{0}: \lambda = 0$ against the alternative that
+it is greater than zero $H_{A}: \lambda > 0$. The statistical
+significance is based on the \cite{Harvey1998} statistic.
+
+Table~\ref{tab:lambda} shows the $\lambda$'s, the weight on $MD$,
+$SII$, $S^{PLS}$, and one of the margin capacity variables in
+combination with each other and other predictors, for monthly
+horizon, $H=1$. Predictor 1, generating $\hat{r_{1,t+1}}$
+with weight $1 - \lambda$ is listed in column 1. Predictor 2,
+generating $\hat{r_{2,t+1}}$ with weight $\lambda$ are listed as
+headings of the remaining columns. We find that the column under $MC$ has large
+positive and statistically significant $\lambda$'s with values of
+either 1 or very close to 1. In other words, $MC$ encompasses the
+predictions based on all other variables. These include $DP$,
+$MD$, $MCAP/GDP$, $SII$, $S^{PLS}$, and even other margin capacity
+variables. Focusing on the last row, we find that none of the
+predictions based on other variables have $\lambda$'s
+significantly different from 0. $MC_{REAL}$, $MC_{NOM}$, and
+$MC_{MCAP}$, while not being as informative as $MC$, still
+encompass the information in all other non-margin capacity
+variables. In unreported results, we find similar evidence for longer horizon
+predictions. Thus, none of the other variables seem to provide
+additional information over the information already contained in margin capacity.
+
+Results in Sections \ref{sec:robustness} and
+\ref{sec:asset_allocation} indicate that while $MC$ is a good
+predictor both in expansions and recessions, it does better during
+recessions. Table~\ref{tab:lambda_sub} investigates incremental
+information in $MC$ during different subsamples. During contractions, no other predictor provides any information additional to $MC$ and during expansions $MC$ always has significant information over and above any other predictor.
+For the optimal forecast combination, the weight on $MC$-based forecast is always
+1 against all other forecasts during contractions and
+the weight on any other predictor is insignificantly different from zero in expansions. We conclude from these tests that $MC$ encompasses the information in other predictors for return forecasts, but not vice-versa.

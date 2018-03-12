@@ -1,0 +1,14 @@
+@article{10.2307/3211675,
+ ISSN = {00346535, 15309142},
+ URL = {http://www.jstor.org/stable/3211675},
+ abstract = {We characterize asset return linkages during periods of stress by an extremal dependence measure. Contrary to correlation analysis, this nonparametric measure is not predisposed toward the normal distribution and can allow for nonlinear relationships. Our estimates for the G-countries suggest that simultaneous crashes between stock markets are much more likely than between bond markets. However, for the assessment of financial system stability the widely disregarded cross-asset perspective is particularly important. For example, our data show that stock-bond contagion is approximately as frequent as flight to quality from stocks into bonds. Extreme cross-border linkages are surprisingly similar to national linkages, illustrating a potential downside to international financial integration.},
+ author = {P. Hartmann and S. Straetmans and C. G. de Vries},
+ journal = {The Review of Economics and Statistics},
+ number = {1},
+ pages = {313-326},
+ publisher = {The MIT Press},
+ title = {Asset Market Linkages in Crisis Periods},
+ volume = {86},
+ year = {2004}
+}
+

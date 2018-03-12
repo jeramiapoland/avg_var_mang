@@ -2,26 +2,26 @@
 % Table created by stargazer v.5.2 by Marek Hlavac, Harvard University. E-mail: hlavac at fas.harvard.edu
 % Date and time: Thu, Mar 01, 2018 - 08:06:10  IST
 \begin{table}[!htbp] \centering 
-  \caption{Replication - cotemp} 
-  \label{} 
-\begin{adjustbox}{width=1\textwidth}
-	\begin{tabular}{@{\extracolsep{5pt}}lcccc} 
+  \caption{Market Variance Decomposition - this table shows the results of in sample regressions of average correlation and average variance on cotemporanious market variance. Market variance, SV, average correllation, AC, and average variance, AV are calculated as in \cite{pollet_average_2010} and are over the same sample used in the paper, 1963Q1:2006Q4} 
+  \label{tab_market_variance_replication} 
+%\begin{adjustbox}{width=1\textwidth}
+	\begin{tabular}{@{\extracolsep{5pt}}lcccH} 
 \\[-1.8ex]\hline 
 \hline \\[-1.8ex] 
- & \multicolumn{4}{c}{\textit{Dependent variable:}} \\ 
+ %& \multicolumn{4}{c}{\textit{Dependent variable:}} \\ 
+\\[-1.8ex] & \multicolumn{4}{c}{SV$_{t}$} \\ 
 \cline{2-5} 
-\\[-1.8ex] & \multicolumn{4}{c}{SV} \\ 
 \\[-1.8ex] & (1) & (2) & (3) & (4)\\ 
 \hline \\[-1.8ex] 
- AC & 0.042$^{***}$ &  & 0.027$^{***}$ &  \\ 
+ AC$_{t}$ & 0.042$^{***}$ &  & 0.027$^{***}$ &  \\ 
   & (0.004) &  & (0.002) &  \\ 
   & & & & \\ 
- AV &  & 0.281$^{***}$ & 0.238$^{***}$ &  \\ 
+ AV$_{t}$ &  & 0.281$^{***}$ & 0.238$^{***}$ &  \\ 
   &  & (0.014) & (0.011) &  \\ 
   & & & & \\ 
- AC * AV &  &  &  & 0.842$^{***}$ \\ 
-  &  &  &  & (0.009) \\ 
-  & & & & \\ 
+% AC * AV &  &  &  & 0.842$^{***}$ \\ 
+%  &  &  &  & (0.009) \\ 
+%  & & & & \\ 
  Constant & $-$0.005$^{***}$ & $-$0.001$^{***}$ & $-$0.007$^{***}$ & 0.0001 \\ 
   & (0.001) & (0.0004) & (0.001) & (0.0001) \\ 
   & & & & \\ 
@@ -29,11 +29,11 @@
 Observations & 176 & 176 & 176 & 176 \\ 
 R$^{2}$ & 0.387 & 0.698 & 0.832 & 0.982 \\ 
 Adjusted R$^{2}$ & 0.383 & 0.696 & 0.830 & 0.982 \\ 
-Residual Std. Error & 0.005 (df = 174) & 0.003 (df = 174) & 0.003 (df = 173) & 0.001 (df = 174) \\ 
-F Statistic & 109.623$^{***}$ (df = 1; 174) & 402.497$^{***}$ (df = 1; 174) & 429.338$^{***}$ (df = 2; 173) & 9,491.243$^{***}$ (df = 1; 174) \\ 
+%Residual Std. Error & 0.005 (df = 174) & 0.003 (df = 174) & 0.003 (df = 173) & 0.001 (df = 174) \\ 
+%F Statistic & 109.623$^{***}$ (df = 1; 174) & 402.497$^{***}$ (df = 1; 174) & 429.338$^{***}$ (df = 2; 173) & 9,491.243$^{***}$ (df = 1; 174) \\ 
 \hline 
 \hline \\[-1.8ex] 
 \textit{Note:}  & \multicolumn{4}{r}{$^{*}$p$<$0.1; $^{**}$p$<$0.05; $^{***}$p$<$0.01} \\ 
 \end{tabular} 
-\end{adjustbox}
+%\end{adjustbox}
 \end{table} 
