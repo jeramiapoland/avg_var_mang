@@ -31,6 +31,13 @@ aprox_adj_cor = function(r,nl){
 }
 
 # weighted_correlation = function()
+c_var_run = function(x){
+  if(length(x) >= 63){
+    return(runVar(x,n = 63))
+  } else {
+    rep(NA_real_,length(x))
+  }
+}
 
 cor_var = function(mtrx) {
   # if(freq=="monthly"){
@@ -329,7 +336,7 @@ mse.t = function(u1,u2){
 
 mse.f = function(u1,u2){
   P = length(u1)
-  dhat = u1^2 - u1*u2
+  dhat = u1^2 - u2^2
   dbar = sum(dhat)
   return(P * (dbar/sum(u2^2)))
   
@@ -369,14 +376,14 @@ lm.oos = function(formula = NULL, data = NULL, bench = NULL,train = NULL){
   enc_new.pvalue = enc.new_plookup(enc_new,k2,mu)
   encnew = see.stars(tbl = round(as.matrix(data.table(enc_new,enc_new.pvalue)),3),bees = 1,pees = 2)[1]
   dmtest = dm.test(e1,e2,alternative = "greater",h = 1,power = 2)
-  dm.stat = dmtest$statistic
-  dm.pval = dmtest$p.value
-  dmstat = see.stars(tbl = round(as.matrix(data.table(dm.stat,dm.pval)),3),bees = 1,pees = 2)[1]
+  # dm.stat = dmtest$statistic
+  # dm.pval = dmtest$p.value
+  # dmstat = see.stars(tbl = round(as.matrix(data.table(dm.stat,dm.pval)),3),bees = 1,pees = 2)[1]
   ENCHLN = enc.hln(e1,e2)
   enchln = see.stars.tstats(tbl = round(matrix(ENCHLN,nrow=1),3),bees = 1,tees = 2,exp.positive = TRUE,df = length(e1)-k2)[1]
   MSEF = mse.f(e1,e2)
   return(list(forecast_values = pred, K2 = k2,MU = mu, formula = formula, bench = bench, bench_values = benchmark, hist_values = hist,
-              Statistics = c(oosR,MSEF,dmstat,encnew,enchln)))
+              Statistics = c(oosR,MSEF,encnew,enchln)))
 }
 
 ### Rossi Robust Stats ###
@@ -689,7 +696,7 @@ enc.hln.Robust = function(formula = NULL, data = NULL, bench = NULL, lowR = NULL
   cl = makeCluster(kores,type = "FORK")
   registerDoParallel(cl)
   mcoptions <- list(preschedule=FALSE, set.seed=FALSE)
-  foreach(Rhat = lowR:highR,.combine = c,.options.multicore=mcoptions,.inorder = FALSE) %dopar% {
+  enc_vec = foreach(Rhat = lowR:highR,.combine = c,.options.multicore=mcoptions,.inorder = FALSE) %dopar% {
     pred1 = rep(NA_real_,nrow(data)-Rhat)
     pred2 = rep(NA_real_,nrow(data)-Rhat)
     bench1 = rep(NA_real_,nrow(data)-Rhat)
@@ -786,7 +793,7 @@ oos_wraper = function(bench,estm,hist,subs){
   oosR2.stat = oos.R2(e1,e2)
   oosR2.tstat = oos.tstat(e1,e2)
   oosR = see.stars.tstats(tbl = round(as.matrix(data.table(oosR2.stat*100,oosR2.tstat)),3),bees = 1,tees = 2,
-                          exp.positive = TRUE,df = length(e1) - k2)[1]
+                          exp.positive = TRUE,df = length(e1) - 1)[1]
   return(oosR)
 }
 
@@ -796,7 +803,7 @@ encnew_wraper = function(bench,estm,hist,subs){
   e1 = e1[subs]
   e2 = e2[subs]
   enc_new = enc.new(e1,e2)
-  enc_new.pvalue = enc.new_plookup(enc_new,k2,mu)
+  enc_new.pvalue = enc.new_plookup(enc_new,1,(.85/.15))
   encnew = see.stars(tbl = round(as.matrix(data.table(enc_new,enc_new.pvalue)),3),bees = 1,pees = 2)[1]
   return(encnew)
 }
@@ -815,7 +822,7 @@ enchln_wraper = function(bench,estm,hist,subs){
   e1 = e1[subs]
   e2 = e2[subs]
   ENCHLN = enc.hln(e1,e2)
-  enchln = see.stars.tstats(tbl = round(matrix(ENCHLN,nrow=1),3),bees = 1,tees = 2,exp.positive = TRUE,df = length(e1)-k2)[1]
+  enchln = see.stars.tstats(tbl = round(matrix(ENCHLN,nrow=1),3),bees = 1,tees = 2,exp.positive = TRUE,df = length(e1)-1)[1]
 }
 
 sortinoR = function(R,annualize = FALSE, freq = c("monthly","quarterly")){
