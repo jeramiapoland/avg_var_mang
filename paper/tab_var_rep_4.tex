@@ -2,7 +2,7 @@
 % Table created by stargazer v.5.2 by Marek Hlavac, Harvard University. E-mail: hlavac at fas.harvard.edu
 % Date and time: Thu, Mar 01, 2018 - 08:06:13  IST
 \begin{table}[!htbp] \centering 
-	\caption{Market Variance Prediction - This table has in sample predictions of the variance of the CRSP value-weighted daily index return using average correlation, AC, average variance, AV, and the variance of the CRSP index itself, SV. Panel A is estimated using quarterly data from 1963Q2:2007Q1 as in \cite{pollet_average_2010}. Panel B is estimated quarterly from 1926Q1:2016Q4. Panel C is estimated monthly from 1926M12:2016M12.} 
+	\caption{Market Variance Prediction - This table has in sample predictions of the variance of the CRSP value-weighted daily index return using average correlation, AC, average variance, AV, and the variance of the CRSP index itself, SV. Panel A is estimated using quarterly data from 1963Q2:2007Q1 as in \cite{pollet_average_2010}. Panel B is estimated quarterly from 1926Q1:2016Q4. Panel C is estimated monthly from 1926M8:2016M12.} 
 	\label{tab_mv_next}
 	\begin{adjustbox}{height=4in,width=6in}
 	\begin{tabular}{@{\extracolsep{5pt}}lccccH}
@@ -34,7 +34,7 @@
 		%F Statistic & 7.997$^{***}$ (df = 1; 173) & 39.136$^{***}$ (df = 1; 173) & 18.604$^{***}$ (df = 1; 173) & 18.694$^{***}$ (df = 1; 173) & 20.415$^{***}$ (df = 2; 172) \\ 
 		\hline 
 		\hline \\[-1.8ex]
-		& \multicolumn{5}{c}{\textit{Panel B: 1926Q4:2016Q4}} \\
+		& \multicolumn{5}{c}{\textit{Panel B: 1926Q1:2016Q4}} \\
 		\cline{2-6}
 		%\\[-1.8ex] & (1) & (2) & (3) & (4) & (5)\\ 
 		\hline \\[-1.8ex] 
@@ -58,25 +58,26 @@
 		 %F Statistic & 76.897$^{***}$ (df = 1; 361) & 228.220$^{***}$ (df = 1; 361) & 160.807$^{***}$ (df = 1; 361) & 117.551$^{***}$ (df = 2; 360) & 160.807$^{***}$ (df = 1; 361) \\ 
 		 \hline 
 		 \hline \\[-1.8ex] 
-		 & \multicolumn{5}{c}{\textit{Panel C: 1926M12:2016M12}} \\
+		 & \multicolumn{5}{c}{\textit{Panel C: 1926M8:2016M12}} \\
 		 \cline{2-6}
 		 %\\[-1.8ex] & (1) & (2) & (3) & (4) & (5)\\ 
 		 \hline \\[-1.8ex] 
-		  AC$_{t}$ & 0.016$^{***}$ &  &  &  \\ 
-		  & (0.001) &  &  &  \\ 
-		  & & & & \\ 
-		  AV$_{t}$ &  & 0.432$^{***}$ &  & 0.232$^{***}$ \\ 
-		  &  & (0.016) &  & (0.028) \\ 
-		  & & & & \\ 
-		  SV$_{t}$ &  &  & 0.612$^{***}$ & 0.314$^{***}$ \\ 
-		  &  &  & (0.024) & (0.048) \\ 
-		  & & & & \\ 
-		  Constant & $-$0.002$^{***}$ & $-$0.0003$^{*}$ & 0.001$^{***}$ & 0.0001 \\ 
-		  & (0.0003) & (0.0002) & (0.0001) & (0.0001) \\ 
-		  & & & & \\ 
-		  \hline \\[-1.8ex] 
-		  Observations & 1,085 & 1,085 & 1,085 & 1,084 \\ 
-		  R$^{2}$ & 0.173 & 0.393 & 0.375 & 0.476 \\ 
+		   AC$_{t}$ & 0.016$^{***}$ &  &  &  \\ 
+		   & (0.001) &  &  &  \\ 
+		   & & & & \\ 
+		   AV$_{t}$ &  & 0.245$^{***}$ &  & 0.148$^{***}$ \\ 
+		   &  & (0.009) &  & (0.018) \\ 
+		   & & & & \\ 
+		   SV$_{t}$ &  &  & 0.612$^{***}$ & 0.288$^{***}$ \\ 
+		   &  &  & (0.024) & (0.045) \\ 
+		   & & & & \\ 
+		   Constant & $-$0.002$^{***}$ & 0.0003$^{**}$ & 0.001$^{***}$ & 0.0005$^{***}$ \\ 
+		   & (0.0003) & (0.0001) & (0.0001) & (0.0001) \\ 
+		   & & & & \\ 
+		   \hline \\[-1.8ex] 
+		   Observations & 1,085 & 1,085 & 1,085 & 1,085 \\ 
+		   R$^{2}$ & 0.173 & 0.391 & 0.375 & 0.413 \\ 
+		  % Adjusted R$^{2}$ & 0.173 & 0.390 & 0.374 & 0.412 \\ 
 		  %Adjusted R$^{2}$ & 0.173 & 0.393 & 0.374 & 0.475 \\ 
 		  %Residual Std. Error & 0.005 (df = 1083) & 0.004 (df = 1083) & 0.004 (df = 1083) & 0.003 (df = 1081) \\ 
 		  %F Statistic & 227.171$^{***}$ (df = 1; 1083) & 702.324$^{***}$ (df = 1; 1083) & 648.537$^{***}$ (df = 1; 1083) & 491.584$^{***}$ (df = 2; 1081) \\ 

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2017.9.18)  12 MAR 2018 10:57
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2017.9.18)  12 MAR 2018 18:57
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -980,11 +980,11 @@ Missing character: There is no â in font cmr10!
 Missing character: There is no € in font cmr10!
 Missing character: There is no ™ in font cmr10!
  [3] [4]) (./data.tex [5] [6]) (./in_sample.tex [7]) [8] (./out_sample.tex
-[9]
+[9] [10]
 
-LaTeX Warning: Reference `tab_oos' on page 10 undefined on input line 37.
+LaTeX Warning: Reference `tab_oos' on page 11 undefined on input line 37.
 
-[10]) (./robustness.tex [11]
+) (./robustness.tex [11]
 
 LaTeX Warning: Reference `tab_robust' on page 12 undefined on input line 8.
 
@@ -1049,14 +1049,15 @@ LaTeX Warning: Float too large for page by 2.06497pt on input line 6.
 ] [21]
 (./tab_var_rep_4.tex
 
-LaTeX Warning: Float too large for page by 1.31516pt on input line 88.
+LaTeX Warning: Float too large for page by 1.31516pt on input line 89.
 
-) [22] (./tab_ret_rep1.tex)) (./tab_oos.tex)) [23
+) [22] (./tab_ret_rep1.tex
 
+LaTeX Warning: Float too large for page by 1.31516pt on input line 90.
 
-]
+)) (./tab_oos.tex))
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 198.
- [24]
+ [23] [24]
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 198.
  (./var_mang_port.aux)
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 198.
@@ -1075,11 +1076,11 @@ LaTeX Warning: There were undefined references.
 Here is how much of TeX's memory you used:
  21289 strings out of 493029
  385378 string characters out of 6136234
- 665867 words of memory out of 5000000
+ 666270 words of memory out of 5000000
  24219 multiletter control sequences out of 15000+600000
  14395 words of font info for 55 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 62i,11n,92p,2458b,739s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 62i,11n,92p,2667b,739s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></us
 r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/shar
 e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texl
@@ -1099,10 +1100,10 @@ f-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/share/texlive/texmf-dist
 /fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/share/texlive/texmf-dist/fonts
 /type1/public/amsfonts/cm/cmtt10.pfb></usr/share/texlive/texmf-dist/fonts/type1
 /public/amsfonts/symbols/msbm10.pfb>
-Output written on var_mang_port.pdf (24 pages, 316233 bytes).
+Output written on var_mang_port.pdf (24 pages, 317365 bytes).
 PDF statistics:
- 465 PDF objects out of 1000 (max. 8388607)
- 410 compressed objects within 5 object streams
+ 468 PDF objects out of 1000 (max. 8388607)
+ 411 compressed objects within 5 object streams
  104 named destinations out of 1000 (max. 500000)
  61 words of extra memory for PDF output out of 10000 (max. 10000000)
 
