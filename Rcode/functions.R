@@ -30,7 +30,8 @@ aprox_adj_cor = function(r,nl){
   return(r*(1+(1-r^2)/(2*(nl-3))))
 }
 
-# weighted_correlation = function()
+
+
 c_var_run = function(x){
   if(length(x) >= 63){
     return(runVar(x,n = 63))
@@ -61,17 +62,17 @@ cor_var = function(mtrx) {
   m_tr_downp = apply(X = tmp_m,MARGIN = 2,FUN = DownsidePotential)
   weight = unique(mtrx2,by=c("PERMNO"))$weight
   avg_var = (m_tr %*% weight) * timep
-  avg_var_alt = (m_tr_alt %*% weight)
-  avg_sd =  (m_tr_sd %*% weight) * sqrt(timep)
-  avg_down = (m_tr_down %*% weight) * timep
-  avg_downp = (m_tr_downp %*% weight) * sqrt(timep)
+  #avg_var_alt = (m_tr_alt %*% weight)
+  #avg_sd =  (m_tr_sd %*% weight) * sqrt(timep)
+  #avg_down = (m_tr_down %*% weight) * timep
+  #avg_downp = (m_tr_downp %*% weight) * sqrt(timep)
   diag(c_m) = 0
   avg_cor = crossprod(weight,crossprod(c_m,weight))
-  avg_cor_ta = avg_cor / (1 - sum(weight^2))
+  #avg_cor_ta = avg_cor / (1 - sum(weight^2))
   mkt_r = unique(mtrx3,by="date")$vwretd.daily
   mkt_var = var(mkt_r) * timep
-  mkt_var_alt = alt_var(mkt_r,timep)
-  return(c(avg_var,avg_cor,mkt_var,avg_cor_ta,avg_var_alt,mkt_var_alt,avg_sd,avg_down,avg_downp))
+  #mkt_var_alt = alt_var(mkt_r,timep)
+  return(c(avg_var,avg_cor,mkt_var))
 }
 
 unbiased_lm <- function(X,y,alt_y,lag,reg,tstat,w){
