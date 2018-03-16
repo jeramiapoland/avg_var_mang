@@ -32,9 +32,13 @@ aprox_adj_cor = function(r,nl){
 
 
 
-c_var_run = function(x){
-  if(length(x) >= 63){
-    return(runVar(x,n = 63))
+c_var_run = function(x,qd_adj){
+  if(length(na.omit(x)) >= qd_adj){
+    na_idx = is.na(x)
+    tmp = runVar(na.omit(x),n = qd_adj)
+    out = rep(NA_real_,length(x))
+    out[!na_idx] = tmp
+    return(out)
   } else {
     rep(NA_real_,length(x))
   }
@@ -56,10 +60,10 @@ cor_var = function(mtrx) {
     c_m[] = vapply(c_m, aprox_adj_cor,FUN.VALUE =  numeric(1),nrow(tmp_m))
   }
   m_tr = apply(X = tmp_m,MARGIN = 2,FUN = var)
-  m_tr_alt = apply(X = tmp_m,MARGIN = 2,FUN = out_var,method = "alt_var",timep)
-  m_tr_sd = apply(X = tmp_m,MARGIN = 2,FUN = sd)
-  m_tr_down = apply(X = tmp_m,MARGIN = 2,FUN = DownsideDeviation)
-  m_tr_downp = apply(X = tmp_m,MARGIN = 2,FUN = DownsidePotential)
+  # m_tr_alt = apply(X = tmp_m,MARGIN = 2,FUN = out_var,method = "alt_var",timep)
+  # m_tr_sd = apply(X = tmp_m,MARGIN = 2,FUN = sd)
+  # m_tr_down = apply(X = tmp_m,MARGIN = 2,FUN = DownsideDeviation)
+  # m_tr_downp = apply(X = tmp_m,MARGIN = 2,FUN = DownsidePotential)
   weight = unique(mtrx2,by=c("PERMNO"))$weight
   avg_var = (m_tr %*% weight) * timep
   #avg_var_alt = (m_tr_alt %*% weight)
