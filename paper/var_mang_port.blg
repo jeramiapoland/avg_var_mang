@@ -20,46 +20,47 @@ You're missing a field name---line 1684 of file margin_credit.bib
 (Error may have been on previous line)
 I'm skipping whatever remains of this entry
 Warning--empty journal in asness_betting_2018
+Warning--empty journal in jones_century_2002
 Warning--empty journal in malkhozov_international_2017
-You've used 45 entries,
+You've used 46 entries,
             2716 wiz_defined-function locations,
-            888 strings with 11533 characters,
-and the built_in function-call counts, 20535 in all, are:
-= -- 1909
-> -- 1072
-< -- 33
-+ -- 365
-- -- 314
-* -- 1971
-:= -- 3700
-add.period$ -- 45
-call.type$ -- 45
-change.case$ -- 328
-chr.to.int$ -- 45
-cite$ -- 47
-duplicate$ -- 807
-empty$ -- 1353
-format.name$ -- 407
-if$ -- 3918
+            891 strings with 11618 characters,
+and the built_in function-call counts, 20838 in all, are:
+= -- 1934
+> -- 1083
+< -- 34
++ -- 371
+- -- 317
+* -- 1991
+:= -- 3760
+add.period$ -- 46
+call.type$ -- 46
+change.case$ -- 334
+chr.to.int$ -- 46
+cite$ -- 49
+duplicate$ -- 824
+empty$ -- 1375
+format.name$ -- 411
+if$ -- 3972
 int.to.chr$ -- 1
 int.to.str$ -- 1
-missing$ -- 43
-newline$ -- 139
-num.names$ -- 182
-pop$ -- 214
+missing$ -- 44
+newline$ -- 142
+num.names$ -- 186
+pop$ -- 221
 preamble$ -- 1
-purify$ -- 283
+purify$ -- 288
 quote$ -- 0
-skip$ -- 586
+skip$ -- 599
 stack$ -- 0
-substring$ -- 1426
-swap$ -- 197
+substring$ -- 1439
+swap$ -- 198
 text.length$ -- 3
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 402
-warning$ -- 2
-while$ -- 205
+type$ -- 411
+warning$ -- 3
+while$ -- 208
 width$ -- 0
-write$ -- 491
+write$ -- 500
 (There were 3 error messages)
