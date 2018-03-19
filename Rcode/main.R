@@ -44,10 +44,21 @@ setkey(tmp_crsp,date,PERMNO)
 setkey(tmp_crsp,year,quarter)
 q_crsp_permnos = tmp_crsp[, .(PERMNO = unique(PERMNO), num_PERMNO = length(unique(PERMNO))), by = c("year","quarter")]
 
-# bring back the monthly market caps
-tmp_mcap = fread(input = 'all_tmp_mcap.csv', colClasses = c("character","Date","character","character","character","numeric",
-                                                            "integer","numeric","numeric","numeric","numeric"))
+# bring monthly market caps
+tmp_mcap = fread(input = '9cfd0c24e4fad219.csv',colClasses = "character")
+tmp_mcap[, date := as.Date(date,format="%Y%m%d")]
 setkey(tmp_mcap,date,PERMNO)
+tmp_mcap[, PRC := as.numeric(PRC)]
+tmp_mcap[, ALTPRC := as.numeric(ALTPRC)]
+tmp_mcap[, SHROUT := as.integer(SHROUT)]
+tmp_mcap[is.na(PRC), PRC := ALTPRC]
+tmp_mcap[, PRC := abs(PRC)]
+tmp_mcap[, month_mcap := PRC * SHROUT]
+tmp_mcap[, year := year(date)]
+tmp_mcap[, month := month(date)]
+fwrite(x = tmp_mcap,file = 'all_tmp_mcap.csv')
+tmp_mcap = tmp_mcap[!is.na(month_mcap)]
+setkey(tmp_mcap,year,month,PERMNO)
 tmp_mcap[, quarter := quarter(date)]
 tmp_mcap[, quarter_mcap := mean(month_mcap, na.rm = TRUE), by = c("year","quarter","PERMNO")]
 tmp_mcap = tmp_mcap[!is.na(quarter_mcap)]
@@ -125,6 +136,7 @@ tmp_crsp = fread(input = 'all_tmp_crsp.csv',colClasses = c('character','Date','c
                                                            'numeric','numeric','character','numeric','numeric','numeric',
                                                            'character','character','character','numeric','numeric'))
 setkey(tmp_crsp,year,month,date,PERMNO)
+market_daily = unique(subset(tmp_crsp,select=c("year","month","vwretd","vwretx","ewretd","ewretx","sprtrn"),by=c("year","month")))
 tmp_crsp[, tdays := length(unique(date)), by=c("year","month")]
 m_tday = tmp_crsp[, .(tdays = unique(tdays)), by =c("year","month")]
 tmp_crsp[, asset_tdays := length(na.omit(RET)), by=c("year","month","PERMNO")]
@@ -141,29 +153,19 @@ setkey(tmp_crsp,PERMNO,date)
 tmp_crsp[, rVar := c_var_run(RET,qd_adj), by = PERMNO]
 setkey(tmp_crsp,PERMNO,year,month)
 tmp_crsp[, rVar := if(anyNA(rVar)){NA_real_} else {rVar}, by = c("PERMNO","year","month")]
-m3m_assets = tmp_crsp[!is.na(rVar) & all_month == 1, (num_assets = length(unique(PERMNO))), by = c("year","month")]
-m_crsp_permnos = tmp_crsp[!is.na(rVar) & all_month == 1, .(PERMNO = unique(PERMNO), num_PERMNO = length(unique(PERMNO))), by = c("year","month")]
+m3m_assets = tmp_crsp[!is.na(rVar) & all_traded == 1, (num_assets = length(unique(PERMNO))), by = c("year","month")]
+m_crsp_permnos = tmp_crsp[!is.na(rVar) & all_traded == 1, .(PERMNO = unique(PERMNO), num_PERMNO = length(unique(PERMNO))), by = c("year","month")]
 
 
 # monthly market cap #
-tmp_mcap = fread(input = '9cfd0c24e4fad219.csv',colClasses = "character")
-tmp_mcap[, date := as.Date(date,format="%Y%m%d")]
+tmp_mcap = fread(input = 'all_tmp_mcap.csv', colClasses = c("character","Date","character","character","character","numeric",
+                                                            "integer","numeric","numeric","numeric","numeric"))
 setkey(tmp_mcap,date,PERMNO)
-tmp_mcap[, PRC := as.numeric(PRC)]
-tmp_mcap[, ALTPRC := as.numeric(ALTPRC)]
-tmp_mcap[, SHROUT := as.integer(SHROUT)]
-tmp_mcap[is.na(PRC), PRC := ALTPRC]
-tmp_mcap[, PRC := abs(PRC)]
-tmp_mcap[, month_mcap := PRC * SHROUT]
-tmp_mcap[, year := year(date)]
-tmp_mcap[, month := month(date)]
 tmp_mcap = tmp_mcap[!is.na(month_mcap)]
-fwrite(x = tmp_mcap,file = 'all_tmp_mcap.csv')
 setkey(tmp_mcap,year,month,PERMNO)
-
 m_tmp_mcap = merge(tmp_mcap,subset(m_crsp_permnos,select=c("year","month","PERMNO")),by=c("year","month","PERMNO"))
 m_tmp_mcap = setorder(setDT(m_tmp_mcap), year,month, -month_mcap)[, indx := seq_len(.N), by = c("year","month")][indx <= 500]
-
+tmp_mcap = unique(tmp_mcap,by=c("year","month","PERMNO"))
 gc()
 tmp_crsp = subset(tmp_crsp,select = c("PERMNO","date","year","month","SICCD","TSYMBOL","PRC","RET","RETX","vwretd",
                                       "vwretx","rVar"))
@@ -210,7 +212,7 @@ setkey(data,PERMNO,date)
 u_d  = unique(subset(data,select = c("year","month","date","vwretd.daily")),by="date")
 setkey(u_d,date)
 u_d[, rMVar := c_var_run(vwretd.daily,qd_adj)]
-u_d[, mkt_var3m := last(rMVar[rMVar>0]), by = c("year","month")]
+u_d[, mkt_var3m := last(rMVar[rMVar>0]) * qd_adj, by = c("year","month")]
 u_d = unique(subset(u_d,select=c("year","month","mkt_var3m")),by=c("year","month"))
 
 data = merge(data,subset(u_d,select = c("year","month","mkt_var3m")),by=c("year","month"))
@@ -226,11 +228,11 @@ data = merge(data,subset(u_d,select = c("year","month","mkt_var3m")),by=c("year"
 # m3_assets = data[,.(assets = length(unique(PERMNO))),by = c("year","month")]
 
 setkey(data,date,PERMNO)
+setkey(data,year,month,PERMNO)
 #### 1 month variance statistics ####
 data[, c("avg_var1m","avg_cor1m","mkt_var1m") := as.list(cor_var(.SD)), .SDcols = c("date","PERMNO","RET","weight","vwretd.daily"), 
                              by = c("year","month")]
 
-setkey(data,year,month,PERMNO)
 data = unique(data,by=c("year","month","PERMNO"))
 data[, avg_var3m := sum(weight * rVar) * qd_adj,by = c("year","month")]
 
@@ -263,38 +265,46 @@ gc()
 
 
 #### summary stats ####
-pw_start = which(q_data$year == 1963 & q_data$quarter == 1)
-pw_end = which(q_data$year == 2006 & q_data$quarter == 4)
+pw_start = which(q_data$year == 1963 & q_data$quarter == 2)
+pw_end = which(q_data$year == 2007 & q_data$quarter == 1)
 s1 = q_data[pw_start:pw_end, .(RET = logxret.tp3 * 100, AC = avg_cor, AV = avg_var * 100, SV = mkt_var * 100)]
 stargazer(s1,summary = TRUE,out = 'summary1.tex',out.header = FALSE)
 s1_auto = s1[, .(autoC = lapply(.SD,get_ac,1)), .SDcols = colnames(s1)]
 
-s2 = q_data[, .(RET = logxret.tp3 * 100, AC = avg_cor, AV = avg_var * 100, SV = mkt_var * 100)]
+paper_q_start = pw_start
+paper_m_start = which(m_data$year==1963&m_data$month==6)
+
+s2 = q_data[paper_q_start:nrow(q_data), .(RET = logxret.tp3 * 100, AC = avg_cor, AV = avg_var * 100, SV = mkt_var * 100)]
 stargazer(s2,summary = TRUE,out = 'summary2.tex',out.header = FALSE)
 s2_auto = s2[!is.na(RET), .(autoC = lapply(.SD,get_ac,1)), .SDcols = colnames(s2)]
 
 m_data[, logxret.tp3 := shift(runSum(logxret.tp1,n=3),n=2,type="lead")]
-s3 = m_data[, .(RET = logxret.tp1 * 100, RET3 = logxret.tp3 * 100, AC3 = avg_cor3m, AV3 = avg_var3m * 100, SV3 = mkt_var3m * 100, 
-                SV = mkt_var1m * 100)]
+m_data[, logxret.tp6 := shift(runSum(logxret.tp1,n=6),n=5,type="lead")]
+m_data[, logxret.tp12 := shift(runSum(logxret.tp1,n=12),n=11,type="lead")]
+s3 = m_data[paper_m_start:nrow(m_data), .(RET = logxret.tp1 * 100, RET3 = logxret.tp3 * 100, RET6 = logxret.tp6 * 100,RET12 = logxret.tp12 * 100, 
+                AC3 = avg_cor3m, AV3 = avg_var3m * 100, SV3 = mkt_var3m * 100, 
+                AC = avg_cor1m, AV = avg_var1m * 100, SV = mkt_var1m * 100)]
 stargazer(s3,summary = TRUE,out = 'summary3.tex')
-s3_auto = s3[!is.na(RET3), .(autoC = lapply(.SD,get_ac,1)), .SDcols = colnames(s3)]
+s3_auto = s3[!is.na(RET12), .(autoC = lapply(.SD,get_ac,1)), .SDcols = colnames(s3)]
 
 #### time series plots ####
 tmpPalette = c(brewer.pal(name = "Set1",3))
 cbPalette = c(tmpPalette[1:2],rep(tmpPalette[1:3],2))
-cbPalette = c("#000000",cbPalette)
+cbPalette = c("#000000",cbPalette,tail(cbPalette,3))
 names(cbPalette) = c("market","vol_mang","av_mang","mkt_var","avg_var","avg_cor",
-                     "mkt_var3m","avg_var3m","avg_cor3m")
-cbPalette = c(cbPalette, mkt_var1m = "#E41A1C")
-linePalette <- c("solid", "dotted", "longdash","longdash","dotdash","dotted","longdash","dotdash","dotted")
+                     "mkt_var3m","avg_var3m","avg_cor3m","mkt_var1m","avg_var1m","avg_cor1m")
+linePalette <- c("solid", "dotted", "longdash","longdash","dotdash","dotted","longdash","dotdash","dotted",
+                 "longdash","dotdash","dotted")
 names(linePalette) <- c("market","vol_mang","av_mang","avg_var","avg_cor","mkt_var",
-                        "avg_var3m","avg_cor3m","mkt_var3m")
-linePalette = c(linePalette,mkt_var1m = "dotted")
-plotq = melt(q_data,id.vars = c("year","month","quarter"),measure.vars = c("avg_var","avg_cor","mkt_var"),
+                        "avg_var3m","avg_cor3m","mkt_var3m","avg_var1m","avg_cor1m","mkt_var1m")
+plotq = melt(q_data[paper_q_start:nrow(q_data)],id.vars = c("year","month","quarter"),measure.vars = c("avg_var","avg_cor","mkt_var"),
              variable.name = "stat")
 plotq[, date := as.Date(paste0(year,"-",month,"-28"))]
 plotq[stat=="avg_var", value := value * 100]
 plotq[stat=="mkt_var", value := value * 100]
+y_min = min(plotq$value)*.9
+y_max = max(plotq$value)*1.1
+
 q_plot = ggplot(data=plotq) + geom_line(mapping = aes(x=date,y=value,color=stat,linetype=stat)) +
   labs(title = "Quarterly Measures of Daily Return Statistics\n", x = "", y = "") + 
   scale_x_date(date_breaks = "5 year", date_labels =  "%Y") +
@@ -307,7 +317,7 @@ tikz("q_plot.tex",width = 5.90551, height = 3,sanitize = FALSE)
 plot(q_plot)
 dev.off()
 
-plotm = melt(m_data,id.vars = c("year","month"),measure.vars = c("avg_var3m","avg_cor3m","mkt_var3m"),
+plotm = melt(m_data[paper_m_start:nrow(m_data)],id.vars = c("year","month"),measure.vars = c("avg_var3m","avg_cor3m","mkt_var3m"),
              variable.name = "stat")
 plotm[, date := as.Date(paste0(year,"-",month,"-28"))]
 plotm[stat=="avg_var3m", value := value * 100]
@@ -318,17 +328,43 @@ m_plot = ggplot(data=plotm) + geom_line(mapping = aes(x=date,y=value,color=stat,
   scale_colour_manual(name = "Statistic",values=cbPalette,labels =c("AV","AC","SV")) + 
   scale_linetype_manual(name = "Statistic",values=linePalette,labels =c("AV","AC","SV")) +
   theme(text = element_text(size=11),panel.grid.major.x = element_blank(),
-        panel.grid.major.y = element_line( size=.1, color="black"))+ theme_bw()
+        panel.grid.major.y = element_line( size=.1, color="black")) +
+  #coord_cartesian(ylim = c(-.03,22)) + 
+  theme_bw()
 m_plot = tis::nberShade(m_plot,xrange = c(min(plotm$date), max(plotm$date)),openShade = FALSE)
 tikz("m_plot.tex",width = 5.90551, height = 3, sanitize = FALSE)
 plot(m_plot)
 dev.off()
 
+
+
+plotm2 = melt(m_data[paper_m_start:nrow(m_data)],id.vars = c("year","month"),measure.vars = c("avg_var1m","avg_cor1m","mkt_var1m"),
+             variable.name = "stat")
+plotm2[, date := as.Date(paste0(year,"-",month,"-28"))]
+plotm2[stat=="avg_var1m", value := value * 100]
+plotm2[stat=="mkt_var1m", value := value * 100]
+m_plot2 = ggplot(data=plotm2) + geom_line(mapping = aes(x=date,y=value,color=stat,linetype=stat)) +
+  labs(title = "Monthly Measures of Daily Return Statistics\n", x = "", y = "") + 
+  scale_x_date(date_breaks = "5 year", date_labels =  "%Y") +
+  scale_colour_manual(name = "Statistic",values=cbPalette,labels =c("AV","AC","SV")) + 
+  scale_linetype_manual(name = "Statistic",values=linePalette,labels =c("AV","AC","SV")) +
+  theme(text = element_text(size=11),panel.grid.major.x = element_blank(),
+        panel.grid.major.y = element_line( size=.1, color="black"))+ theme_bw()
+m_plot2 = tis::nberShade(m_plot2,xrange = c(min(plotm2$date), max(plotm$date)),openShade = FALSE)
+  # ylim((min(plotq$value)-.1*min(plotq$value)), (max(plotq$value)+.1*max(plotq$value)))
+tikz("m_plot2.tex",width = 5.90551, height = 3, sanitize = FALSE)
+plot(m_plot2)
+dev.off()
+
 #### regressions ####
 q_data[, mkt_var.tp1 := shift(mkt_var,type = "lead")]
+q_data[, avg_var.tp1 := shift(avg_var,type = "lead")]
 m_data[, mkt_var3m.tp1 := shift(mkt_var3m,type = "lead")]
 m_data[, mkt_var3m.tp3 := shift(mkt_var3m,type = "lead",n=3)]
 m_data[, mkt_var1m.tp1 := shift(mkt_var1m,type = "lead")]
+m_data[, avg_var3m.tp1 := shift(avg_var3m,type = "lead")]
+m_data[, avg_var3m.tp3 := shift(avg_var3m,type = "lead",n=3)]
+m_data[, avg_var1m.tp1 := shift(avg_var1m,type = "lead")]
 # market variance
 # replication
 q_var_in1 = lm(mkt_var ~ avg_cor,q_data[pw_start:pw_end])
@@ -338,6 +374,20 @@ q_var_in4 = lm(mkt_var ~ (avg_cor:avg_var),q_data[pw_start:pw_end])
 stargazer(q_var_in1,q_var_in2,q_var_in3,q_var_in4,out.header = FALSE,covariate.labels = c("AC","AV","AC * AV"),
           dep.var.labels = "SV",
           out = 'tab_var_rep_1.tex')
+# q_var_in1 = lm(mkt_var ~ avg_cor,q_data[paper_q_start:nrow(q_data)])
+# q_var_in2 = lm(mkt_var ~ avg_var,q_data[paper_q_start:nrow(q_data)])
+# q_var_in3 = lm(mkt_var ~ avg_cor + avg_var,q_data[paper_q_start:nrow(q_data)])
+# q_var_in4 = lm(mkt_var ~ (avg_cor:avg_var),q_data[paper_q_start:nrow(q_data)])
+# stargazer(q_var_in1,q_var_in2,q_var_in3,q_var_in4,out.header = FALSE,covariate.labels = c("AC","AV","AC * AV"),
+#           dep.var.labels = "SV",
+#           out = 'tab_var_rep_2.tex')
+# q_var_in5 = lm(avg_var ~ avg_cor,q_data[pw_start:pw_end])
+# q_var_in6 = lm(avg_var ~ mkt_var,q_data[pw_start:pw_end])
+# q_var_in7 = lm(avg_var ~ avg_cor + mkt_var,q_data[pw_start:pw_end])
+# q_var_in8 = lm(avg_var ~ (avg_cor:mkt_var),q_data[pw_start:pw_end])
+# stargazer(q_var_in5,q_var_in6,q_var_in7,q_var_in8,out.header = FALSE,covariate.labels = c("AC","SV","AC * SV"),
+#           dep.var.labels = "SV",
+#           out = 'tab_var_rep_3.tex')
 # # expansion
 # q_var_in5 = lm(mkt_var ~ avg_cor,q_data)
 # q_var_in6 = lm(mkt_var ~ avg_var,q_data)
@@ -346,11 +396,11 @@ stargazer(q_var_in1,q_var_in2,q_var_in3,q_var_in4,out.header = FALSE,covariate.l
 # stargazer(q_var_in5,q_var_in6,q_var_in7,q_var_in8,out.header = FALSE,covariate.labels = c("AC","AV","AC * AV"),
 #           dep.var.labels = "SV",
 #           out = 'tab_var2.tex')
-# # monthly
-# m_var_in1 = lm(mkt_var3m ~ avg_cor,m_data)
-# m_var_in2 = lm(mkt_var3m ~ avg_var,m_data)
-# m_var_in3 = lm(mkt_var3m ~ avg_cor + avg_var,m_data)
-# m_var_in4 = lm(mkt_var3m ~ (avg_cor:avg_var),m_data)
+# monthly
+# m_var_in1 = lm(mkt_var3m ~ avg_cor3m,m_data[paper_m_start:nrow(m_data)])
+# m_var_in2 = lm(mkt_var3m ~ avg_var3m,m_data[paper_m_start:nrow(m_data)])
+# m_var_in3 = lm(mkt_var3m ~ avg_cor3m + avg_var3m,m_data[paper_m_start:nrow(m_data)])
+# m_var_in4 = lm(mkt_var3m ~ (avg_cor:avg_var),m_data[paper_m_start:nrow(m_data)])
 # stargazer(m_var_in1,m_var_in2,m_var_in3,m_var_in4,out.header = FALSE,covariate.labels = c("AC","AV","AC * AV"),
 #           dep.var.labels = "SV",
 #           out = 'tab_var3.tex')
@@ -366,17 +416,37 @@ stargazer(q_var_in9,q_var_in10,q_var_in13,q_var_in13,q_var_in20,out.header = FAL
           covariate.labels = c("AC$_{t}$","AV$_{t}$","SV$_{t}$"),
           dep.var.labels = "SV$_{t+1}$",
           out = 'tab_var_rep_4.tex')
-# expansion
-q_var_in14 = lm(mkt_var.tp1 ~ avg_cor,q_data)
-q_var_in15 = lm(mkt_var.tp1 ~ avg_var,q_data)
-q_var_in16 = lm(mkt_var.tp1 ~ avg_cor + avg_var,q_data)
-# q_var_in17 = lm(mkt_var.tp1 ~ (avg_cor:avg_var),q_data)
-q_var_in18 = lm(mkt_var.tp1 ~ mkt_var,q_data)
-q_var_in22 = lm(mkt_var.tp1 ~ mkt_var + avg_var,q_data)
-stargazer(q_var_in14,q_var_in15,q_var_in18,q_var_in22,q_var_in18,out.header = FALSE,
+q_var_in19 = lm(avg_var.tp1 ~ avg_cor,q_data[pw_start:pw_end])
+q_var_in110 = lm(avg_var.tp1 ~ avg_var,q_data[pw_start:pw_end])
+q_var_in111 = lm(avg_var.tp1 ~ avg_cor + avg_var,q_data[pw_start:pw_end])
+#q_var_in12 = lm(avg_var.tp1 ~ (avg_cor:avg_var),q_data[pw_start:pw_end])
+q_var_in113 = lm(avg_var.tp1 ~ avg_var,q_data[pw_start:pw_end])
+q_var_in120 = lm(avg_var.tp1 ~ mkt_var + avg_var,q_data[pw_start:pw_end])
+stargazer(q_var_in19,q_var_in110,q_var_in113,q_var_in113,q_var_in120,out.header = FALSE,
           covariate.labels = c("AC$_{t}$","AV$_{t}$","SV$_{t}$"),
-          dep.var.labels = "SV$_{t+1}$",
-          out = 'tab_var5.tex')
+          dep.var.labels = "AV$_{t+1}$",
+          out = 'tab_var_rep_5.tex')
+# expansion
+# q_var_in14 = lm(mkt_var.tp1 ~ avg_cor,q_data)
+# q_var_in15 = lm(mkt_var.tp1 ~ avg_var,q_data)
+# q_var_in16 = lm(mkt_var.tp1 ~ avg_cor + avg_var,q_data)
+# # q_var_in17 = lm(mkt_var.tp1 ~ (avg_cor:avg_var),q_data)
+# q_var_in18 = lm(mkt_var.tp1 ~ mkt_var,q_data)
+# q_var_in22 = lm(mkt_var.tp1 ~ mkt_var + avg_var,q_data)
+# stargazer(q_var_in14,q_var_in15,q_var_in18,q_var_in22,q_var_in18,out.header = FALSE,
+#           covariate.labels = c("AC$_{t}$","AV$_{t}$","SV$_{t}$"),
+#           dep.var.labels = "SV$_{t+1}$",
+#           out = 'tab_var5.tex')
+# q_var_in114 = lm(avg_var.tp1 ~ avg_cor,q_data)
+# q_var_in115 = lm(avg_var.tp1 ~ avg_var,q_data)
+# q_var_in116 = lm(avg_var.tp1 ~ avg_cor + avg_var,q_data)
+# # q_var_in117 = lm(avg_var.tp1 ~ (avg_cor:avg_var),q_data)
+# q_var_in118 = lm(avg_var.tp1 ~ avg_var,q_data)
+# q_var_in122 = lm(avg_var.tp1 ~ mkt_var + avg_var,q_data)
+# stargazer(q_var_in114,q_var_in115,q_var_in118,q_var_in122,q_var_in118,out.header = FALSE,
+#           covariate.labels = c("AC$_{t}$","AV$_{t}$","SV$_{t}$"),
+#           dep.var.labels = "AV$_{t+1}$",
+#           out = 'tab_var6.tex')
 # monthly
 m_var_in5 = lm(mkt_var3m.tp1 ~ avg_cor3m,m_data)
 m_var_in6 = lm(mkt_var3m.tp1 ~ avg_var3m,m_data)
@@ -384,25 +454,37 @@ m_var_in6 = lm(mkt_var3m.tp1 ~ avg_var3m,m_data)
 # m_var_in8 = lm(mkt_var3m.tp1 ~ (avg_cor:avg_var3,),m_data)
 m_var_in9 = lm(mkt_var3m.tp1 ~ mkt_var3m,m_data)
 m_var_in24 = lm(mkt_var3m.tp1 ~ mkt_var3m + avg_var3m,m_data)
-m_var_in44 = lm(mkt_var3m.tp1 ~ mkt_var1m,m_data)
-m_var_in45 = lm(mkt_var3m.tp1 ~ mkt_var1m + avg_var3m,m_data)
-stargazer(m_var_in5,m_var_in6,m_var_in9,m_var_in24,m_var_in44,m_var_in45,out.header = FALSE,
+# m_var_in44 = lm(mkt_var3m.tp1 ~ mkt_var1m,m_data)
+# m_var_in45 = lm(mkt_var3m.tp1 ~ mkt_var1m + avg_var3m,m_data)
+stargazer(m_var_in5,m_var_in6,m_var_in9,m_var_in24,out.header = FALSE,
           covariate.labels = c("AC$_{t}$","AV$_{t}$","SV$_{t}$","$SV^{1}_{t}$"),
           dep.var.labels = "SV$_{t+1}$",
-          out = 'tab_var6.tex')
-
-m_var_in35 = lm(mkt_var3m.tp3 ~ avg_cor3m,m_data)
-m_var_in36 = lm(mkt_var3m.tp3 ~ avg_var3m,m_data)
-# m_var_in7 = lm(mkt_var3m.tp3 ~ avg_cor + avg_var3,,m_data)
-# m_var_in8 = lm(mkt_var3m.tp3 ~ (avg_cor:avg_var3,),m_data)
-m_var_in39 = lm(mkt_var3m.tp3 ~ mkt_var3m,m_data)
-m_var_in324 = lm(mkt_var3m.tp3 ~ mkt_var3m + avg_var3m,m_data)
-m_var_in344 = lm(mkt_var3m.tp3 ~ mkt_var1m,m_data)
-m_var_in345 = lm(mkt_var3m.tp3 ~ mkt_var1m + avg_var3m,m_data)
-stargazer(m_var_in35,m_var_in36,m_var_in39,m_var_in324,out.header = FALSE,
-          covariate.labels = c("AC$_{t}$","AV$_{t}$","SV$_{t}$"),
-          dep.var.labels = "SV$_{t+1}$",
           out = 'tab_var7.tex')
+# monthly
+m_var_in5 = lm(mkt_var1m.tp1 ~ avg_cor1m,m_data)
+m_var_in6 = lm(mkt_var1m.tp1 ~ avg_var1m,m_data)
+# m_var_in7 = lm(mkt_var1m.tp1 ~ avg_cor + avg_var3,,m_data)
+# m_var_in8 = lm(mkt_var1m.tp1 ~ (avg_cor:avg_var3,),m_data)
+m_var_in9 = lm(mkt_var1m.tp1 ~ mkt_var1m,m_data)
+m_var_in24 = lm(mkt_var1m.tp1 ~ mkt_var1m + avg_var1m,m_data)
+stargazer(m_var_in5,m_var_in6,m_var_in9,m_var_in24,out.header = FALSE,
+          covariate.labels = c("AC$_{t}$","AV$_{t}$","SV$_{t}$","$SV^{1}_{t}$"),
+          dep.var.labels = "SV$_{t+1}$",
+          out = 'tab_var8.tex')
+
+
+# m_var_in35 = lm(mkt_var3m.tp3 ~ avg_cor3m,m_data)
+# m_var_in36 = lm(mkt_var3m.tp3 ~ avg_var3m,m_data)
+# # m_var_in7 = lm(mkt_var3m.tp3 ~ avg_cor + avg_var3,,m_data)
+# # m_var_in8 = lm(mkt_var3m.tp3 ~ (avg_cor:avg_var3,),m_data)
+# m_var_in39 = lm(mkt_var3m.tp3 ~ mkt_var3m,m_data)
+# m_var_in324 = lm(mkt_var3m.tp3 ~ mkt_var3m + avg_var3m,m_data)
+# m_var_in344 = lm(mkt_var3m.tp3 ~ mkt_var1m,m_data)
+# m_var_in345 = lm(mkt_var3m.tp3 ~ mkt_var1m + avg_var3m,m_data)
+# stargazer(m_var_in35,m_var_in36,m_var_in39,m_var_in324,out.header = FALSE,
+#           covariate.labels = c("AC$_{t}$","AV$_{t}$","SV$_{t}$"),
+#           dep.var.labels = "SV$_{t+1}$",
+#           out = 'tab_var7.tex')
 
 
 #market returns (t+1)
@@ -419,38 +501,74 @@ stargazer(q_ret_in1,q_ret_in2,q_ret_in5,q_ret_in25,out.header = FALSE,
           out = 'tab_ret_rep1.tex')
 
 # expansion
-q_ret_in6 = lm(logxret.tp3 ~ avg_cor,q_data)
-q_ret_in7 = lm(logxret.tp3 ~ avg_var,q_data)
-#q_ret_in8 = lm(logxret.tp3 ~ avg_cor + avg_var,q_data)
-#q_ret_in9 = lm(logxret.tp3 ~ (avg_cor:avg_var),q_data)
-q_ret_in10 = lm(logxret.tp3 ~ mkt_var,q_data)
-q_ret_in26 = lm(logxret.tp3 ~ mkt_var + avg_var,q_data)
-stargazer(q_ret_in6,q_ret_in7,q_ret_in10,q_ret_in26,out.header = FALSE,
-          covariate.labels = c("AC$_{t}$","AV$_{t}$","SV$_{t}$"),
-          dep.var.labels = "RET$_{t+1}$",
-          out = 'tab_ret2.tex')
-# monthly
-m_ret_in1 = lm(logxret.tp1 ~ avg_cor3m,m_data)
-m_ret_in2 = lm(logxret.tp1 ~ avg_var3m,m_data)
-#m_ret_in3 = lm(logxret.tp1 ~ avg_cor + avg_var3,,m_data)
-#m_ret_in4 = lm(logxret.tp1 ~ (avg_cor:avg_var3,),m_data)
-m_ret_in5 = lm(logxret.tp1 ~ mkt_var3m,m_data)
-m_ret_in25 = lm(logxret.tp1 ~ mkt_var3m + avg_var3m,m_data)
-stargazer(m_ret_in1,m_ret_in2,m_ret_in5,m_ret_in25,out.header = FALSE,
-          covariate.labels = c("AC$_{t}$","AV$_{t}$","SV$_{t}$"),
-          dep.var.labels = "RET$_{t+1}$",
-          out = 'tab_ret3.tex')
+# q_ret_in6 = lm(logxret.tp3 ~ avg_cor,q_data)
+# q_ret_in7 = lm(logxret.tp3 ~ avg_var,q_data)
+# #q_ret_in8 = lm(logxret.tp3 ~ avg_cor + avg_var,q_data)
+# #q_ret_in9 = lm(logxret.tp3 ~ (avg_cor:avg_var),q_data)
+# q_ret_in10 = lm(logxret.tp3 ~ mkt_var,q_data)
+# q_ret_in26 = lm(logxret.tp3 ~ mkt_var + avg_var,q_data)
+# stargazer(q_ret_in6,q_ret_in7,q_ret_in10,q_ret_in26,out.header = FALSE,
+#           covariate.labels = c("AC$_{t}$","AV$_{t}$","SV$_{t}$"),
+#           dep.var.labels = "RET$_{t+1}$",
+#           out = 'tab_ret2.tex')
+# # monthly
+# m_ret_in1 = lm(logxret.tp1 ~ avg_cor3m,m_data[paper_m_start:nrow(m_data)])
+# m_ret_in2 = lm(logxret.tp1 ~ avg_var3m,m_data[paper_m_start:nrow(m_data)])
+# m_ret_in3 = lm(logxret.tp1 ~ avg_cor3m + avg_var3m,m_data[paper_m_start:nrow(m_data)])
+# #m_ret_in4 = lm(logxret.tp1 ~ (avg_cor:avg_var3,),m_data)
+# m_ret_in5 = lm(logxret.tp1 ~ mkt_var3m,m_data[paper_m_start:nrow(m_data)])
+# m_ret_in25 = lm(logxret.tp1 ~ mkt_var3m + avg_var3m,m_data[paper_m_start:nrow(m_data)])
+# stargazer(m_ret_in1,m_ret_in2,m_ret_in5,m_ret_in25,out.header = FALSE,
+#           covariate.labels = c("AC$_{t}$","AV$_{t}$","SV$_{t}$"),
+#           dep.var.labels = "RET$_{t+1}$",
+#           out = 'tab_ret3.tex')
 
-m_ret_in11 = lm(logxret.tp3 ~ avg_cor3m,m_data)
-m_ret_in12 = lm(logxret.tp3 ~ avg_var3m,m_data)
-#m_ret_in3 = lm(logxret.tp1 ~ avg_cor + avg_var3,,m_data)
-#m_ret_in4 = lm(logxret.tp1 ~ (avg_cor:avg_var3,),m_data)
-m_ret_in15 = lm(logxret.tp3 ~ mkt_var3m,m_data)
-m_ret_in125 = lm(logxret.tp3 ~ mkt_var3m + avg_var3m,m_data)
+m_ret_in11 = lm(logxret.tp1 ~ avg_cor1m,m_data[paper_m_start:nrow(m_data)])
+m_ret_in12 = lm(logxret.tp1 ~ avg_var1m,m_data[paper_m_start:nrow(m_data)])
+m_ret_in13 = lm(logxret.tp1 ~ avg_cor1m + avg_var1m,m_data[paper_m_start:nrow(m_data)])
+#m_ret_in4 = lm(logxret.tp1 ~ (avg_cor:avg_var3,),m_data[paper_m_start:nrow(m_data)])
+m_ret_in15 = lm(logxret.tp1 ~ mkt_var1m,m_data[paper_m_start:nrow(m_data)])
+m_ret_in125 = lm(logxret.tp1 ~ mkt_var1m + avg_var1m,m_data[paper_m_start:nrow(m_data)])
 stargazer(m_ret_in11,m_ret_in12,m_ret_in15,m_ret_in125,out.header = FALSE,
           covariate.labels = c("AC$_{t}$","AV$_{t}$","SV$_{t}$"),
           dep.var.labels = "RET$_{t+1}$",
           out = 'tab_ret3.tex')
+m_ret_in21 = lm(logxret.tp3 ~ avg_cor1m,m_data[paper_m_start:nrow(m_data)])
+m_ret_in22 = lm(logxret.tp3 ~ avg_var1m,m_data[paper_m_start:nrow(m_data)])
+m_ret_in23 = lm(logxret.tp3 ~ avg_cor1m + avg_var1m,m_data[paper_m_start:nrow(m_data)])
+#m_ret_in4 = lm(logxret.tp1 ~ (avg_cor:avg_var3,),m_data[paper_m_start:nrow(m_data)])
+m_ret_in25 = lm(logxret.tp3 ~ mkt_var1m,m_data[paper_m_start:nrow(m_data)])
+m_ret_in225 = lm(logxret.tp3 ~ mkt_var1m + avg_var1m,m_data[paper_m_start:nrow(m_data)])
+stargazer(m_ret_in21,m_ret_in22,m_ret_in25,m_ret_in225,out.header = FALSE,
+          covariate.labels = c("AC$_{t}$","AV$_{t}$","SV$_{t}$"),
+          dep.var.labels = "RET$_{t+3}$",
+          out = 'tab_ret4.tex')
+m_ret_in31 = lm(logxret.tp6 ~ avg_cor1m,m_data[paper_m_start:nrow(m_data)])
+m_ret_in32 = lm(logxret.tp6 ~ avg_var1m,m_data[paper_m_start:nrow(m_data)])
+m_ret_in33 = lm(logxret.tp6 ~ avg_cor1m + avg_var1m,m_data[paper_m_start:nrow(m_data)])
+#m_ret_in4 = lm(logxret.tp1 ~ (avg_cor:avg_var3,),m_data[paper_m_start:nrow(m_data)])
+m_ret_in35 = lm(logxret.tp6 ~ mkt_var1m,m_data[paper_m_start:nrow(m_data)])
+m_ret_in325 = lm(logxret.tp6 ~ mkt_var1m + avg_var1m,m_data[paper_m_start:nrow(m_data)])
+stargazer(m_ret_in31,m_ret_in32,m_ret_in35,m_ret_in325,out.header = FALSE,
+          covariate.labels = c("AC$_{t}$","AV$_{t}$","SV$_{t}$"),
+          dep.var.labels = "RET$_{t+6}$",
+          out = 'tab_ret5.tex')
+m_ret_in41 = lm(logxret.tp12 ~ avg_cor1m,m_data[paper_m_start:nrow(m_data)])
+m_ret_in42 = lm(logxret.tp12 ~ avg_var1m,m_data[paper_m_start:nrow(m_data)])
+m_ret_in43 = lm(logxret.tp12 ~ avg_cor1m + avg_var1m,m_data[paper_m_start:nrow(m_data)])
+#m_ret_in4 = lm(logxret.tp1 ~ (avg_cor:avg_var3,),m_data[paper_m_start:nrow(m_data)])
+m_ret_in45 = lm(logxret.tp12 ~ mkt_var1m,m_data[paper_m_start:nrow(m_data)])
+m_ret_in425 = lm(logxret.tp12 ~ mkt_var1m + avg_var1m,m_data[paper_m_start:nrow(m_data)])
+stargazer(m_ret_in41,m_ret_in42,m_ret_in45,m_ret_in425,out.header = FALSE,
+          covariate.labels = c("AC$_{t}$","AV$_{t}$","SV$_{t}$"),
+          dep.var.labels = "RET$_{t+12}$",
+          out = 'tab_ret6.tex')
+
+stargazer(m_ret_in12,m_ret_in15,m_ret_in125,m_ret_in22,m_ret_in25,m_ret_in225,m_ret_in32,m_ret_in35,m_ret_in325,
+          m_ret_in42,m_ret_in45,m_ret_in425,out.header = FALSE,
+          covariate.labels = c("AV$_{t}$","SV$_{t}$"),
+          dep.var.labels = c("RET$_{t+1}$","RET$_{t+3}$","RET$_{t+6}$","RET$_{t+12}$"),
+          out = 'tab_ret7.tex')
 
 
 #### out of sample regressions ####
