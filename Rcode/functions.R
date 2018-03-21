@@ -350,13 +350,14 @@ mse.f = function(u1,u2){
 lm.oos = function(formula = NULL, data = NULL, bench = NULL,train = NULL){
   formula = as.formula(formula)
   y = lhs(formula)
-  nr = nrow(data)
+  end = as.integer(str_extract(y,pattern = "[:digit:]+"))
+  nr = nrow(data) - end
   if(is.null(train)){
     train = floor(.15*nr)
   }
-  pred = rep(NA_real_,nr-(train))
-  benchmark = rep(NA_real_,nr-(train))
-  for(n in train:(nr-1)){
+  pred = rep(NA_real_,nr-(train-1))
+  benchmark = rep(NA_real_,nr-(train-1))
+  for(n in train:nr){
     tmp_lm = lm(formula,data[1:(n-1)])
     pred[n-(train-1)] = predict(tmp_lm,data[n])
     if(is.null(bench)){
@@ -368,7 +369,7 @@ lm.oos = function(formula = NULL, data = NULL, bench = NULL,train = NULL){
     }
     benchmark[n-(train-1)] = predict(ben_lm,data[n])
   }
-  hist = unlist(data[train:(nr-1), eval(y)])
+  hist = unlist(data[train:(nr), eval(y)])
   e1 = hist - benchmark
   e2 = hist - pred
   k2 = length(rhs(formula)) - max(length(bench),1) + 1
@@ -866,3 +867,69 @@ genRachev.ratio = function(R){
 Kappa0 = function(R){
   return(Kappa(R,0,4))
 }
+
+Sratio = function(x,annualize=FALSE,freq = NULL){
+  if(annualize){s = sqrt(freq)} else {s = 1}
+  return(mean(x,na.rm = TRUE)/sd(x,na.rm = TRUE) * s)
+}
+
+Sratio_diff = function(x){
+  if(!is.matrix(x)){stop("x must be a matrix with two columns of return data")}
+  s1 = Sratio(x[,1])
+  s2 = Sratio(x[,2])
+  return(s2-s1)
+}
+
+Sratio_diff_CI = function(x,l){
+  vstar = c(mean(x[,1]),mean(x[,2],sd(x[,1]),sd(x[,2])))
+  gv = grad_tic(vstar)
+  l_b = floor(nrow(x)/l) 
+  ystar = rep(list(vector("numeric",4)),nrow(x))
+  zetaj = rep(list(vector("numeric",4)),l_b)
+  Zeta = matrix(nrow = 4,ncol = 4)
+  for(t in 1:nrow(x)){
+    dm1 = x[t,1] - mean(x[,1])
+    dm2 = x[t,2] - mean(x[,2])
+    dv1 = x[t,1]^2 - var(x[,1])
+    dv2 = x[t,2]^2 - var(x[,2])
+    ystar[[t]] = c(dm1,dm2,dv1,dv2)
+  }
+  for(j in 1:l_b){
+    zetaj[[t]] = (1/sqrt(l)) * reduce('+',ystar[((j-1)*l+1):((j-1)*l+l)])
+    Zeta = Zeta + crossprod(t(zetaj[j]))
+  }
+  PSIstar = (1/l_b) * Zeta
+  
+  se = sqrt(gv%*%PSIstar%*%t(gv) / nrow(x))
+  return(se)
+}
+
+grad_tic = function(x){
+  if(!length(x)==4){stop("x must be a numeric vector of length 4")}
+  g1 = x[3] / (x[3] - x[1]^2)^1.5
+  g2 = x[4] / (x[4] - x[2]^2)^1.5
+  g3 = -1*.5*(x[1] / (x[1] - x[3]^2)^1.5)
+  g4 = -1*.5*(x[2] / (x[2] - x[4]^2)^1.5)
+  return(c(g1,g2,g3,g4))
+}
+
+# boot_sr_diff = function(x,nsim = 1000, block = 12){
+#   tmpx = matrix(nrow = nrow(x),ncol = 2)
+#   nt = ceiling(nrow(x)/block)
+#   SRd = rep(NA_real_,nsim)
+#   SEd = rep(NA_real_,nsim)
+#   for(n in 1:nsim){
+#     for(t in 1:nt){
+#       st = sample(1:nrow(x),1)
+#       tmpx[t:(t+block-1)] = x[st:st+(block-1),2:3]
+#     }
+#     tmpx = head(tmpx,nrow(x))
+#     SRd[n] = Sratio_diff(tmpx[,1],tmpx[,2])
+#     
+#   }
+#   # if(!is.matrix(x)){stop("x must be a matrix")}
+#   # if(!is.numeric(x)){stop("x must be numeric")}
+#   # if(!ncol(x) == 3){stop("x must have two columns")}
+#   # sr_dff_ts = apply(x[,2:3],MARGIN = 1,FUN = Sratio_diff)
+#   
+# }
