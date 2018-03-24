@@ -771,59 +771,83 @@ m_bh_sortino = sortinoR(m_bh_returns,annualize = TRUE,freq = "monthly")
 m_av_sortino = sortinoR(adj_m_av_returns,annualize = TRUE,freq = "monthly")
 m_vol_sortino = sortinoR(adj_m_vol_returns,annualize = TRUE,freq = "monthly")
 
-var1 = VAR(y = data.table(adj_m_av_returns,adj_m_vol_returns),p = 1,type = "none", season = 12)
-return_resid = data.table(var1$varresult$adj_m_av_returns$residuals,var1$varresult$adj_m_vol_returns$residuals)
-tboot1 = tsboot(as.ts(return_resid),statistic = Sratio_diff,R = 1000,l = 12,sim = "fixed")
-p.sr = t.test(tboot1$t)$p.value
+# var1 = VAR(y = data.table(adj_m_av_returns,adj_m_vol_returns),p = 1,type = "none", season = 12)
+# return_resid = data.table(var1$varresult$adj_m_av_returns$residuals,var1$varresult$adj_m_vol_returns$residuals)
+# tboot1 = tsboot(as.ts(return_resid),statistic = Sratio_diff,R = 1000,l = 12,sim = "fixed")
+# p.sr = t.test(tboot1$t)$p.value
 
 #### performance table ####
-perf_dt = data.table(Sample = rep("Monthly",2),Strategy = rep(c("SV","AV")))
-for(f in c("Quarterly","Monthly")[2]){
-  if(f=="Quarterly"){
-    r1 = adj_q_vol_returns
-    r2 = adj_q_av_returns
-    fq = 4
-  } else {
-    r1 = adj_m_vol_returns
-    r2 = adj_m_av_returns
-    fq = 12
-  }
-  perf_dt[Sample==f & Strategy == "SV", RET := round(mean(r1)*fq*100,3)]
-  sharpep = sr_test(r2,r1,ope = fq,paired = TRUE,alternative = "less")$p.value
-  sp = data.table(SR = (mean(r1)/sd(r1))*sqrt(fq), pval = sharpep)
-  sp = round(matrix(as.numeric(sp),nrow=1),3)
-  perf_dt[Sample==f & Strategy == "SV", Sharpe := see.stars(round(as.matrix(sp),3),1,2)[1]]
-  sp = data.table(SR = SortinoRatio(r1), pval = ratio.test(r2,r1,ratio = "sortinoR")[3])
-  sp = round(matrix(as.numeric(sp),nrow=1),3)
-  perf_dt[Sample==f & Strategy == "SV", Sortino := see.stars(round(as.matrix(sp),3),1,2)[1]]
-  sp = data.table(SR = Kappa0(r1), pval = ratio.test(r2,r1,ratio = "Kappa0")[3])
-  sp = round(matrix(as.numeric(sp),nrow=1),3)
-  perf_dt[Sample==f & Strategy == "SV", Kappa := see.stars(round(as.matrix(sp),3),1,2)[1]]
-  sp = data.table(SR = UpsidePotentialRatio(r1), pval = ratio.test(r2,r1,ratio = "UpsidePotentialRatio")[3])
-  sp = round(matrix(as.numeric(sp),nrow=1),3)
-  perf_dt[Sample==f & Strategy == "SV", UpsidePotential := see.stars(round(as.matrix(sp),3),1,2)[1]]
-  sp = data.table(SR = genRachev.ratio(r1), pval = ratio.test(r2,r1,ratio = "genRachev.ratio")[3])
-  sp = round(matrix(as.numeric(sp),nrow=1),3)
-  perf_dt[Sample==f & Strategy == "SV", Rachev := see.stars(round(as.matrix(sp),3),1,2)[1]]
-  
-  perf_dt[Sample==f & Strategy == "AV", RET := round(mean(r2)*fq*100,3)]
-  sharpep = sr_test(r1,r2,ope = fq,paired = TRUE,alternative="less")$p.value
-  sp = data.table(SR = (mean(r2)/sd(r2))*sqrt(fq), pval = sharpep)
-  sp = round(matrix(as.numeric(sp),nrow=1),3)
-  perf_dt[Sample==f & Strategy == "AV", Sharpe := see.stars(round(as.matrix(sp),3),1,2)[1]]
-  sp = data.table(SR = SortinoRatio(r2), pval = ratio.test(r1,r2,ratio = "sortinoR")[3])
-  sp = round(matrix(as.numeric(sp),nrow=1),3)
-  perf_dt[Sample==f & Strategy == "AV", Sortino := see.stars(round(as.matrix(sp),3),1,2)[1]]
-  sp = data.table(SR = Kappa0(r2), pval = ratio.test(r1,r2,ratio = "Kappa0")[3])
-  sp = round(matrix(as.numeric(sp),nrow=1),3)
-  perf_dt[Sample==f & Strategy == "AV", Kappa := see.stars(round(as.matrix(sp),3),1,2)[1]]
-  sp = data.table(SR = UpsidePotentialRatio(r2), pval = ratio.test(r1,r2,ratio = "UpsidePotentialRatio")[3])
-  sp = round(matrix(as.numeric(sp),nrow=1),3)
-  perf_dt[Sample==f & Strategy == "AV", UpsidePotential := see.stars(round(as.matrix(sp),3),1,2)[1]]
-  sp = data.table(SR = genRachev.ratio(r2), pval = ratio.test(r1,r2,ratio = "genRachev.ratio")[3])
-  sp = round(matrix(as.numeric(sp),nrow=1),3)
-  perf_dt[Sample==f & Strategy == "AV", Rachev := see.stars(round(as.matrix(sp),3),1,2)[1]]
-}
+var1 = VAR(y = data.table(adj_m_av_returns,adj_m_vol_returns),p = 1,type = "none", season = 12)
+return_resid = data.table(var1$varresult$adj_m_av_returns$residuals,var1$varresult$adj_m_vol_returns$residuals)
+perf_dt = data.table(Strategy = rep(c("BH","SV","AV")))
+# fq = 12
+r0 = m_bh_returns
+r1 = adj_m_vol_returns
+r2 = adj_m_av_returns
+
+SR1 = mean(r1)/sd(r1) * sqrt(12)
+SR2 = mean(r2)/sd(r2) * sqrt(12)
+SOR1 = SortinoRatio(r1) * sqrt(12)
+SOR2 = SortinoRatio(r2) * sqrt(12)
+K1 = Kappa0(r1)
+K2 = Kappa0(r2)
+UP1 = UpsidePotentialRatio(r1)
+UP2 = UpsidePotentialRatio(r2)
+gR1 = genRachev.ratio(r1)
+gR2 = genRachev.ratio(r2)
+
+perf_dt[Strategy == "BH", RET := as.character(round(mean(r0)*fq*100,3))]
+ar.p = t.test(r2,r1,alternative = "less",paired = TRUE,var.equal = TRUE)$p.value
+sp = data.table(avg = round(mean(r1)*fq*100,3), pval = ar.p)
+perf_dt[Strategy == "SV", RET := see.stars(round(as.matrix(sp),3),1,2)[1]]
+ar.p = t.test(r1,r2,alternative = "less",paired = TRUE,var.equal = TRUE)$p.value
+sp = data.table(avg = round(mean(r2)*fq*100,3), pval = ar.p)
+perf_dt[Strategy == "AV", RET := see.stars(round(as.matrix(sp),3),1,2)[1]]
+
+r1 = unlist(return_resid[,2])
+r2 = unlist(return_resid[,1])
+
+perf_dt[Strategy == "BH", Sharpe := as.character(round((mean(r0)/sd(r0))* sqrt(12),3))]
+perf_dt[Strategy == "BH", Sortino :=  as.character(round(SortinoRatio(r0)* sqrt(12),3))]
+perf_dt[Strategy == "BH", Kappa := as.character(round(Kappa0(r0),3))]
+perf_dt[Strategy == "BH", UpsidePotential := as.character(round(UpsidePotentialRatio(r0),3))]
+perf_dt[Strategy == "BH", Rachev := as.character(round(genRachev.ratio(r0),3))]
+
+
+sharpep = ratio.test1(r2,r1)
+sp = data.table(SR1, pval = sharpep)
+sp = round(matrix(as.numeric(sp),nrow=1),3)
+perf_dt[Strategy == "SV", Sharpe := see.stars(round(as.matrix(sp),3),1,2)[1]]
+sp = data.table(SR = SOR1, pval = ratio.test2(r2,r1,ratio = "sortinoR"))
+sp = round(matrix(as.numeric(sp),nrow=1),3)
+perf_dt[Strategy == "SV", Sortino := see.stars(round(as.matrix(sp),3),1,2)[1]]
+sp = data.table(SR = K1, pval = ratio.test2(r2,r1,ratio = "Kappa0"))
+sp = round(matrix(as.numeric(sp),nrow=1),3)
+perf_dt[Strategy == "SV", Kappa := see.stars(round(as.matrix(sp),3),1,2)[1]]
+sp = data.table(SR = UP1, pval = ratio.test2(r2,r1,ratio = "UpsidePotentialRatio"))
+sp = round(matrix(as.numeric(sp),nrow=1),3)
+perf_dt[Strategy == "SV", UpsidePotential := see.stars(round(as.matrix(sp),3),1,2)[1]]
+sp = data.table(SR = gR1, pval = ratio.test2(r2,r1,ratio = "genRachev.ratio"))
+sp = round(matrix(as.numeric(sp),nrow=1),3)
+perf_dt[Strategy == "SV", Rachev := see.stars(round(as.matrix(sp),3),1,2)[1]]
+
+
+sharpep = ratio.test1(r1,r2)
+sp = data.table(SR2, pval = sharpep)
+sp = round(matrix(as.numeric(sp),nrow=1),3)
+perf_dt[Strategy == "AV", Sharpe := see.stars(round(as.matrix(sp),3),1,2)[1]]
+sp = data.table(SR = SOR2, pval = ratio.test2(r1,r2,ratio = "sortinoR"))
+sp = round(matrix(as.numeric(sp),nrow=1),3)
+perf_dt[Strategy == "AV", Sortino := see.stars(round(as.matrix(sp),3),1,2)[1]]
+sp = data.table(SR = K2, pval = ratio.test2(r1,r2,ratio = "Kappa0"))
+sp = round(matrix(as.numeric(sp),nrow=1),3)
+perf_dt[Strategy == "AV", Kappa := see.stars(round(as.matrix(sp),3),1,2)[1]]
+sp = data.table(SR = UP2, pval = ratio.test2(r1,r2,ratio = "UpsidePotentialRatio"))
+sp = round(matrix(as.numeric(sp),nrow=1),3)
+perf_dt[Strategy == "AV", UpsidePotential := see.stars(round(as.matrix(sp),3),1,2)[1]]
+sp = data.table(SR = gR2, pval = ratio.test2(r1,r2,ratio = "genRachev.ratio"))
+sp = round(matrix(as.numeric(sp),nrow=1),3)
+perf_dt[Strategy == "AV", Rachev := see.stars(round(as.matrix(sp),3),1,2)[1]]
 
 #### return plots ####
 p1 = data.table(Date = rep(m_data[m_start:nrow(m_data)]$date,3), 
