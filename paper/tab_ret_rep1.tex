@@ -1,90 +1,37 @@
 
 % Table created by stargazer v.5.2 by Marek Hlavac, Harvard University. E-mail: hlavac at fas.harvard.edu
-% Date and time: Thu, Mar 01, 2018 - 08:13:34  IST
+% Date and time: Mon, Mar 26, 2018 - 03:21:11  IST
 \begin{table}[!htbp] \centering 
-  \caption{Market Return Prediction - This table has in sample predictions of the excess log return of the CRSP value-weighted daily index return using average correlation, AC, average variance, AV, and the variance of the CRSP index itself, SV. Panel A is estimated using quarterly data from 1963Q2:2007Q1 as in \cite{pollet_average_2010}. Panel B is estimated quarterly from 1934Q2:2016Q4. Panel C is estimated monthly from 1926M8:2016M12.} 
-  \label{tab_ret_in} 
-	\begin{adjustbox}{height=4in,width=6in}
-		\begin{tabular}{@{\extracolsep{5pt}}lcccc}
-			\multicolumn{5}{c}{Dependent variable: RET$_{t+1}$} \\ 
-			\\[-1.8ex]\hline 
-			\hline %\\[-1.8ex] 
-			%& \multicolumn{5}{c}{\textit{}} \\ 
-			\\[-1.8ex] \multicolumn{5}{c}{\textit{Panel A: 1963Q1:2007Q1}} \\ 
-			\cline{2-5}
-			%\\[-1.8ex] & (1) & (2) & (3) & (4) & (5)\\ 
-			\hline \\[-1.8ex] 
-			  AC$_{t}$ & 0.213$^{***}$ &  &  &  \\ 
-			  & (0.069) &  &  &  \\ 
-			  & & & & \\ 
-			  AV$_{t}$ &  & $-$0.117 &  & $-$1.742$^{***}$ \\ 
-			  &  & (0.347) &  & (0.616) \\ 
-			  & & & & \\ 
-			  SV$_{t}$ &  &  & 1.454 & 5.778$^{***}$ \\ 
-			  &  &  & (1.025) & (1.829) \\ 
-			  & & & & \\ 
-			  Constant & $-$0.037$^{**}$ & 0.014 & 0.005 & 0.022$^{**}$ \\ 
-			  & (0.017) & (0.010) & (0.008) & (0.010) \\ 
-			  & & & & \\ 
-			  \hline \\[-1.8ex] 
-			  Observations & 176 & 176 & 176 & 176 \\ 
-			 R$^{2}$ & 0.053 & 0.001 & 0.011 & 0.011 \\ 
-			% Adjusted R$^{2}$ & 0.047 & $-$0.005 & 0.006 & 0.006 \\ 
-			 %Residual Std. Error (df = 174) & 0.082 & 0.084 & 0.083 & 0.083 \\ 
-			%Adjusted R$^{2}$ & 0.039 & 0.180 & 0.092 & 0.092 & 0.182 \\ 
-			%Residual Std. Error & 0.006 (df = 173) & 0.006 (df = 173) & 0.006 (df = 173) & 0.006 (df = 173) & 0.006 (df = 172) \\ 
-			%F Statistic & 7.997$^{***}$ (df = 1; 173) & 39.136$^{***}$ (df = 1; 173) & 18.604$^{***}$ (df = 1; 173) & 18.694$^{***}$ (df = 1; 173) & 20.415$^{***}$ (df = 2; 172) \\ 
-			\hline 
-			\hline \\[-1.8ex]
-			\multicolumn{5}{c}{\textit{Panel B: 1934Q2:2016Q4}} \\
-			\cline{2-5}
-			%\\[-1.8ex] & (1) & (2) & (3) & (4) & (5)\\ 
-			\hline \\[-1.8ex] 
-			 AC$_{t}$ & 0.109$^{**}$ &  &  &  \\ 
-			 & (0.042) &  &  &  \\ 
-			 & & & & \\ 
-			 AV$_{t}$ &  & $-$0.371 &  & $-$1.624$^{***}$ \\ 
-			 &  & (0.233) &  & (0.523) \\ 
-			 & & & & \\ 
-			 SV$_{t}$ &  &  & $-$0.130 & 3.123$^{***}$ \\ 
-			 &  &  & (0.524) & (1.167) \\ 
-			 & & & & \\ 
-			 Constant & $-$0.012 & 0.025$^{***}$ & 0.018$^{***}$ & 0.034$^{***}$ \\ 
-			 & (0.012) & (0.007) & (0.006) & (0.008) \\ 
-			 & & & & \\ 
-			 \hline \\[-1.8ex] 
-			 Observations & 331 & 331 & 331 & 331 \\ 
-			 R$^{2}$ & 0.020 & 0.008 & 0.0002 & 0.029 \\
-			%Adjusted R$^{2}$ & 0.173 & 0.386 & 0.306 & 0.392 & 0.306 \\ 
-			%Residual Std. Error & 0.011 (df = 361) & 0.010 (df = 361) & 0.010 (df = 361) & 0.010 (df = 360) & 0.010 (df = 361) \\ 
-			%F Statistic & 76.897$^{***}$ (df = 1; 361) & 228.220$^{***}$ (df = 1; 361) & 160.807$^{***}$ (df = 1; 361) & 117.551$^{***}$ (df = 2; 360) & 160.807$^{***}$ (df = 1; 361) \\ 
-			\hline 
-			\hline \\[-1.8ex] 
-			\multicolumn{5}{c}{\textit{Panel C: 1926M8:2016M12}} \\
-			\cline{2-5}
-			%\\[-1.8ex] & (1) & (2) & (3) & (4) & (5)\\ 
-			\hline \\[-1.8ex] 
-			  AC$_{t}$ & 0.004 &  &  &  \\ 
-			  & (0.012) &  &  &  \\ 
-			  & & & & \\ 
-			  AV$_{t}$ &  & 0.001 &  & 0.764$^{***}$ \\ 
-			  &  & (0.127) &  & (0.246) \\ 
-			  & & & & \\ 
-			  SV$_{t}$ &  &  & $-$0.604$^{*}$ & $-$2.275$^{***}$ \\ 
-			  &  &  & (0.325) & (0.627) \\ 
-			  & & & & \\ 
-			  Constant & 0.004 & 0.005$^{**}$ & 0.006$^{***}$ & 0.004$^{*}$ \\ 
-			  & (0.004) & (0.002) & (0.002) & (0.002) \\ 
-			  & & & & \\ 
-			  \hline \\[-1.8ex] 
-			  Observations & 1,085 & 1,085 & 1,085 & 1,085 \\ 
-			  R$^{2}$ & 0.0001 & 0.00000 & 0.003 & 0.012 \\ 
-			%Adjusted R$^{2}$ & 0.173 & 0.393 & 0.374 & 0.475 \\ 
-			%Residual Std. Error & 0.005 (df = 1083) & 0.004 (df = 1083) & 0.004 (df = 1083) & 0.003 (df = 1081) \\ 
-			%F Statistic & 227.171$^{***}$ (df = 1; 1083) & 702.324$^{***}$ (df = 1; 1083) & 648.537$^{***}$ (df = 1; 1083) & 491.584$^{***}$ (df = 2; 1081) \\ 
-			\hline 
-			\hline \\[-1.8ex] 
-			\textit{Note:}  & \multicolumn{4}{r}{$^{*}$p$<$0.1; $^{**}$p$<$0.05; $^{***}$p$<$0.01} \\ 
-		\end{tabular}
-	\end{adjustbox}
+  \caption{} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{5pt}}lcccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & \multicolumn{4}{c}{\textit{Dependent variable:}} \\ 
+\cline{2-5} 
+\\[-1.8ex] & \multicolumn{4}{c}{RET$_{t+1}} \\ 
+\\[-1.8ex] & (1) & (2) & (3) & (4)\\ 
+\hline \\[-1.8ex] 
+ AC$_{t}$ & 0.215$^{***}$ &  &  &  \\ 
+  & (0.068) &  &  &  \\ 
+  & & & & \\ 
+ AV$_{t}$ &  & $-$0.116 &  & $-$1.746$^{***}$ \\ 
+  &  & (0.347) &  & (0.615) \\ 
+  & & & & \\ 
+ SV$_{t}$ &  &  & 1.466 & 5.795$^{***}$ \\ 
+  &  &  & (1.026) & (1.828) \\ 
+  & & & & \\ 
+ Constant & $-$0.038$^{**}$ & 0.014 & 0.005 & 0.022$^{**}$ \\ 
+  & (0.017) & (0.010) & (0.008) & (0.010) \\ 
+  & & & & \\ 
+\hline \\[-1.8ex] 
+Observations & 176 & 176 & 176 & 176 \\ 
+R$^{2}$ & 0.054 & 0.001 & 0.012 & 0.056 \\ 
+Adjusted R$^{2}$ & 0.049 & $-$0.005 & 0.006 & 0.045 \\ 
+Residual Std. Error & 0.082 (df = 174) & 0.084 (df = 174) & 0.083 (df = 174) & 0.082 (df = 173) \\ 
+F Statistic & 9.945$^{***}$ (df = 1; 174) & 0.112 (df = 1; 174) & 2.041 (df = 1; 174) & 5.085$^{***}$ (df = 2; 173) \\ 
+\hline 
+\hline \\[-1.8ex] 
+\textit{Note:}  & \multicolumn{4}{r}{$^{*}$p$<$0.1; $^{**}$p$<$0.05; $^{***}$p$<$0.01} \\ 
+\end{tabular} 
 \end{table} 

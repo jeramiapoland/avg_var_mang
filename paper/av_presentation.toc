@@ -1,0 +1,5 @@
+\beamer@endinputifotherversion {3.36pt}
+\beamer@sectionintoc {1}{Low-Risk Anomaly}{2}{0}{1}
+\beamer@sectionintoc {2}{Data}{4}{0}{2}
+\beamer@sectionintoc {3}{Variance Decomposition}{5}{0}{3}
+\beamer@sectionintoc {4}{Conclusions}{8}{0}{4}

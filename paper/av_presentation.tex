@@ -1,0 +1,127 @@
+\documentclass{beamer}
+\usetheme{Hannover}
+\usecolortheme{seahorse}
+\usepackage{graphics,graphicx,lmodern,amsmath,appendixnumberbeamer,enumerate}
+\useoutertheme{infolines}
+\setbeamertemplate{headline}{} % removes the headline that infolines inserts
+\setbeamertemplate{footline}[frame number]
+\usepackage{multimedia,etoolbox,xmpmulti}
+%\usepackage{natbib}
+%\bibliographystyle{jf}
+%% make bibliography entries smaller
+%\renewcommand\bibfont{\scriptsize}
+%% If you have more than one page of references, you want to tell beamer
+%% to put the continuation section label from the second slide onwards
+%\setbeamertemplate{frametitle continuation}[from second]
+%% Now get rid of all the colours
+%\setbeamercolor*{bibliography entry title}{fg=black}
+%\setbeamercolor*{bibliography entry author}{fg=black}
+%\setbeamercolor*{bibliography entry location}{fg=black}
+%\setbeamercolor*{bibliography entry note}{fg=black}
+%% and kill the abominable icon
+%\setbeamertemplate{bibliography item}{}
+%\renewcommand{\newblock}{}
+\usepackage{tikz,adjustbox}
+\usepackage{hyperref}
+\makeatletter
+\patchcmd{\insertverticalnavigation}%
+{\ifx\beamer@nav@css\beamer@hidetext{\usebeamertemplate{section in sidebar}}\else{\usebeamertemplate{section in sidebar shaded}}\fi}%
+{{\usebeamertemplate{section in sidebar}}}{}{}
+\makeatother
+
+
+\begin{document}
+
+\title[Average Variance]{Don't Throw out the Return with the Risk: Average Variance Portfolio Management}   
+\author[J. Poland]{Jeramia Poland} 
+\date{\today}
+\institute[ISB]{\includegraphics[scale=.5]{../../../Pictures/Latex_Central/isb-logo.jpg}\\Indian School of Business}
+
+\begin{frame}
+\titlepage
+\end{frame}
+
+\section{Low-Risk Anomaly}
+
+\begin{frame}{Equity Premium}
+	\begin{block}{A Puzzle}
+\begin{itemize}
+	\item Equity Premium - more risk, more reward
+	\item Markowitz (1952) - formal portfolio variance, return optimization
+	\item Haugen 1972 - low risk portfolios out perform
+	\item Moreira and Muir (2017) - portfolios scaled by last months realized volatilty outperform the underlying
+	\item Pollet and Wilson (2010) - decompose quarterly variance of market portfolio - avg cor and avg var
+\end{itemize}
+	\end{block}
+\end{frame}
+
+\begin{frame}{Average Variance}
+	\begin{adjustbox}{width=\textwidth}
+		\input{m_ret_plot2.tex}
+	\end{adjustbox}
+	\begin{adjustbox}{width=\textwidth}
+			\input{tab_perf.tex}
+	\end{adjustbox}
+\end{frame}
+
+\section{Data}
+
+\begin{frame}{Data}
+	\begin{block}{CRSP daily returns}
+		\begin{itemize}
+			\item NYSE daily return (1926-2017)
+			\item NYSE-AMEX daily returns (1962-2017)
+			\item NASDAQ daily returns (1974-2017)
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+\section{Variance Decomposition}
+
+\begin{frame}{Market Variance}
+	\begin{align}
+	%SV_{t} &= \frac{1}{t-1}\sum_{\tau = 1}^{t} \left(R^{m}_{\tau} - \frac{\sum_{\tau = 1}^{t} R^{m}_{\tau}}{t}\right)^{2}\\
+	SV_{t} &= \sum_{n=1}^{N} \sum_{m=1}^{N}w^{n}_{t}w^{m}_{t}\sigma^{2}_{n,t}\sigma^{2}_{m,t}\rho^{n,m}_{t}\\
+	SV_{t} &= \sum_{n=1}^{N} w^{n}_{t}\sigma^{2}_{n,t} \times \sum_{n=1}^{N}\sum_{m \neq n}^{N}w^{n}_{t}w^{m}_{t}\rho^{n,m}_{t}\\
+	AV_{t} &= \sum_{n=1}^{N} w^{n}_{t}\sigma^{2}_{n,t}\\
+	AC_{t} &= \sum_{n=1}^{N}\sum_{m \neq n}^{N}w^{n}_{t}w^{m}_{t}\rho^{n,m}_{t}\\
+	\end{align}
+\end{frame}
+
+\begin{frame}{Summary Stats}
+	\begin{table}[!htbp] \centering 
+		\begin{adjustbox}{width=\textwidth}
+			\begin{tabular}{lcccccc} 
+				\input{summary1}
+				%\input{summary2}
+				\input{summary3}
+			\end{tabular}
+		\end{adjustbox}
+	\end{table}
+\end{frame}
+
+\begin{frame}{Time Series}
+	\begin{adjustbox}{width=\textwidth}
+		\input{m_plot2.tex}	
+	\end{adjustbox}
+\end{frame}
+
+\section{Conclusions}
+\begin{frame}{Conclusions}
+\begin{itemize}[<+->]
+\item There is only one testable hypothesis associated with the generalized two-parameter asset pricing model of BJS, FM, BF, and others - (H2) The market portfolio is mean-variance efficient.
+\item No other implication is independently testable, e.g. linearity, they are all in an if and only if relationship with m-v efficiency.
+\item For any sample of observed individual returns there is an infinite number of ex-post mean-variance efficient portfolios. 
+\item The theory is not testable without correct specification of the true market portfolio of all assets.
+\item Testing market proxies gives no insight into the falsity of the theory.
+\item The results of BJS, FM, BF and others are consistent with the S-L theory.
+\end{itemize}
+
+\end{frame}
+
+%\begin{frame}[t,allowframebreaks]
+%	\frametitle{References}
+% \bibliography{avg_var_mang}
+%\end{frame}
+
+\end{document}
