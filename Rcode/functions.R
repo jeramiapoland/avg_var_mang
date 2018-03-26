@@ -350,13 +350,14 @@ mse.f = function(u1,u2){
 lm.oos = function(formula = NULL, data = NULL, bench = NULL,train = NULL){
   formula = as.formula(formula)
   y = lhs(formula)
-  nr = nrow(data)
+  end = as.integer(str_extract(y,pattern = "[:digit:]+"))
+  nr = nrow(data) - end
   if(is.null(train)){
     train = floor(.15*nr)
   }
-  pred = rep(NA_real_,nr-(train))
-  benchmark = rep(NA_real_,nr-(train))
-  for(n in train:(nr-1)){
+  pred = rep(NA_real_,nr-(train-1))
+  benchmark = rep(NA_real_,nr-(train-1))
+  for(n in train:nr){
     tmp_lm = lm(formula,data[1:(n-1)])
     pred[n-(train-1)] = predict(tmp_lm,data[n])
     if(is.null(bench)){
@@ -368,7 +369,7 @@ lm.oos = function(formula = NULL, data = NULL, bench = NULL,train = NULL){
     }
     benchmark[n-(train-1)] = predict(ben_lm,data[n])
   }
-  hist = unlist(data[train:(nr-1), eval(y)])
+  hist = unlist(data[train:(nr), eval(y)])
   e1 = hist - benchmark
   e2 = hist - pred
   k2 = length(rhs(formula)) - max(length(bench),1) + 1
@@ -839,22 +840,59 @@ sortinoR = function(R,annualize = FALSE, freq = c("monthly","quarterly")){
   return(SortinoRatio(R))
 }
 
-ratio.test = function(rets1,rets2,n_samples = 1000,ratio = c("sortinoR","Kappa0","UpsidePotentialRatio","genRachev.ratio")){
-  ratios = rep(NA_real_,length(rets1))
-  ratios2 = rep(NA_real_,length(rets2))
-  for(n in 1:n_samples){
-    r1 = sample(rets1,replace = TRUE,size = length(adj_m_av_returns))
-    r2 = sample(rets2,replace = TRUE,size = length(adj_m_vol_returns))
-    ratios[n] = do.call(what = ratio,args = list(R = r1))
-    ratios2[n] = do.call(what = ratio,args = list(R = r2))
-  }
-  np_dt1 = data.table(sr = c(ratios,ratios2), strat = as.factor(c(rep("r1",length(ratios)),rep("r2",length(ratios2)))))
-  ktest = kruskal.test(formula = sr ~ strat, data = np_dt1)
-  same = (ktest$p.value >= .1)
-  if(!same){
-    w = wilcox.test(ratios,ratios2,alternative = "less")$p.value
-  } else {w = NULL}
-  return(c("Ratio" = ratio, "k_p.value" = ktest$p.value, "w_p.value" = w))
+
+ratios_x = function(x,r_method){
+  rx1 = do.call(what = r_method,args = list(R = x[,1]))
+  rx2 = do.call(what = r_method,args = list(R = x[,2]))
+  return(c(rx1,rx2))
+}
+
+ratio.test1 = function(rets1,rets2,n_samples = 1000){
+  rx1 = Sratio(rets1)
+  rx2 = Sratio(rets2)
+  sample_diff = rx1 - rx2
+  ts_obj = as.ts(data.table(rets1,rets2))
+  clust = makeCluster(10,type = "FORK")
+  registerDoParallel(clust)
+  ts_ratios = tsboot(tseries = ts_obj,statistic = Sratio_diff,R = n_samples,l = 3,sim = "fixed",
+                     parallel = "multicore",cl = clust)$t
+  stopCluster(clust)
+  registerDoSEQ()
+  pv = t.test(ts_ratios,alternative = "less")$p.value
+  return(pv)
+}
+
+ratio.test2 = function(rets1,rets2,n_samples = 1000,
+                      ratio = c("sortinoR","Kappa0",
+                                "UpsidePotentialRatio","genRachev.ratio")){
+  # ratios = rep(NA_real_,length(rets1))
+  # ratios2 = rep(NA_real_,length(rets2))
+  # for(n in 1:n_samples){
+  #   r1 = sample(rets1,replace = TRUE,size = length(adj_m_av_returns))
+  #   r2 = sample(rets2,replace = TRUE,size = length(adj_m_vol_returns))
+  #   ratios[n] = do.call(what = ratio,args = list(R = r1))
+  #   ratios2[n] = do.call(what = ratio,args = list(R = r2))
+  # }
+  # np_dt1 = data.table(sr = c(ratios,ratios2), strat = as.factor(c(rep("r1",length(ratios)),rep("r2",length(ratios2)))))
+  # ktest = kruskal.test(formula = sr ~ strat, data = np_dt1)
+  # same = (ktest$p.value >= .1)
+  # if(!same){
+  #   w = wilcox.test(ratios,ratios2,alternative = "less")$p.value
+  # } else {w = NULL}
+  # return(c("Ratio" = ratio, "k_p.value" = ktest$p.value, "w_p.value" = w))
+  # time series boot code
+  ts_obj = as.ts(data.table(rets1,rets2))
+  clust = makeCluster(10,type = "FORK")
+  registerDoParallel(clust)
+  ts_ratios = tsboot(tseries = ts_obj,statistic = ratios_x,R = n_samples,l = 1,sim = "fixed",endcorr = TRUE,
+         parallel = "multicore",cl = clust, r_method = ratio)$t
+  stopCluster(clust)
+  registerDoSEQ()
+  t1 = ts_ratios[,1]
+  t2 = ts_ratios[,2]
+  pv = wilcox.test(t1,t2,paired = TRUE,alternative = "less",
+                   exact = TRUE)$p.value
+  return(pv)
 }
 
 genRachev.ratio = function(R){
@@ -864,5 +902,81 @@ genRachev.ratio = function(R){
 }
 
 Kappa0 = function(R){
-  return(Kappa(R,0,4))
+  return(Kappa(R,0,3))
 }
+
+Sratio = function(x,annualize=FALSE,freq = NULL){
+  if(annualize){s = sqrt(freq)} else {s = 1}
+  return(mean(x,na.rm = TRUE)/sd(x,na.rm = TRUE) * s)
+}
+
+Sratio_diff = function(r1,r2=NULL){
+  if(dim(r1)[2]==2 & !is.null(r2)){
+    s1 = Sratio(r1)
+    s2 = Sratio(r2)
+  } else {
+    s1 = Sratio(r1[,1])
+    s2 = Sratio(r1[,2])
+  }
+  return(s1-s2)
+}
+
+# Sratio_diff_CI = function(x,l,mu){
+#   vstar = c(mean(x[,1]),mean(x[,2]),sd(x[,1]),sd(x[,2]))
+#   gv = grad_tic(vstar)
+#   l_b = floor(nrow(x)/l)
+#   ystar = rep(list(vector("numeric",4)),nrow(x))
+#   zetaj = rep(list(vector("numeric",4)),l_b)
+#   Zeta = matrix(data = 0, nrow = 4,ncol = 4)
+#   for(t in 1:nrow(x)){
+#     dm1 = x[t,1] - mean(x[,1])
+#     dm2 = x[t,2] - mean(x[,2])
+#     dv1 = x[t,1]^2 - var(x[,1])
+#     dv2 = x[t,2]^2 - var(x[,2])
+#     ystar[[t]] = c(dm1,dm2,dv1,dv2)
+#   }
+#   
+#   for(j in 1:l_b){
+#     zetaj[[j]] = (1/sqrt(l)) * Reduce('+',ystar[((j-1)*l+1):((j-1)*l+l)])
+#     Zeta = Zeta + crossprod(t(zetaj[[j]]))
+#   }
+#   PSIstar = (1/l_b) * Zeta
+#   
+#   se = c(sqrt(t(gv)%*%PSIstar%*%(gv) / nrow(x)))
+#   L = ((x[,1] - x[,2]) - mu) / se
+#   diff_dist = ecdf(L)
+#   qts = quantile(diff_dist,probs = c(.9,.95,.99))
+#   lows = mu - (qts *se)
+#   highs = mu + (qts * se)
+#   return()
+# }
+
+# grad_tic = function(x){
+#   if(!length(x)==4){stop("x must be a numeric vector of length 4")}
+#   g1 = x[3] / (x[3] - x[1]^2)^1.5
+#   g2 = x[4] / (x[4] - x[2]^2)^1.5
+#   g3 = -1*.5*(x[1] / (x[3] - x[1]^2)^1.5)
+#   g4 = -1*.5*(x[2] / (x[4] - x[2]^2)^1.5)
+#   return(c(g1,g2,g3,g4))
+# }
+
+# boot_sr_diff = function(x,nsim = 1000, block = 12){
+#   tmpx = matrix(nrow = nrow(x),ncol = 2)
+#   nt = ceiling(nrow(x)/block)
+#   SRd = rep(NA_real_,nsim)
+#   SEd = rep(NA_real_,nsim)
+#   for(n in 1:nsim){
+#     for(t in 1:nt){
+#       st = sample(1:nrow(x),1)
+#       tmpx[t:(t+block-1)] = x[st:st+(block-1),2:3]
+#     }
+#     tmpx = head(tmpx,nrow(x))
+#     SRd[n] = Sratio_diff(tmpx[,1],tmpx[,2])
+#     
+#   }
+#   # if(!is.matrix(x)){stop("x must be a matrix")}
+#   # if(!is.numeric(x)){stop("x must be numeric")}
+#   # if(!ncol(x) == 3){stop("x must have two columns")}
+#   # sr_dff_ts = apply(x[,2:3],MARGIN = 1,FUN = Sratio_diff)
+#   
+# }
