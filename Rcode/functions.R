@@ -854,12 +854,11 @@ ratio.test1 = function(rets1,rets2,n_samples = 1000){
   ts_obj = as.ts(data.table(rets1,rets2))
   clust = makeCluster(10,type = "FORK")
   registerDoParallel(clust)
-  ts_ratios = tsboot(tseries = ts_obj,statistic = Sratio_diff,R = n_samples,l = 1,sim = "fixed",endcorr = TRUE,
+  ts_ratios = tsboot(tseries = ts_obj,statistic = Sratio_diff,R = n_samples,l = 3,sim = "fixed",
                      parallel = "multicore",cl = clust)$t
   stopCluster(clust)
   registerDoSEQ()
-  diff_dist = ecdf(ts_ratios)
-  pv = diff_dist(sample_diff)
+  pv = t.test(ts_ratios,alternative = "less")$p.value
   return(pv)
 }
 
@@ -903,7 +902,7 @@ genRachev.ratio = function(R){
 }
 
 Kappa0 = function(R){
-  return(Kappa(R,0,4))
+  return(Kappa(R,0,3))
 }
 
 Sratio = function(x,annualize=FALSE,freq = NULL){
