@@ -5,7 +5,7 @@
 \useoutertheme{infolines}
 \setbeamertemplate{headline}{} % removes the headline that infolines inserts
 \setbeamertemplate{footline}[frame number]
-\usepackage{multimedia,etoolbox,xmpmulti}
+\usepackage{multimedia,etoolbox,xmpmulti,bm}
 %\usepackage{natbib}
 %\bibliographystyle{jf}
 %% make bibliography entries smaller
@@ -41,26 +41,90 @@
 \titlepage
 \end{frame}
 
-\section{Low-Risk Anomaly}
+\section{Risk Anomaly}
+
+\begin{frame}{How Risky is your Aversion?}
+	\begin{itemize}[<+->]
+		\item Higher Return is better than lower return, lower risk is better than higher risk
+		\item Leverage - access to higher returns at higher risk
+		\item Time leverage on a component which predicts higher risk you can decrease exposure ahead of risky times
+		\item Are you giving up potential returns?
+	\end{itemize}
+\end{frame}
 
 \begin{frame}{Equity Premium}
-	\begin{block}{A Puzzle}
+	\begin{block}{Equity Premium}
 \begin{itemize}
-	\item Equity Premium - more risk, more reward
 	\item Markowitz (1952) - formal portfolio variance, return optimization
-	\item Haugen 1972 - low risk portfolios out perform
+	\item Haugen (1972) - low risk portfolios out perform
 	\item Moreira and Muir (2017) - portfolios scaled by last months realized volatilty outperform the underlying
-	\item Pollet and Wilson (2010) - decompose quarterly variance of market portfolio - avg cor and avg var
 \end{itemize}
+	\end{block}
+	\begin{block}{Volatiltiy Managed Market Investment}
+		\begin{itemize}
+		\item $W_{t}R_{st}$ where $R_{st}$ is the monthly return to the CRSP market portfolio in month t.
+		\item $\sigma^2(r_{s,t-1})$ is the variance, where $r_{s,t-1}$ is the series of daily returns of the CRSP market portfolio for month t-1
+		\item $W_{t}$ = $\frac{1}{\sigma^2(r_{s,t-1})}$ is the investment weight on the CRSP market portfolio for month t
+	\end{itemize}
 	\end{block}
 \end{frame}
 
+\begin{frame}{Moreira and Muir 2017}
+	\begin{figure}
+			\includegraphics{mm}
+	\end{figure}
+
+\end{frame}
+
+\begin{frame}
+	\begin{block}{Market Variance}
+		\begin{itemize}
+			\item Campbell, Lettau, and Xu (2001) - variance of individual assets vs market variance and CAPM
+			\item Pollet and Wilson (2010) - decompose quarterly variance of market portfolio - Avg cor and Avg var
+		\end{itemize}
+	\end{block}
+	\begin{block}{Avg Var and Avg Cor}
+		\vspace{-12pt}
+		\begin{align*}
+		R_{s,t} &= \sum_{1}^{N}w_{n,t}R_{n,t} \\
+		\sigma^{2}(r_{s,t}) &= \sum_{n=1}^{N} \sum_{m=1}^{N}w_{n,t}w_{m,t}\sigma^{2}_{n,t}\sigma^{2}_{m,t}\rho_{n,m,t}\\
+		\sigma^{2}_{s,t} &= \sum_{n=1}^{N} w_{n,t}\sigma^{2}_{n,t} \times \sum_{n=1}^{N}\sum_{m \neq n}^{N}w_{n,t}w_{m,t}\rho_{n,m,t}\\
+		AV_{t} &= \sum_{n=1}^{N} w_{n,t}\sigma^{2}_{n,t} ~ \text{ and } ~ AC_{t} = \sum_{n=1}^{N}\sum_{m \neq n}^{N}w_{n,t}w_{m,t}\rho_{n,m,t}
+		\end{align*}
+	\end{block}
+\end{frame}
+
+\begin{frame}{Pollet and Wilson 2010 - Risk}
+		\vspace{-12pt}
+		\begin{table}
+			\caption{1963Q2:2007Q1}
+			\vspace{-18pt}
+			\begin{adjustbox}{width=\textwidth,height=3cm}
+				\input{tab_var_rep_4_presentation.tex}
+			\end{adjustbox}
+		\end{table}
+\end{frame}
+
+\begin{frame}{Pollet and Wilson 2010 - Returns}
+		\vspace{-12pt}
+		\begin{table}
+			\caption{1963Q2:2007Q1}
+			\vspace{-18pt}
+			\begin{adjustbox}{width=\textwidth,height=3cm}
+				\input{tab_ret_rep1.tex}
+			\end{adjustbox}
+		\end{table}
+\end{frame}
+
 \begin{frame}{Average Variance}
+	\begin{itemize}
+		\item Timing leverage by variance generates higher returns
+		\item Market variance contains average correlation
+		\item Average variance is at least unrelated to future returns
+		\item $W_{t}$ = $\frac{1}{AV_{t-1}}$ is the investment weight on the CRSP market portfolio
+	\end{itemize}
 	\begin{adjustbox}{width=\textwidth}
-		\input{m_ret_plot2.tex}
-	\end{adjustbox}
-	\begin{adjustbox}{width=\textwidth}
-			\input{tab_perf.tex}
+		\input{m_ret_plot2}
 	\end{adjustbox}
 \end{frame}
 
@@ -78,21 +142,21 @@
 
 \section{Variance Decomposition}
 
-\begin{frame}{Market Variance}
-	\begin{align}
-	%SV_{t} &= \frac{1}{t-1}\sum_{\tau = 1}^{t} \left(R^{m}_{\tau} - \frac{\sum_{\tau = 1}^{t} R^{m}_{\tau}}{t}\right)^{2}\\
-	SV_{t} &= \sum_{n=1}^{N} \sum_{m=1}^{N}w^{n}_{t}w^{m}_{t}\sigma^{2}_{n,t}\sigma^{2}_{m,t}\rho^{n,m}_{t}\\
-	SV_{t} &= \sum_{n=1}^{N} w^{n}_{t}\sigma^{2}_{n,t} \times \sum_{n=1}^{N}\sum_{m \neq n}^{N}w^{n}_{t}w^{m}_{t}\rho^{n,m}_{t}\\
-	AV_{t} &= \sum_{n=1}^{N} w^{n}_{t}\sigma^{2}_{n,t}\\
-	AC_{t} &= \sum_{n=1}^{N}\sum_{m \neq n}^{N}w^{n}_{t}w^{m}_{t}\rho^{n,m}_{t}\\
-	\end{align}
-\end{frame}
+%\begin{frame}{Market Variance}
+%	\begin{align}
+%	%SV_{t} &= \frac{1}{t-1}\sum_{\tau = 1}^{t} \left(R^{m}_{\tau} - \frac{\sum_{\tau = 1}^{t} R^{m}_{\tau}}{t}\right)^{2}\\
+%	SV_{t} &= \sum_{n=1}^{N} \sum_{m=1}^{N}w^{n}_{t}w^{m}_{t}\sigma^{2}_{n,t}\sigma^{2}_{m,t}\rho^{n,m}_{t}\\
+%	SV_{t} &= \sum_{n=1}^{N} w^{n}_{t}\sigma^{2}_{n,t} \times \sum_{n=1}^{N}\sum_{m \neq n}^{N}w^{n}_{t}w^{m}_{t}\rho^{n,m}_{t}\\
+%	AV_{t} &= \sum_{n=1}^{N} w^{n}_{t}\sigma^{2}_{n,t}\\
+%	AC_{t} &= \sum_{n=1}^{N}\sum_{m \neq n}^{N}w^{n}_{t}w^{m}_{t}\rho^{n,m}_{t}\\
+%	\end{align}
+%\end{frame}
 
 \begin{frame}{Summary Stats}
 	\begin{table}[!htbp] \centering 
 		\begin{adjustbox}{width=\textwidth}
 			\begin{tabular}{lcccccc} 
-				\input{summary1}
+				%\input{summary1}
 				%\input{summary2}
 				\input{summary3}
 			\end{tabular}
@@ -104,6 +168,193 @@
 	\begin{adjustbox}{width=\textwidth}
 		\input{m_plot2.tex}	
 	\end{adjustbox}
+\end{frame}
+
+\section{Results}
+\subsection{In Sample}
+
+\begin{frame}{Variance Prediction}
+	\vspace{-12pt}
+ \begin{table}
+ 	\begin{adjustbox}{width=\textwidth,height=4cm}
+ 	\input{tab_var8}
+ 	\end{adjustbox}
+
+ \end{table}
+\end{frame}
+
+\begin{frame}{AV Prediction}
+	\vspace{-12pt}
+	\begin{table}
+		\begin{adjustbox}{width=\textwidth,height=4cm}
+			\input{tab_var78}
+		\end{adjustbox}
+		
+	\end{table}
+\end{frame}
+
+\begin{frame}{Return Prediction}
+	\vspace{-12pt}
+	\begin{table}
+		\begin{adjustbox}{width=\textwidth,height=4cm}
+			\input{tab_ret3}
+		\end{adjustbox}
+		
+	\end{table}
+\end{frame}
+
+%\begin{frame}{Risk vs Return}
+%	\vspace{-12pt}
+%	\begin{table}
+%		\caption{1962M7:2016M12}
+%		\vspace{-6pt}
+%		\begin{adjustbox}{width=10cm,height=4cm}
+%			\input{tab_ret7.tex}
+%		\end{adjustbox}
+%	\end{table}
+%\end{frame}
+
+\subsection{Out of Sample}
+\begin{frame}{Out-of-Sample Tests}
+	\begin{itemize}[<+->]
+		\item Divide the sample 1962:06 - 2016:12 into 15\% training 85\% prediction
+		\begin{itemize}
+			\item Initial training period $t = q$ months. First ~8 years.
+			\item Remaining period $t = q+1, q+2,..,T$ for out-of-sample forecast evaluation.
+		\end{itemize}
+		\item Regression model is "trained" over initial period
+		\begin{itemize}
+			\item Estimate $\hat \alpha_{t}$ and $\hat \beta_{t}$ by regressing $\{r_{s+1}\}_{s=1}^{t-1}$ on a constant and $\{x\}_{s=1}^{t-1}$
+		\end{itemize}
+		\item Generate one period ahead prediction \\
+		\begin{itemize}
+			\item $\hat r_{t+1} = \hat \alpha_{t} + \hat \beta_{t}x_{t}$
+		\end{itemize}
+		\item Each following month the ``training" window expands by one month
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Out of Sample Stats}
+	    \begin{itemize}
+	    	\item y$_{t}$ - $\hat{y}_{x,t}$ =  $e_{x,t}$ : forecast error of preditor x
+	    	\item $\frac{1}{T}\sum_{1}^{T}(e_{x,t})^{2}$ = MSFE$_{x}$: mean squared forecast error based on predictor $x$
+	    \end{itemize}
+	    \begin{block}{$R_{oos}^{2}$ Campbell and Thompson 2007}
+	    	\begin{itemize}
+	    		\item $R^{2}_{os}$ = 1 - $\frac{MSFE_{x}}{MSFE_{b}}$
+	    		\item $R^{2}_{os}$ = proportional reduction in MSFE
+	    	\end{itemize}
+	    \end{block}
+	    \begin{block}{MSE-F Mcracken 2004}
+	    	\begin{itemize}
+	    		\item MSE-F = $T \times \frac{\frac{1}{T}\sum_{1}^{T}(e_{b,t}^{2}-e_{x,t}^{2})}{MSFE_{x}}$
+	    		\item MSE-F = F-type test for significance in squared residual (like in sample regression)
+	    	\end{itemize}
+	    \end{block}
+\end{frame}
+
+\begin{frame}{Out of Sample Stats}
+	\begin{itemize}
+		\item $R_{oos}^{2}$ and MSE-F test improvement in forecast accuracy relative to a benchmark
+		\item Encompassing tests impose the greater requirement that the benchmark have no valuable forecasting information
+	\end{itemize}
+	\begin{block}{ENC-NEW Mcracken and Clark 2009}
+		\begin{itemize}
+			\item ENC-NEW = $T\times \frac{\frac{1}{T}\sum_{1}^{T}(e_{b,t}^{2}-e_{b,t}e_{x,t})}{MSFE_{x}}$
+			\item ENC-NEW = F-type statistic on the imporvement of including the benchmark
+		\end{itemize}
+	\end{block}
+	\begin{block}{ENC-HLN Harvey, Lebourne and Newbold 1998}
+		\begin{itemize}
+			\item Optimal forecast = $\hat{y}^{*}_{t} = (1-\lambda)\hat{y}_{b,t} + \lambda \hat{y}_{x,t}$
+			\item $\lambda$ = measure of the optimal combination of forecasts from x and the benchmark
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+\begin{frame}{Out of Sample Results}
+	\vspace{-12pt}
+	\begin{table}
+		\caption{1970M7:2017M12}
+		\vspace{-6pt}
+		\begin{adjustbox}{width=\textwidth}
+			\input{tab_oos.tex}
+		\end{adjustbox}
+	\end{table}
+\end{frame}
+
+\begin{frame}{Out of Sample Results}
+	\vspace{-12pt}
+	\begin{table}
+		\caption{1926M7:1962M6}
+		\vspace{-6pt}
+		\begin{adjustbox}{width=\textwidth}
+			\input{tab_oos2.tex}
+		\end{adjustbox}
+	\end{table}
+\end{frame}
+
+\section{Asset Allocation}
+
+\begin{frame}{Investment Weight}
+	$w_{AV,t}$ = $\frac{c_{AV}}{AV_{t-1}}$ and $w_{SV,t}$ = $\frac{c_{SV}}{SV_{t-1}}$\\
+	$c$ is a constant used to equalize the standard deviation of strategies to the buy and hold
+	\begin{adjustbox}{width=\textwidth}
+		\input{weight_plot2}
+	\end{adjustbox}
+	\begin{adjustbox}{width=\textwidth}
+		\input{tab_weights}
+	\end{adjustbox}
+\end{frame}
+
+\begin{frame}{Performance Measures}
+	\begin{itemize}
+		\item RET = annualized average log excess return
+		\item Sharpe = $\frac{\mathbb{E}[R_{x}]}{\sigma(R_{x})}$, dollar of returns for dollar of variance
+		\item Sortino = $\frac{\mathbb{E}[R_{x} - 0]}{\sqrt  {\int _{{-\infty }}^{0}(0-R_{x})^{2}f(R_{x})\,dR}}$, return for downside
+		\item Kappa(n) = $\frac{\mathbb{E}[R_{x} - 0]}{\sqrt[\leftroot{-2}\uproot{2}n]{LPM_{n}}}$, where LPM is lower partial moment Kappa[2] = Sortino
+		\item UpsidePotential = $\frac {\mathbb {E} [(R_{x}-0)_{+}]}{\sqrt {\mathbb {E} [(R_{x}-0)_{-}^{2}]}}$, dollar of average gain for downside risk
+		\item Rachev = $\frac {ET{L_{\alpha }}\left({{r_{f}}-x'r}\right)}{ET{L_{\beta }}\left({x'r-{r_{f}}}\right)}$ where $ET{L_{\alpha }}={\frac {1}{\alpha }}\int _{0}^{\alpha }{Va{R_{q}}\left(X\right)dq}$, dollar of possible extreme gain for dollar of possible extreme loss
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Performance}
+	\begin{adjustbox}{width=\textwidth}
+		\input{tab_perf}
+	\end{adjustbox}
+\end{frame}
+
+\begin{frame}{Drawdowns}
+	\begin{adjustbox}{width=\textwidth}
+		\input{dd_plot}
+	\end{adjustbox}
+	\begin{adjustbox}{width=\textwidth}
+		\input{dd_stats}
+	\end{adjustbox}
+\end{frame}
+
+\section{Explaination}
+\begin{frame}{Risk over Reward}
+	\begin{itemize}
+		\item The higher excess returns of low-risk strategies (assets) comes from a preference for the lottery like extreme returns possible from higher risk investments - Barberis and Huang (2008); Brunnermeier, Gollier, and Parker (2007)
+		\item Leverage constraints prevent investors from taking the low-risk position - Black (1972)
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Lottery}
+	\begin{itemize}
+		\item For lotter preferences to explain the higher returns of either SV or AV, the Buy and Hold strategy must be more lottery-like than either
+		\item It is not
+	\end{itemize}
+		\begin{adjustbox}{width=\textwidth}
+			\input{tab_max_stats}
+		\end{adjustbox}
+\end{frame}
+
+\begin{frame}{Leverage}
+		\begin{equation}
+		R^{AV}_{t} = \alpha_{t} + \beta^{1}_{t} R^{M}_{t} + \boldsymbol{\beta}_{t}\boldsymbol{\chi}_{t}
+		\end{equation}
 \end{frame}
 
 \section{Conclusions}
