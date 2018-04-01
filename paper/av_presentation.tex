@@ -21,7 +21,8 @@
 %% and kill the abominable icon
 %\setbeamertemplate{bibliography item}{}
 %\renewcommand{\newblock}{}
-\usepackage{tikz,adjustbox}
+\usepackage{tikz,adjustbox,array}
+\newcolumntype{H}{>{\setbox0=\hbox\bgroup}c<{\egroup}@{}}
 \usepackage{hyperref}
 \makeatletter
 \patchcmd{\insertverticalnavigation}%
@@ -164,11 +165,6 @@
 	\end{table}
 \end{frame}
 
-\begin{frame}{Time Series}
-	\begin{adjustbox}{width=\textwidth}
-		\input{m_plot2.tex}	
-	\end{adjustbox}
-\end{frame}
 
 \section{Results}
 \subsection{In Sample}
@@ -351,28 +347,59 @@
 		\end{adjustbox}
 \end{frame}
 
-\begin{frame}{Leverage}
+\begin{frame}{Lottery Pick 2}
 		\begin{equation}
-		R^{AV}_{t} = \alpha_{t} + \beta^{1}_{t} R^{M}_{t} + \boldsymbol{\beta}_{t}\boldsymbol{\chi}_{t}
+		R^{AV}_{t} = \alpha_{t} + \beta^{1}_{t} R^{M}_{t} + \beta^{2}_{t} R^{M}_{t}*x_{1} + \boldsymbol{\beta}_{t}\boldsymbol{\chi}_{t}
 		\end{equation}
+		\begin{adjustbox}{width=\textwidth,height=4cm}
+			\input{tab_gaminglm}
+		\end{adjustbox}
+\end{frame}
+
+\begin{frame}{Performance Issues}
+	\begin{adjustbox}{width=\textwidth}
+		\input{tab_rest_perf}
+	\end{adjustbox}
+\end{frame}
+
+\begin{frame}{Leverage}
+	\begin{adjustbox}{width=\textwidth,height=4cm}
+		\input{tab_levprox}
+	\end{adjustbox}
+\end{frame}
+
+\begin{frame}{Leverage}
+	\begin{adjustbox}{width=\textwidth,height=4cm}
+		\input{tab_rates}
+	\end{adjustbox}
 \end{frame}
 
 \section{Conclusions}
 \begin{frame}{Conclusions}
 \begin{itemize}[<+->]
-\item There is only one testable hypothesis associated with the generalized two-parameter asset pricing model of BJS, FM, BF, and others - (H2) The market portfolio is mean-variance efficient.
-\item No other implication is independently testable, e.g. linearity, they are all in an if and only if relationship with m-v efficiency.
-\item For any sample of observed individual returns there is an infinite number of ex-post mean-variance efficient portfolios. 
-\item The theory is not testable without correct specification of the true market portfolio of all assets.
-\item Testing market proxies gives no insight into the falsity of the theory.
-\item The results of BJS, FM, BF and others are consistent with the S-L theory.
+\item Market variation contains average correlation which is compensated by higher returns
+\item SV management throws out return with risk, AV does not
+\item AV out performs in all most all measures
+\item Neither SV nor AV can be expained as behavior, lottery preference stories
+\item Leverage constraints are a better explaination of the returns to SV and AV above the market
 \end{itemize}
+\end{frame}
+
+\begin{frame}{TO DO}
+	\begin{itemize}
+			\item Portfolio performance significance
+			\item Different c adjustments (don't require knowing the BH variance)
+			\item Subsample robust stats - Inoune and Rossi (2012)
+			\item Expand the left hand side - international / portfolio of equity indexes
+			\item AV utility gains
+	\end{itemize}
 
 \end{frame}
 
-%\begin{frame}[t,allowframebreaks]
-%	\frametitle{References}
-% \bibliography{avg_var_mang}
-%\end{frame}
+\begin{frame}{Time Series}
+	\begin{adjustbox}{width=\textwidth}
+		\input{m_plot2.tex}	
+	\end{adjustbox}
+\end{frame}
 
 \end{document}
