@@ -79,11 +79,16 @@ cor_var = function(mtrx) {
   return(c(avg_var,avg_cor,mkt_var))
 }
 
-unbiased_lm <- function(X,y,alt_y,lag,reg,tstat,w){
+unbiased_lm <- function(X,y,alt_y,lag,expSig,tstat,w){
   # following the Amihud and Hurvich 2004 residual inclusion style bias reduction estimator
   # check the dimensions of X and find the residual vector v
   X = as.matrix(X)
-  N <- 1000 # number of simulations
+  X = X[!is.na(y),]
+  alt_y = alt_y[!is.na(y)]
+  y = na.omit(y)
+  N <- 10000 # number of simulations
+  pv = vector("numeric",length(expSig))
+  names(pv) = colnames(X)
   v_matrix <- matrix(data = NA_real_, nrow = nrow(X), ncol = ncol(X))
   phi_matrix_0 <- matrix(data = NA_real_, nrow = ncol(X), ncol = ncol(X))
   I <- diag(ncol(X))
@@ -153,19 +158,26 @@ unbiased_lm <- function(X,y,alt_y,lag,reg,tstat,w){
       tstat_vec[i,] <- temp_lm$tstats
     }
     #not general revist for improvement later #
-    if(reg %in% c(1,2)){
-      mc_p <- sum(tstat_vec[,1] <= tstat[1])/N
-      dp_p <- sum(tstat_vec[,2] >= tstat[2])/N
-    } else if (reg %in% c(4,5,6)){
-      mc_p <- sum(tstat_vec[,1] <= tstat[1])/N
-      dp_p <- sum(tstat_vec[,2] <= tstat[2])/N
-    } else {
-      mc_p <- sum(tstat_vec[,1] >= tstat[1])/N
-      dp_p <- sum(tstat_vec[,2] >= tstat[2])/N
+    for(i in 1:length(expSig)){
+      if(expSig[i] > 0){
+        pv[i] = sum(tstat_vec[, i] >= tstat[i])/N
+      } else {
+        pv[i] = sum(tstat_vec[, i] <= tstat[i])/N
+      }
     }
-    names(mc_p) <- "MC_pval"
-    names(dp_p) <- "DP_pval"
-    outp <- c(cor_betas,tstat,mc_p,dp_p)
+    # if(reg %in% c(1,2)){
+    #   mc_p <- sum(tstat_vec[,1] <= tstat[1])/N
+    #   dp_p <- sum(tstat_vec[,2] >= tstat[2])/N
+    # } else if (reg %in% c(4,5,6)){
+    #   mc_p <- sum(tstat_vec[,1] <= tstat[1])/N
+    #   dp_p <- sum(tstat_vec[,2] <= tstat[2])/N
+    # } else {
+    #   mc_p <- sum(tstat_vec[,1] >= tstat[1])/N
+    #   dp_p <- sum(tstat_vec[,2] >= tstat[2])/N
+    # }
+    # names(mc_p) <- "MC_pval"
+    # names(dp_p) <- "DP_pval"
+    outp <- c(cor_betas,tstat,pv)
   } else {
     var_model <- ar(X,order.max = lag,var.method = "ols",aic=FALSE)
     phi_matrix_0 <- as.vector(var_model$ar)
@@ -194,15 +206,106 @@ unbiased_lm <- function(X,y,alt_y,lag,reg,tstat,w){
       temp_lm <- Z_lm(x_hat,alt_y_hat,w)
       tstat_vec[i] <- temp_lm$tstats
     }
-    # not general revist for improvement later #
-    if(reg ==1){
-      mc_p <- sum(tstat_vec <= tstat[1])/N
-    } else {
-      mc_p <- sum(tstat_vec >= tstat[1])/N
+    for(i in 1:length(expSig)){
+      if(expSig[i] > 0){
+        pv[i] = sum(tstat_vec[, i] >= tstat[i])/N
+      } else {
+        pv[i] = sum(tstat_vec[, i] <= tstat[i])/N
+      }
     }
-    names(mc_p) <- paste0(colnames(X),"_pval")
-    outp <- c(cor_betas,tstat,mc_p)
+    outp <- c(cor_betas,tstat,pv)
   }
+  return(outp)
+}
+
+unbiased_lm2 = function(X,expSig,N = 10000,lag=NULL,aic=TRUE){
+  # X = lm_object$model
+  x_names = tail(names(X),-1)
+  y_name = names(X)[1]
+  Y = X[,1, drop = FALSE]
+  X = X[,2:ncol(X), drop = FALSE]
+  pv = vector("numeric",length(expSig))
+  names(pv) = colnames(X)
+  v_matrix = matrix(data = NA_real_, nrow = nrow(X), ncol = ncol(X))
+  phi_matrix_0 = matrix(data = NA_real_, nrow = ncol(X), ncol = ncol(X))
+  I = diag(ncol(X))
+  var_model = ar(X,aic,order.max = lag,var.method = "yule-walker",demean = T)
+  if(ncol(X)==1){
+    phi_matrix_0[,i] = as.vector(var_model$ar[1])
+  } else {
+    for(i in 1:ncol(X)){
+      phi_matrix_0[,i] = as.vector(var_model$ar[1,i,])
+    }
+  }
+  v_matrix = as.matrix(var_model$resid)
+  v_matrix[1,] = rep(0,ncol(X))
+  t_phi = t(phi_matrix_0)
+  e_values = eigen(t_phi)$values
+  sigma_lam = matrix(data = 0,ncol = ncol(X),nrow = ncol(X))
+  for(l in 1:length(e_values)){
+    sigma_lam = sigma_lam + e_values[l]*solve((I-e_values[l]*t_phi))
+  }
+  sigma_v_0 = cov(v_matrix)
+  sigma_x = cov(X)
+  in_bracket = solve(I-t_phi) + t_phi%*%solve((I-(t_phi%*%t_phi))) +  sigma_lam
+  b = sigma_v_0 %*% in_bracket %*% solve(sigma_x)
+  phi_matrix_1 = phi_matrix_0 + b/nrow(X)
+  est_X = matrix(data = NA_real_, nrow = nrow(X), ncol = ncol(X))
+  est_X[1,] = as.matrix(X[1,,drop=FALSE])
+  est_X[2:nrow(X),] = as.matrix(X[1:(nrow(X)-1),,drop=FALSE])%*%phi_matrix_1 + colMeans(X)
+  v_matrix_2 = X - est_X
+  for(c in 1:ncol(v_matrix_2)){
+    v_matrix_2[,c] = Imzap(v_matrix_2[,c])
+  }
+  if(sum(colSums(apply(v_matrix_2,2,Im))) <= .Machine$double.eps){
+    v_matrix_2 = apply(v_matrix_2,2,as.numeric)
+  }
+  # sigma_v_1 = cov(v_matrix_2)
+  # t_phi = t(phi_matrix_1)
+  # e_values = eigen(t_phi)$values
+  # sigma_lam = matrix(data = 0,ncol = ncol(X),nrow = ncol(X))
+  # for(l in 1:length(e_values)){
+  #   sigma_lam = sigma_lam + e_values[l]*solve((I-e_values[l]*t_phi))
+  # }
+  # in_bracket = solve(I-t_phi) + t_phi%*%solve((I-(t_phi%*%t_phi))) +  sigma_lam
+  # b = sigma_v_1 %*% in_bracket %*% solve(sigma_x)
+  # phi_matrix_2 = phi_matrix_0 + b/nrow(X)
+  # est_X = matrix(data = NA_real_, nrow = nrow(X), ncol = ncol(X))
+  # est_X[1,] = as.matrix(X[1,,drop=FALSE])
+  # est_X[2:nrow(X),] = as.matrix(X[1:(nrow(X)-1),,drop=FALSE])%*%phi_matrix_2 + colMeans(X)
+  # est_X = apply(est_X,2,Imzap)
+  # v_matrix_3 = X - est_X
+  # v_matrix_3 = apply(v_matrix_3,2,Imzap)
+  # if(sum(colSums(apply(v_matrix_3,2,Im))) <= .Machine$double.eps){
+  #   v_matrix_3 = apply(v_matrix_3,2,as.numeric)
+  # }
+  v_matrix_3 = as.matrix(v_matrix_2)
+  aug_X = cbind(X[1:(nrow(X)-1),],v_matrix_3[2:nrow(X),])
+  colnames(aug_X) = c(colnames(X),paste0("V",1:ncol(X)))
+  y_var = Y[1:(nrow(X)-1),]
+  cor_model = lm(y_var~as.matrix(aug_X))
+  cor_betas = cor_model$coefficients[2:(ncol(X)+1)]
+  tstat = coef(summary(cor_model))[2:(ncol(X)+1), "t value"]
+  tstat_vec = matrix(data = NA_real_,nrow = N,ncol = ncol(X))
+  ols_res = cor_model$residuals
+  y_bar = mean(y_var)
+  for(i in 1:N){
+    draw = rnorm(length(ols_res))
+    y_hat = y_bar + (ols_res * draw)
+    x_hat = est_X[1:(nrow(X)-1),] + (v_matrix_3[1:(nrow(X)-1),]*draw)
+    temp_lm = lm(y_hat ~ x_hat)
+    tstat_vec[i,] = tail(coef(summary(temp_lm))[, "t value"],-1)
+  }
+  for(i in 1:length(expSig)){
+    if(expSig[i] > 0){
+      pv[i] = sum(tstat_vec[, i] >= tstat[i])/(N-1)
+    } else {
+      pv[i] = sum(tstat_vec[, i] <= tstat[i])/(N-1)
+    }
+  }
+  names(cor_betas) = x_names
+  names(tstat) = x_names
+  outp = c(coefficients = cor_betas,t.stats = tstat,p.values = pv)
   return(outp)
 }
 
@@ -309,26 +412,31 @@ enc.hln = function(u1,u2){
   return(c(lambda = lam, t.stat = stat))
 }
 
-enc.cvs = fread(input = 'encCV.csv',header = TRUE)
-enc.cvs = melt(enc.cvs,id.vars = c("k2","p"),variable.name = "pi",value.name = "stat")
-enc.cvs[, pi := as.numeric(as.character(pi))]
-setkey(enc.cvs,k2,pi)
+# enc.cvs = fread(input = 'encCV.csv',header = TRUE)
+# enc.cvs = melt(enc.cvs,id.vars = c("k2","p"),variable.name = "pi",value.name = "stat")
+# enc.cvs[, pi := as.numeric(as.character(pi))]
+# setkey(enc.cvs,k2,pi)
 
 
-enc.new_plookup = function(encstat,df,mu){
-  return(min(1 - enc.cvs[k2==df & pi >= min((1-mu)/mu,5) & encstat >= stat,]$p,1))
-}
+# enc.new_plookup = function(encstat,df,mu){
+#   if(mu > 5){
+#     tmp = enc.cvs[k2==df & pi == 0 & encstat >= stat,]
+#   } else {
+#     tmp = enc.cvs[k2==df & pi >= mu & encstat >= stat,]
+#   }
+#   return(min(1 - $p,1))
+# }
 
-oos.R2 = function(u1,u2){
-  return(1 - mean(u2^2)/mean(u1^2))
-}
+# oos.R2 = function(u1,u2){
+#   return(1 - mean(u2^2)/mean(u1^2))
+# }
 
-oos.tstat = function(u1,u2){
-  d_til = u1^2 - u2^2 + (u1 - u2)^2
-  sig_model <- lm(formula = d_til ~ 1)
-  correct_sig <- coeftest(sig_model,vcov. = vcovHAC(sig_model))
-  return(correct_sig[3])
-}
+# oos.tstat = function(u1,u2){
+#   d_til = u1^2 - u2^2 + (u1 - u2)^2
+#   sig_model <- lm(formula = d_til ~ 1)
+#   correct_sig <- coeftest(sig_model,vcov. = vcovHAC(sig_model))
+#   return(correct_sig[3])
+# }
 
 mse.t = function(u1,u2){
   P = length(u1)
@@ -346,6 +454,22 @@ mse.f = function(u1,u2){
   return(P * (dbar/sum(u2^2)))
   
 }
+
+msef.cvs = fread(input = 'msef.csv',header = TRUE)
+msef.cvs = melt(msef.cvs,id.vars = c("k2","p","model"),variable.name = "pi",value.name = "stat")
+msef.cvs[, pi := as.numeric(as.character(pi))]
+setkey(msef.cvs,k2,pi)
+
+msef_plookup = function(msefstat,df,mu,type="recursive"){
+  if(mu > 2){
+    tmp = msef.cvs[k2==df & pi == 0.0 & msefstat >= stat & model == type,]
+  } else {
+    tmp = msef.cvs[k2==df & pi >= mu & msefstat >= stat & model == type,]
+  }
+  tmp = head(tmp,1)
+  return(min(tmp$p,1))
+}
+
 
 lm.oos = function(formula = NULL, data = NULL, bench = NULL,train = NULL){
   formula = as.formula(formula)
@@ -372,24 +496,71 @@ lm.oos = function(formula = NULL, data = NULL, bench = NULL,train = NULL){
   hist = unlist(data[train:(nr), eval(y)])
   e1 = hist - benchmark
   e2 = hist - pred
-  k2 = length(rhs(formula)) - max(length(bench),1) + 1
+  k2 = length(rhs(formula)) + max(length(bench),1)
   mu = (nrow(data) - train) / train 
-  oosR2.stat = oos.R2(e1,e2)
-  oosR2.tstat = oos.tstat(e1,e2)
-  oosR = see.stars.tstats(tbl = round(as.matrix(data.table(oosR2.stat*100,oosR2.tstat)),3),bees = 1,tees = 2,
-                          exp.positive = TRUE,df = length(e1) - k2)[1]
-  enc_new = enc.new(e1,e2)
-  enc_new.pvalue = enc.new_plookup(enc_new,k2,mu)
-  encnew = see.stars(tbl = round(as.matrix(data.table(enc_new,enc_new.pvalue)),3),bees = 1,pees = 2)[1]
-  dmtest = dm.test(e1,e2,alternative = "greater",h = 1,power = 2)
-  # dm.stat = dmtest$statistic
-  # dm.pval = dmtest$p.value
-  # dmstat = see.stars(tbl = round(as.matrix(data.table(dm.stat,dm.pval)),3),bees = 1,pees = 2)[1]
-  ENCHLN = enc.hln(e1,e2)
-  enchln = see.stars.tstats(tbl = round(matrix(ENCHLN,nrow=1),3),bees = 1,tees = 2,exp.positive = TRUE,df = length(e1)-k2)[1]
-  MSEF = mse.f(e1,e2)
+  # oosR2.stat = oos.R2(e1,e2)
+  # oosR2.pval = bootts(e1,e2,stat="oosR2",N=10000)
+  # # oosR2.tstat = oos.tstat(e1,e2)
+  # oosR = see.stars.(tbl = round(as.matrix(data.table(oosR2.stat*100,oosR2.pval)),3),bees = 1,bees = 2)[1]
+  # enc_new = enc.new(e1,e2)
+  # 
+  # enc_new.pvalue = enc.new_plookup(enc_new,k2,mu)
+  # encnew = see.stars(tbl = round(as.matrix(data.table(enc_new,enc_new.pvalue)),3),bees = 1,pees = 2)[1]
+  eVAR = VAR(data.table(e1,e2),p = 1)
+  u1 = eVAR$varresult$e1$residuals
+  u2 = eVAR$varresult$e2$residuals
+  dmtest = dm.test(u1,u2,alternative = "greater",h = 1,power = 2)
+  dm.stat = dmtest$statistic
+  # dmt = bootts(u1,u2,stat="DM",N=10000,type="recursive",mu)
+  # dm.pval = t.test((dmt-dm.stat)/c(sqrt(std_err(dmt))),alternative = "less")$p.value
+  dm.pval = dmtest$p.value
+  dm.stat = see.stars(tbl = round(as.matrix(data.table(dm.stat,dm.pval)),3),bees = 1,pees = 2)[1]
+  #d.adj.MSPE = mspe.adj(e1,e2,hist,pred) - mspe.adj(e1,e2,hist,pred)
+  ENCHLN = enc.hln(u1,u2)
+  enchln.pval = ENCHLN[2]
+  # enct = bootts(u1,u2,stat="ENC-HLN",N=10000,type="recursive",mu)
+  # enc.pval = t.test((enct-ENCHLN[2])/c(sqrt(std_err(enct))),alternative = "less")$p.value
+  enchln = see.stars(tbl = round(as.matrix(data.table(ENCHLN,enchln.pval)),3),bees = 1,pees = 2)[1]
+  MSEF = mse.f(u1,u2)
+  # MSEFt = bootts(u1,u2,stat="MSE-F",N=10000,type="recursive",mu)
+  # MSEF.pval = t.test((MSEF-MSEFt)/c(sqrt(std_err(MSEFt))),alternative = "less")$p.value
+  MSEF.pval = msef_plookup(MSEF,df = k2,type = "recursive",mu)
+  MSEF = see.stars(tbl = round(as.matrix(data.table(MSEF,MSEF.pval)),3),bees = 1,pees = 2)[1]
   return(list(forecast_values = pred, K2 = k2,MU = mu, formula = formula, bench = bench, bench_values = benchmark, hist_values = hist,
-              Statistics = c(oosR,MSEF,encnew,enchln)))
+              Statistics = c(dm.stat,MSEF,enchln),
+              pvals = c(dm.pval,MSEF.pval,enchln.pval)))
+}
+
+bootts = function(e1,e2,stat=c("DM","MSE-F","ENC-HLN"),N=1000,type="recursive",mu){
+  E = data.table(e1,e2)
+  if(stat=="DM"){
+    statfun = function(tsobj){
+      e1 = tsobj[,1]
+      e2 = tsobj[,2]
+      return(dm.test(e1,e2,alternative = "greater",h = 1,power = 2)$statistic)
+    }
+  } else if(stat=="MSE-F"){
+    statfun = function(tsobj){
+      e1 = tsobj[,1]
+      e2 = tsobj[,2]
+      stat = mse.f(e1,e2)
+      return(stat)
+    }
+  } else if (stat=="ENC-HLN"){
+    statfun = function(tsobj){
+      e1 = tsobj[,1]
+      e2 = tsobj[,2]
+      return(enc.hln(e1,e2)[2])
+    }
+  }
+  kores = detectCores()-2
+  cl = makeCluster(kores,type = "FORK")
+  registerDoParallel(cl)
+  bootsamples = tsboot(as.ts(E),statistic = statfun,R = N,l = 3, sim = "geom",orig.t = FALSE,
+         parallel = "multicore",cl = clust)$t
+  stopCluster(cl)
+  gc()
+  return(bootsamples)
 }
 
 ### Rossi Robust Stats ###
@@ -854,7 +1025,7 @@ ratio.test1 = function(rets1,rets2,n_samples = 1000){
   ts_obj = as.ts(data.table(rets1,rets2))
   clust = makeCluster(10,type = "FORK")
   registerDoParallel(clust)
-  ts_ratios = tsboot(tseries = ts_obj,statistic = Sratio_diff,R = n_samples,l = 3,sim = "fixed",
+  ts_ratios = tsboot(tseries = ts_obj,statistic = Sratio_diff,R = n_samples,l = 3,sim = "geom",
                      parallel = "multicore",cl = clust)$t
   stopCluster(clust)
   registerDoSEQ()
@@ -884,7 +1055,7 @@ ratio.test2 = function(rets1,rets2,n_samples = 1000,
   ts_obj = as.ts(data.table(rets1,rets2))
   clust = makeCluster(10,type = "FORK")
   registerDoParallel(clust)
-  ts_ratios = tsboot(tseries = ts_obj,statistic = ratios_x,R = n_samples,l = 1,sim = "fixed",endcorr = TRUE,
+  ts_ratios = tsboot(tseries = ts_obj,statistic = ratios_x,R = n_samples,l = 3,sim = "geom",
          parallel = "multicore",cl = clust, r_method = ratio)$t
   stopCluster(clust)
   registerDoSEQ()
@@ -901,8 +1072,11 @@ genRachev.ratio = function(R){
   return(c(genRachev = etl2/etl1))
 }
 
-Kappa0 = function(R){
+Kappa03 = function(R){
   return(Kappa(R,0,3))
+}
+Kappa04 = function(R){
+  return(Kappa(R,0,4))
 }
 
 Sratio = function(x,annualize=FALSE,freq = NULL){
