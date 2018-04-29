@@ -675,7 +675,12 @@ enc.newRobust = function(formula = NULL, data = NULL, bench = NULL, lowR = NULL,
 
 # clark and west 2007 t-stat oosR2 
 mspe.adj = function(e1,e2,y1,y2){
-  return(e1^2-e2^2-(y1^2-y2^2))
+  return(mean(e1^2-e2^2+(y1-y2)^2))
+}
+
+# innoe rossie adju
+adj.mspe.adj = function(e1,e2,y1,y2){
+  return(2*sum(e1^2-e2^2+y1^2-y2^2))
 }
 
 mspe.adjRobust = function(formula = NULL, data = NULL, bench = NULL, lowR = NULL, highR = NULL){
@@ -687,85 +692,51 @@ mspe.adjRobust = function(formula = NULL, data = NULL, bench = NULL, lowR = NULL
   if(is.null(highR)){
     highR = ceiling(nrow(data) * .85)
   }
-  # mspe_vec1 = rep(NA_real_,highR-lowR)
-  # mspe_vec2 = rep(NA_real_,highR-lowR)
-  # for(Rhat in lowR:highR){
-  #   pred1 = rep(NA_real_,nrow(data)-Rhat-1)
-  #   pred2 = rep(NA_real_,nrow(data)-Rhat-1)
-  #   bench1 = rep(NA_real_,nrow(data)-Rhat-1)
-  #   bench2 = rep(NA_real_,nrow(data)-Rhat-1)
-  #   for(d in Rhat:(nrow(data)-1)){
-  #     # expanding
-  #     tmplm1 = lm(formula , data = data[1:(d-1)])
-  #     pred1[d-Rhat+1] = predict(tmplm1,newdata = data[d])
-  #     if(is.null(bench)){
-  #       f = as.formula(paste0(c(y)," ~ 1"))
-  #     } else {
-  #       f = as.formula(paste0(c(y)," ~ ",bench))
-  #     }
-  #     tmplm2 = lm(f, data = data[1:(d-1)])
-  #     bench1[d-Rhat+1] = predict(tmplm2,newdata = data[d])
-  #     # rolling
-  #     tmplm3 = lm(formula , data = data[(d-Rhat+1):(d-1)])
-  #     pred2[d-Rhat+1] = predict(tmplm3,newdata = data[d])
-  #     tmplm4 = lm(f, data = data[(d-Rhat+1):(d-1)])
-  #     bench2[d-Rhat+1] = predict(tmplm4,newdata = data[d])
-  #   }
-  #   hist = data[(Rhat+1):(nrow(data)), get(y)]
-  #   u1 = (hist-bench1)
-  #   u2 = (hist-pred1)
-  #   mspe_vec1[Rhat-lowR+1] = mspe.adj(u1,u2)
-  #   u3 = (hist-bench2)
-  #   u4 = (hist-pred2)
-  #   mspe_vec2[Rhat-lowR+1] = mspe.adj(u3,u4)
-  # }
   kores = detectCores()-2
   cl = makeCluster(kores,type = "FORK")
   registerDoParallel(cl)
   mcoptions <- list(preschedule=FALSE, set.seed=FALSE)
-  mspe_vec = foreach(Rhat = lowR:highR,.combine = c,.options.multicore=mcoptions,.inorder = FALSE,.verbose=TRUE) %dopar% {
-    pred1 = rep(NA_real_,nrow(data)-Rhat-1)
-    pred2 = rep(NA_real_,nrow(data)-Rhat-1)
-    bench1 = rep(NA_real_,nrow(data)-Rhat-1)
-    bench2 = rep(NA_real_,nrow(data)-Rhat-1)
-    for(d in Rhat:(nrow(data)-1)){
-      # expanding
-      tmplm1 = lm(formula , data = data[1:(d-1)])
-      pred1[d-Rhat+1] = predict(tmplm1,newdata = data[d])
-      if(is.null(bench)){
-        f = as.formula(paste0(c(y)," ~ 1"))
-      } else {
-        f = as.formula(paste0(c(y)," ~ ",bench))
-      }
-      tmplm2 = lm(f, data = data[1:(d-1)])
-      bench1[d-Rhat+1] = predict(tmplm2,newdata = data[d])
-      # rolling
-      tmplm3 = lm(formula , data = data[(d-Rhat+1):(d-1)])
-      pred2[d-Rhat+1] = predict(tmplm3,newdata = data[d])
-      tmplm4 = lm(f, data = data[(d-Rhat+1):(d-1)])
-      bench2[d-Rhat+1] = predict(tmplm4,newdata = data[d])
+  mspe_vec = foreach(Rhat = lowR:(highR-1),.combine = c,.options.multicore=mcoptions,.inorder = FALSE,
+                     .verbose=TRUE) %dopar% {
+    pred1 = rep(NA_real_,nrow(data)-highR+1)
+    pred2 = rep(NA_real_,nrow(data)-highR+1)
+    bench1 = rep(NA_real_,nrow(data)-highR+1)
+    bench2 = rep(NA_real_,nrow(data)-highR+1)
+    hist = data[(highR-1):(nrow(data)-1), eval(y)]
+    # expanding
+    tmplm1 = lm(formula , data = data[1:Rhat])
+    pred1 = predict(tmplm1,newdata = data[(highR-1):(nrow(data)-1)])
+    if(is.null(bench)){
+      f = as.formula(paste0(c(y)," ~ 1"))
+    } else {
+      f = as.formula(paste0(c(y)," ~ ",bench))
     }
-    hist = data[(Rhat):(nrow(data)-1), eval(y)]
+    tmplm2 = lm(f, data = data[1:Rhat])
+    bench1 = predict(tmplm2,newdata = data[(highR-1):(nrow(data)-1)])
+    # rolling
+    tmplm3 = lm(formula , data = data[(Rhat-lowR+1):Rhat])
+    pred2 = predict(tmplm3,newdata = data[(highR-1):(nrow(data)-1)])
+    tmplm4 = lm(f, data = data[(Rhat-lowR+1):Rhat])
+    bench2 = predict(tmplm4,newdata = data[(highR-1):(nrow(data)-1)])
     u1 = (hist-bench1)
     u2 = (hist-pred1)
     u3 = (hist-bench2)
     u4 = (hist-pred2)
-    v1 = mspe.adj(u1,u2,bench1,pred1)
-    v2 = mspe.adj(u3,u4,bench2,pred2)
-    P = length(v1)
-    return(c(exp = sqrt(P)*sum(v1) ,roll = sqrt(P)*sum(v2))) 
+    P = length(u1)
+    return(c(v1 = (1/sqrt(P)) * adj.mspe.adj(u1,u2,bench1,pred1), v2 = (1/sqrt(P)) * adj.mspe.adj(u3,u4,bench2,pred2)))
   }
   stopCluster(cl)
   gc()
-  mspe_vec1 = mspe_vec[names(mspe_vec)=="exp"]
-  mspe_vec2 = mspe_vec[names(mspe_vec)=="roll"]
+  mspe_vec1 = mspe_vec[names(mspe_vec)=="v1"]
+  mspe_vec2 = mspe_vec[names(mspe_vec)=="v2"]
   df = highR - lowR + 1
-  omega1 = sum(ar(mspe_vec1)$asy.var.coef)
-  omega2 = sum(ar(mspe_vec2)$asy.var.coef)
-  # stat1 = t(mspe_vec1) * (1/omega1) %*% mspe_vec1
+  # omega1 = c(getLongRunVar(u = as.matrix(mspe_vec1),kernel = "qs")$Delta)
+  omega1 = lrvar(mspe_vec1, type = "Newey-West", prewhite = TRUE, adjust = TRUE, lag = NULL)
+  # omega2 = c(getLongRunVar(u = as.matrix(mspe_vec2),kernel = "qs")$Delta)
+  omega2 = lrvar(mspe_vec2, type = "Newey-West", prewhite = TRUE, adjust = TRUE, lag = NULL)
+  P = length(mspe_vec1)
   stat1 = sum(mspe_vec1^2*(1/omega1))
-  # stat2 = t(mspe_vec2) * (1/omega2) %*% mspe_vec2
-  stat2 = sum(mspe_vec1^2*(1/omega2))
+  stat2 = sum(mspe_vec2^2*(1/omega2))
   stat1 = see.stars(round(as.matrix(data.table(stat1*100,pchisq(stat1, df))),3),bees = 1,pees = 2)[1]
   stat2 = see.stars(round(as.matrix(data.table(stat2*100,pchisq(stat2, df))),3),bees = 1,pees = 2)[1]
   return(list(exp_CWT = stat1, roll_CWT = stat2))
@@ -781,43 +752,11 @@ dm.test.Robust = function(formula = NULL, data = NULL, bench = NULL, lowR = NULL
   if(is.null(highR)){
     highR = ceiling(nrow(data) * .85)
   }
-  # enc_vec1 = rep(NA_real_,highR-lowR)
-  # enc_vec2 = rep(NA_real_,highR-lowR)
-  # for(Rhat in lowR:highR){
-  #   pred1 = rep(NA_real_,nrow(data)-Rhat)
-  #   pred2 = rep(NA_real_,nrow(data)-Rhat)
-  #   bench1 = rep(NA_real_,nrow(data)-Rhat)
-  #   bench2 = rep(NA_real_,nrow(data)-Rhat)
-  #   for(d in Rhat:(nrow(data)-1)){
-  #     # expanding
-  #     tmplm1 = lm(formula , data = data[1:(d-1)])
-  #     pred1[d-Rhat+1] = predict(tmplm1,newdata = data[d])
-  #     if(is.null(bench)){
-  #       f = as.formula(paste0(c(y)," ~ 1"))
-  #     } else {
-  #       f = as.formula(paste0(c(y)," ~ ",bench))
-  #     }
-  #     tmplm2 = lm(f, data = data[1:(d-1)])
-  #     bench1[d-Rhat+1] = predict(tmplm2,newdata = data[d])
-  #     # rolling
-  #     tmplm3 = lm(formula , data = data[(d-Rhat+1):(d-1)])
-  #     pred2[d-Rhat+1] = predict(tmplm3,newdata = data[d])
-  #     tmplm4 = lm(f, data = data[(d-Rhat+1):(d-1)])
-  #     bench2[d-Rhat+1] = predict(tmplm4,newdata = data[d])
-  #   }
-  #   hist = data[(Rhat):(nrow(data)-1), eval(y)]
-  #   u1 = (hist-bench1)
-  #   u2 = (hist-pred1)
-  #   enc_vec1[Rhat-lowR+1] = dm.test(u1,u2,h = 1,power = 2)$statistic
-  #   u3 = (hist-bench2)
-  #   u4 = (hist-pred2)
-  #   enc_vec2[Rhat-lowR+1] = dm.test(u3,u4,h = 1,power = 2)$statistic
-  # }
   kores = detectCores()-2
   cl = makeCluster(kores,type = "FORK")
   registerDoParallel(cl)
   mcoptions <- list(preschedule=FALSE, set.seed=FALSE)
-  foreach(Rhat = lowR:highR,.combine = c,.options.multicore=mcoptions,.inorder = FALSE) %dopar% {
+  dmvec = foreach(Rhat = lowR:highR,.combine = c,.options.multicore=mcoptions,.inorder = FALSE) %dopar% {
     pred1 = rep(NA_real_,nrow(data)-Rhat)
     pred2 = rep(NA_real_,nrow(data)-Rhat)
     bench1 = rep(NA_real_,nrow(data)-Rhat)
@@ -827,9 +766,9 @@ dm.test.Robust = function(formula = NULL, data = NULL, bench = NULL, lowR = NULL
       tmplm1 = lm(formula , data = data[1:(d-1)])
       pred1[d-Rhat+1] = predict(tmplm1,newdata = data[d])
       if(is.null(bench)){
-        f = as.formula(paste0(c(y)," ~ 1"))
+        f = as.formula(paste0(y," ~ 1"))
       } else {
-        f = as.formula(paste0(c(y)," ~ ",bench))
+        f = as.formula(paste0(y," ~ ",bench))
       }
       tmplm2 = lm(f, data = data[1:(d-1)])
       bench1[d-Rhat+1] = predict(tmplm2,newdata = data[d])
@@ -844,22 +783,23 @@ dm.test.Robust = function(formula = NULL, data = NULL, bench = NULL, lowR = NULL
     u2 = (hist-pred1)
     u3 = (hist-bench2)
     u4 = (hist-pred2)
-    return(c(exp=dm.test(u1,u2,h = 1,power = 2)$statistic,roll=dm.test(u3,u4,h = 1,power = 2)$statistic))
+    return(c(exp=dm.test.alt(u1,u2,h = 1,power = 2,alternative = "greater")$statistic,
+             roll=dm.test.alt(u3,u4,h = 1,power = 2,alternative = "greater")$statistic))
   }
   stopCluster(cl)
   gc()
-  enc_vec1 = enc_vec[names(enc_vec)=="exp"]
-  enc_vec2 = enc_vec[names(enc_vec)=="roll"]
-  exp_RET = max(abs(enc_vec1))
-  exp_AET = (1/(highR-lowR+1))*sum(abs(enc_vec1))
-  roll_RET = max(abs(enc_vec2))
-  roll_AET = (1/(highR-lowR+1))*sum(abs(enc_vec2))
-  mu = (nrow(data) - lowR) / lowR
+  dmvec1 = dmvec[names(dmvec)=="exp.DM"]
+  dmvec2 = dmvec[names(dmvec)=="roll.DM"]
+  exp_RET = max(abs(dmvec1))
+  exp_AET = (1/(highR-lowR+1))*sum(abs(dmvec1))
+  roll_RET = max(abs(dmvec2))
+  roll_AET = (1/(highR-lowR+1))*sum(abs(dmvec2))
+  mu = (nrow(data) - highR) / nrow(data)
   return(list(Exp_AET = exp_AET, Exp_RET = exp_RET, Roll_AET = roll_AET, Roll_RET = roll_RET,MU = mu))
   # add pvalues to function
 }
 
-# Diebold and Mariano 1995 robust
+# Harvey, Lebourne and Newbold (1998) robust
 enc.hln.Robust = function(formula = NULL, data = NULL, bench = NULL, lowR = NULL, highR = NULL){
   formula = as.formula(formula)
   y = lhs(formula)
@@ -905,7 +845,7 @@ enc.hln.Robust = function(formula = NULL, data = NULL, bench = NULL, lowR = NULL
     u_hi3 = u1
     u_i = u2
     U = u_hi3 - u_i
-    hln = lm(u_hi3 ~ 0 + U)
+    # hln = lm(u_hi3 ~ 0 + U)
     #lam = max(0,min(hln$coefficients[1],1,na.rm=T),na.rm=T)
     d_til = U * u_hi3
     n = length(d_til)
@@ -916,17 +856,21 @@ enc.hln.Robust = function(formula = NULL, data = NULL, bench = NULL, lowR = NULL
       tau = Hvect[j]
       f[j] = sum((d_til[(abs(tau)+1):n]-d_bar)*(d_til[1:(n-abs(tau))]-d_bar))
     }
-    Q2 = ((n)^-1)*sum(f)
+    omega1 = ((n)^-1)*sum(f)
     #R = sqrt(n)*(Q2^(-.5))*d_bar
     #HLN_mod = (n^(-.5))*(n+1-(2))^.5
     #stat = HLN_mod * R
-    WT1 = n * (d_til * (1/Q2) * d_til)
+    # WT1 = (1/n) * (d_til %*% d_til * (1/Q2))
+    L1 = (1/sqrt(n))* sum(d_til)
+    # omega1 = c(getLongRunVar(d_til,kernel = "qs",bandwidth = "and")$Omega)
+    # omega1 = lrvar(d_til, type = "Newey-West", prewhite = TRUE, adjust = TRUE, lag = NULL)
+    WT1 = L1 * L1 * (1/omega1)
     
     n = length(u3)
     u_hi3 = u3
     u_i = u4
     U = u_hi3 - u_i
-    hln = lm(u_hi3 ~ 0 + U)
+    # hln = lm(u_hi3 ~ 0 + U)
     #lam = max(0,min(hln$coefficients[1],1,na.rm=T),na.rm=T)
     d_til = U * u_hi3
     n = length(d_til)
@@ -937,23 +881,27 @@ enc.hln.Robust = function(formula = NULL, data = NULL, bench = NULL, lowR = NULL
       tau = Hvect[j]
       f[j] = sum((d_til[(abs(tau)+1):n]-d_bar)*(d_til[1:(n-abs(tau))]-d_bar))
     }
-    Q2 = ((n)^-1)*sum(f)
+    omega2 = ((n)^-1)*sum(f)
     #R = sqrt(n)*(Q2^(-.5))*d_bar
     #HLN_mod = (n^(-.5))*(n+1-(2))^.5
     #stat = HLN_mod * R
-    WT2 = n * (d_til * (1/Q2) * d_til)
+    # WT2 = (1/n) * (d_til %*% d_til * (1/Q2))
+    L2 = (1/sqrt(n))* sum(d_til)
+    # omega2 = c(getLongRunVar(d_til,kernel = "qs",bandwidth = "and")$Omega)
+    # omega2 = lrvar(d_til, type = "Newey-West", prewhite = TRUE, adjust = TRUE, lag = NULL)
+    WT2 = L2 * L2 * (1/omega2)
     
     return(c(exp=WT1,roll=WT2))
   }
   stopCluster(cl)
   gc()
-  enc_vec1 = enc_vec[names(enc_vec)=="exp"]
-  enc_vec2 = enc_vec[names(enc_vec)=="roll"]
-  exp_RET = max(abs(enc_vec1))
+  enc_vec1 = enc_vec[str_detect(names(enc_vec),"exp")]
+  enc_vec2 = enc_vec[str_detect(names(enc_vec),"roll")]
+  exp_RET = max(enc_vec1)
   exp_AET = (1/(highR-lowR+1))*sum((enc_vec1))
-  roll_RET = max(abs(enc_vec2))
+  roll_RET = max(enc_vec2)
   roll_AET = (1/(highR-lowR+1))*sum((enc_vec2))
-  mu = (nrow(data) - lowR) / lowR
+  mu = lowR / nrow(data)
   return(list(Exp_AET = exp_AET, Exp_RET = exp_RET, Roll_AET = roll_AET, Roll_RET = roll_RET,MU = mu))
   # add pvalues to function
 }
@@ -1002,11 +950,9 @@ enchln_wraper = function(bench,estm,hist,subs){
   enchln = see.stars.tstats(tbl = round(matrix(ENCHLN,nrow=1),3),bees = 1,tees = 2,exp.positive = TRUE,df = length(e1)-1)[1]
 }
 
-sortinoR = function(R,annualize = FALSE, freq = c("monthly","quarterly")){
+sortinoR = function(R,annualize = TRUE, freq = 12){
   if(annualize){
-    if(freq == "monthly"){
-      R = R * 12
-    } else {R = R * 4}
+    R = R * freq
   }
   return(SortinoRatio(R))
 }
@@ -1018,7 +964,7 @@ ratios_x = function(x,r_method){
   return(c(rx1,rx2))
 }
 
-ratio.test1 = function(rets1,rets2,n_samples = 1000){
+ratio.test1 = function(rets1,rets2,n_samples = 10000){
   rx1 = Sratio(rets1)
   rx2 = Sratio(rets2)
   sample_diff = rx1 - rx2
@@ -1033,53 +979,52 @@ ratio.test1 = function(rets1,rets2,n_samples = 1000){
   return(pv)
 }
 
-ratio.test2 = function(rets1,rets2,n_samples = 1000,
-                      ratio = c("sortinoR","Kappa0",
-                                "UpsidePotentialRatio","genRachev.ratio")){
-  # ratios = rep(NA_real_,length(rets1))
-  # ratios2 = rep(NA_real_,length(rets2))
-  # for(n in 1:n_samples){
-  #   r1 = sample(rets1,replace = TRUE,size = length(adj_m_av_returns))
-  #   r2 = sample(rets2,replace = TRUE,size = length(adj_m_vol_returns))
-  #   ratios[n] = do.call(what = ratio,args = list(R = r1))
-  #   ratios2[n] = do.call(what = ratio,args = list(R = r2))
-  # }
-  # np_dt1 = data.table(sr = c(ratios,ratios2), strat = as.factor(c(rep("r1",length(ratios)),rep("r2",length(ratios2)))))
-  # ktest = kruskal.test(formula = sr ~ strat, data = np_dt1)
-  # same = (ktest$p.value >= .1)
-  # if(!same){
-  #   w = wilcox.test(ratios,ratios2,alternative = "less")$p.value
-  # } else {w = NULL}
-  # return(c("Ratio" = ratio, "k_p.value" = ktest$p.value, "w_p.value" = w))
-  # time series boot code
+ratio.test2 = function(rets1,rets2,n_samples = 2000,
+                      ratio = c("Sratio","sortinoR","Kappa03","Kappa04","genRachev.ratio")){
   ts_obj = as.ts(data.table(rets1,rets2))
+  if(ratio %in% c("Sratio","sortinoR","Kappa03","Kappa04","genRachev.ratio")){
+    df = as.xts(data.table(seq(as.Date("1926-08-28"),by = "month",length.out = length(rets1)),rets1,rets2))
+  } else { df = data.table(rets1,rets2)}
+  o_ratio = do.call(what = ratio,args = list(df))
+  o_ratio_diff = o_ratio[1] - o_ratio[2]
+  o_se = ratio_diff_se(rets1,rets2,ratio)
+  stand_oratio = c(o_ratio_diff / o_se)
   clust = makeCluster(10,type = "FORK")
   registerDoParallel(clust)
-  ts_ratios = tsboot(tseries = ts_obj,statistic = ratios_x,R = n_samples,l = 3,sim = "geom",
-         parallel = "multicore",cl = clust, r_method = ratio)$t
+  ts_ratios = tsboot(tseries = ts_obj,statistic = stand_ratio,R = n_samples,l = 3,sim = "geom",
+         parallel = "multicore",cl = clust,ratio=ratio,o_diff = o_ratio_diff)$t
   stopCluster(clust)
   registerDoSEQ()
-  t1 = ts_ratios[,1]
-  t2 = ts_ratios[,2]
-  pv = wilcox.test(t1,t2,paired = TRUE,alternative = "less",
-                   exact = TRUE)$p.value
+  pv = (sum(ts_ratios >= stand_oratio)+1)/(n_samples+1)
   return(pv)
 }
 
 genRachev.ratio = function(R){
+  if(length(dim(R))>1){
+    return(apply(X = R,MARGIN = 2,FUN = genRachev.ratio))
+  }
   etl1 = ETL(R,method = "historical")
   etl2 = ETL(-1*R,method = "historical")
   return(c(genRachev = etl2/etl1))
 }
 
 Kappa03 = function(R){
+  if(length(dim(R))>1){
+    return(apply(X = R,MARGIN = 2,FUN = Kappa03))
+  }
   return(Kappa(R,0,3))
 }
 Kappa04 = function(R){
+  if(length(dim(R))>1){
+    return(apply(X = R,MARGIN = 2,FUN = Kappa04))
+  }
   return(Kappa(R,0,4))
 }
 
-Sratio = function(x,annualize=FALSE,freq = NULL){
+Sratio = function(x,annualize=TRUE,freq = 12){
+  if(length(dim(x))>1){
+    return(apply(X = x,MARGIN = 2,FUN = Sratio))
+  }
   if(annualize){s = sqrt(freq)} else {s = 1}
   return(mean(x,na.rm = TRUE)/sd(x,na.rm = TRUE) * s)
 }
@@ -1125,14 +1070,22 @@ Sratio_diff = function(r1,r2=NULL){
 #   return()
 # }
 
-# grad_tic = function(x){
-#   if(!length(x)==4){stop("x must be a numeric vector of length 4")}
-#   g1 = x[3] / (x[3] - x[1]^2)^1.5
-#   g2 = x[4] / (x[4] - x[2]^2)^1.5
-#   g3 = -1*.5*(x[1] / (x[3] - x[1]^2)^1.5)
-#   g4 = -1*.5*(x[2] / (x[4] - x[2]^2)^1.5)
-#   return(c(g1,g2,g3,g4))
-# }
+delta_hat = function(x){
+  if(!length(x)==4){stop("x must be a numeric vector of length 4")}
+  g1 = x[1] / (x[3] - x[1]^2)^.5
+  g2 = x[2] / (x[4] - x[2]^2)^.5
+  return(g1-g2)
+}
+
+grad_tic = function(x){
+  if(!length(x)==4){stop("x must be a numeric vector of length 4")}
+  g1 = x[3] / (x[3] - x[1]^2)^1.5
+  g2 = x[4] / (x[4] - x[2]^2)^1.5
+  g3 = -1*.5*(x[1] / (x[3] - x[1]^2)^1.5)
+  g4 = -1*.5*(x[2] / (x[4] - x[2]^2)^1.5)
+  return(c(g1,g2,g3,g4))
+}
+
 
 # boot_sr_diff = function(x,nsim = 1000, block = 12){
 #   tmpx = matrix(nrow = nrow(x),ncol = 2)
@@ -1154,3 +1107,164 @@ Sratio_diff = function(r1,r2=NULL){
 #   # sr_dff_ts = apply(x[,2:3],MARGIN = 1,FUN = Sratio_diff)
 #   
 # }
+
+dm.test.alt = function (e1, e2, alternative = c("two.sided", "less", "greater"), 
+          h = 1, power = 2) 
+{
+  alternative <- match.arg(alternative)
+  d <- c(abs(e1))^power - c(abs(e2))^power
+  # maxlag = ceiling(12*(length(d)/100)^(.25))
+  # d = c(prewhiten(tser = as.ts(d),AR.max = maxlag)$prew_ar)
+  # LRV = c(getLongRunVar(d,bandwidth = "nw")$Omega)
+  LRV = lrvar(d, type = "Newey-West", prewhite = TRUE, adjust = TRUE, lag = NULL)
+  d.var <- 2 * pi *  LRV/ length(d)
+  dv <- d.var
+  if (dv > 0) 
+    STATISTIC <- mean(d, na.rm = TRUE)/sqrt(dv)
+  else if (h == 1) 
+    stop("Variance of DM statistic is zero")
+  else {
+    warning("Variance is negative, using horizon h=1")
+    return(dm.test.alt(e1, e2, alternative, h = 1, power))
+  }
+  n <- length(d)
+  k <- ((n + 1 - 2 * h + (h/n) * (h - 1))/n)^(1/2)
+  STATISTIC <- STATISTIC * k
+  names(STATISTIC) <- "DM"
+  if (alternative == "two.sided") 
+    PVAL <- 2 * pt(-abs(STATISTIC), df = n - 1)
+  else if (alternative == "less") 
+    PVAL <- pt(STATISTIC, df = n - 1)
+  else if (alternative == "greater") 
+    PVAL <- pt(STATISTIC, df = n - 1, lower.tail = FALSE)
+  PARAMETER <- c(h, power)
+  names(PARAMETER) <- c("Forecast horizon", "Loss function power")
+  structure(list(statistic = STATISTIC, parameter = PARAMETER, 
+                 alternative = alternative, p.value = PVAL, method = "Diebold-Mariano Test", 
+                 data.name = c(deparse(substitute(e1)), deparse(substitute(e2)))), 
+            class = "htest")
+}
+
+cer = function(rets,gamma,annualize = TRUE, freq = 12){
+  CER = mean(rets) - .5*var(rets)*(1/gamma)
+  if(annualize){
+    CER = CER * 12
+  }
+  return(CER * 100)
+}
+
+hac_t.test = function(x,y=NULL,paired=FALSE,alternative=c("two-sided","less","greater"),
+                                                          var.equal = FALSE){
+  if(!is.null(y)){
+    z = x - y
+    if(paired){
+      nom = mean(z)
+      LRV = lrvar(z, type = "Newey-West", prewhite = TRUE, adjust = TRUE, lag = NULL)
+      den = sqrt(LRV/length(z))
+      tstat = nom / den
+      if(alternative=="less"){
+        pval = pt(q = tstat, df = length(z) - 1,lower.tail = TRUE)
+      } else if(alternative == "greater"){
+        pval = pt(q = tstat, df = length(z) - 1,lower.tail = FALSE)
+      } else {
+        pval = pt(q = tstat, df = length(z) - 1) * 2
+      }
+      return(list(t.stat = tstat,p.val = pval))
+    } else { 
+      nom = mean(x) - mean(y)
+      if(var.equal){
+        LRV1 = lrvar(x, type = "Newey-West", prewhite = TRUE, adjust = TRUE, lag = NULL)
+        LRV2 = lrvar(y, type = "Newey-West", prewhite = TRUE, adjust = TRUE, lag = NULL)
+        SLRV = (((length(x)-1)*LRV1) + ((length(y)-1)*LRV2)) / (length(x)+length(y)-2)
+        den = sqrt(SLRV)*sqrt((1/length(x)+(1/length(y))))
+        tstat = nom / den
+        if(alternative=="less"){
+          pval = pt(q = tstat, df = length(z) - 1,lower.tail = TRUE)
+        } else if(alternative == "greater"){
+          pval = pt(q = tstat, df = length(z) - 1,lower.tail = FALSE)
+        } else {
+          pval = pt(q = tstat, df = length(z) - 1) * 2
+        }
+      } else {
+        LRV1 = lrvar(x, type = "Newey-West", prewhite = TRUE, adjust = TRUE, lag = NULL)
+        LRV2 = lrvar(y, type = "Newey-West", prewhite = TRUE, adjust = TRUE, lag = NULL)
+        den = sqrt((LRV1/length(x)+(LRV2/length(y))))
+        tstat = nom / den
+        if(alternative=="less"){
+          pval = pt(q = tstat, df = length(z) - 1,lower.tail = TRUE)
+        } else if(alternative == "greater"){
+          pval = pt(q = tstat, df = length(z) - 1,lower.tail = FALSE)
+        } else {
+          pval = pt(q = tstat, df = length(z) - 1) * 2
+        }
+      }
+      return(list(t.stat = tstat,p.val = pval))
+      }
+  }
+  nom = mean(x)
+  LRV1 = lrvar(x, type = "Newey-West", prewhite = TRUE, adjust = TRUE, lag = NULL)
+  den = sqrt(LRV1/length(x))
+  tstat = nom / den
+  if(alternative=="less"){
+    pval = pt(q = tstat, df = length(z) - 1,lower.tail = TRUE)
+  } else if(alternative == "greater"){
+    pval = pt(q = tstat, df = length(z) - 1,lower.tail = FALSE)
+  } else {
+    pval = pt(q = tstat, df = length(z) - 1) * 2
+  }
+  return(list(t.stat = tstat,p.val = pval))
+}
+
+
+moments = c(2,2,3,4)
+names(moments) = c("Sratio","sortinoR","Kappa03","Kappa04")
+ratio_diff_se = function(x1,x2,ratio){
+  if(ratio=="genRachev.ratio"){
+    etl11 = c(ETL(x1,method = "historical"))
+    etl12 = c(ETL(-1*x1,method = "historical"))
+    etl21 = c(ETL(x2,method = "historical"))
+    etl22 = c(ETL(-1*x2,method = "historical"))
+    etlx1 = tail(sort(x1),floor(.05*length(x1)))
+    etlx2 = tail(sort(x2),floor(.05*length(x1)))
+    etlx3 = head(sort(x1),floor(.05*length(x1)))
+    etlx4 = head(sort(x2),floor(.05*length(x1)))
+    y = c(etl12,etl22,etl11,etl21)
+    Ldt = data.table(etl12 - etlx3,etl22 - etlx4,etlx1 - etl11,etlx2 - etl21)
+  } else if(ratio %in% c("sortinoR","Kappa03","Kappa04")){
+    n = moments[ratio]
+    LP1 = lpm(R = as.xts(data.table(seq(as.Date("1926-08-28"),by = "month",length.out = length(x1)),x1))
+              ,n,threshold = 0)
+    LP2 = lpm(R = as.xts(data.table(seq(as.Date("1926-08-28"),by = "month",length.out = length(x2)),x2))
+              ,n,threshold = 0)
+    y = c(mean(x1),mean(x2),LP1,LP2)
+    Lx1 = c(x1)
+    Lx1[Lx1 > 0] = 0
+    Lx2 = c(x2)
+    Lx2[Lx2 > 0] = 0
+    Ldt = data.table(x1-mean(x1),x2-mean(x2),
+                     Lx1^2-LP1,
+                     Lx2^2-LP2)
+  } else {
+    y = c(mean(x1),mean(x2),sd(x1),sd(x2))
+    Ldt = data.table(x1-mean(x1),x2-mean(x2),x1^2-var(x1),x2^2-var(x2))
+    }
+  f = function(y){
+    return((y[1]/y[3] - y[2]/y[4]))
+  }
+  grad_f = gradient(f,y)
+  LRV = tryCatch(expr = {lrvar(as.matrix(Ldt), type = "Andrews", prewhite = TRUE, adjust = TRUE, lag = NULL)},
+                 error = {lrvar(as.matrix(Ldt), type = "Andrews", prewhite = FALSE, adjust = TRUE, lag = 0)})
+  se = sqrt((grad_f %*% LRV %*% t(grad_f))/length(x1))
+  return(se)
+}
+
+stand_ratio = function(tsobj,ratio,o_diff){
+  x1 = tsobj[,1]
+  x2 = tsobj[,2]
+  r1 = do.call(what = ratio,args = list(x1))
+  r2 = do.call(what = ratio,args = list(x2))
+  diff = r1 - r2
+  se = ratio_diff_se(x1,x2,ratio)
+  num = diff - o_diff
+  return(num/se)
+}

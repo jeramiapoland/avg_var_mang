@@ -2,7 +2,7 @@ paks <- c("RCurl","data.table","tis","lubridate","ggplot2","stringr","sandwich",
           "CADFtest","complexplus","readxl","reshape2","quantmod","xlsx","tikzDevice","MASS","timeSeries","vars","PortfolioEffectHFT",
           "PortfolioAnalytics","PerformanceAnalytics","backtest","tidyr","broom","stringdist","BH","parallel","doMC","foreach",
           "doParallel","lmtest","hypergeo","strucchange","formula.tools","multiwave","outliers","forecast","SharpeR","fastmatch",
-          "bvarsv","boot","goftest","DescTools","dunn.test","generalCorr","cointReg") 
+          "bvarsv","boot","goftest","DescTools","dunn.test","generalCorr","cointReg","psd","plot3D","rootSolve") 
 # note: tikzDevice requires a working latex installation
 # and xlsx require rJava so a properly configured java (try javareconf)
 for (p in paks){
@@ -515,99 +515,30 @@ oos_table = rbind(oos_table,oos_table2)
 stargazer(oos_table,summary = FALSE,out = 'tab_oos2.tex',rownames = FALSE,
           column.labels = c("","Sample",c("$R^{2}_{oos}$","MSE-F","ENC-NEW","ENC-HLN")))
 
-# stargazer(oos_table2,summary = FALSE,out = 'tab_oos.tex',rownames = FALSE,
-#        column.labels = c("","Sample",c("$R^{2}_{oos}$","MSE-F","DM","ENC-NEW","ENC-HLN")))
-
-# oos_table5 = data.table(Sample = c(rep("Quarterly",4),rep("Monthly",4)),Stat = rep(c("$R^{2}_{oos}$","MSE-F","ENC-NEW","ENC-HLN"),2))
-# 
-# stats = c("$R^{2}_{oos}$","MSE-F","ENC-NEW","ENC-HLN")
-# stats_fun = c("oos_wraper","msef_wraper","encnew_wraper","enchln_wraper")
-# 
-# y_vars = c(Quarterly = "mkt_var.tp1",Monthly = "mkt_var1m.tp1")
-# names(x_vars) = sp
-# names(b_freq) = sp
-# names(stats_fun) = stats
-# for(s in sp[2]){
-#   for(v in stats){
-#     x = x_vars[s]
-#     y = y_vars[s]
-#     f = as.formula(paste0(y,"~",x))
-#     if(s=="Quarterly"){
-#       dt = q_data
-#     } else {dt = m_data}
-#     train = floor(.15 * nrow(dt))
-#     m1 = lm.oos(f,dt,bench=NULL,train)
-#     m2 = lm.oos(f,dt,bench=b_freq[s],train)
-#     c = dt[floor((nrow(dt)*.15)+1):(nrow(dt))]$date %fin% contractions 
-#     oos_table5[Sample == s & Stat == v, 
-#                c("Contractions","Expansions",paste0(c("Contractions","Expansions"),2)) := 
-#                  as.list(
-#                    c(
-#                      do.call(what = stats_fun[v], args = list(bench = m1$bench_values,estm = m1$forecast_values,
-#                                                               hist = m1$hist_values, sub = c)),
-#                      do.call(what = stats_fun[v], args = list(bench = m1$bench_values,estm = m1$forecast_values,
-#                                                               hist = m1$hist_values, sub = !c)),
-#                      do.call(what = stats_fun[v], args = list(m2$bench_values,m2$forecast_values,m2$hist_values,c)),
-#                      do.call(what = stats_fun[v], args = list(m2$bench_values,m2$forecast_values,m2$hist_values,!c))
-#                    ))]
-#   }
-# }
-# stargazer(oos_table5,summary = FALSE,out = 'tab_oos_sub.tex')
-
-#### out of sample variance robust stats ####
-y_vars = c("avg_var1m.tp1","logxret.tp1")
-x_vars = "avg_var1m"
-b_freq = "mkt_var1m"
-
-robust_table = data.table(Stat = c(rep("$R_{T}$",2),rep("$A_{T}$",2)), Variable = rep(c("AV$_{t+1}$","RET_{t+1}"),2))
-# robust_table2 = data.table(Stat = c(rep("$R_{T}$",2),rep("$A_{T}$",2)), Sample = rep(c("Quarterly","Monthly"),2))
-
+#### out of sample robust stats ####
+y_vars = y_list[["monthly"]]
+robust_table = data.table(Stat = c(rep("$R_{T}$",4),rep("$A_{T}$",4)), 
+                          Variable = rep(c("AC$_{t+1}$","SV$_{t+1}$","AV$_{t+1}$","RET$_{t+1}$"),2))
 
 for(y in y_vars){
-  f = as.formula(paste0(y," ~ ",x_vars))
-  dt = m_data[paper_m_start:nrow(m_data)]
-  lowR = floor(.15 * nrow(dt))
-  highR = ceiling(.85*nrow(dt))
-  # m1 = mspe.adjRobust(formula = f,data = dt,bench = b_freq[fq],lowR,highR)
-  m2 = enc.newRobust(formula = f,data = dt,bench = b_freq,lowR,highR)
-  m3 = enc.hln.Robust(formula = f,data = dt,bench = b_freq,lowR,highR)
-  robust_table[Sample == fq & Stat == "$R_{T}$", 
-               c("ENC-NEW","ENC-HLN",paste0(c("ENC-NEW","ENC-HLN"),"2")) := as.list(c(
-                 m2$Exp_RET, m3$Exp_RET, m2$Roll_RET, m3$Roll_RET))]
-  robust_table[Sample == fq &  Stat == "$A_{T}$", 
-                c("ENC-NEW","ENC-HLN",paste0(c("ENC-NEW","ENC-HLN"),"2")) := as.list(
-                  c(m2$Exp_AET, m3$Exp_AET, m2$Roll_AET, m3$Roll_AET))]
+  yn = y_names[y]
+  f = as.formula(paste0(y," ~ ","avg_var1m"))
+  lowR = floor(.15 * nrow(m_data))
+  highR = ceiling(.85*nrow(m_data))
+  m1 = dm.test.Robust(formula = f,data = m_data,bench = "mkt_var1m",lowR,highR)
+  # m2 = mspe.adjRobust(formula = f,data = m_data,bench = "mkt_var1m",lowR,highR)
+  m3 = enc.hln.Robust(formula = f,data = m_data,bench = "mkt_var1m",lowR,highR)
+  robust_table[Variable == yn & Stat == "$R_{T}$", 
+               c("DM","ENC-HLN",paste0(c("DM","ENC-HLN"),"2")) := as.list(c(
+                 m1$Exp_RET, m3$Exp_RET, m1$Roll_RET, m3$Roll_RET))]
+  robust_table[Variable == yn &  Stat == "$A_{T}$", 
+                c("DM","ENC-HLN",paste0(c("DM","ENC-HLN"),"2")) := as.list(
+                  c(m1$Exp_AET, m3$Exp_AET,m1$Roll_AET, m3$Roll_AET))]
+  # robust_table[Variable == yn &  Stat == "$CW_{T}$", c("adj.MSPE","adj.MSPE2") := as.list(
+  #                c(m2$exp_CWT,m2$roll_CWT))]
 }
 
 #### asset allocation ####
-# quarterly 
-# q_bh_returns = q_data$logxret.tp3[q_start:(nrow(q_data)-1)]
-# target_sd = sd(q_bh_returns)
-# q_vol_weights = (1/q_data[q_start:nrow(q_data)]$mkt_var)
-# q_vol_returns = q_vol_weights * q_bh_returns
-# vol_sd = sd(q_vol_returns)
-# q_c_adj = target_sd / vol_sd
-# adj_q_vol_weights = q_c_adj * q_vol_weights
-# adj_q_vol_returns = adj_q_vol_weights * q_bh_returns
-# 
-# sd(adj_q_vol_returns)
-# sd(q_bh_returns) # check
-# 
-# q_av_weights = (1/q_data[q_start:nrow(q_data)]$avg_var)
-# q_av_returns = q_av_weights * q_bh_returns
-# av_sd = sd(q_av_returns)
-# q_c_adj_av = target_sd / av_sd
-# adj_q_av_weights = q_c_adj_av * q_av_weights
-# adj_q_av_returns = adj_q_av_weights * q_bh_returns
-# 
-# ann_q_av_ret = mean(adj_q_av_returns) * 400
-# q_sr_test = sr_test(adj_q_vol_returns,adj_q_av_returns,ope = 4,paired = TRUE)
-# 
-# q_bh_sortino = sortinoR(q_bh_returns,annualize = TRUE,freq = "quarterly")
-# q_vol_sortino = sortinoR(adj_q_vol_returns,annualize = TRUE,freq = "quarterly")
-# q_av_sortino = sortinoR(adj_q_av_returns,annualize = TRUE,freq = "quarterly")
-
-
 
 # monthly
 #m_start = (paper_1962_start-1) + floor(.15*length((paper_1962_start-1):nrow(m_data)))
@@ -634,7 +565,7 @@ for(t in tar_sds){
 sufx = vapply(X = tar_sds,FUN = str_extract,"[:digit:]{2,3}",FUN.VALUE = "0")
 
 #### All returns ####
-upper_lev = seq(1,2,.05)
+upper_lev = seq(1,3,.1)
 r_dates = m_data[(paper_m_start+1):(nrow(m_data))]$date
 returns_dt = array(dim = c(2,3,length(upper_lev)+1,length(m_bh_returns)),
                    dimnames = list(c("av","sv"),sufx,c("NO",upper_lev),as.character(r_dates)))
@@ -654,10 +585,13 @@ for(p in c("av","sv")){
 }
 
 
-weights_table = data.table(vol_mang = adj_m_vol_weights,av_mang = adj_m_av_weights)
-stargazer(weights_table,out = "tab_weights.tex")
+weights_table = data.table(vol_mang = sv_053_weights, av_mang = av_053_weights,
+                           vol_mang_10 = sv_029_weights, av_mang_10 = av_029_weights,
+                           vol_mang_12 = sv_035_weights, av_mang_12 = av_035_weights)
+stargazer(weights_table,out = "tab_weights.tex",
+          summary.stat = c("n","mean","sd","min","p25","median","p75","max"))
 weights_table = data.table(m_data$date[(paper_m_start+1):(nrow(m_data))],weights_table)
-weights_dt = melt(weights_table,id.vars = "V1",variable.name = "Strategy",value.name = "Weight")
+weights_dt = melt(subset(weights_table,select = c(V1,vol_mang,av_mang)),id.vars = "V1",variable.name = "Strategy",value.name = "Weight")
 
 weight_plot2 = ggplot(data=weights_dt) + geom_line(aes(x=V1,y=Weight,color=Strategy,linetype=Strategy)) + 
   labs(title = "Strategy Investment Weight", x = "", y = "") + 
@@ -671,168 +605,81 @@ tikz("weight_plot2.tex",width = 5.90551, height = 3, sanitize = FALSE)
 plot(weight_plot2)
 dev.off()
 
-m_av_annRET = mean(adj_m_av_returns)*1200
-m_vol_annRET = mean(adj_m_vol_returns)*1200
-m_sr_test = sr_test(adj_m_vol_returns,adj_m_av_returns,ope = 12,paired = TRUE,alternative = "less")
 
-m_bh_sortino = sortinoR(m_bh_returns,annualize = TRUE,freq = "monthly")
-m_av_sortino = sortinoR(adj_m_av_returns,annualize = TRUE,freq = "monthly")
-m_vol_sortino = sortinoR(adj_m_vol_returns,annualize = TRUE,freq = "monthly")
-
-# var1 = VAR(y = data.table(adj_m_av_returns,adj_m_vol_returns),p = 1,type = "none", season = 12)
-# return_resid = data.table(var1$varresult$adj_m_av_returns$residuals,var1$varresult$adj_m_vol_returns$residuals)
-# tboot1 = tsboot(as.ts(return_resid),statistic = Sratio_diff,R = 1000,l = 12,sim = "fixed")
-# p.sr = t.test(tboot1$t)$p.value
+#### CER ####
+gammas = seq(1,5,by = .1)
+cer_gains_dt = array(dim = c(3,length(seq(1,3,.1)),length(seq(1,5,.1))),dimnames = list(sufx,dimnames(returns_dt)[[3]][2:22],gammas))
+for(g in gammas){
+  for(c in sufx){
+    tmp1 = t(returns_dt["av",c,2:(length(upper_lev)+1),])
+    cer1 = colMeans(tmp1) - .5*apply(tmp1,MARGIN = 2,FUN = var)*(1/g)
+    tmp2 = t(returns_dt["sv",c,2:(length(upper_lev)+1),])
+    cer2 = colMeans(tmp2) - .5*apply(tmp2,MARGIN = 2,FUN = var)*(1/g)
+    cer_gains_dt[c,,as.character(g)] = (cer1 - cer2)*1200
+  }
+}
 
 #### performance table ####
-var1 = VAR(y = data.table(adj_m_av_returns,adj_m_vol_returns),p = 1,type = "none", season = 12)
-return_resid = data.table(var1$varresult$adj_m_av_returns$residuals,var1$varresult$adj_m_vol_returns$residuals)
-perf_dt = data.table(Strategy = rep(c("BH","SV","AV")))
-fq = 12
-r0 = m_bh_returns
-r1 = adj_m_vol_returns
-r2 = adj_m_av_returns
-
-SR1 = mean(r1)/sd(r1) * sqrt(12)
-SR2 = mean(r2)/sd(r2) * sqrt(12)
-SOR1 = SortinoRatio(r1) * sqrt(12)
-SOR2 = SortinoRatio(r2) * sqrt(12)
-K1 = Kappa0(r1)
-K2 = Kappa0(r2)
-UP1 = UpsidePotentialRatio(r1)
-UP2 = UpsidePotentialRatio(r2)
-gR1 = genRachev.ratio(r1)
-gR2 = genRachev.ratio(r2)
-
-perf_dt[Strategy == "BH", RET := as.character(round(mean(r0)*fq*100,3))]
-ar.p = t.test(r2,r1,alternative = "less",paired = TRUE,var.equal = TRUE)$p.value
-sp = data.table(avg = round(mean(r1)*fq*100,3), pval = ar.p)
-perf_dt[Strategy == "SV", RET := see.stars(round(as.matrix(sp),3),1,2)[1]]
-ar.p = t.test(r1,r2,alternative = "less",paired = TRUE,var.equal = TRUE)$p.value
-sp = data.table(avg = round(mean(r2)*fq*100,3), pval = ar.p)
-perf_dt[Strategy == "AV", RET := see.stars(round(as.matrix(sp),3),1,2)[1]]
-
-# r1 = unlist(return_resid[,2])
-# r2 = unlist(return_resid[,1])
-
-perf_dt[Strategy == "BH", Sharpe := as.character(round((mean(r0)/sd(r0))* sqrt(12),3))]
-perf_dt[Strategy == "BH", Sortino :=  as.character(round(SortinoRatio(r0)* sqrt(12),3))]
-perf_dt[Strategy == "BH", Kappa := as.character(round(Kappa0(r0),3))]
-perf_dt[Strategy == "BH", UpsidePotential := as.character(round(UpsidePotentialRatio(r0),3))]
-perf_dt[Strategy == "BH", Rachev := as.character(round(genRachev.ratio(r0),3))]
-
-
-sharpep = ratio.test1(r2,r1)
-sp = data.table(SR1, pval = sharpep)
-sp = round(matrix(as.numeric(sp),nrow=1),3)
-perf_dt[Strategy == "SV", Sharpe := see.stars(round(as.matrix(sp),3),1,2)[1]]
-sp = data.table(SR = SOR1, pval = ratio.test2(r2,r1,ratio = "sortinoR"))
-sp = round(matrix(as.numeric(sp),nrow=1),3)
-perf_dt[Strategy == "SV", Sortino := see.stars(round(as.matrix(sp),3),1,2)[1]]
-sp = data.table(SR = K1, pval = ratio.test2(r2,r1,ratio = "Kappa0"))
-sp = round(matrix(as.numeric(sp),nrow=1),3)
-perf_dt[Strategy == "SV", Kappa := see.stars(round(as.matrix(sp),3),1,2)[1]]
-sp = data.table(SR = UP1, pval = ratio.test2(r2,r1,ratio = "UpsidePotentialRatio"))
-sp = round(matrix(as.numeric(sp),nrow=1),3)
-perf_dt[Strategy == "SV", UpsidePotential := see.stars(round(as.matrix(sp),3),1,2)[1]]
-sp = data.table(SR = gR1, pval = ratio.test2(r2,r1,ratio = "genRachev.ratio"))
-sp = round(matrix(as.numeric(sp),nrow=1),3)
-perf_dt[Strategy == "SV", Rachev := see.stars(round(as.matrix(sp),3),1,2)[1]]
-
-
-sharpep = ratio.test1(r1,r2,24)
-sp = data.table(SR2, pval = sharpep)
-sp = round(matrix(as.numeric(sp),nrow=1),3)
-perf_dt[Strategy == "AV", Sharpe := see.stars(round(as.matrix(sp),3),1,2)[1]]
-sp = data.table(SR = SOR2, pval = ratio.test2(r1,r2,ratio = "sortinoR"))
-sp = round(matrix(as.numeric(sp),nrow=1),3)
-perf_dt[Strategy == "AV", Sortino := see.stars(round(as.matrix(sp),3),1,2)[1]]
-sp = data.table(SR = K2, pval = ratio.test2(r1,r2,ratio = "Kappa0"))
-sp = round(matrix(as.numeric(sp),nrow=1),3)
-perf_dt[Strategy == "AV", Kappa := see.stars(round(as.matrix(sp),3),1,2)[1]]
-sp = data.table(SR = UP2, pval = ratio.test2(r1,r2,ratio = "UpsidePotentialRatio"))
-sp = round(matrix(as.numeric(sp),nrow=1),3)
-perf_dt[Strategy == "AV", UpsidePotential := see.stars(round(as.matrix(sp),3),1,2)[1]]
-sp = data.table(SR = gR2, pval = ratio.test2(r1,r2,ratio = "genRachev.ratio"))
-sp = round(matrix(as.numeric(sp),nrow=1),3)
-perf_dt[Strategy == "AV", Rachev := see.stars(round(as.matrix(sp),3),1,2)[1]]
-
-stargazer(perf_dt,summary = FALSE,out = 'tab_perf.tex')
-
-## performance table 1962##
-# var1 = VAR(y = data.table(adj_m_av_returns,adj_m_vol_returns),p = 1,type = "none", season = 12)
-# return_resid = data.table(var1$varresult$adj_m_av_returns$residuals,var1$varresult$adj_m_vol_returns$residuals)
-perf2_dt = data.table(Strategy = rep(c("BH","SV","AV")))
-fq = 12
-r0 = m_bh_returns[(paper_1962_start-1):length(m_bh_returns)]
-r1 = adj_m_vol_returns[(paper_1962_start-1):length(m_bh_returns)]
-r2 = adj_m_av_returns[(paper_1962_start-1):length(m_bh_returns)]
-
-SR1 = mean(r1)/sd(r1) * sqrt(12)
-SR2 = mean(r2)/sd(r2) * sqrt(12)
-SOR1 = SortinoRatio(r1) * sqrt(12)
-SOR2 = SortinoRatio(r2) * sqrt(12)
-K1 = Kappa0(r1)
-K2 = Kappa0(r2)
-UP1 = UpsidePotentialRatio(r1)
-UP2 = UpsidePotentialRatio(r2)
-gR1 = genRachev.ratio(r1)
-gR2 = genRachev.ratio(r2)
-
-perf2_dt[Strategy == "BH", RET := as.character(round(mean(r0)*fq*100,3))]
-ar.p = t.test(r2,r1,alternative = "less",paired = TRUE,var.equal = TRUE)$p.value
-sp = data.table(avg = round(mean(r1)*fq*100,3), pval = ar.p)
-perf2_dt[Strategy == "SV", RET := see.stars(round(as.matrix(sp),3),1,2)[1]]
-ar.p = t.test(r1,r2,alternative = "less",paired = TRUE,var.equal = TRUE)$p.value
-sp = data.table(avg = round(mean(r2)*fq*100,3), pval = ar.p)
-perf2_dt[Strategy == "AV", RET := see.stars(round(as.matrix(sp),3),1,2)[1]]
-
-# r1 = unlist(return_resid[,2])
-# r2 = unlist(return_resid[,1])
-
-perf2_dt[Strategy == "BH", Sharpe := as.character(round((mean(r0)/sd(r0))* sqrt(12),3))]
-perf2_dt[Strategy == "BH", Sortino :=  as.character(round(SortinoRatio(r0)* sqrt(12),3))]
-perf2_dt[Strategy == "BH", Kappa := as.character(round(Kappa0(r0),3))]
-perf2_dt[Strategy == "BH", UpsidePotential := as.character(round(UpsidePotentialRatio(r0),3))]
-perf2_dt[Strategy == "BH", Rachev := as.character(round(genRachev.ratio(r0),3))]
+perf_dt = array(dim = c(length(sufx),length(spans),3,6,3),dimnames = list(Target = sufx,Sample = names(spans),
+                                                                          Strategy = c("BH","SV","AV"),
+                                                                          Measure = c("Return","Sharpe","Sortino","Kappa$_{3}$",
+                                                                                      "Kappa$_{4}$","Rachev"),
+                                                                          Constraint = c("1.5","3","NO")))
+m_bh_dates = m_data$date[(paper_m_start+1):(nrow(m_data))]
+for(s in 1:length(spans)){
+  sp = spans[[s]]
+  fq = 12
+  r0 = c(m_bh_returns[m_bh_dates%fin% sp])
+  sp_logical = as.Date(dimnames(returns_dt)[[4]]) %fin% sp
+  for(c in sufx){
+    for(l in c("1.5","3","NO")){
+      r1 = returns_dt["sv",c,l,sp_logical]
+      r2 = returns_dt["av",c,l,sp_logical]
+      var1 = VAR(y = data.table(r1,r2),p = 1,type = "none", season = fq)
+      return_resid = data.table(r1 = var1$varresult$r1$residuals,r2 = var1$varresult$r2$residuals)
+      rr1 = return_resid$r1
+      rr2 = return_resid$r2
+      perf_dt[c,s,"BH",,l]  = c(as.character(round(mean(r0)*fq*100,3)),
+                                as.character(round((mean(r0)/sd(r0))* sqrt(fq),3)),
+                                as.character(round(sortinoR(r0,annualize = TRUE,freq = fq),3)),
+                                as.character(round(Kappa03(r0),3)),
+                                as.character(round(Kappa04(r0),3)),
+                                as.character(round(genRachev.ratio(r0),3)))
+      svp_dt = c(as.character(round(mean(r1)*fq*100,3)),
+                 hac_t.test(rr2,rr1,alternative = "less",
+                            paired = TRUE,var.equal = TRUE)$p.val,
+                 as.character(round(Sratio(r1,annualize = TRUE,freq = fq),3)),
+                 ratio.test2(rets1 = rr1,rets2 = rr2,ratio = "Sratio"),
+                 as.character(round(sortinoR(r1,annualize = TRUE,freq = fq),3)),
+                 ratio.test2(rets1 = rr1,rets2 = rr2,ratio = "sortinoR"),
+                 as.character(round(Kappa03(r1),3)),
+                 ratio.test2(rets1 = rr1,rets2 = rr2,ratio = "Kappa03"),
+                 as.character(round(Kappa04(r1),3)),
+                 ratio.test2(rets1 = rr1,rets2 = rr2,ratio = "Kappa04"),
+                 as.character(round(genRachev.ratio(r1),3)),
+                 ratio.test2(rets1 = rr1,rets2 = rr2,ratio = "genRachev.ratio")
+      )
+      perf_dt[c,s,"SV",,l] = see.stars(matrix(as.numeric(svp_dt),nrow=1),seq(1,11,by=2),seq(2,12,by=2))[seq(1,11,by=2)]
+      avp_dt = c(as.character(round(mean(r2)*fq*100,3)),
+                 hac_t.test(rr1,rr2,alternative = "less",
+                            paired = TRUE,var.equal = TRUE)$p.val,
+                 as.character(round(Sratio(r2,annualize = TRUE,freq = fq),3)),
+                 ratio.test2(rets1 = rr2,rets2 = rr1,ratio = "Sratio"),
+                 as.character(round(sortinoR(r2,annualize = TRUE,freq = fq),3)),
+                 ratio.test2(rets1 = rr2,rets2 = rr1,ratio = "sortinoR"),
+                 as.character(round(Kappa03(r2),3)),
+                 ratio.test2(rets1 = rr2,rets2 = rr1,ratio = "Kappa03"),
+                 as.character(round(Kappa04(r2),3)),
+                 ratio.test2(rets1 = rr2,rets2 = rr1,ratio = "Kappa04"),
+                 as.character(round(genRachev.ratio(r2),3)),
+                 ratio.test2(rets1 = rr2,rets2 = rr1,ratio = "genRachev.ratio")
+      )
+      perf_dt[c,s,"AV",,l] = see.stars(matrix(as.numeric(avp_dt),nrow=1),seq(1,11,by=2),seq(2,12,by=2))[seq(1,11,by=2)]
+    }
+  }
+}
 
 
-sharpep = ratio.test1(r2,r1)
-sp = data.table(SR1, pval = sharpep)
-sp = round(matrix(as.numeric(sp),nrow=1),3)
-perf2_dt[Strategy == "SV", Sharpe := see.stars(round(as.matrix(sp),3),1,2)[1]]
-sp = data.table(SR = SOR1, pval = ratio.test2(r2,r1,ratio = "sortinoR"))
-sp = round(matrix(as.numeric(sp),nrow=1),3)
-perf2_dt[Strategy == "SV", Sortino := see.stars(round(as.matrix(sp),3),1,2)[1]]
-sp = data.table(SR = K1, pval = ratio.test2(r2,r1,ratio = "Kappa0"))
-sp = round(matrix(as.numeric(sp),nrow=1),3)
-perf2_dt[Strategy == "SV", Kappa := see.stars(round(as.matrix(sp),3),1,2)[1]]
-sp = data.table(SR = UP1, pval = ratio.test2(r2,r1,ratio = "UpsidePotentialRatio"))
-sp = round(matrix(as.numeric(sp),nrow=1),3)
-perf2_dt[Strategy == "SV", UpsidePotential := see.stars(round(as.matrix(sp),3),1,2)[1]]
-sp = data.table(SR = gR1, pval = ratio.test2(r2,r1,ratio = "genRachev.ratio"))
-sp = round(matrix(as.numeric(sp),nrow=1),3)
-perf2_dt[Strategy == "SV", Rachev := see.stars(round(as.matrix(sp),3),1,2)[1]]
-
-
-sharpep = ratio.test1(r1,r2,24)
-sp = data.table(SR2, pval = sharpep)
-sp = round(matrix(as.numeric(sp),nrow=1),3)
-perf2_dt[Strategy == "AV", Sharpe := see.stars(round(as.matrix(sp),3),1,2)[1]]
-sp = data.table(SR = SOR2, pval = ratio.test2(r1,r2,ratio = "sortinoR"))
-sp = round(matrix(as.numeric(sp),nrow=1),3)
-perf2_dt[Strategy == "AV", Sortino := see.stars(round(as.matrix(sp),3),1,2)[1]]
-sp = data.table(SR = K2, pval = ratio.test2(r1,r2,ratio = "Kappa0"))
-sp = round(matrix(as.numeric(sp),nrow=1),3)
-perf2_dt[Strategy == "AV", Kappa := see.stars(round(as.matrix(sp),3),1,2)[1]]
-sp = data.table(SR = UP2, pval = ratio.test2(r1,r2,ratio = "UpsidePotentialRatio"))
-sp = round(matrix(as.numeric(sp),nrow=1),3)
-perf2_dt[Strategy == "AV", UpsidePotential := see.stars(round(as.matrix(sp),3),1,2)[1]]
-sp = data.table(SR = gR2, pval = ratio.test2(r1,r2,ratio = "genRachev.ratio"))
-sp = round(matrix(as.numeric(sp),nrow=1),3)
-perf2_dt[Strategy == "AV", Rachev := see.stars(round(as.matrix(sp),3),1,2)[1]]
-
-stargazer(perf2_dt,summary = FALSE,out = 'tab_perf2.tex')
 
 #### return plots ####
 p1_dt = data.table(Date = rep(m_data[(paper_m_start+1):(nrow(m_data))]$date,3), 
