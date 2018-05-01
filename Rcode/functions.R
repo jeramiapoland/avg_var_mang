@@ -1253,17 +1253,19 @@ ratio_diff_se = function(x1,x2,ratio){
   }
   grad_f = gradient(f,y)
   LRV = tryCatch(expr = {lrvar(as.matrix(Ldt), type = "Andrews", prewhite = TRUE, adjust = TRUE, lag = NULL)},
-                 error = {lrvar(as.matrix(Ldt), type = "Andrews", prewhite = FALSE, adjust = TRUE, lag = 0)})
-  se = sqrt((grad_f %*% LRV %*% t(grad_f))/length(x1))
+                 error = tryCatch(expr= {lrvar(as.matrix(Ldt), type = "Newey-West", prewhite = FALSE, 
+                                               adjust = TRUE, lag = 0)},
+                                  error = cov(Ldt)))
+  se = tryCatch(expr = {sqrt((grad_f %*% LRV %*% t(grad_f))/length(x1))}, error = {sd(x1) / sqrt(length(x1))})
   return(se)
 }
 
 stand_ratio = function(tsobj,ratio,o_diff){
   x1 = tsobj[,1]
   x2 = tsobj[,2]
-  r1 = do.call(what = ratio,args = list(x1))
-  r2 = do.call(what = ratio,args = list(x2))
-  diff = r1 - r2
+  ratio1 = do.call(what = ratio,args = list(x1))
+  ratio2 = do.call(what = ratio,args = list(x2))
+  diff = ratio1 - ratio2
   se = ratio_diff_se(x1,x2,ratio)
   num = diff - o_diff
   return(num/se)

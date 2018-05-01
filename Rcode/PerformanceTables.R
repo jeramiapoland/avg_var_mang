@@ -25,7 +25,7 @@ for(s in 1:length(spans)){
   r0 = c(m_bh_returns[m_bh_dates%fin% sp])
   sp_logical = as.Date(dimnames(returns_dt)[[4]]) %fin% sp
   for(c in sufx){
-    for(l in c("1.5","3","NO")){
+    for(l in c("1.5","3","NO")[2:3]){
       r1 = returns_dt["sv",c,l,sp_logical]
       r2 = returns_dt["av",c,l,sp_logical]
       var1 = VAR(y = data.table(r1,r2),p = 1,type = "none", season = fq)

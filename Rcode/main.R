@@ -626,13 +626,14 @@ perf_dt = array(dim = c(length(sufx),length(spans),3,6,3),dimnames = list(Target
                                                                                       "Kappa$_{4}$","Rachev"),
                                                                           Constraint = c("1.5","3","NO")))
 m_bh_dates = m_data$date[(paper_m_start+1):(nrow(m_data))]
+set.seed(123)
 for(s in 1:length(spans)){
   sp = spans[[s]]
   fq = 12
   r0 = c(m_bh_returns[m_bh_dates%fin% sp])
   sp_logical = as.Date(dimnames(returns_dt)[[4]]) %fin% sp
   for(c in sufx){
-    for(l in c("1.5","3","NO")){
+    for(l in c("1.5","3","NO")[2:3]){
       r1 = returns_dt["sv",c,l,sp_logical]
       r2 = returns_dt["av",c,l,sp_logical]
       var1 = VAR(y = data.table(r1,r2),p = 1,type = "none", season = fq)
@@ -659,6 +660,7 @@ for(s in 1:length(spans)){
                  as.character(round(genRachev.ratio(r1),3)),
                  ratio.test2(rets1 = rr1,rets2 = rr2,ratio = "genRachev.ratio")
       )
+      svp_dt[is.na(svp_dt)] = 0
       perf_dt[c,s,"SV",,l] = see.stars(matrix(as.numeric(svp_dt),nrow=1),seq(1,11,by=2),seq(2,12,by=2))[seq(1,11,by=2)]
       avp_dt = c(as.character(round(mean(r2)*fq*100,3)),
                  hac_t.test(rr1,rr2,alternative = "less",
@@ -674,6 +676,7 @@ for(s in 1:length(spans)){
                  as.character(round(genRachev.ratio(r2),3)),
                  ratio.test2(rets1 = rr2,rets2 = rr1,ratio = "genRachev.ratio")
       )
+      avp_dt[is.na(avp_dt)] = 0
       perf_dt[c,s,"AV",,l] = see.stars(matrix(as.numeric(avp_dt),nrow=1),seq(1,11,by=2),seq(2,12,by=2))[seq(1,11,by=2)]
     }
   }
