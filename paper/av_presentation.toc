@@ -1,10 +1,10 @@
 \beamer@endinputifotherversion {3.36pt}
 \beamer@sectionintoc {1}{Risk Anomaly}{2}{0}{1}
-\beamer@sectionintoc {2}{Data}{12}{0}{2}
-\beamer@sectionintoc {3}{Variance Decomposition}{13}{0}{3}
-\beamer@sectionintoc {4}{Results}{14}{0}{4}
-\beamer@subsectionintoc {4}{1}{In Sample}{14}{0}{4}
-\beamer@subsectionintoc {4}{2}{Out of Sample}{17}{0}{4}
-\beamer@sectionintoc {5}{Asset Allocation}{29}{0}{5}
-\beamer@sectionintoc {6}{Explaination}{33}{0}{6}
-\beamer@sectionintoc {7}{Conclusions}{39}{0}{7}
+\beamer@sectionintoc {2}{Data}{24}{0}{2}
+\beamer@sectionintoc {3}{Variance Decomposition}{25}{0}{3}
+\beamer@sectionintoc {4}{Results}{26}{0}{4}
+\beamer@subsectionintoc {4}{1}{In Sample}{26}{0}{4}
+\beamer@subsectionintoc {4}{2}{Out of Sample}{29}{0}{4}
+\beamer@sectionintoc {5}{Asset Allocation}{41}{0}{5}
+\beamer@sectionintoc {6}{Explaination}{50}{0}{6}
+\beamer@sectionintoc {7}{Conclusions}{59}{0}{7}

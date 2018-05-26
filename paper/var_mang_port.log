@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2017.9.18)  26 MAR 2018 16:13
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2017.9.18)  26 MAY 2018 15:37
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -853,7 +853,11 @@ Package caption Info: subfigure package is loaded.
 \c@proposition=\count181
 \c@obs=\count182
 
-(./var_mang_port.aux)
+(./var_mang_port.aux
+
+LaTeX Warning: Label `' multiply defined.
+
+)
 \openout1 = `var_mang_port.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 80.
@@ -870,8 +874,7 @@ LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 80.
 LaTeX Font Info:    ... okay on input line 80.
 LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 80.
 LaTeX Font Info:    ... okay on input line 80.
-
-(/usr/share/texlive/texmf-dist/tex/context/base/supp-pdf.mkii
+ (/usr/share/texlive/texmf-dist/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count183
 \scratchdimen=\dimen197
@@ -979,8 +982,21 @@ LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <142.26378> not available
 Missing character: There is no â in font cmr10!
 Missing character: There is no € in font cmr10!
 Missing character: There is no ™ in font cmr10!
- [3] [4]) (./data.tex [5] [6]) (./in_sample.tex [7]) [8] (./out_sample.tex
-[9] [10]
+ [3] [4]) (./data.tex [5] [6]) (./in_sample.tex [7]
+
+LaTeX Warning: Reference `tab_market_variance_replication' on page 8 undefined 
+on input line 7.
+
+
+LaTeX Warning: Reference `tab_mv_next' on page 8 undefined on input line 9.
+
+
+LaTeX Warning: Reference `tab_mv_next' on page 8 undefined on input line 9.
+
+
+LaTeX Warning: Reference `tab_ret_in' on page 8 undefined on input line 11.
+
+) [8] (./out_sample.tex [9] [10]
 
 LaTeX Warning: Reference `tab_oos' on page 11 undefined on input line 37.
 
@@ -988,82 +1004,112 @@ LaTeX Warning: Reference `tab_oos' on page 11 undefined on input line 37.
 
 LaTeX Warning: Reference `tab_robust' on page 12 undefined on input line 8.
 
-)
-Overfull \hbox (10.76077pt too wide) in paragraph at lines 143--147
+) (./preferences.tex [12]
+
+LaTeX Warning: Reference `fig_cml' on page 13 undefined on input line 9.
+
+Missing character: There is no Ã in font cmr10!
+Missing character: There is no ¤ in font cmr10!
+
+LaTeX Warning: Reference `fig_cml' on page 13 undefined on input line 11.
+
+(./lottery_preference2.tex
+
+LaTeX Warning: Reference `tab_max' on page 13 undefined on input line 5.
+
+[13]))
+Overfull \hbox (10.76077pt too wide) in paragraph at lines 147--151
 [][]\OT1/cmr/m/n/10.95 PROPOSITION 1: []\OT1/cmr/m/it/10.95 If Con-di-tion []1[
 ] is sat-is-fied, a so-lu-tion to the cen-tral plan-ner's prob-lem, $\OML/cmm/m
 /it/10.95 V\OT1/cmr/m/n/10.95 (\OML/cmm/m/it/10.95 B; D; t\OT1/cmr/m/n/10.95 ) 
 \OMS/cmsy/m/n/10.95 2
  []
 
-[12]pdfTeX warning (ext4): destination with the same identifier (name{section.1
+[14]pdfTeX warning (ext4): destination with the same identifier (name{section.1
 }) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.156 \section{An Appendix}
+l.160 \section{An Appendix}
                            pdfTeX warning (ext4): destination with the same ide
 ntifier (name{equation.1.1}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.160 \begin{equation}
+l.164 \begin{equation}
                       pdfTeX warning (ext4): destination with the same identifi
 er (name{equation.1.1}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.160 \begin{equation}
+l.164 \begin{equation}
                       pdfTeX warning (ext4): destination with the same identifi
 er (name{equation.1.1}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.160 \begin{equation}
+l.164 \begin{equation}
                       pdfTeX warning (ext4): destination with the same identifi
 er (name{equation.1.1}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.160 \begin{equation}
+l.164 \begin{equation}
                       pdfTeX warning (ext4): destination with the same identifi
 er (name{section.2}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.165 \section{Another Appendix}
-                                 [13
+l.169 \section{Another Appendix}
+                                 [15
 
 ] (./var_mang_port.bbl
 Missing character: There is no â in font cmr10!
 Missing character: There is no € in font cmr10!
 Missing character: There is no ™ in font cmr10!
- [14
+ [16
 
-] [15] [16])
-[17] (./var_mang_port.ent) [18
+] [17]
+Missing character: There is no Ã in font cmr10!
+Missing character: There is no ¤ in font cmr10!
+ [18])
+[19] (./var_mang_port.ent) [20
 
 ] (./figures.tex (./q_plot.tex) (./m_plot.tex)
 
 LaTeX Warning: Float too large for page by 2.06497pt on input line 6.
 
-[19]) (./tables.tex (./table_summary.tex (./summary1.tex) (./summary2.tex)
-(./summary3.tex)) (./table_in_sample.tex (./tab_var_rep_1.tex) [20
+[21]) (./tables.tex (./table_summary.tex (./summary1.tex) (./summary2.tex)
+(./summary3.tex)) (./table_in_sample.tex (./tab_var_rep_1.tex
+Overfull \hbox (168.09422pt too wide) in paragraph at lines 7--37
+ [][] 
+ []
+
+) [22
 
 
 
-] [21]
-(./tab_var_rep_4.tex
+] [23] (./tab_var_rep_4.tex
+Overfull \hbox (258.87364pt too wide) in paragraph at lines 7--37
+ [][] 
+ []
 
-LaTeX Warning: Float too large for page by 1.31516pt on input line 89.
+) [24
 
-) [22] (./tab_ret_rep1.tex
+] (./tab_ret_rep1.tex)) (./tab_oos.tex))
+Overfull \hbox (268.1331pt too wide) in paragraph at lines 7--201
+[][]   []
+ []
 
-LaTeX Warning: Float too large for page by 1.31516pt on input line 90.
 
-)) (./tab_oos.tex))
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 198.
- [23] [24]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 198.
+Underfull \hbox (badness 10000) in paragraph at lines 7--201
+
+ []
+
+[25
+
+]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 202.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 202.
  (./var_mang_port.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 198.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 198.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 202.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 202.
 Package rerunfilecheck Info: File `var_mang_port.out' has not changed.
-(rerunfilecheck)             Checksum: B254F1EB842217CF1C427D9C4CA7B146;310.
+(rerunfilecheck)             Checksum: EE195B13A9F38BD68AEAA4C1464CBFA4;356.
 
 
 LaTeX Font Warning: Size substitutions with differences
@@ -1072,12 +1118,15 @@ LaTeX Font Warning: Size substitutions with differences
 
 LaTeX Warning: There were undefined references.
 
+
+LaTeX Warning: There were multiply-defined labels.
+
  ) 
 Here is how much of TeX's memory you used:
- 21294 strings out of 493029
- 385500 string characters out of 6136234
- 666297 words of memory out of 5000000
- 24223 multiletter control sequences out of 15000+600000
+ 21317 strings out of 493029
+ 385954 string characters out of 6136234
+ 665176 words of memory out of 5000000
+ 24237 multiletter control sequences out of 15000+600000
  14395 words of font info for 55 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  62i,11n,92p,2667b,739s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1100,10 +1149,10 @@ f-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/share/texlive/texmf-dist
 /fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/share/texlive/texmf-dist/fonts
 /type1/public/amsfonts/cm/cmtt10.pfb></usr/share/texlive/texmf-dist/fonts/type1
 /public/amsfonts/symbols/msbm10.pfb>
-Output written on var_mang_port.pdf (24 pages, 317895 bytes).
+Output written on var_mang_port.pdf (25 pages, 319696 bytes).
 PDF statistics:
- 471 PDF objects out of 1000 (max. 8388607)
- 414 compressed objects within 5 object streams
- 105 named destinations out of 1000 (max. 500000)
- 61 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 478 PDF objects out of 1000 (max. 8388607)
+ 426 compressed objects within 5 object streams
+ 108 named destinations out of 1000 (max. 500000)
+ 69 words of extra memory for PDF output out of 10000 (max. 10000000)
 

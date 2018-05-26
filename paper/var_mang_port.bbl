@@ -1,4 +1,4 @@
-\begin{thebibliography}{46}
+\begin{thebibliography}{49}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 
 \bibitem[Ang and Chen(2002)]{ANG2002443}
@@ -11,6 +11,11 @@ Asness, Clifford~S., Andrea Frazzini, Niels~Joachim Gormsen, and Lasse~Heje
   Pedersen, 2018, Betting against correlation: testing theories of the low-risk
   effect .
 
+\bibitem[Bali et~al.(2011)Bali, Cakici, and Whitelaw]{bali_maxing_2011}
+Bali, Turan~G., Nusret Cakici, and Robert~F. Whitelaw, 2011, Maxing out:
+  {Stocks} as lotteries and the cross-section of expected returns, {\em Journal
+  of Financial Economics\/} 99, 427--446.
+
 \bibitem[Barberis and Huang(2008)]{barberis_stocks_2008}
 Barberis, Nicholas, and Ming Huang, 2008, Stocks as {Lotteries}: {The}
   {Implications} of {Probability} {Weighting} for {Security} {Prices}, {\em
@@ -19,6 +24,10 @@ Barberis, Nicholas, and Ming Huang, 2008, Stocks as {Lotteries}: {The}
 \bibitem[Barroso and Santa-Clara(2015)]{barroso_momentum_2015}
 Barroso, Pedro, and Pedro Santa-Clara, 2015, Momentum has its moments, {\em
   Journal of Financial Economics\/} 116, 111--120.
+
+\bibitem[Black(1972)]{black1972capital}
+Black, Fischer, 1972, Capital market equilibrium with restricted borrowing,
+  {\em The Journal of business\/} 45, 444--455.
 
 \bibitem[Boguth and Simutin(2018)]{boguth_leverage_2018}
 Boguth, Oliver, and Mikhail Simutin, 2018, Leverage constraints and asset
@@ -142,6 +151,11 @@ Jensen, Michael~C, Fischer Black, and Myron~S Scholes, 1972, The capital asset
 
 \bibitem[Jones(2002)]{jones_century_2002}
 Jones, Charles, 2002, A century of stock market liquidity and trading costs .
+
+\bibitem[Jylhä(2018)]{jylha_margin_2018}
+Jylhä, Petri, 2018, Margin {Requirements} and the {Security} {Market} {Line}:
+  {Margin} {Requirements} and the {Security} {Market} {Line}, {\em The Journal
+  of Finance\/} .
 
 \bibitem[Kim et~al.(2016)Kim, Tse, and Wald]{kim_time_2016}
 Kim, Abby~Y., Yiuman Tse, and John~K. Wald, 2016, Time series momentum and

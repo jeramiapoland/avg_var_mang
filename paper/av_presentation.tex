@@ -54,20 +54,24 @@
 \end{frame}
 
 \begin{frame}{Equity Premium}
-	\begin{block}{Equity Premium}
-\begin{itemize}
-	\item Markowitz (1952) - formal portfolio variance, return optimization
-	\item Haugen (1972) - low risk portfolios out perform
-	\item Moreira and Muir (2017) - portfolios scaled by last months realized volatilty outperform the underlying
-\end{itemize}
-	\end{block}
-	\begin{block}{Volatiltiy Managed Market Investment}
-		\begin{itemize}
-		\item $W_{t}R_{st}$ where $R_{st}$ is the monthly return to the CRSP market portfolio in month t.
-		\item $\sigma^2(r_{s,t-1})$ is the variance, where $r_{s,t-1}$ is the series of daily returns of the CRSP market portfolio for month t-1
-		\item $W_{t}$ = $\frac{1}{\sigma^2(r_{s,t-1})}$ is the investment weight on the CRSP market portfolio for month t
+	\begin{itemize}
+		\item[] Equity Premium
+			%\begin{block}{Equity Premium}
+				\begin{itemize}[<+->]
+					\item Markowitz (1952) - formal portfolio variance, return optimization
+					\item Haugen (1972) - low risk portfolios out perform
+					\item Moreira and Muir (2017) - portfolios scaled by last months realized volatilty outperform the underlying
+				\end{itemize}
+		%	\end{block}
+		%	\begin{block}{Volatiltiy Managed Market Investment}
+		\item Volatility Managed Market Investment
+				\begin{itemize}[<+->]
+					\item $W_{t}R_{st}$ where $R_{st}$ is the monthly return to the CRSP market portfolio in month t.
+					\item $\sigma^2(r_{s,t-1})$ is the variance, where $r_{s,t-1}$ is the series of daily returns of the CRSP market portfolio for month t-1
+					\item $W_{t}$ = $\frac{1}{\sigma^2(r_{s,t-1})}$ is the investment weight on the CRSP market portfolio for month t
+				\end{itemize}
+		%	\end{block}
 	\end{itemize}
-	\end{block}
 \end{frame}
 
 \begin{frame}{Moreira and Muir 2017}
@@ -77,22 +81,27 @@
 
 \end{frame}
 
-\begin{frame}
-	\begin{block}{Market Variance}
-		\begin{itemize}
-			\item Campbell, Lettau, and Xu (2001) - variance of individual assets vs market variance and CAPM
-			\item Pollet and Wilson (2010) - decompose quarterly variance of market portfolio - Avg cor and Avg var
-		\end{itemize}
-	\end{block}
-	\begin{block}{Avg Var and Avg Cor}
-		\vspace{-12pt}
-		\begin{align*}
-		R_{s,t} &= \sum_{1}^{N}w_{n,t}R_{n,t} \\
-		\sigma^{2}(r_{s,t}) &= \sum_{n=1}^{N} \sum_{m=1}^{N}w_{n,t}w_{m,t}\sigma^{2}_{n,t}\sigma^{2}_{m,t}\rho_{n,m,t}\\
-		\sigma^{2}_{s,t} &= \sum_{n=1}^{N} w_{n,t}\sigma^{2}_{n,t} \times \sum_{n=1}^{N}\sum_{m \neq n}^{N}w_{n,t}w_{m,t}\rho_{n,m,t}\\
-		AV_{t} &= \sum_{n=1}^{N} w_{n,t}\sigma^{2}_{n,t} ~ \text{ and } ~ AC_{t} = \sum_{n=1}^{N}\sum_{m \neq n}^{N}w_{n,t}w_{m,t}\rho_{n,m,t}
-		\end{align*}
-	\end{block}
+\begin{frame}{Variance Decomposition}
+	\begin{itemize}[<+->]
+	\item[]	%\begin{block}{Market Variance}
+	Market Variance
+			\begin{itemize}[<+->]
+				\item Campbell, Lettau, and Xu (2001) - variance of individual assets vs market variance and CAPM
+				\item Pollet and Wilson (2010) - decompose quarterly variance of market portfolio - Avg cor and Avg var
+			\end{itemize}
+	%	\end{block}
+	\item[] Avg Var and Avg Cor
+	%	\begin{block}{Avg Var and Avg Cor}
+
+			\begin{align*}
+			R_{s,t} &= \sum_{1}^{N}w_{n,t}R_{n,t} \\
+			\sigma^{2}(r_{s,t}) &= \sum_{n=1}^{N} \sum_{m=1}^{N}w_{n,t}w_{m,t}\sigma^{2}_{n,t}\sigma^{2}_{m,t}\rho_{n,m,t}\\
+			\sigma^{2}_{s,t} &= \sum_{n=1}^{N} w_{n,t}\sigma^{2}_{n,t} \times \sum_{n=1}^{N}\sum_{m \neq n}^{N}w_{n,t}w_{m,t}\rho_{n,m,t}\\
+			AV_{t} &= \sum_{n=1}^{N} w_{n,t}\sigma^{2}_{n,t} ~ \text{ and } ~ AC_{t} = \sum_{n=1}^{N}\sum_{m \neq n}^{N}w_{n,t}w_{m,t}\rho_{n,m,t}
+			\end{align*}
+	%	\end{block}
+	\end{itemize}
+	
 \end{frame}
 
 \begin{frame}{Pollet and Wilson 2010 - Risk}
@@ -118,15 +127,16 @@
 \end{frame}
 
 \begin{frame}{Average Variance}
-	\begin{itemize}
+	\begin{itemize}[<+->]
 		\item Timing leverage by variance generates higher returns
 		\item Market variance contains average correlation
 		\item Average variance is at least unrelated to future returns
 		\item $W_{t}$ = $\frac{1}{AV_{t-1}}$ is the investment weight on the CRSP market portfolio
+		\item 	\begin{adjustbox}{width=\textwidth}
+			\input{m_ret_plot2}
+		\end{adjustbox}
 	\end{itemize}
-	\begin{adjustbox}{width=\textwidth}
-		\input{m_ret_plot2}
-	\end{adjustbox}
+
 \end{frame}
 
 \section{Data}
@@ -137,8 +147,21 @@
 			\item NYSE daily return (1926-2017)
 			\item NYSE-AMEX daily returns (1962-2017)
 			\item NASDAQ daily returns (1974-2017)
+			\item Monthly Variance Stats and MCAP of gaming industry
 		\end{itemize}
 	\end{block}
+	\begin{block}{Asaif Manela's Website}
+		\begin{itemize}
+			\item ICRF = $\frac{MarEqt}{MarEqt + BookDbt}$ He, Kelly, Manela (2017)
+			\item LF$_{AEM}$ = $\frac{FinAsst}{FinAsst - BankDbt}$ Adrian, Etula and Muir (2014)
+			\item BC = year on year increase in bank credit Gandhi (2016)
+		\end{itemize}
+	\end{block}
+	\begin{block}{NYSE}
+		\begin{itemize}
+			\item $\Delta$ MD = month to month change in Margin Debt
+		\end{itemize}
+	\end{block}	
 \end{frame}
 
 \section{Variance Decomposition}
@@ -271,7 +294,7 @@
 \begin{frame}{Out of Sample Results}
 	\vspace{-12pt}
 	\begin{table}
-		\caption{1970M7:2017M12}
+		\caption{1970M7:2016M12}
 		\vspace{-6pt}
 		\begin{adjustbox}{width=\textwidth}
 			\input{tab_oos.tex}
@@ -282,7 +305,7 @@
 \begin{frame}{Out of Sample Results}
 	\vspace{-12pt}
 	\begin{table}
-		\caption{1926M7:1962M6}
+		\caption{1932M2:1962M6}
 		\vspace{-6pt}
 		\begin{adjustbox}{width=\textwidth}
 			\input{tab_oos2.tex}
@@ -304,7 +327,7 @@
 \end{frame}
 
 \begin{frame}{Performance Measures}
-	\begin{itemize}
+	\begin{itemize}[<+->]
 		\item RET = annualized average log excess return
 		\item Sharpe = $\frac{\mathbb{E}[R_{x}]}{\sigma(R_{x})}$, dollar of returns for dollar of variance
 		\item Sortino = $\frac{\mathbb{E}[R_{x} - 0]}{\sqrt  {\int _{{-\infty }}^{0}(0-R_{x})^{2}f(R_{x})\,dR}}$, return for downside
@@ -331,20 +354,20 @@
 
 \section{Explaination}
 \begin{frame}{Risk over Reward}
-	\begin{itemize}
-		\item The higher excess returns of low-risk strategies (assets) comes from a preference for the lottery like extreme returns possible from higher risk investments - Barberis and Huang (2008); Brunnermeier, Gollier, and Parker (2007)
+	\begin{itemize}[<+->]
+		\item The higher excess returns of low-risk strategies (assets) comes from a preference for the lottery like extreme returns possible from higher risk investments - Barberis and Huang (2008); Brunnermeier, Gollier, and Parker (2007); Asness, Frazzini, Gorsmen, Pedersen (2016)
 		\item Leverage constraints prevent investors from taking the low-risk position - Black (1972)
 	\end{itemize}
 \end{frame}
 
 \begin{frame}{Lottery}
-	\begin{itemize}
+	\begin{itemize}[<+->]
 		\item For lotter preferences to explain the higher returns of either SV or AV, the Buy and Hold strategy must be more lottery-like than either
 		\item It is not
-	\end{itemize}
-		\begin{adjustbox}{width=\textwidth}
+		\item 	\begin{adjustbox}{width=\textwidth}
 			\input{tab_max_stats}
 		\end{adjustbox}
+	\end{itemize}
 \end{frame}
 
 \begin{frame}{Lottery Pick 2}
