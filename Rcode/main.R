@@ -2,7 +2,8 @@ paks <- c("RCurl","data.table","tis","lubridate","ggplot2","stringr","sandwich",
           "CADFtest","complexplus","readxl","reshape2","quantmod","xlsx","tikzDevice","MASS","timeSeries","vars","PortfolioEffectHFT",
           "PortfolioAnalytics","PerformanceAnalytics","backtest","tidyr","broom","stringdist","BH","parallel","doMC","foreach",
           "doParallel","lmtest","hypergeo","strucchange","formula.tools","multiwave","outliers","forecast","SharpeR","fastmatch",
-          "bvarsv","boot","goftest","DescTools","dunn.test","generalCorr","cointReg","psd","plot3D","rootSolve") 
+          "bvarsv","boot","goftest","DescTools","dunn.test","generalCorr","cointReg","psd","plot3D","rootSolve",
+          "fitdistrplus","conics") 
 # note: tikzDevice requires a working latex installation
 # and xlsx require rJava so a properly configured java (try javareconf)
 for (p in paks){
@@ -591,6 +592,7 @@ weights_table = data.table(vol_mang = sv_053_weights, av_mang = av_053_weights,
 stargazer(weights_table,out = "tab_weights.tex",
           summary.stat = c("n","mean","sd","min","p25","median","p75","max"))
 weights_table = data.table(m_data$date[(paper_m_start+1):(nrow(m_data))],weights_table)
+weights_table[, V1 := V1 + months(1)] # adjust date to the month weight is used
 weights_dt = melt(subset(weights_table,select = c(V1,vol_mang,av_mang)),id.vars = "V1",variable.name = "Strategy",value.name = "Weight")
 
 weight_plot2 = ggplot(data=weights_dt) + geom_line(aes(x=V1,y=Weight,color=Strategy,linetype=Strategy)) + 
@@ -606,19 +608,6 @@ plot(weight_plot2)
 dev.off()
 
 
-#### CER ####
-gammas = seq(1,5,by = .1)
-cer_gains_dt = array(dim = c(3,length(seq(1,3,.1)),length(seq(1,5,.1))),dimnames = list(sufx,dimnames(returns_dt)[[3]][2:22],gammas))
-for(g in gammas){
-  for(c in sufx){
-    tmp1 = t(returns_dt["av",c,2:(length(upper_lev)+1),])
-    cer1 = colMeans(tmp1) - .5*apply(tmp1,MARGIN = 2,FUN = var)*(1/g)
-    tmp2 = t(returns_dt["sv",c,2:(length(upper_lev)+1),])
-    cer2 = colMeans(tmp2) - .5*apply(tmp2,MARGIN = 2,FUN = var)*(1/g)
-    cer_gains_dt[c,,as.character(g)] = (cer1 - cer2)*1200
-  }
-}
-
 #### performance table ####
 perf_dt = array(dim = c(length(sufx),length(spans),3,6,3),dimnames = list(Target = sufx,Sample = names(spans),
                                                                           Strategy = c("BH","SV","AV"),
@@ -633,7 +622,7 @@ for(s in 1:length(spans)){
   r0 = c(m_bh_returns[m_bh_dates%fin% sp])
   sp_logical = as.Date(dimnames(returns_dt)[[4]]) %fin% sp
   for(c in sufx){
-    for(l in c("1.5","3","NO")[2:3]){
+    for(l in c("1.5","3","NO")){
       r1 = returns_dt["sv",c,l,sp_logical]
       r2 = returns_dt["av",c,l,sp_logical]
       var1 = VAR(y = data.table(r1,r2),p = 1,type = "none", season = fq)
@@ -683,62 +672,139 @@ for(s in 1:length(spans)){
 }
 
 
+for(s in 1:length(spans)){
+  for(c in sufx){
+    out1 = cbind(perf_dt[c,s,,,"1.5"],perf_dt[c,s,,,"3"])
+    assign(paste0("out",c),cbind(rep(c,3),c("BH","SV","AV"),out1))
+  }
+  out1 = rbindlist(lapply(as.list(paste0("out",sufx)),function(x){as.data.frame(get(x))}))
+  ltex = stargazer(out1,rownames = FALSE,summary = FALSE,out.header = FALSE)
+  cat(x = ltex,sep = '\n',file = paste0("tab_perf_targets_",names(spans)[s],".tex"))
+  out2 = perf_dt["053",s,,,"NO"]
+  ltex2 = stargazer(out2,rownames = FALSE,summary = FALSE,out.header = FALSE)
+  cat(x = ltex2,sep = '\n',file = paste0("tab_perf_053_",names(spans)[s],".tex"))
+}
+
 
 #### return plots ####
 p1_dt = data.table(Date = rep(m_data[(paper_m_start+1):(nrow(m_data))]$date,3), 
-                Strategy = c(rep("avg_var1m",length(adj_m_av_returns)),
-                             rep("mkt_var1m",length(adj_m_vol_returns)),
-                             rep("market",length(m_bh_returns))),
-                Return = c(adj_m_av_returns,
-                           adj_m_vol_returns,
-                           m_bh_returns))
+                Strategy = c(rep("avg_var1m",dim(returns_dt)[4]),
+                             rep("mkt_var1m",dim(returns_dt)[4]),
+                             rep("market",dim(returns_dt)[4])),
+                Return = c(returns_dt["av","053","1.5",],
+                           returns_dt["sv","053","1.5",],
+                           m_bh_returns),
+                Constraint = rep("Leverage - 1.5",3*dim(returns_dt)[4]))
 p1_dt[, Return := cumsum(Return), by = Strategy]
+p2_dt = data.table(Date = rep(m_data[(paper_m_start+1):(nrow(m_data))]$date,3), 
+                   Strategy = c(rep("avg_var1m",dim(returns_dt)[4]),
+                                rep("mkt_var1m",dim(returns_dt)[4]),
+                                rep("market",dim(returns_dt)[4])),
+                   Return = c(returns_dt["av","053","3",],
+                              returns_dt["sv","053","3",],
+                              m_bh_returns),
+                   Constraint = rep("Leverage - 3",3*dim(returns_dt)[4]))
+p2_dt[, Return := cumsum(Return), by = Strategy]
+p3_dt = data.table(Date = rep(m_data[(paper_m_start+1):(nrow(m_data))]$date,3), 
+                   Strategy = c(rep("avg_var1m",dim(returns_dt)[4]),
+                                rep("mkt_var1m",dim(returns_dt)[4]),
+                                rep("market",dim(returns_dt)[4])),
+                   Return = c(returns_dt["av","053","NO",],
+                              returns_dt["sv","053","NO",],
+                              m_bh_returns),
+                   Constraint = rep("Leverage - Unconstrained",3*dim(returns_dt)[4]))
+p3_dt[, Return := cumsum(Return), by = Strategy]
 
-m_ret_plot = ggplot(data=p1_dt) + geom_line(aes(x=Date,y=Return,color=Strategy,linetype=Strategy)) + 
-  labs(title = "Cummulative Excess Log Returns - Monthly", x = "", y = "") + 
+p1 = rbind(p1_dt,p2_dt,p3_dt)
+
+m_ret_plot = ggplot(data=p1) + geom_line(aes(x=Date,y=Return,color=Strategy,linetype=Strategy)) + 
+  labs(title = "Cummulative Excess Log Returns", x = "", y = "") + 
   scale_x_date(date_breaks = "5 year", date_labels =  "%Y") +
   scale_colour_manual(name = "Strategy",values=cbPalette,labels =c("AV","Market","SV")) + 
   scale_linetype_manual(name = "Strategy",values=linePalette,labels =c("AV","Market","SV")) +
   theme(text = element_text(size=11),panel.grid.major.x = element_blank(),
-        panel.grid.major.y = element_line( size=.1, color="black"))+ theme_bw()
+        panel.grid.major.y = element_line( size=.1, color="black")) + 
+  facet_wrap(~Constraint,ncol = 1,nrow = 3,scales = "free_y") + 
+  theme_bw()
 m_ret_plot = nberShade(m_ret_plot,xrange = c(min(p1_dt$Date), max(p1_dt$Date)),openShade = FALSE)
-tikz("m_ret_plot2.tex",width = 5.90551, height = 3, sanitize = FALSE)
+tikz("m_ret_plot2.tex",width = 5.90551, height = 9, sanitize = FALSE)
 plot(m_ret_plot)
 dev.off()
 
-p2 = data.table(Date = rep(m_data[paper_m_start:(nrow(m_data)-1)]$date,3), 
-                Strategy = c(rep("avg_var1m",length(m_av_returns)),rep("mkt_var1m",length(m_vol_returns)),rep("market",length(m_bh_returns))),
-                Return = c(m_av_returns,m_vol_returns,m_bh_returns))
-p2[, Return := cumsum(Return), by = Strategy]
+# p2 = data.table(Date = rep(m_data[paper_m_start:(nrow(m_data)-1)]$date,3), 
+#                 Strategy = c(rep("avg_var1m",length(m_av_returns)),rep("mkt_var1m",length(m_vol_returns)),rep("market",length(m_bh_returns))),
+#                 Return = c(m_av_returns,m_vol_returns,m_bh_returns))
+# p2[, Return := cumsum(Return), by = Strategy]
+# 
+# m_ret_plot2 = ggplot(data=p2) + geom_line(aes(x=Date,y=Return,color=Strategy,linetype=Strategy)) + 
+#   labs(title = "Cummulative Excess Log Returns - Monthly", x = "", y = "") + 
+#   scale_x_date(date_breaks = "5 year", date_labels =  "%Y") +
+#   scale_colour_manual(name = "Strategy",values=cbPalette,labels =c("AV","Market","SV")) + 
+#   scale_linetype_manual(name = "Strategy",values=linePalette,labels =c("AV","Market","SV")) +
+#   theme(text = element_text(size=11),panel.grid.major.x = element_blank(),
+#         panel.grid.major.y = element_line( size=.1, color="black"))+ theme_bw()
+# m_ret_plot2 = nberShade(m_ret_plot2,xrange = c(min(p2$Date), max(p2$Date)),openShade = FALSE)
+# tikz("m_ret_plot3.tex",width = 5.90551, height = 3, sanitize = FALSE)
+# plot(m_ret_plot2)
+# dev.off()
 
-m_ret_plot2 = ggplot(data=p2) + geom_line(aes(x=Date,y=Return,color=Strategy,linetype=Strategy)) + 
-  labs(title = "Cummulative Excess Log Returns - Monthly", x = "", y = "") + 
-  scale_x_date(date_breaks = "5 year", date_labels =  "%Y") +
-  scale_colour_manual(name = "Strategy",values=cbPalette,labels =c("AV","Market","SV")) + 
-  scale_linetype_manual(name = "Strategy",values=linePalette,labels =c("AV","Market","SV")) +
-  theme(text = element_text(size=11),panel.grid.major.x = element_blank(),
-        panel.grid.major.y = element_line( size=.1, color="black"))+ theme_bw()
-m_ret_plot2 = nberShade(m_ret_plot2,xrange = c(min(p2$Date), max(p2$Date)),openShade = FALSE)
-tikz("m_ret_plot3.tex",width = 5.90551, height = 3, sanitize = FALSE)
-plot(m_ret_plot2)
+
+#### CER ####
+gammas = seq(1,5,by = .1)
+cer_gains_dt = array(dim = c(3,length(seq(1,3,.1)),length(seq(1,5,.1))),dimnames = list(sufx,dimnames(returns_dt)[[3]][2:22],gammas))
+for(g in gammas){
+  for(c in sufx){
+    tmp1 = t(returns_dt["av",c,2:(length(upper_lev)+1),])
+    cer1 = colMeans(tmp1) - .5*apply(tmp1,MARGIN = 2,FUN = var)*(1/g)
+    tmp2 = t(returns_dt["sv",c,2:(length(upper_lev)+1),])
+    cer2 = colMeans(tmp2) - .5*apply(tmp2,MARGIN = 2,FUN = var)*(1/g)
+    cer_gains_dt[c,,as.character(g)] = (cer1 - cer2)*1200
+  }
+}
+
+# cer3D_plot = persp3D(x= seq(1,3,.1), y = gammas, z = cer_gains_dt["053",,],theta = 305, 
+#         xlab = "Constraint", ylab = "Gamma", zlab = "CER Gain",  
+#         clab = "CER GAIN %",resfac = 3, colkey = list(side=1,length=.3),
+#         ticktype="detailed")
+tikz("cer3d_plot.tex",width = 5.90551, height = 3, sanitize = FALSE)
+persp3D(x= seq(1,3,.1), y = gammas, z = cer_gains_dt["053",,],theta = 305, 
+        xlab = "Constraint", ylab = "Gamma", zlab = "CER Gain",  
+        clab = "Percent Gain",resfac = 3, colkey = list(side=1,length=.3),
+        ticktype="detailed")
 dev.off()
 
 #### drawdowns ####
-dd_ts = as.timeSeries(data.table(market = m_bh_returns,vol_mang = adj_m_vol_returns,
-                                 av_mang = adj_m_av_returns))
+dd_ts = as.timeSeries(data.table(market = m_bh_returns,vol_mang = returns_dt["sv","053","NO",],
+                                 av_mang = returns_dt["av","053","NO",]))
 dd_ts = exp(dd_ts) - 1
-dd_dt = data.table(Date = m_data[paper_m_start:nrow(m_data)]$date,drawdowns(dd_ts))
+dd_dt = data.table(Date = m_data[paper_m_start:nrow(m_data)]$date,drawdowns(dd_ts),constraint = "NO")
 dd_dt[, keep.rownames := NULL]
 dd_dt = melt(dd_dt,measure.vars = c("market","vol_mang","av_mang"),value.name = "Return",
-             id.vars = "Date",variable.name = "Strategy")
+             id.vars = c("Date","constraint"),variable.name = "Strategy")
+dd_ts2 = as.timeSeries(data.table(market = m_bh_returns,vol_mang = returns_dt["sv","053","3",],
+                                 av_mang = returns_dt["av","053","3",]))
+dd_ts2 = exp(dd_ts2) - 1
+dd_dt2 = data.table(Date = m_data[paper_m_start:nrow(m_data)]$date,drawdowns(dd_ts2),constraint = "3")
+dd_dt2[, keep.rownames := NULL]
+dd_dt2 = melt(dd_dt2,measure.vars = c("market","vol_mang","av_mang"),value.name = "Return",
+             id.vars = c("Date","constraint"),variable.name = "Strategy")
+dd_ts3 = as.timeSeries(data.table(market = m_bh_returns,vol_mang = returns_dt["sv","053","1.5",],
+                                  av_mang = returns_dt["av","053","1.5",]))
+dd_ts3 = exp(dd_ts3) - 1
+dd_dt3 = data.table(Date = m_data[paper_m_start:nrow(m_data)]$date,drawdowns(dd_ts3), constraint = "1.5")
+dd_dt3[, keep.rownames := NULL]
+dd_dt3 = melt(dd_dt3,measure.vars = c("market","vol_mang","av_mang"),value.name = "Return",
+              id.vars = c("Date","constraint"),variable.name = "Strategy")
+dd_dt = rbind(dd_dt3,dd_dt2,dd_dt)
 
-m_dd_plot = ggplot(data=dd_dt) + geom_line(aes(x=Date,y=Return,color=Strategy,linetype=Strategy)) + 
-  labs(title = "Cummulative Drawdown - Monthly", x = "", y = "") + 
+m_dd_plot = ggplot(data=dd_dt[constraint=="NO"]) + geom_line(aes(x=Date,y=Return,color=Strategy,linetype=Strategy)) + 
+  labs(title = "Cummulative Drawdown", x = "", y = "") + 
   scale_x_date(date_breaks = "5 year", date_labels =  "%Y") +
   scale_colour_manual(name = "Strategy",values=cbPalette,labels =c("Market","SV","AV")) + 
   scale_linetype_manual(name = "Strategy",values=linePalette,labels =c("Market","SV","AV")) +
   theme(text = element_text(size=11),panel.grid.major.x = element_blank(),
-        panel.grid.major.y = element_line( size=.1, color="black"))+ theme_bw()
+        panel.grid.major.y = element_line( size=.1, color="black")) +
+  theme_bw()
 m_dd_plot = nberShade(m_dd_plot,xrange = c(min(dd_dt$Date), max(dd_dt$Date)),openShade = FALSE)
 tikz("dd_plot.tex",width = 5.90551, height = 3, sanitize = FALSE)
 plot(m_dd_plot)
@@ -746,8 +812,8 @@ dev.off()
 
 
 dds_bh = as.data.table(drawdownsStats(as.timeSeries(exp(m_bh_returns)-1)))
-dds_av = as.data.table(drawdownsStats(as.timeSeries(exp(adj_m_av_returns)-1)))
-dds_vol = as.data.table(drawdownsStats(as.timeSeries(exp(adj_m_vol_returns)-1)))
+dds_av = as.data.table(drawdownsStats(as.timeSeries(exp(returns_dt["av","053","NO",])-1)))
+dds_vol = as.data.table(drawdownsStats(as.timeSeries(exp(returns_dt["sv","053","NO",])-1)))
 
 dd_table = data.table(Strategy = c("BH","SV","AV"))
 dd_table[Strategy == "BH", 
@@ -769,6 +835,19 @@ dd_table[Strategy == "AV",
 dd_table[, c("Max DD","Avg DD") := list(`Max DD`*100,`Avg DD`*100)]
 dd_table[,2:ncol(dd_table)] = round(dd_table[,2:ncol(dd_table)],3)
 stargazer(dd_table,summary = FALSE,out = "dd_stats.tex")
+
+# knockout drawndown
+#  “the probability of a 40% drawdown in one year is less than 0.1%.”
+dd_dt_binom = dd_dt[constraint == "NO"]
+dd_dt_binom[, dd40 := as.integer(Return <= -.4)]
+dd_dt_binom[, dd40_gamma := sum(dd40) / (length(dd40) /12) , by = Strategy]
+p40_bh = fitdist(dd_dt_binom[Strategy=="market"]$dd40,distr = "binom",method = "mle",fix.arg = list(size=12),
+                 start=list(prob=0.3))$estimate * 100
+p40_av = fitdist(dd_dt_binom[Strategy=="av_mang"]$dd40,distr = "binom",method = "mle",fix.arg = list(size=12),
+                 start=list(prob=0.3))$estimate * 100
+p40_sv = fitdist(dd_dt_binom[Strategy=="vol_mang"]$dd40,distr = "binom",method = "mle",fix.arg = list(size=12),
+                      start=list(prob=0.3))$estimate * 100
+
 
 # p2 = data.table(Date = rep(q_data[q_start:nrow(q_data)]$date,3), 
 #                 Strategy = c(rep("avg_var,",length(adj_q_av_returns)),rep("mkt_var",length(adj_q_vol_returns)),rep("market",length(q_bh_returns))),
@@ -980,32 +1059,34 @@ plot(sv_sv_weight_plot)
 dev.off()
 
 #### lottery vs leverage ####
-dp = dcast(p1,formula = Date ~ ...,value.var = "Return")
+dp = dcast(p1[Constraint == "Leverage - Unconstrained"],formula = Date + Constraint ~ ...,value.var = "Return")
 dp = as.data.table(dp)
+dp[, Constraint := NULL]
 dp[, year := year(Date)]
 dp[, month := month(Date)]
 
-w_dt = data.table(date = dp$Date + months(1),adj_m_vol_weights,adj_m_av_weights)
-w_dt[, year := year(date)]
-w_dt[, month := month(date)]
-w_dt[, date := NULL]
+# w_dt = data.table(date = dp$Date + months(1),adj_m_vol_weights,adj_m_av_weights)
+weights_dt[, year := year(V1)]
+weights_dt[, month := month(V1)]
+weights_dt[, V1 := NULL]
+weights_dt = dcast(data = weights_dt,formula = year + month ~ ..., value.var = "Weight")
 d_returns[, year := year(date)]
 d_returns[, month := month(date)]
-d_returns = merge(d_returns,w_dt,by=c("year","month"))
+d_returns = merge(d_returns,weights_dt,by=c("year","month"))
 setkey(d_returns,year,month)
 d_returns[, BH_MAX1 := max(vwretd), by = c("year","month")]
-d_returns[, SV_MAX1 := max(vwretd*adj_m_vol_weights), by = c("year","month")]
-d_returns[, AV_MAX1 := max(vwretd*adj_m_av_weights), by = c("year","month")]
+d_returns[, SV_MAX1 := max(vwretd*vol_mang), by = c("year","month")]
+d_returns[, AV_MAX1 := max(vwretd*av_mang), by = c("year","month")]
 
 
 d_returns[, BH_MAX5 := mean(sort(vwretd,decreasing = TRUE)[1:5]), by=c("year","month")]
-d_returns[, SV_MAX5 := mean(sort(vwretd*adj_m_vol_weights,decreasing = TRUE)[1:5]), by=c("year","month")]
-d_returns[, AV_MAX5 := mean(sort(vwretd*adj_m_av_weights,decreasing = TRUE)[1:5]), by=c("year","month")]
+d_returns[, SV_MAX5 := mean(sort(vwretd*vol_mang,decreasing = TRUE)[1:5]), by=c("year","month")]
+d_returns[, AV_MAX5 := mean(sort(vwretd*av_mang,decreasing = TRUE)[1:5]), by=c("year","month")]
 
 
 d_returns[, BH_var := var(vwretd), by = c("year","month")]
-d_returns[, SV_var := var(vwretd*adj_m_vol_weights), by = c("year","month")]
-d_returns[, AV_var := var(vwretd*adj_m_av_weights), by = c("year","month")]
+d_returns[, SV_var := var(vwretd*vol_mang), by = c("year","month")]
+d_returns[, AV_var := var(vwretd*av_mang), by = c("year","month")]
 
 d2 = unique(d_returns,by=c("year","month"))
 d2[, BH_var.tm1 := shift(BH_var,type = "lag")]
@@ -1021,29 +1102,23 @@ d_returns[, BH_MAX5_scale := BH_MAX5 / sqrt(BH_var.tm1)]
 d_returns[, SV_MAX5_scale := SV_MAX5 / sqrt(SV_var.tm1)]
 d_returns[, AV_MAX5_scale := BH_MAX5 / sqrt(AV_var.tm1)]
 
+d_returns[, BH_skew := skewness(vwretd,method = "sample"), by = c("year","month")]
+d_returns[, SV_skew := skewness(vwretd*vol_mang,method = "sample"), by = c("year","month")]
+d_returns[, AV_skew := skewness(vwretd*av_mang,method = "sample"), by = c("year","month")]
+
 m_returns = unique(d_returns,by=c("year","month"))
-m_returns[, market := m_bh_returns]
-m_returns[, av_mang := adj_m_av_returns]
-m_returns[, vol_mang := adj_m_vol_returns]
+m_returns[, market_returns := m_bh_returns[2:(nrow(m_returns)+1)]]
+m_returns[, av_returns := returns_dt["av","053","NO",2:(nrow(m_returns)+1)]]
+m_returns[, vol_returns := returns_dt["sv","053","NO",2:(nrow(m_returns)+1)]]
+setnames(weights_dt,old = c("vol_mang","av_mang"),new = c("vol_weight","av_weight"))
+m_returns = merge(m_returns,weights_dt,by=c("year","month"),all.x=TRUE)
+
+
 
 
 MAX1_dt = subset(m_returns[!is.na(BH_MAX1_scale)],select = c("BH_MAX1","SV_MAX1","AV_MAX1","BH_MAX1_scale",
                                                            "SV_MAX1_scale","AV_MAX1_scale","BH_MAX5","SV_MAX5",
                                                            "AV_MAX5","BH_MAX5_scale","SV_MAX5_scale","AV_MAX5_scale"))
-
-# ecdf_bhmax = ecdf(x = max_dt$BH_MAX1)
-# ecdf_bhmax_s = ecdf(x = max_dt$BH_MAX1_scale)
-# ecdf_svmax_s = ecdf(x = max_dt$SV_MAX1_scale)
-# ecdf_avmax_s = ecdf(x = max_dt$AV_MAX1_scale)
-# ecdf_avmax = ecdf(x = max_dt$AV_MAX1)
-# ecdf_svmax = ecdf(x = max_dt$SV_MAX1)
-# 
-# ecdf_bhmax = ecdf(x = max_dt$BH_MAX5)
-# ecdf_bhmax_s = ecdf(x = max_dt$BH_MAX5_scale)
-# ecdf_svmax_s = ecdf(x = max_dt$SV_MAX5_scale)
-# ecdf_avmax_s = ecdf(x = max_dt$AV_MAX5_scale)
-# ecdf_avmax = ecdf(x = max_dt$AV_MAX5)
-# ecdf_svmax = ecdf(x = max_dt$SV_MAX5)
 
 MAX1_stats=data.table(Strategy = c("BH","SV","AV"))
 MAX1_stats[Strategy == "BH", c("Mean","Median","Sd","KS","Mean_s","Median_s","Sd_s","KS_s"):=
@@ -1084,7 +1159,8 @@ stargazer(MAX_stats,summary = FALSE,out = "tab_max_stats.tex")
 ff_data[, year := as.integer(substr(V1,1,4))]
 ff_data[, month := as.integer(substr(V1,5,6))]
 
-m_returns = merge(m_returns,subset(ff_data,select = c("year","month","Mkt_RF","SMB","HML")))
+m_returns = merge(m_returns,subset(ff_data,select = c("year","month","Mkt_RF","SMB","HML")),
+                  by=c("year","month"),all.x=TRUE)
 
 ff_5 = fread(input = "F-F_Research_Data_5_Factors_2x3.CSV",header = TRUE,skip = 3)
 ff_5[, year:= as.integer(substr(V1,1,4))]
@@ -1111,24 +1187,33 @@ sd2_out = stochdom2(wt_out$dj,wt_out$wpa,wt_out$wpb)
 
 marg_req = fread(input = './margin_req.csv')
 marg_req[, Date := as.Date(Effective,format="%m-%d-%Y")]
-sign(diff(x = marg_req$Rate))
-marg_req[2:nrow(marg_req), mr_change := diff(x = marg_req$Rate)]
-marg_req[2:nrow(marg_req), mr_changeI := sign(diff(x = marg_req$Rate))]
+marg_req[, Effective := NULL]
+marg_req = marg_req %>% pad %>% fill(Rate)
+# marg_req[2:nrow(marg_req), mr_change := diff(x = marg_req$Rate)]
+# marg_req[2:nrow(marg_req), mr_changeI := sign(diff(x = marg_req$Rate))]
 marg_req[,c("year","month","day") := list(year(Date),month(Date),day(Date))]
-marg_req[1, mr_change := 1]
-marg_req[1, mr_changeI := 1]
-# marg_req[day > 21, month := month + 1]
+setorderv(marg_req,cols = "Date",order = -1)
+marg_req = unique(marg_req,by=c("year","month"))
+marg_req[, Date := NULL]
+# marg_req[1, mr_change := 1]
+# marg_req[1, mr_changeI := 1]
 
 
-m_returns = merge(m_returns,subset(marg_req,select=c("year","month","mr_change","mr_changeI")),all.x=TRUE)
-m_returns[is.na(mr_change), mr_change := 0]
-m_returns[is.na(mr_changeI), mr_changeI := 0]
+m_returns = merge(m_returns,subset(marg_req,select=c("year","month","Rate")),all.x=TRUE,by=c("year","month"))
+setnames(m_returns,old = "Rate",new = "mr_rate")
+# m_returns[is.na(mr_change), mr_change := 0]
+# m_returns[is.na(mr_changeI), mr_changeI := 0]
 
 margin_data = fread(input = 'reproduce_data.csv')
 
 m_returns = merge(m_returns,subset(margin_data,select = c("year","month","m_retvol","md","md_1984","mc","mc_1984","m_retvar","avg_var","avg_cor",
                                               "spls","icrf","aem_leverage_factor","bc_chg_p_nsa","vix",
-                                              "bc_chg_p")),all.x=TRUE)
+                                              "bc_chg_p","Index")),by=c("year","month"),all.x=TRUE)
+goyal_data = read_excel(path = 'PredictorData2017.xlsx',sheet = "Monthly",col_names = TRUE,na = "NaN")
+goyal_data = as.data.table(goyal_data)
+goyal_data[, year := as.integer(substr(yyyymm,1,4))]
+goyal_data[, month := as.integer(substr(yyyymm,5,6))]
+m_returns = merge(m_returns,subset(goyal_data,select = c("year","month","Index")),by=c("year","month"),all.x=TRUE)
 
 #### lending rates ####
 bloom_call_money <- fread(input = '../../market downturn indicators/decline_predictors/data/bloomberg_call_money_rate.csv',sep = ",",header = TRUE,na.strings = "",skip = 1)
@@ -1234,163 +1319,68 @@ lm_gratio5 = lm(av_mang~market*gratio+SMB+HML+RMW+CMA,data = m_returns)
 stargazer(lm_gaming3,lm_gaming5,lm_gratio3,lm_gratio5,out = 'tab_gaminglm.tex')
 
 
+#### weights, lending, leverage correlation ####
+cor_lottery = cor(subset(m_returns,select = c(vol_mang,av_mang,BH_MAX1,BH_MAX5,BH_MAX5_scale,SV_MAX1,SV_MAX5,
+                                SV_MAX5_scale,AV_MAX1,AV_MAX5,AV_MAX5_scale,gaming_mcap)))
+cor_lending = cor(subset(m_returns,select = c(vol_mang,av_mang,icrf,aem_leverage_factor,bc_chg_p,call_money,
+                                              bank_prime,rate,chg_md)))
+#### preferences graphs ####
+set.seed(111)
+assets3_dt = data.table(time = seq(as.Date("1976-12-01"),length.out = 200,by = "week"),
+                        a1 = rnorm(200,.005,sd=.05))
+assets3_dt[, a2 := -1 *a1 + rnorm(200,.009,.08)]
+assets3_dt[, a3 := a1]
+assets3_dt[, a3 := a3 - .0025]
+pspec = portfolioSpec(portfolio = list(riskFreeRate=.004,nFrontierPoints=100))
+setSolver(pspec) = "solveRshortExact"
+pf = portfolioFrontier(data = as.timeSeries(assets3_dt[,2:3]),spec = pspec)
+pf_alt = rlang::duplicate(x = pf,shallow = FALSE)
+
+pf_alt@portfolio@portfolio$targetReturn = pf@portfolio@portfolio$targetReturn - .001
+
+eff_dt = data.table(Eret = pf@portfolio@portfolio$targetReturn[,1], std = pf@portfolio@portfolio$targetRisk[,1],
+                    line = "curve1",shade = "grey",style = "solid",pref="lottery")
+eff_dt = rbind(eff_dt,data.table(Eret = pf_alt@portfolio@portfolio$targetReturn[,1], std = pf_alt@portfolio@portfolio$targetRisk[,1],
+                                 line = "curve2",shade = "black",style = "longdash",pref="lottery"))
+
+sr1 = as.data.table(sharpeRatioLines(pf))
+sr1 = unlist(sr1[y.norm==max(y.norm)])
+sr2 = as.data.table(sharpeRatioLines(pf_alt))
+sr2 = unlist(sr2[y.norm==max(y.norm)])
+tangent_line = function(rf = .004,sr, std){
+  return(rf + sr * std)
+}
+eff_dt = rbind(eff_dt,
+               data.table(Eret = tangent_line(sr = (sr1[2]-.004) / sr1[1],std = seq(0,.1,.001)),
+                          std = seq(0,.1,.001),
+                          line = "tan1",shade = "grey",style = "solid",pref="lottery"))
+eff_dt = rbind(eff_dt,
+               data.table(Eret = tangent_line(sr = (0.008002177-.005) / sr2[1],std = seq(0,.1,.001)),
+               std = seq(0,.1,.001),
+               line = "tan2",shade = "black", style = "longdash", pref="lottery"))
+
+eff_dt = rbind(eff_dt,data.table(Eret = pf@portfolio@portfolio$targetReturn[,1], std = pf@portfolio@portfolio$targetRisk[,1],
+                                 line = "curve1",shade = "grey",style = "solid",pref="leverage"))
+eff_dt = rbind(eff_dt, data.table(Eret = tangent_line(sr = (sr1[2]-.004) / sr1[1],std = seq(0,.1,.001)),
+           std = seq(0,.1,.001),
+           line = "tan1",shade = "grey",style = "solid",pref="leverage"))
+pspec2 = portfolioSpec(portfolio = list(riskFreeRate=.005,nFrontierPoints=100))
+setSolver(pspec2) = "solveRshortExact"
+pf2 = portfolioFrontier(data = as.timeSeries(assets3_dt[,2:3]),spec = pspec2)
+sr3 = as.data.table(sharpeRatioLines(pf2))
+sr3 = unlist(sr3[y.norm==max(y.norm)])
+
+# eff_dt = rbind(eff_dt,data.table(Eret = pf2@portfolio@portfolio$targetReturn[,1], std = pf2@portfolio@portfolio$targetRisk[,1],
+#                                  line = "curve2",shade = "grey",style = "solid",pref="leverage"))
+eff_dt = rbind(eff_dt, data.table(Eret = tangent_line(rf=.005,sr = (sr3[2]-.005) / sr3[1],std = seq(0,.1,.001)),
+                                  std = seq(0,.1,.001),
+                                  line = "tan2",shade = "black",style = "solid",pref="leverage"))
 
 
-# adj_rest_m_vol_weights = c(adj_m_vol_weights)
-# adj_rest_m_vol_weights[adj_rest_m_vol_weights > 1.5] = 1.5
-adj_rest_m_vol_returns = adj_rest_m_vol_weights * m_bh_returns
 
-adj_rest_m_av_weights = c(adj_m_av_weights)
-adj_rest_m_av_weights[adj_rest_m_av_weights > 1.5] = 1.5
-adj_rest_m_av_returns = adj_rest_m_av_weights * m_bh_returns
-## performance table ##
-rest_perf_dt = data.table(Strategy = rep(c("BH","SV","AV")))
-fq = 12
-r0 = m_bh_returns
-r1 = adj_rest_m_vol_returns
-r2 = adj_rest_m_av_returns
-
-SR1 = mean(r1)/sd(r1) * sqrt(12)
-SR2 = mean(r2)/sd(r2) * sqrt(12)
-SOR1 = SortinoRatio(r1) * sqrt(12)
-SOR2 = SortinoRatio(r2) * sqrt(12)
-K1 = Kappa0(r1)
-K2 = Kappa0(r2)
-UP1 = UpsidePotentialRatio(r1)
-UP2 = UpsidePotentialRatio(r2)
-gR1 = genRachev.ratio(r1)
-gR2 = genRachev.ratio(r2)
-
-rest_perf_dt[Strategy == "BH", RET := as.character(round(mean(r0)*fq*100,3))]
-ar.p = t.test(r2,r1,alternative = "less",paired = TRUE,var.equal = TRUE)$p.value
-sp = data.table(avg = round(mean(r1)*fq*100,3), pval = ar.p)
-rest_perf_dt[Strategy == "SV", RET := see.stars(round(as.matrix(sp),3),1,2)[1]]
-ar.p = t.test(r1,r2,alternative = "less",paired = TRUE,var.equal = TRUE)$p.value
-sp = data.table(avg = round(mean(r2)*fq*100,3), pval = ar.p)
-rest_perf_dt[Strategy == "AV", RET := see.stars(round(as.matrix(sp),3),1,2)[1]]
-
-# r1 = unlist(return_resid[,2])
-# r2 = unlist(return_resid[,1])
-
-rest_perf_dt[Strategy == "BH", Sharpe := as.character(round((mean(r0)/sd(r0))* sqrt(12),3))]
-rest_perf_dt[Strategy == "BH", Sortino :=  as.character(round(SortinoRatio(r0)* sqrt(12),3))]
-rest_perf_dt[Strategy == "BH", Kappa := as.character(round(Kappa0(r0),3))]
-rest_perf_dt[Strategy == "BH", UpsidePotential := as.character(round(UpsidePotentialRatio(r0),3))]
-rest_perf_dt[Strategy == "BH", Rachev := as.character(round(genRachev.ratio(r0),3))]
-
-
-sharpep = ratio.test1(r2,r1)
-sp = data.table(SR1, pval = sharpep)
-sp = round(matrix(as.numeric(sp),nrow=1),3)
-rest_perf_dt[Strategy == "SV", Sharpe := see.stars(round(as.matrix(sp),3),1,2)[1]]
-sp = data.table(SR = SOR1, pval = ratio.test2(r2,r1,ratio = "sortinoR"))
-sp = round(matrix(as.numeric(sp),nrow=1),3)
-rest_perf_dt[Strategy == "SV", Sortino := see.stars(round(as.matrix(sp),3),1,2)[1]]
-sp = data.table(SR = K1, pval = ratio.test2(r2,r1,ratio = "Kappa0"))
-sp = round(matrix(as.numeric(sp),nrow=1),3)
-rest_perf_dt[Strategy == "SV", Kappa := see.stars(round(as.matrix(sp),3),1,2)[1]]
-sp = data.table(SR = UP1, pval = ratio.test2(r2,r1,ratio = "UpsidePotentialRatio"))
-sp = round(matrix(as.numeric(sp),nrow=1),3)
-rest_perf_dt[Strategy == "SV", UpsidePotential := see.stars(round(as.matrix(sp),3),1,2)[1]]
-sp = data.table(SR = gR1, pval = ratio.test2(r2,r1,ratio = "genRachev.ratio"))
-sp = round(matrix(as.numeric(sp),nrow=1),3)
-rest_perf_dt[Strategy == "SV", Rachev := see.stars(round(as.matrix(sp),3),1,2)[1]]
-
-
-sharpep = ratio.test1(r1,r2,24)
-sp = data.table(SR2, pval = sharpep)
-sp = round(matrix(as.numeric(sp),nrow=1),3)
-rest_perf_dt[Strategy == "AV", Sharpe := see.stars(round(as.matrix(sp),3),1,2)[1]]
-sp = data.table(SR = SOR2, pval = ratio.test2(r1,r2,ratio = "sortinoR"))
-sp = round(matrix(as.numeric(sp),nrow=1),3)
-rest_perf_dt[Strategy == "AV", Sortino := see.stars(round(as.matrix(sp),3),1,2)[1]]
-sp = data.table(SR = K2, pval = ratio.test2(r1,r2,ratio = "Kappa0"))
-sp = round(matrix(as.numeric(sp),nrow=1),3)
-rest_perf_dt[Strategy == "AV", Kappa := see.stars(round(as.matrix(sp),3),1,2)[1]]
-sp = data.table(SR = UP2, pval = ratio.test2(r1,r2,ratio = "UpsidePotentialRatio"))
-sp = round(matrix(as.numeric(sp),nrow=1),3)
-rest_perf_dt[Strategy == "AV", UpsidePotential := see.stars(round(as.matrix(sp),3),1,2)[1]]
-sp = data.table(SR = gR2, pval = ratio.test2(r1,r2,ratio = "genRachev.ratio"))
-sp = round(matrix(as.numeric(sp),nrow=1),3)
-rest_perf_dt[Strategy == "AV", Rachev := see.stars(round(as.matrix(sp),3),1,2)[1]]
-
-adj_rest1_m_vol_weights = c(adj_m_vol_weights)
-adj_rest1_m_vol_weights[adj_rest1_m_vol_weights > 1] = 1
-adj_rest1_m_vol_returns = adj_rest1_m_vol_weights * m_bh_returns
-
-adj_rest1_m_av_weights = c(adj_m_av_weights)
-adj_rest1_m_av_weights[adj_rest1_m_av_weights > 1] = 1
-adj_rest1_m_av_returns = adj_rest1_m_av_weights * m_bh_returns
-#### performance table ####
-rest1_perf_dt = data.table(Strategy = rep(c("BH","SV","AV")))
-fq = 12
-r0 = m_bh_returns
-r1 = adj_rest1_m_vol_returns
-r2 = adj_rest1_m_av_returns
-
-SR1 = mean(r1)/sd(r1) * sqrt(12)
-SR2 = mean(r2)/sd(r2) * sqrt(12)
-SOR1 = SortinoRatio(r1) * sqrt(12)
-SOR2 = SortinoRatio(r2) * sqrt(12)
-K1 = Kappa0(r1)
-K2 = Kappa0(r2)
-UP1 = UpsidePotentialRatio(r1)
-UP2 = UpsidePotentialRatio(r2)
-gR1 = genRachev.ratio(r1)
-gR2 = genRachev.ratio(r2)
-
-rest1_perf_dt[Strategy == "BH", RET := as.character(round(mean(r0)*fq*100,3))]
-ar.p = t.test(r2,r1,alternative = "less",paired = TRUE,var.equal = TRUE)$p.value
-sp = data.table(avg = round(mean(r1)*fq*100,3), pval = ar.p)
-rest1_perf_dt[Strategy == "SV", RET := see.stars(round(as.matrix(sp),3),1,2)[1]]
-ar.p = t.test(r1,r2,alternative = "less",paired = TRUE,var.equal = TRUE)$p.value
-sp = data.table(avg = round(mean(r2)*fq*100,3), pval = ar.p)
-rest1_perf_dt[Strategy == "AV", RET := see.stars(round(as.matrix(sp),3),1,2)[1]]
-
-# r1 = unlist(return_resid[,2])
-# r2 = unlist(return_resid[,1])
-
-rest1_perf_dt[Strategy == "BH", Sharpe := as.character(round((mean(r0)/sd(r0))* sqrt(12),3))]
-rest1_perf_dt[Strategy == "BH", Sortino :=  as.character(round(SortinoRatio(r0)* sqrt(12),3))]
-rest1_perf_dt[Strategy == "BH", Kappa := as.character(round(Kappa0(r0),3))]
-rest1_perf_dt[Strategy == "BH", UpsidePotential := as.character(round(UpsidePotentialRatio(r0),3))]
-rest1_perf_dt[Strategy == "BH", Rachev := as.character(round(genRachev.ratio(r0),3))]
-
-
-sharpep = ratio.test1(r2,r1)
-sp = data.table(SR1, pval = sharpep)
-sp = round(matrix(as.numeric(sp),nrow=1),3)
-rest1_perf_dt[Strategy == "SV", Sharpe := see.stars(round(as.matrix(sp),3),1,2)[1]]
-sp = data.table(SR = SOR1, pval = ratio.test2(r2,r1,ratio = "sortinoR"))
-sp = round(matrix(as.numeric(sp),nrow=1),3)
-rest1_perf_dt[Strategy == "SV", Sortino := see.stars(round(as.matrix(sp),3),1,2)[1]]
-sp = data.table(SR = K1, pval = ratio.test2(r2,r1,ratio = "Kappa0"))
-sp = round(matrix(as.numeric(sp),nrow=1),3)
-rest1_perf_dt[Strategy == "SV", Kappa := see.stars(round(as.matrix(sp),3),1,2)[1]]
-sp = data.table(SR = UP1, pval = ratio.test2(r2,r1,ratio = "UpsidePotentialRatio"))
-sp = round(matrix(as.numeric(sp),nrow=1),3)
-rest1_perf_dt[Strategy == "SV", UpsidePotential := see.stars(round(as.matrix(sp),3),1,2)[1]]
-sp = data.table(SR = gR1, pval = ratio.test2(r2,r1,ratio = "genRachev.ratio"))
-sp = round(matrix(as.numeric(sp),nrow=1),3)
-rest1_perf_dt[Strategy == "SV", Rachev := see.stars(round(as.matrix(sp),3),1,2)[1]]
-
-
-sharpep = ratio.test1(r1,r2,24)
-sp = data.table(SR2, pval = sharpep)
-sp = round(matrix(as.numeric(sp),nrow=1),3)
-rest1_perf_dt[Strategy == "AV", Sharpe := see.stars(round(as.matrix(sp),3),1,2)[1]]
-sp = data.table(SR = SOR2, pval = ratio.test2(r1,r2,ratio = "sortinoR"))
-sp = round(matrix(as.numeric(sp),nrow=1),3)
-rest1_perf_dt[Strategy == "AV", Sortino := see.stars(round(as.matrix(sp),3),1,2)[1]]
-sp = data.table(SR = K2, pval = ratio.test2(r1,r2,ratio = "Kappa0"))
-sp = round(matrix(as.numeric(sp),nrow=1),3)
-rest1_perf_dt[Strategy == "AV", Kappa := see.stars(round(as.matrix(sp),3),1,2)[1]]
-sp = data.table(SR = UP2, pval = ratio.test2(r1,r2,ratio = "UpsidePotentialRatio"))
-sp = round(matrix(as.numeric(sp),nrow=1),3)
-rest1_perf_dt[Strategy == "AV", UpsidePotential := see.stars(round(as.matrix(sp),3),1,2)[1]]
-sp = data.table(SR = gR2, pval = ratio.test2(r1,r2,ratio = "genRachev.ratio"))
-sp = round(matrix(as.numeric(sp),nrow=1),3)
-rest1_perf_dt[Strategy == "AV", Rachev := see.stars(round(as.matrix(sp),3),1,2)[1]]
-
-restricted_perf = rbind(rest_perf_dt,rest1_perf_dt)
-stargazer(restricted_perf,summary = FALSE,out = 'tab_rest_perf.tex')
+ggplot() + geom_path(mapping = aes(x = std, y = Eret, group = line, colour = shade, linetype = style),data = eff_dt) + 
+  facet_wrap(~pref) #+ 
+  # geom_point(mapping = aes(x=tp1@portfolio@portfolio$targetRisk[1],y=tp1@portfolio@portfolio$targetReturn[1]),size = 2) + 
+  # geom_point(mapping = aes(x=tp2@portfolio@portfolio$targetRisk[1],y=tp2@portfolio@portfolio$targetReturn[1]),size = 2) +
+  # geom_point(mapping = aes(x=tp1_levered_sd,y=tp1_levered_ret),size = 2) +
+  # geom_point(mapping = aes(x=tp2_levered_sd,y=tp2_levered_ret),size = 2)
