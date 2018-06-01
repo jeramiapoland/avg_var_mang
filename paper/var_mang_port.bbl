@@ -25,10 +25,6 @@ Barberis, Nicholas, and Ming Huang, 2008, Stocks as {Lotteries}: {The}
 Barroso, Pedro, and Pedro Santa-Clara, 2015, Momentum has its moments, {\em
   Journal of Financial Economics\/} 116, 111--120.
 
-\bibitem[Black(1972)]{black1972capital}
-Black, Fischer, 1972, Capital market equilibrium with restricted borrowing,
-  {\em The Journal of business\/} 45, 444--455.
-
 \bibitem[Boguth and Simutin(2018)]{boguth_leverage_2018}
 Boguth, Oliver, and Mikhail Simutin, 2018, Leverage constraints and asset
   prices: {Insights} from mutual fund risk taking, {\em Journal of Financial
@@ -129,9 +125,9 @@ Harvey, David~S., Stephen~J. Leybourne, and Paul Newbold, 1998, Tests for
   {Forecast} {Encompassing}, {\em Journal of Business \& Economic Statistics\/}
   16, 254--259.
 
-\bibitem[Haugen and A.(1972)]{haugen_1972}
-Haugen, Robert~A., and Heins A., 1972, On the evidence supporting the existence
-  of risk premiums in the capital market, Technical report, Working Paper,
+\bibitem[Haugen and Heins(1972)]{haugen_1972}
+Haugen, Robert, and A.~Heins, 1972, On the evidence supporting the existence of
+  risk premiums in the capital market, Technical report, Working Paper,
   University of Wisconsin-Madison.
 
 \bibitem[Hotelling(1953)]{hotelling_1953}
@@ -152,11 +148,6 @@ Jensen, Michael~C, Fischer Black, and Myron~S Scholes, 1972, The capital asset
 \bibitem[Jones(2002)]{jones_century_2002}
 Jones, Charles, 2002, A century of stock market liquidity and trading costs .
 
-\bibitem[Jylhä(2018)]{jylha_margin_2018}
-Jylhä, Petri, 2018, Margin {Requirements} and the {Security} {Market} {Line}:
-  {Margin} {Requirements} and the {Security} {Market} {Line}, {\em The Journal
-  of Finance\/} .
-
 \bibitem[Kim et~al.(2016)Kim, Tse, and Wald]{kim_time_2016}
 Kim, Abby~Y., Yiuman Tse, and John~K. Wald, 2016, Time series momentum and
   volatility scaling, {\em Journal of Financial Markets\/} 30, 103--124.
@@ -174,6 +165,9 @@ Markowitz, Harry, 1952, Portfolio {Selection}, {\em The Journal of Finance\/}
 McCracken, Michael~W., 2007, Asymptotics for out of sample tests of {Granger}
   causality, {\em Journal of Econometrics\/} 140, 719--752.
 
+\bibitem[McWhinnie(2014)]{noauthor_warren_nodate}
+McWhinnie, Eric, 2014, Warren {Buffett} on using leverage to invest.
+
 \bibitem[Moreira and Muir(2017)]{moreira_volatility-managed_2017}
 Moreira, Alan, and Tyler Muir, 2017, Volatility-{Managed} {Portfolios}:
   {Volatility}-{Managed} {Portfolios}, {\em The Journal of Finance\/} 72,
@@ -188,6 +182,10 @@ Ng, Serena, and Pierre Perron, 2001, {Lag Length Selection and the Construction
 Olkin, Ingram, and John~W. Pratt, 1958, Unbiased estimation of certain
   correlation coefficients, {\em The Annals of Mathematical Statistics\/} 29,
   201--211.
+
+\bibitem[Orwell(1946)]{orwell1946animal}
+Orwell, George, 1946, {\em Animal farm\/} (Harcourt, Brace and Company, New
+  York, NY).
 
 \bibitem[Pollet and Wilson(2010)]{pollet_average_2010}
 Pollet, Joshua~M., and Mungo Wilson, 2010, Average correlation and stock market

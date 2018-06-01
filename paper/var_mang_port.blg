@@ -24,43 +24,43 @@ Warning--empty journal in jones_century_2002
 Warning--empty journal in malkhozov_international_2017
 You've used 49 entries,
             2716 wiz_defined-function locations,
-            907 strings with 12046 characters,
-and the built_in function-call counts, 22027 in all, are:
-= -- 2046
+            907 strings with 11952 characters,
+and the built_in function-call counts, 21925 in all, are:
+= -- 2030
 > -- 1135
 < -- 36
 + -- 389
 - -- 332
-* -- 2091
-:= -- 3983
+* -- 2081
+:= -- 3966
 add.period$ -- 49
 call.type$ -- 49
-change.case$ -- 354
+change.case$ -- 353
 chr.to.int$ -- 49
 cite$ -- 52
-duplicate$ -- 877
-empty$ -- 1459
+duplicate$ -- 873
+empty$ -- 1454
 format.name$ -- 429
-if$ -- 4197
+if$ -- 4178
 int.to.chr$ -- 1
 int.to.str$ -- 1
 missing$ -- 47
 newline$ -- 151
 num.names$ -- 198
-pop$ -- 234
+pop$ -- 238
 preamble$ -- 1
 purify$ -- 305
 quote$ -- 0
-skip$ -- 637
+skip$ -- 636
 stack$ -- 0
-substring$ -- 1522
-swap$ -- 206
+substring$ -- 1497
+swap$ -- 205
 text.length$ -- 3
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 438
+type$ -- 435
 warning$ -- 3
-while$ -- 221
+while$ -- 219
 width$ -- 0
-write$ -- 532
+write$ -- 530
 (There were 3 error messages)

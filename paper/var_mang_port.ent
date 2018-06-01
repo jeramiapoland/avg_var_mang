@@ -10,9 +10,63 @@ of
 the
 American
 Telegraph
-Company.
+Company
+in
+1867
+and
+in
+wide
+spread
+use
+starting
+in
+the
+1870s,
+the
+stock
+ticker
+provided
+the
+first
+reliable
+means
+of
+conveying
+up
+to
+the
+minute
+stock
+prices
+over
+a
+long
+distances
+and
+market
+participants
+have
+been
+discusing
+the
+relationship
+between
+returns,
+risk,
+and
+portfolios
+for
+at
+least
+as
+long.\citep
+{rutterford_financial_2016}
 \@endanenote 
 \@doanenote {2}
+macro:->\citep
+{noauthor_warren_nodate}
+\@endanenote 
+\@doanenote {3}
 macro:->See,
 for
 example,
@@ -31,7 +85,11 @@ the
 momentum
 portfolio.
 \@endanenote 
-\@doanenote {3}
+\@doanenote {4}
+macro:->\citep
+{orwell1946animal}
+\@endanenote 
+\@doanenote {5}
 macro:->Both
 SV
 and
@@ -47,7 +105,7 @@ and
 hold
 return.
 \@endanenote 
-\@doanenote {4}
+\@doanenote {6}
 macro:->The
 monthly
 sample
@@ -56,7 +114,7 @@ in
 July
 1926.
 \@endanenote 
-\@doanenote {5}
+\@doanenote {7}
 macro:->The
 shortest
 trading
@@ -82,7 +140,7 @@ the
 holiday
 months.
 \@endanenote 
-\@doanenote {6}
+\@doanenote {8}
 macro:->The
 exact
 correction
@@ -103,7 +161,7 @@ I
 have
 access.
 \@endanenote 
-\@doanenote {7}
+\@doanenote {9}
 macro:->The
 least
 number
@@ -128,7 +186,7 @@ August
 of
 1932
 \@endanenote 
-\@doanenote {8}
+\@doanenote {10}
 macro:->There
 are
 500
@@ -144,7 +202,7 @@ quarter
 of
 1928.
 \@endanenote 
-\@doanenote {9}
+\@doanenote {11}
 macro:->CRSP
 monthly
 returns
@@ -154,7 +212,7 @@ into
 quarterly
 returns.
 \@endanenote 
-\@doanenote {10}
+\@doanenote {12}
 macro:->CRSP
 has,
 as
@@ -235,7 +293,7 @@ persistantly
 more
 illiquid.
 \@endanenote 
-\@doanenote {11}
+\@doanenote {13}
 macro:->Additionally,
 in
 unreported
@@ -253,7 +311,7 @@ the
 {Diebold1995}
 test.
 \@endanenote 
-\@doanenote {12}
+\@doanenote {14}
 macro:->Average
 correlation
 predicts
