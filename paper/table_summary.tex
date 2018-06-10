@@ -1,9 +1,11 @@
-\begin{table}[!htbp] \centering 
-  \caption{Summary Statistics}
+\begin{table}[!htbp] 
+  \centering \caption{\textbf{:Summary statistics} \newline
+  	\footnotesize{The table displays summary statistics for the market variance and correlation statistics, and returns. RET is the log excess return of the CRSP market portfolio. AC is the average pairwise correlation of the daily returns of the 500 largest firms in the CRSP data set over the month or quarter. AV is the average of the individual variances of daily returns for the 500 largest firms in the CRSP data set. SV is the variance of daily CRSP market returns. See section \ref{sec:Data} for details on construction.}} \vspace{3mm}
   \label{tab_summary_stats}
-  \begin{tabular}{@{\extracolsep{5pt}}lcccccc} 
-  \input{summary1}
-  \input{summary2}
-  \input{summary3}
-  \end{tabular}
+	 \subcaption{Pollet and Wilson Sample 1963Q1:2006Q4}
+	\input{tables/summary1}
+  \subcaption{Sample 1962M6:2016M12}
+    \input{tables/summary2}
+  \subcaption{Full Sample 1926M7:2016M12}
+  \input{tables/summary3}
   \end{table}

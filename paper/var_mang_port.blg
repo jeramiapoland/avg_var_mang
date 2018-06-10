@@ -22,45 +22,45 @@ I'm skipping whatever remains of this entry
 Warning--empty journal in asness_betting_2018
 Warning--empty journal in jones_century_2002
 Warning--empty journal in malkhozov_international_2017
-You've used 49 entries,
+You've used 55 entries,
             2716 wiz_defined-function locations,
-            907 strings with 11952 characters,
-and the built_in function-call counts, 21925 in all, are:
-= -- 2030
-> -- 1135
-< -- 36
-+ -- 389
-- -- 332
-* -- 2081
-:= -- 3966
-add.period$ -- 49
-call.type$ -- 49
-change.case$ -- 353
-chr.to.int$ -- 49
-cite$ -- 52
-duplicate$ -- 873
-empty$ -- 1454
-format.name$ -- 429
-if$ -- 4178
+            944 strings with 12884 characters,
+and the built_in function-call counts, 24300 in all, are:
+= -- 2265
+> -- 1221
+< -- 42
++ -- 417
+- -- 356
+* -- 2279
+:= -- 4405
+add.period$ -- 55
+call.type$ -- 55
+change.case$ -- 391
+chr.to.int$ -- 55
+cite$ -- 58
+duplicate$ -- 976
+empty$ -- 1628
+format.name$ -- 463
+if$ -- 4635
 int.to.chr$ -- 1
 int.to.str$ -- 1
-missing$ -- 47
-newline$ -- 151
-num.names$ -- 198
-pop$ -- 238
+missing$ -- 52
+newline$ -- 169
+num.names$ -- 222
+pop$ -- 257
 preamble$ -- 1
-purify$ -- 305
+purify$ -- 337
 quote$ -- 0
-skip$ -- 636
+skip$ -- 713
 stack$ -- 0
-substring$ -- 1497
-swap$ -- 205
+substring$ -- 1688
+swap$ -- 222
 text.length$ -- 3
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 435
+type$ -- 489
 warning$ -- 3
-while$ -- 219
+while$ -- 246
 width$ -- 0
-write$ -- 530
+write$ -- 595
 (There were 3 error messages)

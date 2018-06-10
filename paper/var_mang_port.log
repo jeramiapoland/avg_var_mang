@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2017.9.18)  2 JUN 2018 01:38
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2017.9.18)  11 JUN 2018 00:58
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -988,34 +988,55 @@ Missing character: There is no ô in font cmr10!
 Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ô in font cmr10!
- [3] [4]) (./data.tex [5] [6] [7]) (./in_sample.tex
+ [3]
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ô in font cmr10!
+ [4]
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ù in font cmr10!
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ù in font cmr10!
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ù in font cmr10!
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ù in font cmr10!
+Missing character: There is no √ in font cmr10!
+Missing character: There is no § in font cmr10!
+ [5]) (./data.tex
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ô in font cmr10!
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ô in font cmr10!
+ [6] [7] [8]) (./in_sample.tex [9]
 
-LaTeX Warning: Reference `tab_market_variance_replication' on page 8 undefined 
-on input line 7.
+LaTeX Warning: Reference `tab_mv_next' on page 10 undefined on input line 14.
 
 
-LaTeX Warning: Reference `tab_mv_next' on page 8 undefined on input line 9.
+LaTeX Warning: Reference `tab_mv_next' on page 10 undefined on input line 14.
 
 
-LaTeX Warning: Reference `tab_mv_next' on page 8 undefined on input line 9.
+LaTeX Warning: Reference `tab_ret_in' on page 10 undefined on input line 16.
 
-[8]
+) [10] (./out_sample.tex [11]
 
-LaTeX Warning: Reference `tab_ret_in' on page 9 undefined on input line 11.
+LaTeX Warning: Reference `tab_oos' on page 12 undefined on input line 37.
 
-) (./out_sample.tex [9] [10]
+[12]) (./robustness.tex [13]
 
-LaTeX Warning: Reference `tab_oos' on page 11 undefined on input line 37.
+LaTeX Warning: Reference `tab_robust' on page 14 undefined on input line 8.
 
-) [11] (./robustness.tex
+) (./preferences.tex (./the_cml.tex) (./lottery_preference2.tex
 
-LaTeX Warning: Reference `tab_robust' on page 12 undefined on input line 8.
+LaTeX Warning: Reference `tab_max' on page 14 undefined on input line 5.
 
-) (./preferences.tex (./the_cml.tex) (./lottery_preference2.tex [12]
-
-LaTeX Warning: Reference `tab_max' on page 13 undefined on input line 5.
-
-) (./lending_constraints.tex))
+) (./lending_constraints.tex [14]))
 Overfull \hbox (10.76077pt too wide) in paragraph at lines 148--152
 [][]\OT1/cmr/m/n/10.95 PROPOSITION 1: []\OT1/cmr/m/it/10.95 If Con-di-tion []1[
 ] is sat-is-fied, a so-lu-tion to the cen-tral plan-ner's prob-lem, $\OML/cmm/m
@@ -1023,8 +1044,8 @@ Overfull \hbox (10.76077pt too wide) in paragraph at lines 148--152
 \OMS/cmsy/m/n/10.95 2
  []
 
-[13] [14]pdfTeX warning (ext4): destination with the same identifier (name{sect
-ion.1}) has been already used, duplicate ignored
+[15]pdfTeX warning (ext4): destination with the same identifier (name{section.1
+}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
 l.161 \section{An Appendix}
@@ -1053,26 +1074,75 @@ er (name{section.2}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
 l.170 \section{Another Appendix}
-                                 [15
+                                 [16
 
-] (./var_mang_port.bbl
+] (./var_mang_port.bbl [17
+
+]
 Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ô in font cmr10!
- [16
+ [18]
+Missing character: There is no √ in font cmr10!
+Missing character: There is no § in font cmr10!
+ [19]
+[20]) [21] (./var_mang_port.ent
+Overfull \hbox (60.88286pt too wide) in paragraph at lines 313--314
+[][]\OT1/cmr/m/n/10.95 http://www.nyxdata.com/nysedata/asp/factbook/viewer[]edi
+tion.asp?mode=table&key=3153&category=8 
+ []
 
-] [17] [18])
-[19] (./var_mang_port.ent) [20
+[22
 
-] [21] (./figures.tex (./q_plot.tex)
-(./m_plot.tex)
+]) [23] (./figures.tex (./q_plot.tex) (./m_plot.tex)
 
 LaTeX Warning: Float too large for page by 2.06497pt on input line 6.
 
-[22]) (./tables.tex (./table_summary.tex (./summary1.tex) (./summary2.tex)
-(./summary3.tex)) [23
+[24]) (./tables.tex (./table_summary.tex
+
+Package caption Warning: \captionsetup{subtype*=...} or \subcaptionof
+(caption)                outside box or environment on input line 5.
+See the caption package documentation for explanation.
 
 
+Package caption Warning: \subcaption
+(caption)                outside box or environment on input line 5.
+See the caption package documentation for explanation.
+
+(./tables/summary1.tex)
+
+Package caption Warning: \subcaption
+(caption)                outside box or environment on input line 7.
+See the caption package documentation for explanation.
+
+(./tables/summary2.tex)
+
+Package caption Warning: \subcaption
+(caption)                outside box or environment on input line 9.
+See the caption package documentation for explanation.
+
+(./tables/summary3.tex)) [25
+
+
+
+] (./table_correlations.tex
+
+Package caption Warning: \captionsetup{subtype*=...} or \subcaptionof
+(caption)                outside box or environment on input line 5.
+See the caption package documentation for explanation.
+
+
+Package caption Warning: \subcaption
+(caption)                outside box or environment on input line 5.
+See the caption package documentation for explanation.
+
+(./tables/tab_correlation_short.tex)
+
+Package caption Warning: \subcaption
+(caption)                outside box or environment on input line 7.
+See the caption package documentation for explanation.
+
+(./tables/tab_correlation_long.tex)) [26
 
 ] (./table_in_sample.tex
 
@@ -1105,12 +1175,9 @@ See the caption package documentation for explanation.
 
 (./tables/tab_in_logxret.tp1_post1962.tex)
 
-LaTeX Warning: Float too large for page by 63.82053pt on input line 21.
+LaTeX Warning: Float too large for page by 23.85815pt on input line 21.
 
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-[24]
+[27]
 
 Package caption Warning: \captionsetup{subtype*=...} or \subcaptionof
 (caption)                outside box or environment on input line 36.
@@ -1141,16 +1208,66 @@ See the caption package documentation for explanation.
 
 (./tables/tab_in_logxret.tp1_full.tex)
 
-LaTeX Warning: Float too large for page by 48.47926pt on input line 52.
+LaTeX Warning: Float too large for page by 12.85815pt on input line 52.
+
+) [28] (./table_in_robust.tex
+
+Package caption Warning: \captionsetup{subtype*=...} or \subcaptionof
+(caption)                outside box or environment on input line 5.
+See the caption package documentation for explanation.
 
 
-LaTeX Warning: `h' float specifier changed to `ht'.
+Package caption Warning: \subcaption
+(caption)                outside box or environment on input line 5.
+See the caption package documentation for explanation.
 
-) [25] (./tab_oos.tex)) [26
+
+Package caption Warning: \subcaption
+(caption)                outside box or environment on input line 16.
+See the caption package documentation for explanation.
+
+) [29
 
 
 
-]
+] (./table_out_sample.tex
+
+Package caption Warning: \captionsetup{subtype*=...} or \subcaptionof
+(caption)                outside box or environment on input line 5.
+See the caption package documentation for explanation.
+
+
+Package caption Warning: \subcaption
+(caption)                outside box or environment on input line 5.
+See the caption package documentation for explanation.
+
+(./tables/tab_oos_avg_var1m_post1962.tex)
+
+Package caption Warning: \subcaption
+(caption)                outside box or environment on input line 9.
+See the caption package documentation for explanation.
+
+(./tables/tab_oos_avg_var1m_full.tex)) [30
+
+] (./table_oos_robust.tex
+
+Package caption Warning: \captionsetup{subtype*=...} or \subcaptionof
+(caption)                outside box or environment on input line 5.
+See the caption package documentation for explanation.
+
+
+Package caption Warning: \subcaption
+(caption)                outside box or environment on input line 5.
+See the caption package documentation for explanation.
+
+
+Package caption Warning: \subcaption
+(caption)                outside box or environment on input line 22.
+See the caption package documentation for explanation.
+
+) [31
+
+])
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 203.
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 203.
  (./var_mang_port.aux)
@@ -1168,13 +1285,13 @@ LaTeX Warning: There were undefined references.
 
  ) 
 Here is how much of TeX's memory you used:
- 21310 strings out of 493029
- 386449 string characters out of 6136234
- 666167 words of memory out of 5000000
- 24199 multiletter control sequences out of 15000+600000
+ 21374 strings out of 493029
+ 387862 string characters out of 6136234
+ 669224 words of memory out of 5000000
+ 24226 multiletter control sequences out of 15000+600000
  15757 words of font info for 61 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 62i,11n,94p,2009b,739s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 62i,11n,94p,3497b,739s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></us
 r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/shar
 e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texl
@@ -1196,10 +1313,10 @@ pe1/public/amsfonts/cm/cmti10.pfb></usr/share/texlive/texmf-dist/fonts/type1/pu
 blic/amsfonts/cm/cmti12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/a
 msfonts/cm/cmtt10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfont
 s/symbols/msbm10.pfb>
-Output written on var_mang_port.pdf (26 pages, 342810 bytes).
+Output written on var_mang_port.pdf (31 pages, 369788 bytes).
 PDF statistics:
- 522 PDF objects out of 1000 (max. 8388607)
- 463 compressed objects within 5 object streams
- 112 named destinations out of 1000 (max. 500000)
+ 641 PDF objects out of 1000 (max. 8388607)
+ 552 compressed objects within 6 object streams
+ 128 named destinations out of 1000 (max. 500000)
  93 words of extra memory for PDF output out of 10000 (max. 10000000)
 

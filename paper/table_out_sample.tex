@@ -1,3 +1,13 @@
-\input{tab_out_var_rep_1}
-\clearpage
-\input{tab_out_var_full_mkt_bench}
+\begin{table}[!htbp]
+	\centering \caption{\textbf{:Full Out-of-Sample Results} \newline
+		\footnotesize{The table displays out-of-sample expanding window regression results for monthly market variance, correlation and return statistics. SV is the annualized monthly variance of daily CRSP market returns. AV and AC are the monthly average variance and average pairwise correlation of daily returns for the top 500 assets in the CRSP market, as in \citet{pollet_average_2010}. RET is the log return of the CRSP market portfolio minus the log return on the 1 month treasury bill. DM is the \citet{Diebold1995} statistic measuring for cast accuracy. MSE-F is the mean squared error improvement F-test of in \citet{mccracken_asymptotics_2007} and ENC-HLN is the forecast encompassing test of \citet{harvey_tests_1998}.} In each panel the benchmark forecasts come from a model which uses SV$_{t}$ to predict the independent variable.}
+	\label{tab:tab_out_sample}
+	\subcaption{Sample 1970:07 to 2016:12}
+	\begin{adjustbox}{center,max height=\totalheight}
+		\input{tables/tab_oos_avg_var1m_post1962}
+	\end{adjustbox}
+	\subcaption{Sample 1939:12 to 2016:12}
+	\begin{adjustbox}{center,max height=\totalheight}
+		\input{tables/tab_oos_avg_var1m_full}
+	\end{adjustbox}
+\end{table}

@@ -1,0 +1,31 @@
+\begin{table}[!htbp]
+	\centering \caption{\textbf{:In Sample Robust Results} \newline
+		\footnotesize{The table displays in-sample regression results of AC$_{t+1}$, SV$_{t+1}$ and RET$_{t+1}$ on AV$_{t}$. The coeffiecients and standard errors calculated robust to \citet{Kandel1996} bias using the correction in \citet{Amihud2004}. Robust p-values are calculated through t-statistic wild-bootstrap simulation, as in \citet{mackinnon_bootstrap_2002}.}}
+	\label{tab:tab_in_sample_robust}
+	\subcaption{$AV_{t}$: Sample 1962:06 to 2016:12}
+	\begin{adjustbox}{center,max height=\totalheight}
+		\begin{tabular}{cccc}
+			\hline
+			& $\beta$ & t.stat & p \\
+			AC$_{t+1}$ & 0.241 & 6.567 & 0.000 \\
+			SV$_{t+1}$ & 0.550 & 32.442 & 0.000 \\
+			RET$_{t+1}$ & -0.131 & -3.494 & 0.166 \\
+			\hline \\
+		\end{tabular}
+	\end{adjustbox}
+	\subcaption{$AV_{t}$: Sample 1926:07 to 2016:12}
+	\begin{adjustbox}{center,max height=\totalheight}
+				\begin{tabular}{cccc}
+					\hline
+			& $\beta$ & t.stat & p \\
+			AC$_{t+1}$ & 0.384 & 14.342 & 0.000 \\
+			SV$_{t+1}$ & 0.627 & 40.002 & 0.000 \\
+			RET$_{t+1}$ & 0.000 & -0.016 & 0.562\\
+			\hline
+		\end{tabular}
+	\end{adjustbox}
+%	\subcaption{Full Sample 1939:12 to 2016:12}\vspace{-3mm}
+%	\begin{adjustbox}{center,max height=.45\totalheight}
+%		\input{tables/tab_in_avg_var1m.tp1_full}
+%	\end{adjustbox}
+\end{table}

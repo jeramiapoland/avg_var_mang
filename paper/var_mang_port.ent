@@ -90,31 +90,6 @@ macro:->\citep
 {orwell1946animal}
 \@endanenote 
 \@doanenote {5}
-macro:->Both
-SV
-and
-AV
-generate
-better
-Rachev
-ratios
-than
-the
-buy
-and
-hold
-return.
-\@endanenote 
-\@doanenote {6}
-macro:->The
-monthly
-sample
-starts
-in
-July
-1926.
-\@endanenote 
-\@doanenote {7}
 macro:->The
 shortest
 trading
@@ -137,10 +112,11 @@ common
 number
 in
 the
-holiday
-months.
+months
+with
+holidays.
 \@endanenote 
-\@doanenote {8}
+\@doanenote {6}
 macro:->The
 exact
 correction
@@ -161,16 +137,12 @@ I
 have
 access.
 \@endanenote 
-\@doanenote {9}
+\@doanenote {7}
 macro:->The
 least
 number
 of
 assets
-in
-the
-top
-500
 which
 trade
 every
@@ -184,35 +156,24 @@ is
 in
 August
 of
-1932
-\@endanenote 
-\@doanenote {10}
-macro:->There
+1932.
+There
 are
+regularly
 500
+qualifying
 assets
-trading
-everyday
-quarterly
-starting
-in
+by
 the
-first
-quarter
+end
 of
-1928.
+the
+1930s.
 \@endanenote 
-\@doanenote {11}
-macro:->CRSP
-monthly
-returns
-are
-compounded
-into
-quarterly
-returns.
+\@doanenote {8}
+macro:->http://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data\_library.html\#Research
 \@endanenote 
-\@doanenote {12}
+\@doanenote {9}
 macro:->CRSP
 has,
 as
@@ -293,7 +254,65 @@ persistantly
 more
 illiquid.
 \@endanenote 
+\@doanenote {10}
+macro:->Call
+money
+is
+the
+money
+loaned
+by
+a
+bank
+or
+other
+institution
+which
+is
+repayable
+on
+demand.
+\@endanenote 
+\@doanenote {11}
+macro:->Seaonally
+adjusted
+nominal
+monthly
+bank
+credit
+is
+available
+in
+statistical
+release
+H.8
+(Assets
+and
+Liabilities
+of
+Commercial
+Banks
+in
+the
+U.S.)
+of
+the
+Board
+of
+Governors
+of
+the
+Federal
+Reserve
+System.
+\@endanenote 
+\@doanenote {12}
+macro:->http://apps.olin.wustl.edu/faculty/manela/
+\@endanenote 
 \@doanenote {13}
+macro:->http://www.nyxdata.com/nysedata/asp/factbook/viewer\_edition.asp?mode=table\&key=3153\&category=8
+\@endanenote 
+\@doanenote {14}
 macro:->Additionally,
 in
 unreported
@@ -311,7 +330,7 @@ the
 {Diebold1995}
 test.
 \@endanenote 
-\@doanenote {14}
+\@doanenote {15}
 macro:->Average
 correlation
 predicts
