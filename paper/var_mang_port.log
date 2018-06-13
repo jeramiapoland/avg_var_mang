@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2017.9.18)  11 JUN 2018 00:58
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2017.9.18)  13 JUN 2018 18:36
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1014,29 +1014,108 @@ Missing character: There is no ô in font cmr10!
 Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ô in font cmr10!
- [6] [7] [8]) (./in_sample.tex [9]
+ [6]
 
-LaTeX Warning: Reference `tab_mv_next' on page 10 undefined on input line 14.
-
-
-LaTeX Warning: Reference `tab_mv_next' on page 10 undefined on input line 14.
+LaTeX Warning: Reference `fig:time_series' on page 7 undefined on input line 34
+.
 
 
-LaTeX Warning: Reference `tab_ret_in' on page 10 undefined on input line 16.
+LaTeX Warning: Reference `fig:time_series' on page 7 undefined on input line 37
+.
 
-) [10] (./out_sample.tex [11]
+[7] [8]) (./in_sample.tex [9]
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ô in font cmr10!
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ô in font cmr10!
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ô in font cmr10!
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ô in font cmr10!
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ô in font cmr10!
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ô in font cmr10!
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ô in font cmr10!
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ô in font cmr10!
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ô in font cmr10!
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ô in font cmr10!
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ô in font cmr10!
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ô in font cmr10!
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ô in font cmr10!
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ô in font cmr10!
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ô in font cmr10!
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ô in font cmr10!
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ô in font cmr10!
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ô in font cmr10!
+ [10]
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ô in font cmr10!
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ô in font cmr10!
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ô in font cmr10!
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ô in font cmr10!
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ù in font cmr10!
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ù in font cmr10!
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ô in font cmr10!
+) (./out_sample.tex [11] [12] [13]
+(./robustness.tex [14])) (./asset_allocation.tex [15] [16]
 
-LaTeX Warning: Reference `tab_oos' on page 12 undefined on input line 37.
+LaTeX Warning: Reference `tab:tab_performanc1' on page 17 undefined on input li
+ne 28.
 
-[12]) (./robustness.tex [13]
+[17]
 
-LaTeX Warning: Reference `tab_robust' on page 14 undefined on input line 8.
+LaTeX Warning: Reference `tab:table_performance2' on page 18 undefined on input
+ line 30.
 
-) (./preferences.tex (./the_cml.tex) (./lottery_preference2.tex
+[18]) (./preferences.tex (./the_cml.tex) (./lottery_preference2.tex
 
-LaTeX Warning: Reference `tab_max' on page 14 undefined on input line 5.
+LaTeX Warning: Reference `tab_max' on page 19 undefined on input line 5.
 
-) (./lending_constraints.tex [14]))
+) (./lending_constraints.tex [19]))
 Overfull \hbox (10.76077pt too wide) in paragraph at lines 148--152
 [][]\OT1/cmr/m/n/10.95 PROPOSITION 1: []\OT1/cmr/m/it/10.95 If Con-di-tion []1[
 ] is sat-is-fied, a so-lu-tion to the cen-tral plan-ner's prob-lem, $\OML/cmm/m
@@ -1044,7 +1123,7 @@ Overfull \hbox (10.76077pt too wide) in paragraph at lines 148--152
 \OMS/cmsy/m/n/10.95 2
  []
 
-[15]pdfTeX warning (ext4): destination with the same identifier (name{section.1
+[20]pdfTeX warning (ext4): destination with the same identifier (name{section.1
 }) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
@@ -1074,31 +1153,56 @@ er (name{section.2}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
 l.170 \section{Another Appendix}
-                                 [16
+                                 [21
 
-] (./var_mang_port.bbl [17
+] (./var_mang_port.bbl [22
 
 ]
 Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ô in font cmr10!
- [18]
+ [23]
 Missing character: There is no √ in font cmr10!
 Missing character: There is no § in font cmr10!
- [19]
-[20]) [21] (./var_mang_port.ent
+ [24]
+[25]
+LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 249.
+ [26]) [27] (./var_mang_port.ent
 Overfull \hbox (60.88286pt too wide) in paragraph at lines 313--314
 [][]\OT1/cmr/m/n/10.95 http://www.nyxdata.com/nysedata/asp/factbook/viewer[]edi
 tion.asp?mode=table&key=3153&category=8 
  []
 
-[22
+[28
 
-]) [23] (./figures.tex (./q_plot.tex) (./m_plot.tex)
+]) [29] (./figures.tex (./figures/weight_plot2.tex)
+Overfull \hbox (75.11166pt too wide) in paragraph at lines 2557--13
+[][]
+ []
 
-LaTeX Warning: Float too large for page by 2.06497pt on input line 6.
 
-[24]) (./tables.tex (./table_summary.tex
+Underfull \hbox (badness 10000) in paragraph at lines 2557--13
+
+ []
+
+[30
+
+
+] (./figures/m_ret_plot2.tex)
+Overfull \hbox (85.07327pt too wide) in paragraph at lines 10651--20
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 10651--20
+
+ []
+
+
+LaTeX Warning: Float too large for page by 66.61891pt on input line 20.
+
+[31]) (./tables.tex (./table_summary.tex
 
 Package caption Warning: \captionsetup{subtype*=...} or \subcaptionof
 (caption)                outside box or environment on input line 5.
@@ -1121,7 +1225,7 @@ Package caption Warning: \subcaption
 (caption)                outside box or environment on input line 9.
 See the caption package documentation for explanation.
 
-(./tables/summary3.tex)) [25
+(./tables/summary3.tex)) [32
 
 
 
@@ -1142,7 +1246,7 @@ Package caption Warning: \subcaption
 (caption)                outside box or environment on input line 7.
 See the caption package documentation for explanation.
 
-(./tables/tab_correlation_long.tex)) [26
+(./tables/tab_correlation_long.tex)) [33
 
 ] (./table_in_sample.tex
 
@@ -1177,7 +1281,7 @@ See the caption package documentation for explanation.
 
 LaTeX Warning: Float too large for page by 23.85815pt on input line 21.
 
-[27]
+[34]
 
 Package caption Warning: \captionsetup{subtype*=...} or \subcaptionof
 (caption)                outside box or environment on input line 36.
@@ -1210,7 +1314,7 @@ See the caption package documentation for explanation.
 
 LaTeX Warning: Float too large for page by 12.85815pt on input line 52.
 
-) [28] (./table_in_robust.tex
+) [35] (./table_in_robust.tex
 
 Package caption Warning: \captionsetup{subtype*=...} or \subcaptionof
 (caption)                outside box or environment on input line 5.
@@ -1226,7 +1330,7 @@ Package caption Warning: \subcaption
 (caption)                outside box or environment on input line 16.
 See the caption package documentation for explanation.
 
-) [29
+) [36
 
 
 
@@ -1247,7 +1351,7 @@ Package caption Warning: \subcaption
 (caption)                outside box or environment on input line 9.
 See the caption package documentation for explanation.
 
-(./tables/tab_oos_avg_var1m_full.tex)) [30
+(./tables/tab_oos_avg_var1m_full.tex)) [37
 
 ] (./table_oos_robust.tex
 
@@ -1265,16 +1369,62 @@ Package caption Warning: \subcaption
 (caption)                outside box or environment on input line 22.
 See the caption package documentation for explanation.
 
-) [31
+) [38
 
-])
+] (./table_weights.tex) [39
+
+] (./table_performance1.tex
+(./tables/tab_perf_053_full.tex)) [40
+
+] (./table_performance2.tex
+
+Package caption Warning: \captionsetup{subtype*=...} or \subcaptionof
+(caption)                outside box or environment on input line 6.
+See the caption package documentation for explanation.
+
+
+Package caption Warning: \subcaption
+(caption)                outside box or environment on input line 6.
+See the caption package documentation for explanation.
+
+(./tables/tab_perf_029_constraint.tex)
+
+Package caption Warning: \subcaption
+(caption)                outside box or environment on input line 10.
+See the caption package documentation for explanation.
+
+
+Overfull \hbox (42.3642pt too wide) in paragraph at lines 9--10
+ [] 
+ []
+
+(./tables/tab_perf_035_constraint.tex)
+
+Package caption Warning: \subcaption
+(caption)                outside box or environment on input line 14.
+See the caption package documentation for explanation.
+
+
+Overfull \hbox (42.3642pt too wide) in paragraph at lines 13--14
+ [] 
+ []
+
+(./tables/tab_perf_053_constraint.tex)
+Overfull \hbox (42.3642pt too wide) in paragraph at lines 17--20
+ [] 
+ []
+
+[41
+
+
+]))
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 203.
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 203.
  (./var_mang_port.aux)
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 203.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 203.
 Package rerunfilecheck Info: File `var_mang_port.out' has not changed.
-(rerunfilecheck)             Checksum: 6FEA4301FCF05FCA488CCC78179DECBD;575.
+(rerunfilecheck)             Checksum: 6AA33DC3FF2FDF782E06285C3481A249;627.
 
 
 LaTeX Font Warning: Size substitutions with differences
@@ -1285,10 +1435,10 @@ LaTeX Warning: There were undefined references.
 
  ) 
 Here is how much of TeX's memory you used:
- 21374 strings out of 493029
- 387862 string characters out of 6136234
- 669224 words of memory out of 5000000
- 24226 multiletter control sequences out of 15000+600000
+ 21494 strings out of 493029
+ 391095 string characters out of 6136234
+ 839099 words of memory out of 5000000
+ 24287 multiletter control sequences out of 15000+600000
  15757 words of font info for 61 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  62i,11n,94p,3497b,739s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1300,23 +1450,24 @@ e/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texm
 f-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/share/texlive/texmf-dist/
 fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texlive/texmf-dist/fonts/t
 ype1/public/amsfonts/cm/cmmi8.pfb></usr/share/texlive/texmf-dist/fonts/type1/pu
-blic/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/am
-sfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/
-cm/cmr17.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6
-.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></u
-sr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share
-/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/share/texlive
-/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf
--dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/share/texlive/texmf-dist/f
-onts/type1/public/amsfonts/cm/cmsy8.pfb></usr/share/texlive/texmf-dist/fonts/ty
-pe1/public/amsfonts/cm/cmti10.pfb></usr/share/texlive/texmf-dist/fonts/type1/pu
-blic/amsfonts/cm/cmti12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/a
-msfonts/cm/cmtt10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfont
-s/symbols/msbm10.pfb>
-Output written on var_mang_port.pdf (31 pages, 369788 bytes).
+blic/amsfonts/cm/cmmi9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/am
+sfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/
+cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr1
+7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></
+usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/shar
+e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texliv
+e/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/share/texlive/texmf-
+dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/f
+onts/type1/public/amsfonts/cm/cmsy6.pfb></usr/share/texlive/texmf-dist/fonts/ty
+pe1/public/amsfonts/cm/cmsy8.pfb></usr/share/texlive/texmf-dist/fonts/type1/pub
+lic/amsfonts/cm/cmti10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/am
+sfonts/cm/cmti12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts
+/cm/cmtt10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/symbo
+ls/msbm10.pfb>
+Output written on var_mang_port.pdf (41 pages, 472322 bytes).
 PDF statistics:
- 641 PDF objects out of 1000 (max. 8388607)
- 552 compressed objects within 6 object streams
- 128 named destinations out of 1000 (max. 500000)
- 93 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 797 PDF objects out of 1000 (max. 8388607)
+ 694 compressed objects within 7 object streams
+ 162 named destinations out of 1000 (max. 500000)
+ 101 words of extra memory for PDF output out of 10000 (max. 10000000)
 

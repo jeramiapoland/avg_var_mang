@@ -22,45 +22,46 @@ I'm skipping whatever remains of this entry
 Warning--empty journal in asness_betting_2018
 Warning--empty journal in jones_century_2002
 Warning--empty journal in malkhozov_international_2017
-You've used 55 entries,
+Warning--empty journal in morrison_guarantees_nodate
+You've used 68 entries,
             2716 wiz_defined-function locations,
-            944 strings with 12884 characters,
-and the built_in function-call counts, 24300 in all, are:
-= -- 2265
-> -- 1221
-< -- 42
-+ -- 417
-- -- 356
-* -- 2279
-:= -- 4405
-add.period$ -- 55
-call.type$ -- 55
-change.case$ -- 391
-chr.to.int$ -- 55
-cite$ -- 58
-duplicate$ -- 976
-empty$ -- 1628
-format.name$ -- 463
-if$ -- 4635
+            1003 strings with 14927 characters,
+and the built_in function-call counts, 29752 in all, are:
+= -- 2772
+> -- 1480
+< -- 55
++ -- 521
+- -- 431
+* -- 2766
+:= -- 5398
+add.period$ -- 68
+call.type$ -- 68
+change.case$ -- 480
+chr.to.int$ -- 68
+cite$ -- 72
+duplicate$ -- 1210
+empty$ -- 1994
+format.name$ -- 561
+if$ -- 5664
 int.to.chr$ -- 1
 int.to.str$ -- 1
-missing$ -- 52
-newline$ -- 169
-num.names$ -- 222
-pop$ -- 257
+missing$ -- 65
+newline$ -- 208
+num.names$ -- 274
+pop$ -- 321
 preamble$ -- 1
-purify$ -- 337
+purify$ -- 414
 quote$ -- 0
-skip$ -- 713
+skip$ -- 885
 stack$ -- 0
-substring$ -- 1688
-swap$ -- 222
-text.length$ -- 3
+substring$ -- 2047
+swap$ -- 274
+text.length$ -- 6
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 489
-warning$ -- 3
-while$ -- 246
+type$ -- 603
+warning$ -- 4
+while$ -- 304
 width$ -- 0
-write$ -- 595
+write$ -- 736
 (There were 3 error messages)

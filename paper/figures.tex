@@ -1,7 +1,21 @@
+%\begin{landscape}
+%	\begin{figure}[!htb]
+%		\caption{{\bf Time Series of Market Statistics}: The average variance of individual asset, average correlation of asset pairs, and the variance of the CRSP portfolio calculated from daily returns.} \label{fig:time_series}
+%		\input{q_plot}\\
+%		\input{m_plot}
+%	\end{figure}
+%\end{landscape}
+%\clearpage
 \begin{landscape}
 	\begin{figure}[!htb]
-		\caption{{\bf Time Series of Market Statistics}: The average variance of individual asset, average correlation of asset pairs, and the variance of the CRSP portfolio calculated from daily returns.} \label{fig:time_series}
-		\input{q_plot}\\
-		\input{m_plot}
+		\caption{{\bf Time Series of Investment Weights}: The time series of the investment weight into the market portfolio for SV and AV managed portfolios targeting the buy and hold volatility.} \label{fig:weights_plot}
+		\input{figures/weight_plot2}
 	\end{figure}
 \end{landscape}
+\clearpage
+\begin{figure}[!htb]
+		\caption{{\bf Cummulative Log Excess Returns}: The time series of cummulative log excess returns for the buy and hold market investment as well as the AV and SV managed portfolios. Panel a limits the coefficient on the market portfolio between 0 and 1.5 for the AV and SV strategies; panel b limit them to weights from 0 to 3 and they are unconstrained in panel c. } \label{fig:returns}
+		\vspace{-4mm}
+		\input{figures/m_ret_plot2}
+\end{figure}
+\clearpage

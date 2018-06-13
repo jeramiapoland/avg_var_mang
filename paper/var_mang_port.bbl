@@ -1,4 +1,4 @@
-\begin{thebibliography}{55}
+\begin{thebibliography}{68}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 
 \bibitem[Adrian et~al.(2014)Adrian, Etula, and Muir]{adrian2014financial}
@@ -11,9 +11,10 @@ Amihud, Yakov, and Clifford~M. Hurvich, 2004, Predictive regressions: A
   reduced-bias estimation method, {\em Journal of Financial and Quantitative
   Analysis\/} 39, 813--841.
 
-\bibitem[Ang and Chen(2002)]{ANG2002443}
-Ang, Andrew, and Joseph Chen, 2002, Asymmetric correlations of equity
-  portfolios, {\em Journal of Financial Economics\/} 63, 443 -- 494.
+\bibitem[Andrews and Monahan(1992)]{andrews_improved_1992}
+Andrews, Donald W.~K., and J.~Christopher Monahan, 1992, An {Improved}
+  {Heteroskedasticity} and {Autocorrelation} {Consistent} {Covariance} {Matrix}
+  {Estimator}, {\em Econometrica\/} 60, 953--966.
 
 \bibitem[Asness et~al.(2018)Asness, Frazzini, Gormsen, and
   Pedersen]{asness_betting_2018}
@@ -35,6 +36,12 @@ Barberis, Nicholas, and Ming Huang, 2008, Stocks as {Lotteries}: {The}
 Barroso, Pedro, and Pedro Santa-Clara, 2015, Momentum has its moments, {\em
   Journal of Financial Economics\/} 116, 111--120.
 
+\bibitem[Biglova et~al.(2004)Biglova, Ortobelli, Rachev, and
+  Stoyanov]{biglova_different_2004}
+Biglova, Almira, Sergio Ortobelli, Svetlozar~T. Rachev, and Stoyan Stoyanov,
+  2004, Different {Approaches} to {Risk} {Estimation} in {Portfolio} {Theory},
+  {\em The Journal of Portfolio Management\/} 31, 103--112.
+
 \bibitem[Black(1972)]{black1972capital}
 Black, Fischer, 1972, Capital market equilibrium with restricted borrowing,
   {\em The Journal of business\/} 45, 444--455.
@@ -54,6 +61,11 @@ Brunnermeier, Markus~K., Christian Gollier, and Jonathan~A. Parker, 2007,
 Campbell, John~Y., 1987, Stock returns and the term structure, {\em Journal of
   Financial Economics\/} 18, 373 -- 399.
 
+\bibitem[Campbell and Hentschel(1992)]{campbell_no_1992}
+Campbell, John~Y., and Ludger Hentschel, 1992, No news is good news: {An}
+  asymmetric model of changing volatility in stock returns, {\em Journal of
+  Financial Economics\/} 31, 281--318.
+
 \bibitem[Campbell et~al.(2001)Campbell, Lettau, Malkiel, and
   Xu]{campbell_have_2001}
 Campbell, John~Y., Martin Lettau, Burton~G. Malkiel, and Yexiao Xu, 2001, Have
@@ -66,11 +78,6 @@ Campbell, John~Y, Andrew Wen-Chuan Lo, Archie~Craig MacKinlay, et~al., 1997,
   {\em The econometrics of financial markets\/}, volume~2 (princeton University
   press Princeton, NJ).
 
-\bibitem[Campbell and Thompson(2008)]{Campbell2008}
-Campbell, John~Y., and Samuel~B. Thompson, 2008, {Predicting excess stock
-  returns out of sample: Can anything beat the historical average?}, {\em
-  Review of Financial Studies\/} 21, 1509--1531.
-
 \bibitem[Cao(2016)]{cao_risk_2016}
 Cao, Larry, 2016, Risk {Parity} {Made} {Easy}: {Cliff}’s {Notes} and {Other}
   {Key} {Readings}.
@@ -79,15 +86,13 @@ Cao, Larry, 2016, Risk {Parity} {Made} {Easy}: {Cliff}’s {Notes} and {Other}
 Chong, Yock~Y, and David~F Hendry, 1986, Econometric evaluation of linear
   macro-economic models, {\em Review of Economic Studies\/} 53, 671--690.
 
-\bibitem[Clark and McCracken(2001)]{clark_tests_2001}
-Clark, Todd~E., and Michael~W. McCracken, 2001, Tests of equal forecast
-  accuracy and encompassing for nested models, {\em Journal of econometrics\/}
-  105, 85--110.
+\bibitem[Davison and Hinkley(1997)]{davison1997bootstrap}
+Davison, Anthony~Christopher, and David~Victor Hinkley, 1997, {\em Bootstrap
+  methods and their application\/}, volume~1 (Cambridge university press).
 
-\bibitem[Clark and West(2007)]{Clark2007}
-Clark, Todd~E, and Kenneth~D West, 2007, Approximately normal tests for equal
-  predictive accuracy in nested models, {\em Journal of Econometrics\/} 138,
-  291--311.
+\bibitem[Deuskar et~al.(2017)Deuskar, Kumar, and Poland]{deuskar_margin_2017}
+Deuskar, Prachi, Nitin Kumar, and Jeramia Poland, 2017, Margin {Credit} and
+  {Stock} {Return} {Predictability}, {\em SSRN Electronic Journal\/} .
 
 \bibitem[Dickey and Fuller(1979)]{dickey_distribution_1979}
 Dickey, David~A., and Wayne~A. Fuller, 1979, Distribution of the {Estimators}
@@ -110,10 +115,10 @@ Fair, Ray~C, and Robert~J Shiller, 1990, Comparing information in forecasts
 Fama, Eugene~F., and Kenneth~R. French, 2016, Dissecting {Anomalies} with a
   {Five}-{Factor} {Model}, {\em Review of Financial Studies\/} 29, 69--103.
 
-\bibitem[Forbes and Rigobon(2002)]{Forbes_2002}
-Forbes, Kristin~J., and Roberto Rigobon, 2002, No contagion, only
-  interdependence: Measuring stock market comovements, {\em The Journal of
-  Finance\/} 57, 2223--2261.
+\bibitem[Fleming et~al.(2002)Fleming, Kirby, and
+  Ostdiek]{fleming_economic_nodate}
+Fleming, Jeff, Chris Kirby, and Barbara Ostdiek, 2002, The {Economic} {Value}
+  of {Volatility} {Timing}, {\em The Journal of Finance\/} 56, 329--352.
 
 \bibitem[Frazzini and Pedersen(2014)]{frazzini_betting_2014}
 Frazzini, Andrea, and Lasse~Heje Pedersen, 2014, Betting against beta, {\em
@@ -134,11 +139,6 @@ Glosten, Lawrence, Ravi Jagannathan, and David Runkle, 1993, On the relation
   between the expected value and the volatility of the nominal excess return on
   stocks, {\em The Journal of Finance\/} 48, 1779--1801.
 
-\bibitem[Hartmand et~al.(2004)Hartmand, Straetmans, and
-  de~Vries]{Hartmand_2004}
-Hartmand, P, S.~Straetmans, and C.~G. de~Vries, 2004, Asset market linkages in
-  crisis periods, {\em The Review of Economics and Statistics\/} 86, 313--326.
-
 \bibitem[Harvey et~al.(1998)Harvey, Leybourne, and Newbold]{harvey_tests_1998}
 Harvey, David~S., Stephen~J. Leybourne, and Paul Newbold, 1998, Tests for
   {Forecast} {Encompassing}, {\em Journal of Business \& Economic Statistics\/}
@@ -148,6 +148,12 @@ Harvey, David~S., Stephen~J. Leybourne, and Paul Newbold, 1998, Tests for
 Haugen, Robert, and A.~Heins, 1972, On the evidence supporting the existence of
   risk premiums in the capital market, Technical report, Working Paper,
   University of Wisconsin-Madison.
+
+\bibitem[Hocquard et~al.(2013)Hocquard, Ng, and
+  Papageorgiou]{hocquard_constant-volatility_2013}
+Hocquard, Alexandre, Sunny Ng, and Nicolas Papageorgiou, 2013, A
+  {Constant}-{Volatility} {Framework} for {Managing} {Tail} {Risk}, {\em
+  Journal of Portfolio Management; New York\/} 39, 28--40,6,8.
 
 \bibitem[Hotelling(1953)]{hotelling_1953}
 Hotelling, Harold, 1953, New light on the correlation coefficient and its
@@ -172,9 +178,18 @@ Kandel, Shmuel, and Robert~F Stambaugh, 1996, On the predictability of stock
   returns: An asset-allocation perspective, {\em Journal of Finance\/} 51,
   385--424.
 
+\bibitem[Kaplan and Knowles(2004)]{kaplan_kappa:_2004}
+Kaplan, Paul~D., and James~A. Knowles, 2004, Kappa: {A} generalized downside
+  risk-adjusted performance measure, {\em Journal of Performance
+  Measurement.\/} 8, 42--54.
+
 \bibitem[Kim et~al.(2016)Kim, Tse, and Wald]{kim_time_2016}
 Kim, Abby~Y., Yiuman Tse, and John~K. Wald, 2016, Time series momentum and
   volatility scaling, {\em Journal of Financial Markets\/} 30, 103--124.
+
+\bibitem[Ledoit and Wolf(2008)]{ledoit_robust_2008}
+Ledoit, Oliver, and Michael Wolf, 2008, Robust performance hypothesis testing
+  with the {Sharpe} ratio, {\em Journal of Empirical Finance\/} 15, 850--859.
 
 \bibitem[MacKinnon(2002)]{mackinnon_bootstrap_2002}
 MacKinnon, James~G., 2002, Bootstrap inference in econometrics, {\em Canadian
@@ -196,10 +211,24 @@ McCracken, Michael~W., 2007, Asymptotics for out of sample tests of {Granger}
 \bibitem[McWhinnie(2014)]{noauthor_warren_nodate}
 McWhinnie, Eric, 2014, Warren {Buffett} on using leverage to invest.
 
+\bibitem[Memmel(2003)]{memmel_performance_2003}
+Memmel, Christoph, 2003, Performance {Hypothesis} {Testing} with the {Sharpe}
+  {Ratio}, {SSRN} {Scholarly} {Paper} ID 412588, Social Science Research
+  Network, Rochester, NY.
+
 \bibitem[Moreira and Muir(2017)]{moreira_volatility-managed_2017}
 Moreira, Alan, and Tyler Muir, 2017, Volatility-{Managed} {Portfolios}:
   {Volatility}-{Managed} {Portfolios}, {\em The Journal of Finance\/} 72,
   1611--1644.
+
+\bibitem[Morrison and Tadrowski(2013)]{morrison_guarantees_nodate}
+Morrison, Steven, and Laura Tadrowski, 2013, Guarantees and {Target}
+  {Volatility} {Funds} ~12.
+
+\bibitem[Newey and West(1987)]{newey_simple_1987}
+Newey, Whitney~K., and Kenneth~D. West, 1987, A {Simple}, {Positive}
+  {Semi}-{Definite}, {Heteroskedasticity} and {Autocorrelation} {Consistent}
+  {Covariance} {Matrix}, {\em Econometrica\/} 55, 703--708.
 
 \bibitem[Ng and Perron(2001)]{Ng2001}
 Ng, Serena, and Pierre Perron, 2001, {Lag Length Selection and the Construction
@@ -214,6 +243,16 @@ Olkin, Ingram, and John~W. Pratt, 1958, Unbiased estimation of certain
 \bibitem[Orwell(1946)]{orwell1946animal}
 Orwell, George, 1946, {\em Animal farm\/} (Harcourt, Brace and Company, New
   York, NY).
+
+\bibitem[Politis and Romano(1992)]{politis_general_1992}
+Politis, Dimitris~N., and Joseph~P. Romano, 1992, A {General} {Resampling}
+  {Scheme} for {Triangular} {Arrays} of \${\textbackslash}alpha\$-{Mixing}
+  {Random} {Variables} with {Application} to the {Problem} of {Spectral}
+  {Density} {Estimation}, {\em The Annals of Statistics\/} 20, 1985--2007.
+
+\bibitem[Politis and Romano(1994)]{politis_stationary_1994}
+Politis, Dimitris~N., and Joseph~P. Romano, 1994, The {Stationary} {Bootstrap},
+  {\em Journal of the American Statistical Association\/} 89, 1303--1313.
 
 \bibitem[Pollet and Wilson(2010)]{pollet_average_2010}
 Pollet, Joshua~M., and Mungo Wilson, 2010, Average correlation and stock market
@@ -234,6 +273,11 @@ Rapach, David~E., Jack~K. Strauss, and Guofu Zhou, 2010, {Out-of-sample equity
   premium prediction: Combination forecasts and links to the real economy},
   {\em Review of Financial Studies\/} 23, 821--862.
 
+\bibitem[Roll(1977)]{roll_critique_1977}
+Roll, Richard, 1977, A critique of the asset pricing theory's tests {Part} {I}:
+  {On} past and potential testability of the theory, {\em Journal of Financial
+  Economics\/} 4, 129 -- 176.
+
 \bibitem[Rossi and Inoue(2012)]{rossi_out--sample_2012}
 Rossi, Barbara, and Atsushi Inoue, 2012, Out-of-{Sample} {Forecast} {Tests}
   {Robust} to the {Choice} of {Window} {Size}, {\em Journal of Business \&
@@ -245,8 +289,24 @@ Rutterford, Janette, and Dimitris~P. Sotiropoulos, 2016, Financial
   documents in the late nineteenth and the beginning of the twentieth century,
   {\em The European Journal of the History of Economic Thought\/} 23, 919--945.
 
+\bibitem[Scherer(2004)]{scherer_alternative_2004}
+Scherer, Bernd, 2004, An alternative route to performance hypothesis testing,
+  {\em Journal of Asset Management\/} 5, 5--12.
+
+\bibitem[Sortino and Price(1994)]{sortino_performance_1994}
+Sortino, Frank~A., and Lee~N. Price, 1994, Performance {Measurement} in a
+  {Downside} {Risk} {Framework}, {\em The Journal of Investing\/} 3, 59--64.
+
+\bibitem[Stambaugh(1999)]{stambaugh_predictive_1999}
+Stambaugh, Robert~F., 1999, Predictive regressions, {\em Journal of Financial
+  Economics\/} 54, 375--421.
+
 \bibitem[Steward(2010)]{steward_truly_2010}
 Steward, Martin, 2010, The truly balanced portfolio.
+
+\bibitem[Verma(2018)]{verma_volatility-targeting_2018}
+Verma, Sid, 2018, Volatility-{Targeting} {Funds} {Could} {Sell} \$225 {Billion}
+  of {Stocks}, {\em Bloomberg.com\/} .
 
 \bibitem[Welch and Goyal(2008)]{Welch2008}
 Welch, Ivo, and Amit Goyal, 2008, {A comprehensive look at the empirical
