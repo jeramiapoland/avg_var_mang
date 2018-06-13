@@ -305,7 +305,8 @@ unbiased_lm2 = function(X,expSig,N = 10000,lag=NULL,aic=TRUE){
   }
   names(cor_betas) = x_names
   names(tstat) = x_names
-  outp = c(coefficients = cor_betas,t.stats = tstat,p.values = pv)
+  outp = c(coefficients = cor_betas,t.stats = tstat,p.values = pv,r.square = summary(cor_model)$r.squared,
+           adj.r.squared = summary(cor_model)$adj.r.squared)
   return(outp)
 }
 
@@ -517,10 +518,11 @@ lm.oos = function(formula = NULL, data = NULL, bench = NULL,train = NULL){
   dm.stat = see.stars(tbl = round(as.matrix(data.table(dm.stat,dm.pval)),3),bees = 1,pees = 2)[1]
   #d.adj.MSPE = mspe.adj(e1,e2,hist,pred) - mspe.adj(e1,e2,hist,pred)
   ENCHLN = enc.hln(u1,u2)
-  enchln.pval = ENCHLN[2]
+  enchln.tval = ENCHLN[2]
   # enct = bootts(u1,u2,stat="ENC-HLN",N=10000,type="recursive",mu)
   # enc.pval = t.test((enct-ENCHLN[2])/c(sqrt(std_err(enct))),alternative = "less")$p.value
-  enchln = see.stars(tbl = round(as.matrix(data.table(ENCHLN,enchln.pval)),3),bees = 1,pees = 2)[1]
+  enchln = see.stars.tstats(tbl = round(as.matrix(data.table(ENCHLN,enchln.tval)),3),bees = 1,tees = 2,exp.positive = TRUE,
+                            df = length(u1) - 1)[1]
   MSEF = mse.f(u1,u2)
   # MSEFt = bootts(u1,u2,stat="MSE-F",N=10000,type="recursive",mu)
   # MSEF.pval = t.test((MSEF-MSEFt)/c(sqrt(std_err(MSEFt))),alternative = "less")$p.value
@@ -528,7 +530,7 @@ lm.oos = function(formula = NULL, data = NULL, bench = NULL,train = NULL){
   MSEF = see.stars(tbl = round(as.matrix(data.table(MSEF,MSEF.pval)),3),bees = 1,pees = 2)[1]
   return(list(forecast_values = pred, K2 = k2,MU = mu, formula = formula, bench = bench, bench_values = benchmark, hist_values = hist,
               Statistics = c(dm.stat,MSEF,enchln),
-              pvals = c(dm.pval,MSEF.pval,enchln.pval)))
+              pvals = c(dm.pval,MSEF.pval,enchln.tval)))
 }
 
 bootts = function(e1,e2,stat=c("DM","MSE-F","ENC-HLN"),N=1000,type="recursive",mu){
@@ -1269,4 +1271,11 @@ stand_ratio = function(tsobj,ratio,o_diff){
   se = ratio_diff_se(x1,x2,ratio)
   num = diff - o_diff
   return(num/se)
+}
+
+scale.na = function(x){
+  na.idx2 = which(!is.na(x))
+  new.x = scale(na.omit(x))
+  x[na.idx2] = new.x
+  return(x)
 }
