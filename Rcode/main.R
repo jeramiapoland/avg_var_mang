@@ -784,6 +784,9 @@ dev.off()
 
 
 #### CER ####
+cerPalette = c("1" = "#000000", "1.5" = "#000000", "2" = "#E41A1C", "2.5" = "#E41A1C", "3" = "#377EB8", "5" = "#377EB8")
+cerLinePalette = c("1" = "solid", "1.5" = "solid", "2" = "dotted", "2.5" = "dotted", "3" = "longdash", "5" = "#377EB8")
+
 gammas = seq(1,5,by = .1)
 cer_gains_dt = array(dim = c(3,length(seq(1,3,.1)),length(seq(1,5,.1))),dimnames = list(sufx,dimnames(returns_dt)[[3]][2:22],gammas))
 for(g in gammas){
@@ -800,11 +803,41 @@ for(g in gammas){
 #         xlab = "Constraint", ylab = "Gamma", zlab = "CER Gain",  
 #         clab = "CER GAIN %",resfac = 3, colkey = list(side=1,length=.3),
 #         ticktype="detailed")
-tikz("cer3d_plot.tex",width = 5.90551, height = 3, sanitize = FALSE)
+tikz("figures/cer3d_plot.tex",width = 5.90551, height = 3, sanitize = FALSE)
 persp3D(x= seq(1,3,.1), y = gammas, z = cer_gains_dt["053",,],theta = 305, 
         xlab = "Constraint", ylab = "Gamma", zlab = "CER Gain",  
         clab = "Percent Gain",resfac = 3, colkey = list(side=1,length=.3),
         ticktype="detailed")
+dev.off()
+
+
+cer_plots_const = data.table(gain = cer_gains_dt["053","1.5",],constraint = "1.5",
+                             gamma = as.numeric(dimnames(cer_gains_dt)[[3]]))
+cer_plots_const = rbindlist(list(cer_plots_const, data.table(gain = cer_gains_dt["053","2",],constraint = "2",
+                                                          gamma = as.numeric(dimnames(cer_gains_dt)[[3]])),
+                              data.table(gain = cer_gains_dt["053","3",],constraint = "3",
+                                         gamma = as.numeric(dimnames(cer_gains_dt)[[3]]))))
+cer_const_plot = ggplot(data = cer_plots_const) + geom_path(mapping = aes(x = gamma,y = gain,color = constraint,linetype = constraint)) +
+  scale_colour_manual(name = "Constraint",values=cerPalette,labels =c("1.5","2","3")) + 
+  scale_linetype_manual(name = "Constraint",values=cerLinePalette,labels =c("1.5","2","3")) + 
+  ylab("CER Gain") + theme_bw()
+tikz("figures/cer_const_plot.tex",width = 5.90551, height = 3, sanitize = FALSE)
+cer_const_plot
+dev.off()
+
+cer_plots_gamma = data.table(gain = cer_gains_dt["053",,"5"],constraint = as.numeric(dimnames(cer_gains_dt)[[2]]),
+                             gamma = "5")
+cer_plots_gamma = rbindlist(list(cer_plots_gamma, data.table(gain = cer_gains_dt["053",,"2.5"],
+                                                             constraint = as.numeric(dimnames(cer_gains_dt)[[2]]),
+                                                             gamma = "2.5"),
+                                 data.table(gain = cer_gains_dt["053",,"1"],constraint = as.numeric(dimnames(cer_gains_dt)[[2]]),
+                                            gamma = "1")))
+cer_gamma_plot = ggplot(data = cer_plots_gamma) + geom_line(mapping = aes(x = constraint,y = gain,color = gamma,linetype = gamma)) +
+  # scale_colour_manual(name = "Gamma",values=cerPalette,labels =c("1","2.5","5")) + 
+  # scale_linetype_manual(name = "Gamma",values=cerLinePalette,labels =c("1.5","2.5","5")) + 
+  ylab("CER Gain") + theme_bw()
+tikz("figures/cer_gamma_plot.tex",width = 5.90551, height = 3, sanitize = FALSE)
+cer_gamma_plot
 dev.off()
 
 #### drawdowns ####
@@ -840,7 +873,7 @@ m_dd_plot = ggplot(data=dd_dt[constraint=="NO"]) + geom_line(aes(x=Date,y=Return
         panel.grid.major.y = element_line( size=.1, color="black")) +
   theme_bw()
 m_dd_plot = nberShade(m_dd_plot,xrange = c(min(dd_dt$Date), max(dd_dt$Date)),openShade = FALSE)
-tikz("dd_plot.tex",width = 5.90551, height = 3, sanitize = FALSE)
+tikz("figures/dd_plot.tex",width = 5.90551, height = 3, sanitize = FALSE)
 plot(m_dd_plot)
 dev.off()
 
@@ -868,19 +901,19 @@ dd_table[Strategy == "AV",
 
 dd_table[, c("Max DD","Avg DD") := list(`Max DD`*100,`Avg DD`*100)]
 dd_table[,2:ncol(dd_table)] = round(dd_table[,2:ncol(dd_table)],3)
-stargazer(dd_table,summary = FALSE,out = "dd_stats.tex")
+stargazer(dd_table,summary = FALSE,out = "tables/performance/dd_stats.tex")
 
 # knockout drawndown
 #  “the probability of a 40% drawdown in one year is less than 0.1%.”
 dd_dt_binom = dd_dt[constraint == "NO"]
-dd_dt_binom[, dd40 := as.integer(Return <= -.4)]
+dd_dt_binom[, dd40 := as.integer(Return <= -.45)]
 dd_dt_binom[, dd40_gamma := sum(dd40) / (length(dd40) /12) , by = Strategy]
 p40_bh = fitdist(dd_dt_binom[Strategy=="market"]$dd40,distr = "binom",method = "mle",fix.arg = list(size=12),
-                 start=list(prob=0.3))$estimate * 100
+                 start=list(prob=(dd_dt_binom[Strategy=="market"]$dd40_gamma[1]/100)))$estimate * 100
 p40_av = fitdist(dd_dt_binom[Strategy=="av_mang"]$dd40,distr = "binom",method = "mle",fix.arg = list(size=12),
-                 start=list(prob=0.3))$estimate * 100
+                 start=list(prob=(dd_dt_binom[Strategy=="av_mang"]$dd40_gamma[1]/100)))$estimate * 100
 p40_sv = fitdist(dd_dt_binom[Strategy=="vol_mang"]$dd40,distr = "binom",method = "mle",fix.arg = list(size=12),
-                      start=list(prob=0.3))$estimate * 100
+                      start=list(prob=(dd_dt_binom[Strategy=="vol_mang"]$dd40_gamma[1]/100)))$estimate * 100
 
 
 # p2 = data.table(Date = rep(q_data[q_start:nrow(q_data)]$date,3), 
