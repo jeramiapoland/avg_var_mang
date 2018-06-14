@@ -19,49 +19,60 @@ You're missing a field name---line 1684 of file margin_credit.bib
  : % title={GDPNow: A Model for GDP`Nowcasting'},
 (Error may have been on previous line)
 I'm skipping whatever remains of this entry
+Too many commas in name 1 of "Lang, S., Gupta, F. and Prestbo, J." for entry lang_2006
+while executing---line 2701 of file jf.bst
+Too many commas in name 1 of "Lang, S., Gupta, F. and Prestbo, J." for entry lang_2006
+while executing---line 2701 of file jf.bst
 Warning--empty journal in asness_betting_2018
 Warning--empty journal in jones_century_2002
+Too many commas in name 1 of "Lang, S., Gupta, F. and Prestbo, J." for entry lang_2006
+while executing---line 2867 of file jf.bst
+Too many commas in name 1 of "Lang, S., Gupta, F. and Prestbo, J." for entry lang_2006
+while executing---line 2867 of file jf.bst
 Warning--empty journal in malkhozov_international_2017
 Warning--empty journal in morrison_guarantees_nodate
-You've used 68 entries,
+Warning--empty journal in pav_notes_nodate
+Warning--empty journal in articlev1
+Warning--empty journal in articlev2
+You've used 80 entries,
             2716 wiz_defined-function locations,
-            1003 strings with 14927 characters,
-and the built_in function-call counts, 29752 in all, are:
-= -- 2772
-> -- 1480
-< -- 55
-+ -- 521
-- -- 431
-* -- 2766
-:= -- 5398
-add.period$ -- 68
-call.type$ -- 68
-change.case$ -- 480
-chr.to.int$ -- 68
-cite$ -- 72
-duplicate$ -- 1210
-empty$ -- 1994
-format.name$ -- 561
-if$ -- 5664
+            1065 strings with 16654 characters,
+and the built_in function-call counts, 34502 in all, are:
+= -- 3199
+> -- 1719
+< -- 67
++ -- 602
+- -- 500
+* -- 3191
+:= -- 6278
+add.period$ -- 80
+call.type$ -- 80
+change.case$ -- 561
+chr.to.int$ -- 80
+cite$ -- 87
+duplicate$ -- 1420
+empty$ -- 2312
+format.name$ -- 654
+if$ -- 6566
 int.to.chr$ -- 1
 int.to.str$ -- 1
-missing$ -- 65
-newline$ -- 208
-num.names$ -- 274
-pop$ -- 321
+missing$ -- 77
+newline$ -- 244
+num.names$ -- 322
+pop$ -- 389
 preamble$ -- 1
-purify$ -- 414
+purify$ -- 485
 quote$ -- 0
-skip$ -- 885
+skip$ -- 1044
 stack$ -- 0
-substring$ -- 2047
-swap$ -- 274
-text.length$ -- 6
+substring$ -- 2289
+swap$ -- 321
+text.length$ -- 8
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 603
-warning$ -- 4
-while$ -- 304
+type$ -- 705
+warning$ -- 7
+while$ -- 349
 width$ -- 0
-write$ -- 736
-(There were 3 error messages)
+write$ -- 863
+(There were 7 error messages)

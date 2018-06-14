@@ -19,3 +19,30 @@
 		\input{figures/m_ret_plot2}
 \end{figure}
 \clearpage
+%\begin{figure}[!htb]
+%	\caption{{\bf Cummulative Log Excess Returns}: The time series of cummulative log excess returns for the buy and hold market investment as well as the AV and SV managed portfolios. Panel a limits the coefficient on the market portfolio between 0 and 1.5 for the AV and SV strategies; panel b limit them to weights from 0 to 3 and they are unconstrained in panel c. } \label{fig:returns}
+%	\vspace{-4mm}
+%	\input{figures/m_ret_plot2}
+%\end{figure}
+%\clearpage
+\begin{figure}[!htb]
+		\caption{{\bf CER Gains}: Certainity Equivalent Return gains for mean variance investors with risk aversion coefficients ranging from 1 to 5 and subject to investment constraints ranging from 1 to 3. See section \ref{sec:asset_allocation} for details.} \label{fig:cer_gain}
+%	\begin{subfigure}
+%		\input{figures/cer3d_plot}
+%	\end{subfigure}
+	\begin{subfigure}{\textwidth}
+		\input{figures/cer_const_plot}
+	\end{subfigure}
+	\begin{subfigure}{\textwidth}
+		\input{figures/cer_gamma_plot}
+	\end{subfigure}
+%\subcaptionbox{First\label{f}}{%
+%	\input{figures/cer3d_plot}%
+%}
+\end{figure}
+\clearpage
+\begin{figure}[!htb]
+	\caption{{\bf Portfolio Drawdowns}: The time series of cummulative drawdowns for the buy and hold market investment as well as the AV and SV managed portfolios. SV and AV managed portfolios are targeting the buy and hold market volatility and have no investment constraints. See section \ref{sec:asset_allocation} for details.} \label{fig:drawdowns}
+	\vspace{-4mm}
+	\input{figures/dd_plot}
+\end{figure}

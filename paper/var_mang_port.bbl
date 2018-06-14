@@ -1,4 +1,4 @@
-\begin{thebibliography}{68}
+\begin{thebibliography}{80}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 
 \bibitem[Adrian et~al.(2014)Adrian, Etula, and Muir]{adrian2014financial}
@@ -21,6 +21,11 @@ Andrews, Donald W.~K., and J.~Christopher Monahan, 1992, An {Improved}
 Asness, Clifford~S., Andrea Frazzini, Niels~Joachim Gormsen, and Lasse~Heje
   Pedersen, 2018, Betting against correlation: testing theories of the low-risk
   effect .
+
+\bibitem[Baba and Goko(2009)]{baba_hedge_nodate}
+Baba, Naohiko, and Hiromichi Goko, 2009, Hedge {Fund} {Survival}:
+  {Non}-{Normal} {Returns}, {Capital} {Outflows}, and {Liquidity}, {\em Journal
+  of Financial Research\/} 32, 71--93.
 
 \bibitem[Bali et~al.(2011)Bali, Cakici, and Whitelaw]{bali_maxing_2011}
 Bali, Turan~G., Nusret Cakici, and Robert~F. Whitelaw, 2011, Maxing out:
@@ -78,9 +83,19 @@ Campbell, John~Y, Andrew Wen-Chuan Lo, Archie~Craig MacKinlay, et~al., 1997,
   {\em The econometrics of financial markets\/}, volume~2 (princeton University
   press Princeton, NJ).
 
+\bibitem[Campbell and Thompson(2008)]{Campbell2008}
+Campbell, John~Y., and Samuel~B. Thompson, 2008, {Predicting excess stock
+  returns out of sample: Can anything beat the historical average?}, {\em
+  Review of Financial Studies\/} 21, 1509--1531.
+
 \bibitem[Cao(2016)]{cao_risk_2016}
 Cao, Larry, 2016, Risk {Parity} {Made} {Easy}: {Cliff}’s {Notes} and {Other}
   {Key} {Readings}.
+
+\bibitem[Carr et~al.(2011)Carr, Zhang, and Hadjiliadis]{carr_maximum_2011}
+Carr, Peter, Hongzhong Zhang, and Olympia Hadjiliadis, 2011, Maximum {Drawdown}
+  {Insurance}, {\em International Journal of Theoretical and Applied Finance\/}
+  14, 1195--1230.
 
 \bibitem[Chong and Hendry(1986)]{Chong1986}
 Chong, Yock~Y, and David~F Hendry, 1986, Econometric evaluation of linear
@@ -114,6 +129,11 @@ Fair, Ray~C, and Robert~J Shiller, 1990, Comparing information in forecasts
 \bibitem[Fama and French(2016)]{fama_dissecting_2016}
 Fama, Eugene~F., and Kenneth~R. French, 2016, Dissecting {Anomalies} with a
   {Five}-{Factor} {Model}, {\em Review of Financial Studies\/} 29, 69--103.
+
+\bibitem[Ferreira and Santa-Clara(2011)]{Ferreira2011}
+Ferreira, Miguel~A, and Pedro Santa-Clara, 2011, Forecasting stock market
+  returns: The sum of the parts is more than the whole, {\em Journal of
+  Financial Economics\/} 100, 514--537.
 
 \bibitem[Fleming et~al.(2002)Fleming, Kirby, and
   Ostdiek]{fleming_economic_nodate}
@@ -165,6 +185,11 @@ Huang, Dashan, Fuwei Jiang, Jun Tu, and Guofu Zhou, 2015, {Investor sentiment
   aligned: A powerful predictor of stock returns}, {\em Review of Financial
   Studies\/} 28, 791--837.
 
+\bibitem[Johansen and Sornette(2000)]{johansen_large_2000}
+Johansen, Anders, and Didier Sornette, 2000, Large {Stock} {Market} {Price}
+  {Drawdowns} {Are} {Outliers}, {\em arXiv:cond-mat/0010050\/} arXiv:
+  cond-mat/0010050.
+
 \bibitem[Jones(2002)]{jones_century_2002}
 Jones, Charles, 2002, A century of stock market liquidity and trading costs .
 
@@ -187,6 +212,10 @@ Kaplan, Paul~D., and James~A. Knowles, 2004, Kappa: {A} generalized downside
 Kim, Abby~Y., Yiuman Tse, and John~K. Wald, 2016, Time series momentum and
   volatility scaling, {\em Journal of Financial Markets\/} 30, 103--124.
 
+\bibitem[Lang and Prestbo(2006)]{lang_2006}
+Lang, Gupta~F., S., and J.~Prestbo, 2006, Hedge fund drawdowns: An empirical
+  analysis, \url{http://www.djindex.com}.
+
 \bibitem[Ledoit and Wolf(2008)]{ledoit_robust_2008}
 Ledoit, Oliver, and Michael Wolf, 2008, Robust performance hypothesis testing
   with the {Sharpe} ratio, {\em Journal of Empirical Finance\/} 15, 850--859.
@@ -194,6 +223,11 @@ Ledoit, Oliver, and Michael Wolf, 2008, Robust performance hypothesis testing
 \bibitem[MacKinnon(2002)]{mackinnon_bootstrap_2002}
 MacKinnon, James~G., 2002, Bootstrap inference in econometrics, {\em Canadian
   Journal of Economics/Revue Canadienne d`Economique\/} 35, 615--645.
+
+\bibitem[Magdon-Ismail and Atiya(2006)]{magdon-ismail_maximum_2006}
+Magdon-Ismail, Malik, and Amir~F. Atiya, 2006, Maximum {Drawdown}, {SSRN}
+  {Scholarly} {Paper} ID 874069, Social Science Research Network, Rochester,
+  NY.
 
 \bibitem[Malkhozov et~al.(2017)Malkhozov, Mueller, Vedolin, and
   Venter]{malkhozov_international_2017}
@@ -244,6 +278,16 @@ Olkin, Ingram, and John~W. Pratt, 1958, Unbiased estimation of certain
 Orwell, George, 1946, {\em Animal farm\/} (Harcourt, Brace and Company, New
   York, NY).
 
+\bibitem[Papaioannou et~al.(2013)Papaioannou, Park, Pihlman, and
+  Hoorn]{papaioannou_procyclical_2013}
+Papaioannou, Mr Michael~G., Mr~Joonkyu Park, Jukka Pihlman, and Han van~der
+  Hoorn, 2013, {\em Procyclical {Behavior} of {Institutional} {Investors}
+  {During} the {Recent} {Financial} {Crisis}: {Causes}, {Impacts}, and
+  {Challenges}\/} (International Monetary Fund), Google-Books-ID: ZRycAQAAQBAJ.
+
+\bibitem[Pav(2016)]{pav_notes_nodate}
+Pav, Steven~E, 2016, Notes on the {Sharpe} ratio ~49.
+
 \bibitem[Politis and Romano(1992)]{politis_general_1992}
 Politis, Dimitris~N., and Joseph~P. Romano, 1992, A {General} {Resampling}
   {Scheme} for {Triangular} {Arrays} of \${\textbackslash}alpha\$-{Mixing}
@@ -293,6 +337,11 @@ Rutterford, Janette, and Dimitris~P. Sotiropoulos, 2016, Financial
 Scherer, Bernd, 2004, An alternative route to performance hypothesis testing,
   {\em Journal of Asset Management\/} 5, 5--12.
 
+\bibitem[Sornette(2003)]{noauthor_sornette_nodate}
+Sornette, {D}., 2003, {\em {Why} {Stock} {Markets} {Crash}: {Critical} {Events}
+  in {Complex} {Financial} {Systems}\/} ({Princeton} {University} {Press},
+  Princeton, New Jersey).
+
 \bibitem[Sortino and Price(1994)]{sortino_performance_1994}
 Sortino, Frank~A., and Lee~N. Price, 1994, Performance {Measurement} in a
   {Downside} {Risk} {Framework}, {\em The Journal of Investing\/} 3, 59--64.
@@ -303,6 +352,12 @@ Stambaugh, Robert~F., 1999, Predictive regressions, {\em Journal of Financial
 
 \bibitem[Steward(2010)]{steward_truly_2010}
 Steward, Martin, 2010, The truly balanced portfolio.
+
+\bibitem[Vecer(2006)]{articlev1}
+Vecer, Jan, 2006, Maximum drawdown and directional trading 19.
+
+\bibitem[Vecer(2007)]{articlev2}
+Vecer, Jan, 2007, Preventing portfolio losses by hedging maximum drawdown .
 
 \bibitem[Verma(2018)]{verma_volatility-targeting_2018}
 Verma, Sid, 2018, Volatility-{Targeting} {Funds} {Could} {Sell} \$225 {Billion}
