@@ -34,45 +34,45 @@ Warning--empty journal in morrison_guarantees_nodate
 Warning--empty journal in pav_notes_nodate
 Warning--empty journal in articlev1
 Warning--empty journal in articlev2
-You've used 80 entries,
+You've used 84 entries,
             2716 wiz_defined-function locations,
-            1065 strings with 16654 characters,
-and the built_in function-call counts, 34502 in all, are:
-= -- 3199
-> -- 1719
-< -- 67
-+ -- 602
-- -- 500
-* -- 3191
-:= -- 6278
-add.period$ -- 80
-call.type$ -- 80
-change.case$ -- 561
-chr.to.int$ -- 80
-cite$ -- 87
-duplicate$ -- 1420
-empty$ -- 2312
-format.name$ -- 654
-if$ -- 6566
+            1089 strings with 17313 characters,
+and the built_in function-call counts, 36304 in all, are:
+= -- 3382
+> -- 1781
+< -- 70
++ -- 630
+- -- 518
+* -- 3338
+:= -- 6599
+add.period$ -- 84
+call.type$ -- 84
+change.case$ -- 586
+chr.to.int$ -- 84
+cite$ -- 91
+duplicate$ -- 1495
+empty$ -- 2449
+format.name$ -- 674
+if$ -- 6914
 int.to.chr$ -- 1
 int.to.str$ -- 1
-missing$ -- 77
-newline$ -- 244
-num.names$ -- 322
-pop$ -- 389
+missing$ -- 82
+newline$ -- 256
+num.names$ -- 338
+pop$ -- 402
 preamble$ -- 1
-purify$ -- 485
+purify$ -- 507
 quote$ -- 0
-skip$ -- 1044
+skip$ -- 1096
 stack$ -- 0
-substring$ -- 2289
-swap$ -- 321
+substring$ -- 2477
+swap$ -- 329
 text.length$ -- 8
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 705
+type$ -- 741
 warning$ -- 7
-while$ -- 349
+while$ -- 372
 width$ -- 0
-write$ -- 863
+write$ -- 907
 (There were 7 error messages)

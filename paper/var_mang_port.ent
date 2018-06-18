@@ -1,4 +1,8 @@
 \@doanenote {1}
+macro:->\citep
+{noauthor_warren_nodate}
+\@endanenote 
+\@doanenote {2}
 macro:->Invented
 by
 Edward
@@ -61,10 +65,6 @@ least
 as
 long.\citep
 {rutterford_financial_2016}
-\@endanenote 
-\@doanenote {2}
-macro:->\citep
-{noauthor_warren_nodate}
 \@endanenote 
 \@doanenote {3}
 macro:->See,

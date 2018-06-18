@@ -1,4 +1,4 @@
-\begin{thebibliography}{80}
+\begin{thebibliography}{84}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 
 \bibitem[Adrian et~al.(2014)Adrian, Etula, and Muir]{adrian2014financial}
@@ -26,6 +26,12 @@ Asness, Clifford~S., Andrea Frazzini, Niels~Joachim Gormsen, and Lasse~Heje
 Baba, Naohiko, and Hiromichi Goko, 2009, Hedge {Fund} {Survival}:
   {Non}-{Normal} {Returns}, {Capital} {Outflows}, and {Liquidity}, {\em Journal
   of Financial Research\/} 32, 71--93.
+
+\bibitem[Bali et~al.(2017)Bali, Brown, Murray, and
+  Tang]{bali_lottery-demand-based_2017}
+Bali, Turan~G., Stephen~J. Brown, Scott Murray, and Yi~Tang, 2017, A
+  {Lottery}-{Demand}-{Based} {Explanation} of the {Beta} {Anomaly}, {\em
+  Journal of Financial and Quantitative Analysis\/} 52, 2369--2397.
 
 \bibitem[Bali et~al.(2011)Bali, Cakici, and Whitelaw]{bali_maxing_2011}
 Bali, Turan~G., Nusret Cakici, and Robert~F. Whitelaw, 2011, Maxing out:
@@ -55,6 +61,10 @@ Black, Fischer, 1972, Capital market equilibrium with restricted borrowing,
 Boguth, Oliver, and Mikhail Simutin, 2018, Leverage constraints and asset
   prices: {Insights} from mutual fund risk taking, {\em Journal of Financial
   Economics\/} 127, 325--341.
+
+\bibitem[Bresnahan(1982)]{bresnahan_oligopoly_1982}
+Bresnahan, Timothy~F., 1982, The oligopoly solution concept is identified, {\em
+  Economics Letters\/} 10, 87--92.
 
 \bibitem[Brunnermeier et~al.(2007)Brunnermeier, Gollier, and
   Parker]{brunnermeier_optimal_2007}
@@ -140,6 +150,11 @@ Ferreira, Miguel~A, and Pedro Santa-Clara, 2011, Forecasting stock market
 Fleming, Jeff, Chris Kirby, and Barbara Ostdiek, 2002, The {Economic} {Value}
   of {Volatility} {Timing}, {\em The Journal of Finance\/} 56, 329--352.
 
+\bibitem[Fong(2013)]{fong_risk_2013}
+Fong, Wai~Mun, 2013, Risk {Preferences}, {Investor} {Sentiment} and {Lottery}
+  {Stocks}: {A} {Stochastic} {Dominance} {Approach}, {\em Journal of Behavioral
+  Finance\/} 14, 42--52.
+
 \bibitem[Frazzini and Pedersen(2014)]{frazzini_betting_2014}
 Frazzini, Andrea, and Lasse~Heje Pedersen, 2014, Betting against beta, {\em
   Journal of Financial Economics\/} 111, 1--25.
@@ -163,11 +178,6 @@ Glosten, Lawrence, Ravi Jagannathan, and David Runkle, 1993, On the relation
 Harvey, David~S., Stephen~J. Leybourne, and Paul Newbold, 1998, Tests for
   {Forecast} {Encompassing}, {\em Journal of Business \& Economic Statistics\/}
   16, 254--259.
-
-\bibitem[Haugen and Heins(1972)]{haugen_1972}
-Haugen, Robert, and A.~Heins, 1972, On the evidence supporting the existence of
-  risk premiums in the capital market, Technical report, Working Paper,
-  University of Wisconsin-Madison.
 
 \bibitem[Hocquard et~al.(2013)Hocquard, Ng, and
   Papageorgiou]{hocquard_constant-volatility_2013}
@@ -212,6 +222,10 @@ Kaplan, Paul~D., and James~A. Knowles, 2004, Kappa: {A} generalized downside
 Kim, Abby~Y., Yiuman Tse, and John~K. Wald, 2016, Time series momentum and
   volatility scaling, {\em Journal of Financial Markets\/} 30, 103--124.
 
+\bibitem[Kumar(2009)]{kumar_who_2009}
+Kumar, Alok, 2009, Who {Gambles} in the {Stock} {Market}?, {\em The Journal of
+  Finance\/} 64, 1889--1933.
+
 \bibitem[Lang and Prestbo(2006)]{lang_2006}
 Lang, Gupta~F., S., and J.~Prestbo, 2006, Hedge fund drawdowns: An empirical
   analysis, \url{http://www.djindex.com}.
@@ -219,6 +233,11 @@ Lang, Gupta~F., S., and J.~Prestbo, 2006, Hedge fund drawdowns: An empirical
 \bibitem[Ledoit and Wolf(2008)]{ledoit_robust_2008}
 Ledoit, Oliver, and Michael Wolf, 2008, Robust performance hypothesis testing
   with the {Sharpe} ratio, {\em Journal of Empirical Finance\/} 15, 850--859.
+
+\bibitem[Lintner(1965)]{lintner_valuation_1965}
+Lintner, John, 1965, The {Valuation} of {Risk} {Assets} and the {Selection} of
+  {Risky} {Investments} in {Stock} {Portfolios} and {Capital} {Budgets}, {\em
+  The Review of Economics and Statistics\/} 47, 13--37.
 
 \bibitem[MacKinnon(2002)]{mackinnon_bootstrap_2002}
 MacKinnon, James~G., 2002, Bootstrap inference in econometrics, {\em Canadian
@@ -233,10 +252,6 @@ Magdon-Ismail, Malik, and Amir~F. Atiya, 2006, Maximum {Drawdown}, {SSRN}
   Venter]{malkhozov_international_2017}
 Malkhozov, Aytek, Philippe Mueller, Andrea Vedolin, and Gyuri Venter, 2017,
   International illiquidity .
-
-\bibitem[Markowitz(1952)]{markowitz_portfolio_1952}
-Markowitz, Harry, 1952, Portfolio {Selection}, {\em The Journal of Finance\/}
-  7, 77.
 
 \bibitem[McCracken(2007)]{mccracken_asymptotics_2007}
 McCracken, Michael~W., 2007, Asymptotics for out of sample tests of {Granger}
@@ -336,6 +351,11 @@ Rutterford, Janette, and Dimitris~P. Sotiropoulos, 2016, Financial
 \bibitem[Scherer(2004)]{scherer_alternative_2004}
 Scherer, Bernd, 2004, An alternative route to performance hypothesis testing,
   {\em Journal of Asset Management\/} 5, 5--12.
+
+\bibitem[Sharpe(1964)]{sharpe_capital_1964}
+Sharpe, William~F., 1964, Capital {Asset} {Prices}: {A} {Theory} of {Market}
+  {Equilibrium} under {Conditions} of {Risk}, {\em The Journal of Finance\/}
+  19, 425--442.
 
 \bibitem[Sornette(2003)]{noauthor_sornette_nodate}
 Sornette, {D}., 2003, {\em {Why} {Stock} {Markets} {Crash}: {Critical} {Events}
