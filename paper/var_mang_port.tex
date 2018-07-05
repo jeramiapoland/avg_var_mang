@@ -5,7 +5,7 @@
 
 \usepackage{setspace,graphicx,epstopdf,amsmath,amsfonts,amssymb,amsthm,versionPO}
 \usepackage{marginnote,datetime,enumitem,rotating,fancyvrb}
-\usepackage{float,lscape,adjustbox,array,subcaption,tabularx}
+\usepackage{float,lscape,adjustbox,array,subcaption,tabularx,physics}
 \usepackage{hyperref}
 \newcolumntype{H}{>{\setbox0=\hbox\bgroup}c<{\egroup}@{}}
 \usepackage[longnamesfirst]{natbib}
@@ -134,18 +134,25 @@
 
 \input{asset_allocation}
 
-\subsection{Portfolio Performance} \label{port_performance}
+\subsection{Portfolio Performance} \label{sec:port_performance}
 
 \input{port_performance}
 
-\subsection{Investor Utility} \label{invest_util}
+\subsection{Leverage} \label{sec:leverage}
+
+\input{leverage}
+
+\subsection{Investor Utility} \label{sec:invest_util}
 
 \input{invest_util}
 
+%\section{The Driver} \label{sec:preferences}
 
-\section{The Driver} \label{sec:preferences}
+%\input{preferences}
 
-\input{preferences}
+\section{Conclusion}
+
+\input{conclusion}
 
 %To justify adding a subsection here, from now on, we'll assume
 %\begin{condition}\label{cond:rates}
@@ -193,7 +200,7 @@
 %\end{equation}
 %Note that this is quite similar to Equation~\eqref{eq:eqA} in Appendix~\ref{sec:app1}.
 
-\clearpage
+%\clearpage
 
 % Bibliography.
 
