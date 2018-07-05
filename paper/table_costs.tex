@@ -1,0 +1,14 @@
+\begin{table}[!htbp] \centering 
+  \caption{\textbf{:Costs} \newline
+  	\footnotesize{This table displays the average change in absolute market investment weight for the buy and hold volatility targeting, unconstrained, SV and AV managed portfolio strategies and the costs associated with trading and borrowing. Fama-French five factor and five factor with Momentum alphas are calculated using the factor portfolio return data from Ken French's website. Strategy break-even points are calculated in basis points as the cost to investment weight turnover which drives the alphas to zero. Borrowing costs are calculated in basis points as the average monthly cost incurred borrowing to take a position in the market greater than one for the SV and AV manged portfolios at the Bloomberg broker call money rate, 1984-2014. See section \ref{sec:leverage} for details.}} 
+  \label{tab:tab_costs} 
+\begin{tabular}{@{\extracolsep{5pt}}lcccccc}
+	&  & \multicolumn{2}{c}{FF-5}&  \multicolumn{2}{c}{FF-5 + Mom}  &  \\
+	\cline{3-4} \cline{5-6}
+	Strategy & $\abs{\Delta\omega}$ & $\alpha$ & Break Even & $\alpha$ & Break Even & Borrowing \\
+	\hline
+	SV & 0.752 & 2.833 & 31.436 & 2.769 & 30.725 & 15.107 \\
+	AV & 0.317 & 3.036 & 79.992 & 3.152 & 83.061 & 11.411\\
+	\hline
+\end{tabular}
+\end{table} 

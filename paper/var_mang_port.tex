@@ -5,7 +5,7 @@
 
 \usepackage{setspace,graphicx,epstopdf,amsmath,amsfonts,amssymb,amsthm,versionPO}
 \usepackage{marginnote,datetime,enumitem,rotating,fancyvrb}
-\usepackage{float,lscape,adjustbox,array,subcaption,tabularx}
+\usepackage{float,lscape,adjustbox,array,subcaption,tabularx,physics}
 \usepackage{hyperref}
 \newcolumntype{H}{>{\setbox0=\hbox\bgroup}c<{\egroup}@{}}
 \usepackage[longnamesfirst]{natbib}
@@ -118,65 +118,89 @@
 
 \input{in_sample}
 
+\subsubsection{Robustness} 
+
+\input{in_robustness}
+
 \subsection{Out of Sample} \label{sec:out_sample}
 
 \input{out_sample}
+
+\subsubsection{Robustness}
+
+\input{robustness}
 
 \section{Asset Allocation} \label{sec:asset_allocation}
 
 \input{asset_allocation}
 
-\section{Preferences} \label{sec:preferences}
+\subsection{Portfolio Performance} \label{sec:port_performance}
 
-\input{preferences}
+\input{port_performance}
 
-To justify adding a subsection here, from now on, we'll assume
-\begin{condition}\label{cond:rates}
-$0 <  \hat{\mu} < \gamma\sigma^2$.
-\vspace{3mm}
-\end{condition}
-This condition might be useful if there was a model. 
+\subsection{Leverage} \label{sec:leverage}
 
+\input{leverage}
 
+\subsection{Investor Utility} \label{sec:invest_util}
 
+\input{invest_util}
 
-\subsubsection{A Subsubsection with a Proposition}
-\label{sec:subsub}
+%\section{The Driver} \label{sec:preferences}
 
-Let's put a proposition here.
-\begin{proposition} \label{prop:3}
-If Condition~\ref{cond:rates} is satisfied,  a solution to the central
-planner's problem, $V(B,D,t) \in C^2\left( {\mathbb R}_{+}^2 \times
-  [0,T] \right)$, with control $a:[0,1]\times[0,T]\rightarrow [-\lambda,\lambda]$
- if  $\gamma>1$ is
-\begin{equation} \label{eq:valuea}
-V(B,D,t) =  - \frac{(B+D)^{1-\gamma}}{1-\gamma}   w\left(\frac{B}{B+D},t\right).
-\end{equation}
-\end{proposition}
+%\input{preferences}
 
-\clearpage
+\section{Conclusion}
 
-\appendix
+\input{conclusion}
 
-\section{An Appendix}
-\label{sec:app1}
-
-Here's an appendix with an equation. Note that equation numbering is quite different in appendices and that the JF wants the word ``Appendix'' to appear before the letter in the appendix title. This is all handled in \texttt{jf.sty}.
-\begin{equation}
-  E = mc^2.
-\label{eq:eqA}
-\end{equation}
-
-\section{Another Appendix}
-\label{sec:app2}
-
-Here's another appendix with an equation.
-\begin{equation}
-  E = mc^2.
-\end{equation}
-Note that this is quite similar to Equation~\eqref{eq:eqA} in Appendix~\ref{sec:app1}.
+%To justify adding a subsection here, from now on, we'll assume
+%\begin{condition}\label{cond:rates}
+%$0 <  \hat{\mu} < \gamma\sigma^2$.
+%\vspace{3mm}
+%\end{condition}
+%This condition might be useful if there was a model. 
+%
+%
+%
+%
+%\subsubsection{A Subsubsection with a Proposition}
+%\label{sec:subsub}
+%
+%Let's put a proposition here.
+%\begin{proposition} \label{prop:3}
+%If Condition~\ref{cond:rates} is satisfied,  a solution to the central
+%planner's problem, $V(B,D,t) \in C^2\left( {\mathbb R}_{+}^2 \times
+%  [0,T] \right)$, with control $a:[0,1]\times[0,T]\rightarrow [-\lambda,\lambda]$
+% if  $\gamma>1$ is
+%\begin{equation} \label{eq:valuea}
+%V(B,D,t) =  - \frac{(B+D)^{1-\gamma}}{1-\gamma}   w\left(\frac{B}{B+D},t\right).
+%\end{equation}
+%\end{proposition}
 
 \clearpage
+
+%\appendix
+%
+%\section{An Appendix}
+%\label{sec:app1}
+%
+%Here's an appendix with an equation. Note that equation numbering is quite different in appendices and that the JF wants the word ``Appendix'' to appear before the letter in the appendix title. This is all handled in \texttt{jf.sty}.
+%\begin{equation}
+%  E = mc^2.
+%\label{eq:eqA}
+%\end{equation}
+%
+%\section{Another Appendix}
+%\label{sec:app2}
+%
+%Here's another appendix with an equation.
+%\begin{equation}
+%  E = mc^2.
+%\end{equation}
+%Note that this is quite similar to Equation~\eqref{eq:eqA} in Appendix~\ref{sec:app1}.
+
+%\clearpage
 
 % Bibliography.
 

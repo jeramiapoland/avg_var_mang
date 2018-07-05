@@ -1,10 +1,5 @@
-\begin{thebibliography}{80}
+\begin{thebibliography}{66}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
-
-\bibitem[Adrian et~al.(2014)Adrian, Etula, and Muir]{adrian2014financial}
-Adrian, Tobias, Erkko Etula, and Tyler Muir, 2014, Financial intermediaries and
-  the cross-section of asset returns, {\em Journal of Finance\/} 69,
-  2557--2596.
 
 \bibitem[Amihud and Hurvich(2004)]{Amihud2004}
 Amihud, Yakov, and Clifford~M. Hurvich, 2004, Predictive regressions: A
@@ -16,51 +11,14 @@ Andrews, Donald W.~K., and J.~Christopher Monahan, 1992, An {Improved}
   {Heteroskedasticity} and {Autocorrelation} {Consistent} {Covariance} {Matrix}
   {Estimator}, {\em Econometrica\/} 60, 953--966.
 
-\bibitem[Asness et~al.(2018)Asness, Frazzini, Gormsen, and
-  Pedersen]{asness_betting_2018}
-Asness, Clifford~S., Andrea Frazzini, Niels~Joachim Gormsen, and Lasse~Heje
-  Pedersen, 2018, Betting against correlation: testing theories of the low-risk
-  effect .
-
 \bibitem[Baba and Goko(2009)]{baba_hedge_nodate}
 Baba, Naohiko, and Hiromichi Goko, 2009, Hedge {Fund} {Survival}:
   {Non}-{Normal} {Returns}, {Capital} {Outflows}, and {Liquidity}, {\em Journal
   of Financial Research\/} 32, 71--93.
 
-\bibitem[Bali et~al.(2011)Bali, Cakici, and Whitelaw]{bali_maxing_2011}
-Bali, Turan~G., Nusret Cakici, and Robert~F. Whitelaw, 2011, Maxing out:
-  {Stocks} as lotteries and the cross-section of expected returns, {\em Journal
-  of Financial Economics\/} 99, 427--446.
-
-\bibitem[Barberis and Huang(2008)]{barberis_stocks_2008}
-Barberis, Nicholas, and Ming Huang, 2008, Stocks as {Lotteries}: {The}
-  {Implications} of {Probability} {Weighting} for {Security} {Prices}, {\em
-  American Economic Review\/} 98, 2066--2100.
-
 \bibitem[Barroso and Santa-Clara(2015)]{barroso_momentum_2015}
 Barroso, Pedro, and Pedro Santa-Clara, 2015, Momentum has its moments, {\em
   Journal of Financial Economics\/} 116, 111--120.
-
-\bibitem[Biglova et~al.(2004)Biglova, Ortobelli, Rachev, and
-  Stoyanov]{biglova_different_2004}
-Biglova, Almira, Sergio Ortobelli, Svetlozar~T. Rachev, and Stoyan Stoyanov,
-  2004, Different {Approaches} to {Risk} {Estimation} in {Portfolio} {Theory},
-  {\em The Journal of Portfolio Management\/} 31, 103--112.
-
-\bibitem[Black(1972)]{black1972capital}
-Black, Fischer, 1972, Capital market equilibrium with restricted borrowing,
-  {\em The Journal of business\/} 45, 444--455.
-
-\bibitem[Boguth and Simutin(2018)]{boguth_leverage_2018}
-Boguth, Oliver, and Mikhail Simutin, 2018, Leverage constraints and asset
-  prices: {Insights} from mutual fund risk taking, {\em Journal of Financial
-  Economics\/} 127, 325--341.
-
-\bibitem[Brunnermeier et~al.(2007)Brunnermeier, Gollier, and
-  Parker]{brunnermeier_optimal_2007}
-Brunnermeier, Markus~K., Christian Gollier, and Jonathan~A. Parker, 2007,
-  Optimal beliefs, asset prices, and the preference for skewed returns, {\em
-  American Economic Review\/} 97, 159--165.
 
 \bibitem[Campbell(1987)]{CAMPBELL1987373}
 Campbell, John~Y., 1987, Stock returns and the term structure, {\em Journal of
@@ -70,12 +28,6 @@ Campbell, John~Y., 1987, Stock returns and the term structure, {\em Journal of
 Campbell, John~Y., and Ludger Hentschel, 1992, No news is good news: {An}
   asymmetric model of changing volatility in stock returns, {\em Journal of
   Financial Economics\/} 31, 281--318.
-
-\bibitem[Campbell et~al.(2001)Campbell, Lettau, Malkiel, and
-  Xu]{campbell_have_2001}
-Campbell, John~Y., Martin Lettau, Burton~G. Malkiel, and Yexiao Xu, 2001, Have
-  individual stocks become more volatile? {An} empirical exploration of
-  idiosyncratic risk, {\em The Journal of Finance\/} 56, 1--43.
 
 \bibitem[Campbell et~al.(1997)Campbell, Lo, MacKinlay,
   et~al.]{campbell1997econometrics}
@@ -126,10 +78,6 @@ Elliott, Graham, Thomas~J. Rothenberg, and James~H. Stock, 1996, Efficient
 Fair, Ray~C, and Robert~J Shiller, 1990, Comparing information in forecasts
   from econometric models, {\em American Economic Review\/} 3, 375--389.
 
-\bibitem[Fama and French(2016)]{fama_dissecting_2016}
-Fama, Eugene~F., and Kenneth~R. French, 2016, Dissecting {Anomalies} with a
-  {Five}-{Factor} {Model}, {\em Review of Financial Studies\/} 29, 69--103.
-
 \bibitem[Ferreira and Santa-Clara(2011)]{Ferreira2011}
 Ferreira, Miguel~A, and Pedro Santa-Clara, 2011, Forecasting stock market
   returns: The sum of the parts is more than the whole, {\em Journal of
@@ -140,6 +88,11 @@ Ferreira, Miguel~A, and Pedro Santa-Clara, 2011, Forecasting stock market
 Fleming, Jeff, Chris Kirby, and Barbara Ostdiek, 2002, The {Economic} {Value}
   of {Volatility} {Timing}, {\em The Journal of Finance\/} 56, 329--352.
 
+\bibitem[Frazzini et~al.(2015)Frazzini, Israel, and
+  Moskowitz]{frazzini_trading_2015}
+Frazzini, Andrea, Ronen Israel, and Tobias~J Moskowitz, 2015, Trading {Costs}
+  of {Asset} {Pricing} {Anomalies}, {\em AQR Capital Management.\/} ~60.
+
 \bibitem[Frazzini and Pedersen(2014)]{frazzini_betting_2014}
 Frazzini, Andrea, and Lasse~Heje Pedersen, 2014, Betting against beta, {\em
   Journal of Financial Economics\/} 111, 1--25.
@@ -148,11 +101,6 @@ Frazzini, Andrea, and Lasse~Heje Pedersen, 2014, Betting against beta, {\em
 French, Kenneth R.~F, G.William Schwert, and Robert~F. Stambaugh, 1987,
   Expected stock returns and volatility, {\em Journal of Financial Economics\/}
   19, 3 -- 29.
-
-\bibitem[Gandhi(2016)]{Gandhi2016}
-Gandhi, Priyank, 2016, {From the `Long Depression' to the `Great Recession':
-  Bank Credit, Macroeconomic Risk, and Equity Returns}, University of Notre
-  Dame Working Paper.
 
 \bibitem[Glosten et~al.(1993)Glosten, Jagannathan, and Runkle]{glosten_1993}
 Glosten, Lawrence, Ravi Jagannathan, and David Runkle, 1993, On the relation
@@ -193,11 +141,6 @@ Johansen, Anders, and Didier Sornette, 2000, Large {Stock} {Market} {Price}
 \bibitem[Jones(2002)]{jones_century_2002}
 Jones, Charles, 2002, A century of stock market liquidity and trading costs .
 
-\bibitem[Jylhä(2018)]{jylha_margin_2018}
-Jylhä, Petri, 2018, Margin {Requirements} and the {Security} {Market} {Line}:
-  {Margin} {Requirements} and the {Security} {Market} {Line}, {\em The Journal
-  of Finance\/} .
-
 \bibitem[Kandel and Stambaugh(1996)]{Kandel1996}
 Kandel, Shmuel, and Robert~F Stambaugh, 1996, On the predictability of stock
   returns: An asset-allocation perspective, {\em Journal of Finance\/} 51,
@@ -228,15 +171,6 @@ MacKinnon, James~G., 2002, Bootstrap inference in econometrics, {\em Canadian
 Magdon-Ismail, Malik, and Amir~F. Atiya, 2006, Maximum {Drawdown}, {SSRN}
   {Scholarly} {Paper} ID 874069, Social Science Research Network, Rochester,
   NY.
-
-\bibitem[Malkhozov et~al.(2017)Malkhozov, Mueller, Vedolin, and
-  Venter]{malkhozov_international_2017}
-Malkhozov, Aytek, Philippe Mueller, Andrea Vedolin, and Gyuri Venter, 2017,
-  International illiquidity .
-
-\bibitem[Markowitz(1952)]{markowitz_portfolio_1952}
-Markowitz, Harry, 1952, Portfolio {Selection}, {\em The Journal of Finance\/}
-  7, 77.
 
 \bibitem[McCracken(2007)]{mccracken_asymptotics_2007}
 McCracken, Michael~W., 2007, Asymptotics for out of sample tests of {Granger}
@@ -367,10 +301,5 @@ Verma, Sid, 2018, Volatility-{Targeting} {Funds} {Could} {Sell} \$225 {Billion}
 Welch, Ivo, and Amit Goyal, 2008, {A comprehensive look at the empirical
   performance of equity premium prediction}, {\em Review of Financial
   Studies\/} 21, 1455--1508.
-
-\bibitem[Wolpert and Macready(1997)]{wolpert_no_1997}
-Wolpert, David~H., and William~G. Macready, 1997, No free lunch theorems for
-  optimization, {\em IEEE transactions on evolutionary computation\/} 1,
-  67--82.
 
 \end{thebibliography}

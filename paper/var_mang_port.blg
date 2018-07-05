@@ -23,56 +23,54 @@ Too many commas in name 1 of "Lang, S., Gupta, F. and Prestbo, J." for entry lan
 while executing---line 2701 of file jf.bst
 Too many commas in name 1 of "Lang, S., Gupta, F. and Prestbo, J." for entry lang_2006
 while executing---line 2701 of file jf.bst
-Warning--empty journal in asness_betting_2018
 Warning--empty journal in jones_century_2002
 Too many commas in name 1 of "Lang, S., Gupta, F. and Prestbo, J." for entry lang_2006
 while executing---line 2867 of file jf.bst
 Too many commas in name 1 of "Lang, S., Gupta, F. and Prestbo, J." for entry lang_2006
 while executing---line 2867 of file jf.bst
-Warning--empty journal in malkhozov_international_2017
 Warning--empty journal in morrison_guarantees_nodate
 Warning--empty journal in pav_notes_nodate
 Warning--empty journal in articlev1
 Warning--empty journal in articlev2
-You've used 80 entries,
+You've used 66 entries,
             2716 wiz_defined-function locations,
-            1065 strings with 16654 characters,
-and the built_in function-call counts, 34502 in all, are:
-= -- 3199
-> -- 1719
-< -- 67
-+ -- 602
-- -- 500
-* -- 3191
-:= -- 6278
-add.period$ -- 80
-call.type$ -- 80
-change.case$ -- 561
-chr.to.int$ -- 80
-cite$ -- 87
-duplicate$ -- 1420
-empty$ -- 2312
-format.name$ -- 654
-if$ -- 6566
+            1000 strings with 14535 characters,
+and the built_in function-call counts, 28376 in all, are:
+= -- 2639
+> -- 1375
+< -- 60
++ -- 486
+- -- 398
+* -- 2610
+:= -- 5140
+add.period$ -- 66
+call.type$ -- 66
+change.case$ -- 457
+chr.to.int$ -- 66
+cite$ -- 71
+duplicate$ -- 1181
+empty$ -- 1922
+format.name$ -- 530
+if$ -- 5423
 int.to.chr$ -- 1
 int.to.str$ -- 1
-missing$ -- 77
-newline$ -- 244
-num.names$ -- 322
-pop$ -- 389
+missing$ -- 64
+newline$ -- 202
+num.names$ -- 266
+pop$ -- 321
 preamble$ -- 1
-purify$ -- 485
+purify$ -- 395
 quote$ -- 0
-skip$ -- 1044
+skip$ -- 874
 stack$ -- 0
-substring$ -- 2289
-swap$ -- 321
-text.length$ -- 8
+substring$ -- 1889
+swap$ -- 277
+text.length$ -- 9
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 705
-warning$ -- 7
-while$ -- 349
+type$ -- 579
+warning$ -- 5
+while$ -- 287
 width$ -- 0
-write$ -- 863
+write$ -- 715
 (There were 7 error messages)

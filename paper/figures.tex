@@ -8,13 +8,20 @@
 %\clearpage
 \begin{landscape}
 	\begin{figure}[!htb]
-		\caption{{\bf Time Series of Investment Weights}: The time series of the investment weight into the market portfolio for SV and AV managed portfolios targeting the buy and hold volatility.} \label{fig:weights_plot}
+		\caption{{\bf Time Series of Market Statistics}: The time series of the total variance of market returns, AV is the average variance of the daily returns of individual assets in percentage; SV is the total variance of the daily market return in percentage, and AC is the average pairwise correlation of daily asset returns in the market.} \label{fig:time_series}
+		\input{figures/m_plot2}
+	\end{figure}
+\end{landscape}
+\clearpage
+\begin{landscape}
+	\begin{figure}[!htb]
+		\caption{{\bf Time Series of Investment Weights}: The time series of the investment weight into the market portfolio for SV and AV managed portfolios. $c_{029}$ and $c_{035}$ represents the weights when the SV and AV strategies target 10\% and 12\% annual volatilities while $c_{053}$ represent targeting the buy and hold annual volatility over the 1926-2016 holding period.} \label{fig:weights_plot}
 		\input{figures/weight_plot2}
 	\end{figure}
 \end{landscape}
 \clearpage
 \begin{figure}[!htb]
-		\caption{{\bf Cummulative Log Excess Returns}: The time series of cummulative log excess returns for the buy and hold market investment as well as the AV and SV managed portfolios. Panel a limits the coefficient on the market portfolio between 0 and 1.5 for the AV and SV strategies; panel b limit them to weights from 0 to 3 and they are unconstrained in panel c. } \label{fig:returns}
+		\caption{{\bf Cummulative Log Excess Returns}: The time series of cummulative log excess returns for the buy and hold market investment as well as the AV and SV managed portfolios. Panel a limits the coefficient on the market portfolio between 0 and 1.5 for the AV and SV strategies; panel b limit them to weights from 0 to 3 and they are unconstrained in panel c. } \label{fig:fig_returns}
 		\vspace{-4mm}
 		\input{figures/m_ret_plot2}
 \end{figure}
@@ -25,6 +32,19 @@
 %	\input{figures/m_ret_plot2}
 %\end{figure}
 %\clearpage
+\clearpage
+\begin{figure}[!htb]
+	\caption{{\bf Portfolio Drawdowns}: The time series of cummulative drawdowns for the buy and hold market investment as well as the AV and SV managed portfolios. SV and AV managed portfolios are targeting the buy and hold market volatility and have no investment constraints. See section \ref{sec:asset_allocation} for details.} \label{fig:fig_drawdowns}
+	\vspace{-4mm}
+	\input{figures/dd_plot}
+\end{figure}
+\begin{landscape}
+	\begin{figure}[!htb]
+		\caption{{\bf CER Losses}: This figure displays the loss of certainty equivalent return as leverage constraints are applied to the AV and SV managed portfolios. The losses are expressed in percentage point differences of the constrained returns from the unconstrained returns for investors with $\gamma$ risk aversion coefficients of 1, 2.5, and 5.} \label{fig:cer_loss}
+		\input{figures/cer_loss_plot}
+	\end{figure}
+\end{landscape}
+\clearpage
 \begin{figure}[!htb]
 		\caption{{\bf CER Gains}: Certainity Equivalent Return gains for mean variance investors with risk aversion coefficients ranging from 1 to 5 and subject to investment constraints ranging from 1 to 3. See section \ref{sec:asset_allocation} for details.} \label{fig:cer_gain}
 %	\begin{subfigure}
@@ -41,8 +61,20 @@
 %}
 \end{figure}
 \clearpage
-\begin{figure}[!htb]
-	\caption{{\bf Portfolio Drawdowns}: The time series of cummulative drawdowns for the buy and hold market investment as well as the AV and SV managed portfolios. SV and AV managed portfolios are targeting the buy and hold market volatility and have no investment constraints. See section \ref{sec:asset_allocation} for details.} \label{fig:drawdowns}
-	\vspace{-4mm}
-	\input{figures/dd_plot}
-\end{figure}
+%\begin{figure}[!htb]
+%	\caption{{\bf CML Movements}: This figure illustrates the general movement of the capital market line given changes to the preferences and constraints faced by investors. The figures are not based on actual data but are meant to motivate intuition on how the changes in investor preference affect the CML and the relative exprected returns of the tangent market portfolio and the leveraged portfolios along the CML.} \label{fig:fig_cml}
+%	%	\begin{subfigure}
+%	%		\input{figures/cer3d_plot}
+%	%	\end{subfigure}
+%	\begin{subfigure}{\textwidth}
+%		\caption{Lottery Preferences}
+%		\input{figures/lottery_plot}
+%	\end{subfigure}
+%	\begin{subfigure}{\textwidth}
+%		\caption{Leverage Constraints}
+%		\input{figures/leverage_plot}
+%	\end{subfigure}
+%	%\subcaptionbox{First\label{f}}{%
+%	%	\input{figures/cer3d_plot}%
+%	%}
+%\end{figure}
