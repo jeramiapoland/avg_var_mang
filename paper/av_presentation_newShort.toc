@@ -1,0 +1,6 @@
+\beamer@endinputifotherversion {3.36pt}
+\beamer@sectionintoc {1}{Risk Anomaly}{2}{0}{1}
+\beamer@sectionintoc {2}{Results}{11}{0}{2}
+\beamer@subsectionintoc {2}{1}{In Sample}{11}{0}{2}
+\beamer@subsectionintoc {2}{2}{Out of Sample}{13}{0}{2}
+\beamer@sectionintoc {3}{Asset Allocation}{15}{0}{3}
