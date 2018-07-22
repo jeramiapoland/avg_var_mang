@@ -1620,3 +1620,274 @@ lm_beta_gaming = lm(beta1 ~ market_returns + shift(gaming_mcap), data = m_return
 lm_beta_gratio = lm(beta1 ~ market_returns + shift(gratio), data = m_returns2)
 lm_beta_bhmax5 = lm(beta1 ~ market_returns + shift(BH_MAX5), data = m_returns2)
 lm_beta_bhmax5_scale = lm(beta1 ~ market_returns + shift(BH_MAX5_scale), data = m_returns2)
+
+#### international ####
+sbf120 = read_excel('sbf120.xlsx')
+sbf120 = as.data.table(sbf120)
+setorderv(sbf120,"Date",1)
+sbf120[, retd := ROC(sbf120_tr,type = "discrete")]
+sbf120[, retx := ROC(sbf120, type = "discrete")]
+sbf120[, dp := sbf120_dps12/sbf120]
+sbf120[, year := year(Date)]
+sbf120[, month := month(Date)]
+sbf120[, m_tr := tail(sbf120_tr,1), by = c("year","month")]
+sbf120[, var1m := var(retd), by = c("year","month")]
+setorderv(sbf120,"Date",-1)
+sub_sbf120 = unique(sbf120,by=c("year","month"))
+setorderv(sub_sbf120,"Date",1)
+sub_sbf120[, mretd := ROC(m_tr,type = "discrete")]
+sub_sbf120[, dg := ROC(sbf120_dps12, type = "discrete")]
+sub_sbf120 = sub_sbf120[!is.na(dg)]
+sub_sbf120[, var1m.tm1 := shift(var1m)]
+setnames(sub_sbf120,"sbf120_dps12","dps12")
+sub_sbf120 = subset(sub_sbf120,select=c("year","month","dp","dps12","var1m","mretd","dg","var1m.tm1"))
+sub_sbf120[, Country := "france"]
+
+
+indices = fread('bb_data.csv')
+indices[, datadate := as.Date(datadate,format="%d/%m/%Y")]
+setorderv(indices,"datadate",1)
+indices[, germany.retd := ROC(hdax_tr,type = "discrete")]
+indices[, year := year(datadate)]
+indices[, month := month(datadate)]
+indices[, m_tr := tail(hdax_tr,1), by = c("year","month")]
+indices[, germany.var1m := var(germany.retd), by = c("year","month")]
+indices[, hdax_div := momentum(hdax_dps12)]
+hdax = fread(input = 'hdax.csv')
+hdax[, date := as.Date(date,format="%d/%m/%y")]
+setorderv(hdax,"date",1)
+hdax[, germany.retx := ROC(hdax_price,type = "discrete")]
+indices = merge(indices,hdax,by.x="datadate",by.y="date",all.x=TRUE)
+
+indices2 = fread(input = 'some_indices.csv')
+indices2[, V1 := NULL]
+indices2[, Dates := as.Date(Dates,format="%Y-%m-%d")]
+
+german_indices = merge(subset(indices,select = c("datadate","hdax_tr","hdax_dps12","germany.retd","hdax_price","germany.retx")),
+                              subset(indices2,select = c("Dates","germany_retx","germany_tr")),all.x=TRUE,by.x="datadate",by.y="Dates")
+# gvar = VAR(german_indices[complete.cases(german_indices),-"datadate"])
+rhs = c(tail(colnames(german_indices),-1)[-c(4,5)],paste0(tail(colnames(german_indices),-1)[-c(4,5)],".tm1"))
+german_indices[, paste0(tail(colnames(german_indices),-1)[-c(4,5)],".tm1") := lapply(.SD,shift), .SDcols = tail(colnames(german_indices),-1)[-c(4,5)]]
+gform = paste0("hdax_price~",paste0(rhs,collapse = "+"))
+gform = as.formula(gform)
+gretxlm = lm(gform,data=german_indices)
+
+gpred = predict(gretxlm,newdata = german_indices[is.na(hdax_price)&!is.na(germany_retx)])
+german_indices[is.na(hdax_price)&!is.na(germany_retx), hdax_price := gpred]
+indices[, hdax_price := NULL]
+indices = merge(indices,subset(german_indices,select = c("datadate","hdax_price")),by="datadate",all.x=TRUE)
+indices[, germany.retx := ROC(hdax_price,type = "discrete")]
+indices[, germany.dp := hdax_dps12 / hdax_price]
+indices[, germany.dg := ROC(hdax_dps12,type = "discrete")]
+
+setorderv(indices,"datadate",-1)
+setnames(indices,c("hdax_dps12","germany.var1m","germany.dp"),c("dps12","var1m","dp"))
+sub_indices = unique(indices,by=c("year","month"))
+setorderv(sub_indices,"datadate",1)
+sub_indices[, mretd := ROC(m_tr,type = "discrete")]
+sub_indices[, dg := ROC(dps12, type = "discrete")]
+sub_indices = sub_indices[!is.na(dg)]
+sub_indices[, var1m.tm1 := shift(var1m)]
+sub_indices[, Country := "germany"]
+
+bigI = rbind(sub_sbf120,subset(sub_indices,select = colnames(sub_sbf120)))
+indices2[, germany_retx := NULL]
+indices2[, germany_tr := NULL]
+setnames(indices2,old = c("nifty_tr","nifty_retx","brazil_retx","brazil_tr","us_retx","us_tr","spchina_tr","spchina_retx","uk_retx",
+                          "uk_ret"),new = c("india.retd","india.retx","brazil.retx","brazil.retd","us.retx","us.retd",
+                                            "china.retd","china.retx","uk.retx","uk.retd"))
+indices2[, year := year(Dates)]
+indices2[, month := month(Dates)]
+setkey(indices2,year,month)
+# for(i in 1:nrow(indices2)){
+#   indices2[, india.retd12 := ]
+# }
+indices2[, india.dp := ((1 + india.retd) / (1 + india.retx)) - 1]
+indices2[!is.na(india.retd), india.mretd := prod(1+india.retd) - 1, by = c("year","month")]
+indices2[!is.na(india.retx), india.mretx := prod(1+india.retx) - 1, by = c("year","month")]
+
+i3 = c("india","brazil","china","uk","aus","can","worldD","world")
+indi_list = vector(mode = "list",length = length(i3))
+
+for(i in 1:length(i3)){
+  tmpxl = read_excel(path = 'all_I2.xlsx',sheet = i,skip = 1,col_names = TRUE)
+  tmpxl = as.data.table(tmpxl)
+  setnames(tmpxl,c("datadate","price","tr","sma15","dps12"))
+  tmpxl[, sma15 := NULL]
+  setorderv(tmpxl,"datadate",1)
+  tmpxl[, retx := ROC(price,type = "discrete")]
+  tmpxl[, retd := ROC(tr,type = "discrete")]
+  tmpxl[, dp := dps12 / price]
+  # tmpxl[, dg := ROC(dps12,type="discrete")]
+  tmpxl[, country := i3[i]]
+  indi_list[[i]] = tmpxl[!is.na(price)&!is.na(tr)]
+}
+
+indices3 = rbindlist(indi_list)
+indices3[, year := year(datadate)]
+indices3[, month := month(datadate)]
+indices3[, mretx := prod(1+na.omit(retx))-1, by = c("country","year","month")]
+indices3[, mretd := prod(1+na.omit(retd))-1, by = c("country","year","month")]
+indices3[, var1m := var(retd,na.rm = TRUE), by = c("country","year","month")]
+setorderv(indices3,c("country","datadate"),c(1,-1))
+sub_indices3 = unique(subset(indices3,select = c("year","month","country","price","tr","dps12","dp","mretd","mretx","var1m")),
+                      by = c("country","year","month"))
+setorderv(sub_indices3,c("country","year","month"),c(1,1,1))
+sub_indices3[, var1m.tm1 := shift(var1m), by = c("country")]
+sub_indices3[, mretx12 := ROC(price,n = 12,type = "discrete"), by = country]
+sub_indices3[, mretd12 := ROC(tr,n = 12,type = "discrete"), by = country]
+sub_indices3[is.na(dp)&!is.na(mretx12)&!is.na(mretd12), dp := ((1+mretd12) / (1+mretx12)) -1 ]
+sub_indices3[, dg := ROC(dps12,type = "discrete"), by = "country"]
+setnames(sub_indices3,"country","Country")
+# sub_indices3 = data.table::dcast(data = sub_indices3,formula = year + month ~ country+..., 
+#                   value.var = list("price","tr","dps12","dp","dg","mretx","mretd","var1m","var1m.tm1","mretx12","mretd12"))
+# new_names = unlist(lapply(str_split(colnames(sub_indices3)[3:ncol(sub_indices3)],"_"),function(x){paste0(x[2],".",x[1])}))
+# setnames(sub_indices3,colnames(sub_indices3)[3:ncol(sub_indices3)],new_names)
+
+# bigI = merge(bigI,sub_indices3,by=c("year","month"),all = TRUE)
+bigI = rbind(bigI,subset(sub_indices3,select=colnames(bigI)))
+setnames(goyal_data,c("us.mretd","us.mretx","us.dps12","us.price"),new = c("mretd","mretx","dps12","price"))
+# bigI = merge(bigI,subset(goyal_data,select = c("year","month","us.mretd","us.mretx","us.dps12","Rfree")),all.x=TRUE)
+goyal_data[, dp := dps12 / price]
+gdata = subset(goyal_data,select=c("year","month","mretd","dps12","dp"))
+gdata[, Country := "us"]
+# bigI = merge(bigI,subset(m_data,select = c("year","month","mkt_var1m","avg_var1m","avg_cor1m")))
+# setnames(bigI,c("mkt_var1m","avg_var1m","avg_cor1m"),c("us.var1m","us.avar1m","us.acorr1m"))
+gdata = merge(gdata,subset(m_data,select = c("year","month","mkt_var1m","avg_cor1m","avg_var1m")),by=c("year","month"))
+setnames(gdata,c("mkt_var1m","avg_cor1m","avg_var1m"),c("var1m","acorr1m","avar1m"))
+gdata[, var1m.tm1 := shift(var1m)]
+gdata[, avar1m.tm1 := shift(avar1m)]
+gdata[, acorr1m.tm1 := shift(acorr1m)]
+
+# japan indicies #
+j_index = read_excel(path = 'japan.xlsx',col_names = TRUE,skip = 1)
+j_index = as.data.table(j_index)
+setnames(j_index,c("datadate","price","tr","sma15","dps12"))
+setorderv(j_index,"datadate",1)
+j_index[, sma15 := NULL]
+j_index = j_index[!is.na(price)]
+j_index[, retd := ROC(tr,type = "discrete")]
+j_index[, retx := ROC(price,type="discrete")]
+j_index[, year := year(datadate)]
+j_index[, month := month(datadate)]
+j_index[, var1m := var(retd,na.rm = TRUE), by = c("year","month")]
+j_index[, mretd := prod(1+retd)-1, by = c("year","month")]
+j_index[, mretx := prod(1+retx)-1, by = c("year","month")]
+setorderv(j_index,"datadate",-1)
+sub_jindex = unique(j_index,by=c("year","month"))
+setorderv(sub_jindex,c("year","month"),c(1,1))
+sub_jindex[, dg := ROC(dps12,type = "discrete")]
+sub_jindex[, dp := dps12 /price]
+sub_jindex[, var1m.tm1 := shift(var1m)]
+sub_jindex[, Country := "japan"]
+# setnames(sub_jindex,c("mretd","mretx","dg","dp","var1m","var1m.tm1","price","tr"),
+#          paste0("japan.",c("mretd","mretx","dg","dp","var1m","var1m.tm1","price","tr")))
+
+# bigI = merge(bigI,
+#              subset(sub_jindex,select = c("year","month",
+#                                           paste0("japan.",c("mretd","mretx","dg","dp","var1m","var1m.tm1","price","tr")))),
+#              all.x=TRUE,by=c("year","month"))
+
+bigI = rbind(bigI,subset(sub_jindex,select = colnames(bigI)))
+
+countries = c("us","japan","uk","china","aus","germany","france","brazil","india")
+return_files = c(japan = 'japan_daily.csv', uk = 'uk_daily.csv', china = 'china_daily.csv', aus = 'aus_daily.csv',
+                 germany = 'germany_daily.csv', france = 'fra_daily.csv',brazil = 'bra_daily.csv', india = 'india_daily.csv')
+index_depth = c(japan = 255, uk = 100, china = 300, aus = 200, germany = 110, france = 120, brazil = 60, india = 50)
+
+indi_list = vector("list",length = length(return_files))
+for(f in 1:length(return_files)){
+  tmpdt = fread(eval(return_files[f]))
+  tmpdt[, datadate := as.character(datadate)]
+  tmpdt[, datadate := as.Date(datadate,format("%Y%m%d"))]
+  setkey(tmpdt,gvkey,datadate)
+  tex = table(tmpdt$exchg)
+  if(length(tex) > 3){
+    stex = sort(tex,decreasing = TRUE)[1:3]
+    nstex = names(stex)
+    tmpdt = tmpdt[exchg %fin% nstex]
+  }
+  tmpdt = unique(tmpdt,by=c("datadate","gvkey"))
+  tmpdt[, year := year(datadate)]
+  tmpdt[, month := month(datadate)]
+  tmpdt[, wkday := weekdays(datadate)]
+  tmpdt = tmpdt[wkday %fin% c("Monday","Tuesday","Wednesday","Thursday","Friday")]
+  tmpdt[, tdays := length(unique(datadate)), by=c("year","month","exchg")]
+  tmpdt[, asset_tdays := length(na.omit(prccd)), by=c("year","month","gvkey")]
+  tmpdt = tmpdt[asset_tdays > 14]
+  tmpdt[, all_month := .75 * tdays <=  asset_tdays]
+  tmpdt[, RET := ROC(prccd,type = "discrete"), by = c("gvkey")]
+  tmpdt[, not_zero := (!sum(RET==0)==length(RET)),by=c("year","month","gvkey")]
+  # tmpdt[, RET_sd := sd(RET,na.rm = TRUE), by = c("gvkey","year","month")]
+  # tmpdt = tmpdt[!is.na(RET_sd)]
+  # cut = min(summary(tmpdt$RET_sd)[3:4])
+  # tmpdt = tmpdt[all_month & not_zero & RET_sd >= cut]
+  tmpdt = tmpdt[all_month & not_zero]
+  setkey(tmpdt,gvkey,year,month)
+  tmpdt[, mprccd := tail(na.omit(prccd),1), by = c("gvkey","year","month")]
+  tmpdt[, mcsho := tail(na.omit(cshoc),1), by = c("gvkey","year","month")]
+  # tmpdt[, mmcap := mprccd * mcsho]
+  sub_tmpdt = subset(unique(tmpdt,by=c("year","month","gvkey")),select=c("year","month","gvkey","mprccd","mcsho"))
+  sub_tmpdt[, mmcap := mcsho*mprccd]
+  sub_tmpdt = sub_tmpdt[!is.na(mmcap)]
+  depth = index_depth[f]
+  sub_tmpdt = setorder(setDT(sub_tmpdt), year,month, -mmcap)[, indx := seq_len(.N), by = c("year","month")][indx <= depth]
+  sub_tmpdt[, weight := mmcap / sum(mmcap), by = c("year","month")]
+  tmpdt = merge(tmpdt,subset(sub_tmpdt,select = c("year","month","gvkey","weight")),by=c("year","month","gvkey"))
+  # tmpdt = unique(tmpdt,by=c("datadate","gvkey"))
+  tmpdt[, c("avar1m","acorr1m") := as.list(cor_var2(.SD)), .SDcols = c("datadate","gvkey","RET","weight"), 
+       by = c("year","month")]
+  c = countries[f+1]
+  tmpdt = unique(tmpdt,by=c("year","month"))
+  sub_tmpdt = subset(tmpdt,select=c("year","month","avar1m","acorr1m"))
+  sub_tmpdt[, avar1m.tm1 := shift(avar1m)]
+  sub_tmpdt[, acorr1m.tm1 := shift(acorr1m)]
+  sub_tmpdt[, country := c]
+  indi_list[[f]] = sub_tmpdt
+}
+bigAV = rbindlist(indi_list)
+bigAV = as.data.table(bigAV)
+setnames(bigAV,"country","Country")
+# bigAV = data.table::dcast(bigAV,formula = year + month ~ country + ...,value.var=c("avar1m","avar1m.tm1","acorr1m","acorr1m.tm1"))
+# new_names = unlist(lapply(str_split(colnames(bigAV)[3:ncol(bigAV)],"_"),function(x){paste0(x[2],".",x[1])}))
+# setnames(bigAV,colnames(bigAV)[3:ncol(bigAV)],new_names)
+bigData = merge(bigI,bigAV,by=c("year","month","Country"))
+
+
+# # melt(bigData,id.vars = c("year","month","country"))
+# bigData2 = data.table(bigData)
+# bigData2[, Rfree := NULL]
+# bigData2[, Rf_lag := NULL]
+# bigData2 = data.table::melt(bigData2,id.vars = c("year","month"))
+# bigData2 = bigData2 %>%
+#   separate(variable, c("Country", "new_old"), sep = "(?<=^[:alpha:]{1,8})\\.") %>% 
+#   spread(new_old, value)
+# 
+# bigData2 = as.data.table(bigData2)
+# setkey(bigData,Country,year,month)
+genc = function(X,c="av"){
+  tsd = sd(X$xlogret,na.rm = TRUE)
+  sd1 = sd(X$xlogret / X$avar1m.tm1,na.rm = TRUE)
+  c_av = tsd / sd1
+  sd2 = sd(X$xlogret / X$var1m.tm1,na.rm = TRUE)
+  c_sv = tsd / sd2
+  if(c=="av"){
+    return(c_av)
+  } else {return(c_sv)}
+  # return(list(c_av,c_sv))
+}
+
+# littleData = bigData[Country %in% countries]
+setkey(bigData,Country,year,month)
+gdata[, dg := ROC(dps12,type = "discrete")]
+bigData = rbind(bigData,gdata)
+bigData = merge(bigData,subset(goyal_data,select = c("year","month","Rfree")),by=c("year","month"))
+bigData[, Rf_lag := shift(Rfree), by = "Country"]
+bigData[, xlogret := log1p(mretd) - log1p(Rf_lag)]
+# bigData[, ]
+bigData[!is.na(dg), c_av := genc(.SD,"av"), .SDcols = c("xlogret","avar1m.tm1","var1m.tm1"), by=c("Country")]
+bigData[!is.na(dg), c_sv := genc(.SD,"sv"), .SDcols = c("xlogret","avar1m.tm1","var1m.tm1"), by=c("Country")]
+bigData[, "av_weight" := c_av/avar1m.tm1]
+bigData[, "sv_weight" := c_sv/var1m.tm1]
+bigData[, av_return := av_weight * xlogret]
+bigData[, sv_return := sv_weight * xlogret]

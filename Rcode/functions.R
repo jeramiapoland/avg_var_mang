@@ -79,6 +79,42 @@ cor_var = function(mtrx) {
   return(c(avg_var,avg_cor,mkt_var))
 }
 
+cor_var2 = function(mtrx) {
+  # if(freq=="monthly"){
+  #   X = "weight"
+  # } else { X = "q_weight"}
+  mtrx1 = subset(mtrx,select = c("datadate","gvkey","RET"))
+  mtrx2 = subset(mtrx,select = c("weight","gvkey"))
+  # mtrx3 = subset(mtrx,select = c("date","tr"))
+  tmp_m = dcast(data = mtrx1, formula = datadate ~ gvkey, value.var = 'RET')
+  tmp_m = as.data.table(tmp_m)
+  tmp_m[, datadate := NULL]
+  timep = nrow(tmp_m)
+  c_m = cor(tmp_m,use = "pairwise.complete.obs")
+  c_m[is.na(c_m)]=0
+  if(nrow(tmp_m < 33)){
+    c_m[] = vapply(c_m, aprox_adj_cor,FUN.VALUE =  numeric(1),nrow(tmp_m))
+  }
+  m_tr = apply(X = tmp_m,MARGIN = 2,FUN = var, na.rm = TRUE)
+  # m_tr_alt = apply(X = tmp_m,MARGIN = 2,FUN = out_var,method = "alt_var",timep)
+  # m_tr_sd = apply(X = tmp_m,MARGIN = 2,FUN = sd)
+  # m_tr_down = apply(X = tmp_m,MARGIN = 2,FUN = DownsideDeviation)
+  # m_tr_downp = apply(X = tmp_m,MARGIN = 2,FUN = DownsidePotential)
+  weight = unique(mtrx2,by=c("gvkey"))$weight
+  avg_var = (m_tr %*% weight) * timep
+  #avg_var_alt = (m_tr_alt %*% weight)
+  #avg_sd =  (m_tr_sd %*% weight) * sqrt(timep)
+  #avg_down = (m_tr_down %*% weight) * timep
+  #avg_downp = (m_tr_downp %*% weight) * sqrt(timep)
+  diag(c_m) = 0
+  avg_cor = crossprod(weight,crossprod(c_m,weight))
+  #avg_cor_ta = avg_cor / (1 - sum(weight^2))
+  # mkt_r = unique(mtrx3,by="date")$tr
+  # mkt_var = var(mkt_r) * timep
+  #mkt_var_alt = alt_var(mkt_r,timep)
+  return(c(avg_var,avg_cor))
+}
+
 unbiased_lm <- function(X,y,alt_y,lag,expSig,tstat,w){
   # following the Amihud and Hurvich 2004 residual inclusion style bias reduction estimator
   # check the dimensions of X and find the residual vector v
