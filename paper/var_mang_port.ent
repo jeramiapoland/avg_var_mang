@@ -108,10 +108,6 @@ momentum
 portfolio.
 \@endanenote 
 \@doanenote {3}
-macro:->\citep
-{orwell1946animal}
-\@endanenote 
-\@doanenote {4}
 macro:->The
 shortest
 trading
@@ -138,7 +134,7 @@ months
 with
 holidays.
 \@endanenote 
-\@doanenote {5}
+\@doanenote {4}
 macro:->The
 exact
 correction
@@ -159,7 +155,7 @@ I
 have
 access.
 \@endanenote 
-\@doanenote {6}
+\@doanenote {5}
 macro:->The
 least
 number
@@ -192,10 +188,10 @@ of
 the
 1930s.
 \@endanenote 
-\@doanenote {7}
+\@doanenote {6}
 macro:->http://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data\_library.html\#Research
 \@endanenote 
-\@doanenote {8}
+\@doanenote {7}
 macro:->CRSP
 has,
 as
@@ -260,6 +256,33 @@ the
 end
 of
 1961.
+As
+show
+in
+\citet
+{taylor_2014}
+the
+NYSE
+market
+was
+not
+a
+significant
+part
+of
+marginal
+wealth
+in
+the
+US
+following
+the
+Great
+Depression
+before
+the
+late
+1950s.
 And,
 as
 documented
@@ -276,7 +299,7 @@ persistantly
 more
 illiquid.
 \@endanenote 
-\@doanenote {9}
+\@doanenote {8}
 macro:->Calculation
 of
 actual
@@ -318,7 +341,7 @@ AV
 managed
 portfolio.
 \@endanenote 
-\@doanenote {10}
+\@doanenote {9}
 macro:->Federal
 Reserve
 Board
@@ -354,7 +377,7 @@ higher
 equity
 requirement.
 \@endanenote 
-\@doanenote {11}
+\@doanenote {10}
 macro:->The
 Direxion
 Daily
@@ -380,7 +403,7 @@ two
 such
 funds.
 \@endanenote 
-\@doanenote {12}
+\@doanenote {11}
 macro:->As
 \citet
 {moreira_volatility-managed_2017}
@@ -406,4 +429,20 @@ adjust
 theiraverage
 risk
 exposure."
+\@endanenote 
+\@doanenote {12}
+macro:->International
+differences
+are
+not
+run
+through
+the
+bootstraping
+significance
+tests
+due
+to
+computational
+tracability.
 \@endanenote 
