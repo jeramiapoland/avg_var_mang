@@ -83,6 +83,42 @@ cor_var2 = function(mtrx) {
   # if(freq=="monthly"){
   #   X = "weight"
   # } else { X = "q_weight"}
+  mtrx1 = subset(mtrx,select = c("datadate","gvkey2","RET"))
+  mtrx2 = subset(mtrx,select = c("weight","gvkey2"))
+  # mtrx3 = subset(mtrx,select = c("date","tr"))
+  tmp_m = dcast(data = mtrx1, formula = datadate ~ gvkey2, value.var = 'RET')
+  tmp_m = as.data.table(tmp_m)
+  tmp_m[, datadate := NULL]
+  timep = nrow(tmp_m)
+  c_m = cor(tmp_m,use = "pairwise.complete.obs")
+  c_m[is.na(c_m)]=0
+  if(nrow(tmp_m < 33)){
+    c_m[] = vapply(c_m, aprox_adj_cor,FUN.VALUE =  numeric(1),nrow(tmp_m))
+  }
+  m_tr = apply(X = tmp_m,MARGIN = 2,FUN = var, na.rm = TRUE)
+  # m_tr_alt = apply(X = tmp_m,MARGIN = 2,FUN = out_var,method = "alt_var",timep)
+  # m_tr_sd = apply(X = tmp_m,MARGIN = 2,FUN = sd)
+  # m_tr_down = apply(X = tmp_m,MARGIN = 2,FUN = DownsideDeviation)
+  # m_tr_downp = apply(X = tmp_m,MARGIN = 2,FUN = DownsidePotential)
+  weight = unique(mtrx2,by=c("gvkey2"))$weight
+  avg_var = (m_tr %*% weight) * timep
+  #avg_var_alt = (m_tr_alt %*% weight)
+  #avg_sd =  (m_tr_sd %*% weight) * sqrt(timep)
+  #avg_down = (m_tr_down %*% weight) * timep
+  #avg_downp = (m_tr_downp %*% weight) * sqrt(timep)
+  diag(c_m) = 0
+  avg_cor = crossprod(weight,crossprod(c_m,weight))
+  #avg_cor_ta = avg_cor / (1 - sum(weight^2))
+  # mkt_r = unique(mtrx3,by="date")$tr
+  # mkt_var = var(mkt_r) * timep
+  #mkt_var_alt = alt_var(mkt_r,timep)
+  return(c(avg_var,avg_cor))
+}
+
+cor_var3 = function(mtrx) {
+  # if(freq=="monthly"){
+  #   X = "weight"
+  # } else { X = "q_weight"}
   mtrx1 = subset(mtrx,select = c("datadate","gvkey","RET"))
   mtrx2 = subset(mtrx,select = c("weight","gvkey"))
   # mtrx3 = subset(mtrx,select = c("date","tr"))
@@ -1397,4 +1433,27 @@ ivreg2 <- function(form,endog,iv,data,digits=3){
   }
   full <- list(results=res, weakidtest=firststage, endogeneity=hawu, overid=overid)
   return(full)
+}
+
+ddsummary2 = function(x){
+  ts = as.timeSeries(exp(x)-1)
+  ddt = as.data.table(drawdownsStats(ts))[Length > 1]
+  avgDepth = mean(ddt$Depth) * 100
+  avgLength = mean(ddt$Length)
+  avgRecovery = mean(ddt$Recovery,na.rm = TRUE)
+  return(list(avgDepth,avgLength,avgRecovery))
+}
+
+ddsummary1 = function(S){
+  x = S$av_return
+  y = S$sv_return
+  z = S$xlogret
+  ddx = ddsummary2(x)
+  ddy = ddsummary2(y)
+  ddz = ddsummary2(z)
+  out = list(
+    unlist(ddx),
+    unlist(ddy),
+    unlist(ddz)
+  )
 }

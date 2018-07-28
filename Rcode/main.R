@@ -1706,7 +1706,7 @@ indices2[, india.dp := ((1 + india.retd) / (1 + india.retx)) - 1]
 indices2[!is.na(india.retd), india.mretd := prod(1+india.retd) - 1, by = c("year","month")]
 indices2[!is.na(india.retx), india.mretx := prod(1+india.retx) - 1, by = c("year","month")]
 
-i3 = c("india","brazil","china","uk","aus","can","worldD","world")
+i3 = c("india","brazil","china","uk","aus","can","worldD","world","hong_kong","skorea","taiwan","japan2","china2","japan","italy")
 indi_list = vector(mode = "list",length = length(i3))
 
 for(i in 1:length(i3)){
@@ -1715,6 +1715,7 @@ for(i in 1:length(i3)){
   setnames(tmpxl,c("datadate","price","tr","sma15","dps12"))
   tmpxl[, sma15 := NULL]
   setorderv(tmpxl,"datadate",1)
+  tmpxl = tmpxl[complete.cases(tmpxl)]
   tmpxl[, retx := ROC(price,type = "discrete")]
   tmpxl[, retd := ROC(tr,type = "discrete")]
   tmpxl[, dp := dps12 / price]
@@ -1759,41 +1760,70 @@ gdata[, var1m.tm1 := shift(var1m)]
 gdata[, avar1m.tm1 := shift(avar1m)]
 gdata[, acorr1m.tm1 := shift(acorr1m)]
 
-# japan indicies #
-j_index = read_excel(path = 'japan.xlsx',col_names = TRUE,skip = 1)
-j_index = as.data.table(j_index)
-setnames(j_index,c("datadate","price","tr","sma15","dps12"))
-setorderv(j_index,"datadate",1)
-j_index[, sma15 := NULL]
-j_index = j_index[!is.na(price)]
-j_index[, retd := ROC(tr,type = "discrete")]
-j_index[, retx := ROC(price,type="discrete")]
-j_index[, year := year(datadate)]
-j_index[, month := month(datadate)]
-j_index[, var1m := var(retd,na.rm = TRUE), by = c("year","month")]
-j_index[, mretd := prod(1+retd)-1, by = c("year","month")]
-j_index[, mretx := prod(1+retx)-1, by = c("year","month")]
-setorderv(j_index,"datadate",-1)
-sub_jindex = unique(j_index,by=c("year","month"))
-setorderv(sub_jindex,c("year","month"),c(1,1))
-sub_jindex[, dg := ROC(dps12,type = "discrete")]
-sub_jindex[, dp := dps12 /price]
-sub_jindex[, var1m.tm1 := shift(var1m)]
-sub_jindex[, Country := "japan"]
-# setnames(sub_jindex,c("mretd","mretx","dg","dp","var1m","var1m.tm1","price","tr"),
-#          paste0("japan.",c("mretd","mretx","dg","dp","var1m","var1m.tm1","price","tr")))
+# # japan indicies #
+# j_index = read_excel(path = 'japan.xlsx',col_names = TRUE,skip = 1)
+# j_index = as.data.table(j_index)
+# setnames(j_index,c("datadate","price","tr","sma15","dps12"))
+# setorderv(j_index,"datadate",1)
+# j_index[, sma15 := NULL]
+# j_index = j_index[!is.na(price)]
+# j_index[, retd := ROC(tr,type = "discrete")]
+# j_index[, retx := ROC(price,type="discrete")]
+# j_index[, year := year(datadate)]
+# j_index[, month := month(datadate)]
+# j_index[, var1m := var(retd,na.rm = TRUE), by = c("year","month")]
+# j_index[, mretd := prod(1+retd)-1, by = c("year","month")]
+# j_index[, mretx := prod(1+retx)-1, by = c("year","month")]
+# setorderv(j_index,"datadate",-1)
+# sub_jindex = unique(j_index,by=c("year","month"))
+# setorderv(sub_jindex,c("year","month"),c(1,1))
+# sub_jindex[, dg := ROC(dps12,type = "discrete")]
+# sub_jindex[, dp := dps12 /price]
+# sub_jindex[, var1m.tm1 := shift(var1m)]
+# sub_jindex[, Country := "japan"]
+# # setnames(sub_jindex,c("mretd","mretx","dg","dp","var1m","var1m.tm1","price","tr"),
+# #          paste0("japan.",c("mretd","mretx","dg","dp","var1m","var1m.tm1","price","tr")))
+# 
+# # bigI = merge(bigI,
+# #              subset(sub_jindex,select = c("year","month",
+# #                                           paste0("japan.",c("mretd","mretx","dg","dp","var1m","var1m.tm1","price","tr")))),
+# #              all.x=TRUE,by=c("year","month"))
+# 
+# bigI = rbind(bigI,subset(sub_jindex,select = colnames(bigI)))
 
-# bigI = merge(bigI,
-#              subset(sub_jindex,select = c("year","month",
-#                                           paste0("japan.",c("mretd","mretx","dg","dp","var1m","var1m.tm1","price","tr")))),
-#              all.x=TRUE,by=c("year","month"))
+# countries = c("japan","uk","china","aus","germany","france","brazil","india")
+all_daily_returns = fread(input = 'all_daily.csv',header = TRUE,stringsAsFactors = FALSE,
+                          drop = c(2,6,7,11),
+                          colClasses = c(rep("character",3),"integer",rep("numeric",2),
+                                         "integer",rep("character",3),"integer"),
+                          key = c("gvkey","datadate"))
+all_daily_returns[is.na(fic), fic := loc]
 
-bigI = rbind(bigI,subset(sub_jindex,select = colnames(bigI)))
 
-countries = c("us","japan","uk","china","aus","germany","france","brazil","india")
-return_files = c(japan = 'japan_daily.csv', uk = 'uk_daily.csv', china = 'china_daily.csv', aus = 'aus_daily.csv',
-                 germany = 'germany_daily.csv', france = 'fra_daily.csv',brazil = 'bra_daily.csv', india = 'india_daily.csv')
-index_depth = c(japan = 255, uk = 100, china = 300, aus = 200, germany = 110, france = 120, brazil = 60, india = 50)
+many_daily_returns = all_daily_returns[fic %fin% c("AUS","BRA","CHN","DEU","FRA","GBR",
+                                                   "HKG","IND","ITA","JPN","KOR","TWN")]
+all_daily_returns = NULL
+gc()
+# many_daily_returns = many_daily_returns[prccd > 1]
+many_daily_returns = many_daily_returns[!(is.na(prccd)|is.na(cshoc))]
+many_daily_returns[, gvkey2 := paste(gvkey,isin,sep = "_")]
+setkey(many_daily_returns,datadate,gvkey2)
+many_daily_returns = unique(many_daily_returns,by=c("datadate","gvkey2"))
+creturns = c("aus","brazil","china","germany","france","uk","hong_kong","india","italy","japan","skorea","taiwan")
+setkey(many_daily_returns,fic,gvkey2,datadate)
+names(creturns) = unique(many_daily_returns$fic)
+# c("india","brazil","china","uk","aus","can","worldD","world","hong_kong","skorea","taiwan","japan2","china2","japan")
+many_daily_returns[, datadate := as.Date(datadate,format="%Y%m%d")]
+many_daily_returns[, c("year","month") := list(year(datadate),month(datadate))]
+many_daily_returns[, Country := creturns[fic]]
+setkey(many_daily_returns,Country,year,month)
+many_daily_returns[, fic := NULL]
+many_daily_returns[, loc := NULL]
+gc()
+# return_files = c(japan = 'japan_daily.csv', uk = 'uk_daily.csv', china = 'china_daily.csv', aus = 'aus_daily.csv',
+#                  germany = 'germany_daily.csv', france = 'fra_daily.csv',brazil = 'bra_daily.csv', india = 'india_daily.csv')
+index_depth = c(japan = 255, uk = 100, china = 300, aus = 200, germany = 110, france = 120, brazil = 60, india = 50, hong_kong = 50,
+                skorea = 200, taiwan = 50, italy = 40)
 
 indi_list = vector("list",length = length(return_files))
 for(f in 1:length(return_files)){
@@ -1818,7 +1848,7 @@ for(f in 1:length(return_files)){
   tmpdt[, all_month := .75 * tdays <=  asset_tdays]
   tmpdt[, RET := ROC(prccd,type = "discrete"), by = c("gvkey")]
   tmpdt[, not_zero := (!sum(RET==0)==length(RET)),by=c("year","month","gvkey")]
-  # tmpdt[, RET_sd := sd(RET,na.rm = TRUE), by = c("gvkey","year","month")]
+  # tmpdt[, RET_sd := sd(RET,na.rm = TRUE), by = c("gvkey2","year","month")]
   # tmpdt = tmpdt[!is.na(RET_sd)]
   # cut = min(summary(tmpdt$RET_sd)[3:4])
   # tmpdt = tmpdt[all_month & not_zero & RET_sd >= cut]
@@ -1835,7 +1865,7 @@ for(f in 1:length(return_files)){
   sub_tmpdt[, weight := mmcap / sum(mmcap), by = c("year","month")]
   tmpdt = merge(tmpdt,subset(sub_tmpdt,select = c("year","month","gvkey","weight")),by=c("year","month","gvkey"))
   # tmpdt = unique(tmpdt,by=c("datadate","gvkey"))
-  tmpdt[, c("avar1m","acorr1m") := as.list(cor_var2(.SD)), .SDcols = c("datadate","gvkey","RET","weight"), 
+  tmpdt[, c("avar1m","acorr1m") := as.list(cor_var3(.SD)), .SDcols = c("datadate","gvkey","RET","weight"),
        by = c("year","month")]
   c = countries[f+1]
   tmpdt = unique(tmpdt,by=c("year","month"))
@@ -1845,15 +1875,59 @@ for(f in 1:length(return_files)){
   sub_tmpdt[, country := c]
   indi_list[[f]] = sub_tmpdt
 }
-bigAV = rbindlist(indi_list)
-bigAV = as.data.table(bigAV)
-setnames(bigAV,"country","Country")
+bigAV2 = rbindlist(indi_list)
+bigAV2 = as.data.table(bigAV2)
+setnames(bigAV2,"country","Country")
 # bigAV = data.table::dcast(bigAV,formula = year + month ~ country + ...,value.var=c("avar1m","avar1m.tm1","acorr1m","acorr1m.tm1"))
 # new_names = unlist(lapply(str_split(colnames(bigAV)[3:ncol(bigAV)],"_"),function(x){paste0(x[2],".",x[1])}))
 # setnames(bigAV,colnames(bigAV)[3:ncol(bigAV)],new_names)
-bigData = merge(bigI,bigAV,by=c("year","month","Country"))
+# many_daily_returns[, Country := creturns[fic]]
+# many_daily_returns[, c("year","month") := list(year(datadate),month(datadate))]
+setkey(many_daily_returns,Country,gvkey2,year,month)
+many_daily_returns[, tdays := length(unique(datadate)), by=c("Country","year","month")]
+many_daily_returns[, asset_tdays := length(prccd), by=c("gvkey2","year","month")]
+many_daily_returns[, all_month := .75 * tdays <=  asset_tdays]
+many_daily_returns[, RET := ROC(prccd,type = "discrete"), by = c("gvkey2")]
+many_daily_returns[, not_zero := (!sum(RET==0)==length(RET)),by=c("year","month","gvkey2")]
+many_daily_returns = many_daily_returns[asset_tdays > 14&all_month&not_zero&!is.na(RET)]
+gc()
+many_daily_returns[, mprccd := tail(na.omit(prccd),1), by = c("gvkey2","year","month")]
+many_daily_returns[, mcsho := tail(na.omit(cshoc),1), by = c("gvkey2","year","month")]
+sub_many_daily_returns = subset(unique(many_daily_returns,by=c("year","month","gvkey2")),select=c("year","month","gvkey2","mprccd","mcsho","Country"))
+sub_many_daily_returns[, mmcap := mcsho*mprccd]
+sub_many_daily_returns = sub_many_daily_returns[!is.na(mmcap)]
+sub_many_daily_returns[, depth := index_depth[Country]]
+sub_many_daily_returns = setorder(setDT(sub_many_daily_returns),Country,year,month, -mmcap)[, indx := seq_len(.N), by = c("Country","year","month")][indx <= depth]
+nassts = sub_many_daily_returns[, .(num_assts = length(unique(gvkey2))), by = c("Country","year","month")]
+sub_many_daily_returns = merge(sub_many_daily_returns,nassts,by=c("Country","year","month"))
+# sub_many_daily_returns = sub_many_daily_returns[num_assts >= .6 * depth]
+sub_many_daily_returns[, weight := mmcap / sum(mmcap), by = c("year","month")]
+many_daily_returns = merge(many_daily_returns,subset(sub_many_daily_returns,
+                                                     select = c("Country","year","month","gvkey2","weight","num_assts","depth")),
+                           by=c("Country","year","month","gvkey2"))
+gc()
+many_daily_returns[, c("avar1m","acorr1m") := as.list(cor_var2(.SD)), .SDcols = c("datadate","gvkey2","RET","weight"), by = c("Country","year","month")]
+sub_many_daily_returns = unique(subset(many_daily_returns,
+                                       select = c("Country","year","month","num_assts","depth","avar1m","acorr1m")),
+                                       by=c("Country","year","month"))
 
+bigData = merge(bigI,sub_many_daily_returns,by=c("year","month","Country"),all.x=TRUE)
+bigData2 = merge(bigI,bigAV2,by=c("year","month","Country"),all.x=TRUE)
+setkey(bigData,Country,year,month)
+bigData = bigData[!Country=="china2"]
+jpdata = bigData[Country=="japan"]
+jpdata[, Country := "japan2"]
+jpdata = subset(jpdata,select = c("Country","year","month","num_assts","depth","avar1m","acorr1m"))
+setnames(jpdata,old = c("num_assts","depth","avar1m","acorr1m"),new=paste0(c("num_assts","depth","avar1m","acorr1m"),".2"))
+bigData = merge(bigData,jpdata,by=c("Country","year","month"),all.x=TRUE)
+bigData[Country=="japan2", c("num_assts","depth","avar1m","acorr1m") := 
+          list(num_assts.2,depth.2,avar1m.2,acorr1m.2)]
+bigData[, paste0(c("num_assts","depth","avar1m","acorr1m"),".2") := NULL]
+IntSummary = bigData[!is.na(dg), .(Start = paste(head(year,1),"-",head(month,1)), N = length(.I),
+                      Avg_Assests = round(mean(num_assts,na.rm = TRUE),1)), by = "Country"]
 
+bigData2 = bigData2[!Country%fin%c("japan2","china2")]
+IntSummary2 = bigData2[!is.na(dg), .(Start = paste(head(year,1),"-",head(month,1)), N = length(.I)), by = "Country"]
 # # melt(bigData,id.vars = c("year","month","country"))
 # bigData2 = data.table(bigData)
 # bigData2[, Rfree := NULL]
@@ -1879,9 +1953,15 @@ genc = function(X,c="av"){
 
 # littleData = bigData[Country %in% countries]
 setkey(bigData,Country,year,month)
+setorderv(bigData,cols = c("Country","year","month"),order = c(1,1,1))
+bigData[, avar1m.tm1 := shift(avar1m), by = Country]
+bigData[, acorr1m.tm1 := shift(acorr1m), by = Country]
 gdata[, dg := ROC(dps12,type = "discrete")]
+gdata[, depth := 500]
+gdata[, num_assts := 500]
 bigData = rbind(bigData,gdata)
 bigData = merge(bigData,subset(goyal_data,select = c("year","month","Rfree")),by=c("year","month"))
+setkey(bigData,Country,year,month)
 bigData[, Rf_lag := shift(Rfree), by = "Country"]
 bigData[, xlogret := log1p(mretd) - log1p(Rf_lag)]
 # bigData[, ]
@@ -1891,3 +1971,84 @@ bigData[, "av_weight" := c_av/avar1m.tm1]
 bigData[, "sv_weight" := c_sv/var1m.tm1]
 bigData[, av_return := av_weight * xlogret]
 bigData[, sv_return := sv_weight * xlogret]
+
+results_table2 = bigData[!is.na(dg)&!(is.na(av_weight)|is.na(sv_weight)), 
+                        .(av_return = mean(av_weight*xlogret)*1200, 
+                          av_sharpe = mean(av_weight*xlogret)*sqrt(12)/sd(av_weight*xlogret),
+                          sv_return = mean(sv_weight*xlogret)*1200, 
+                          sv_sharpe = mean(sv_weight*xlogret)*sqrt(12)/sd(sv_weight*xlogret),
+                          bh_return = mean(xlogret)*1200,
+                          bh_sharpe = mean(xlogret)*sqrt(12)/sd(xlogret)
+                          ), 
+                        by = Country]
+
+bigData2 = merge(bigData2,subset(goyal_data,select = c("year","month","Rfree")),by=c("year","month"))
+setkey(bigData2,Country,year,month)
+bigData2[, Rf_lag := shift(Rfree), by = "Country"]
+bigData2[, xlogret := log1p(mretd) - log1p(Rf_lag)]
+# bigData2[, ]
+bigData2[!is.na(dg), c_av := genc(.SD,"av"), .SDcols = c("xlogret","avar1m.tm1","var1m.tm1"), by=c("Country")]
+bigData2[!is.na(dg), c_sv := genc(.SD,"sv"), .SDcols = c("xlogret","avar1m.tm1","var1m.tm1"), by=c("Country")]
+bigData2[, "av_weight" := c_av/avar1m.tm1]
+bigData2[, "sv_weight" := c_sv/var1m.tm1]
+bigData2[, av_return := av_weight * xlogret]
+bigData2[, sv_return := sv_weight * xlogret]
+
+results_table3 = bigData2[!is.na(dg)&!(is.na(av_weight)|is.na(sv_weight)), 
+        .(av_return = mean(av_weight*xlogret)*1200, 
+          av_sharpe = mean(av_weight*xlogret)*sqrt(12)/sd(av_weight*xlogret),
+          sv_return = mean(sv_weight*xlogret)*1200, 
+          sv_sharpe = mean(sv_weight*xlogret)*sqrt(12)/sd(sv_weight*xlogret),
+          bh_return = mean(xlogret)*1200,
+          bh_sharpe = mean(xlogret)*sqrt(12)/sd(xlogret)
+        ), 
+        by = Country]
+IntData = rbind(bigData[Country%fin%c("aus","brazil","china","france","italy","japan")],
+                bigData2[Country%fin%c("germany","india","uk")],fill = TRUE)
+stargazer(IntSummary[Country%fin%unique(IntData$Country)],summary = FALSE,out = 'tables/tab_intSummary.tex')
+
+IntPerformance1 = IntData[!is.na(dg)&!(is.na(av_weight)|is.na(sv_weight)), 
+                          .(av_return = mean(av_weight*xlogret)*1200, 
+                            av_sharpe = mean(av_weight*xlogret)*sqrt(12)/sd(av_weight*xlogret),
+                            sv_return = mean(sv_weight*xlogret)*1200, 
+                            sv_sharpe = mean(sv_weight*xlogret)*sqrt(12)/sd(sv_weight*xlogret),
+                            bh_return = mean(xlogret)*1200,
+                            bh_sharpe = mean(xlogret)*sqrt(12)/sd(xlogret)
+                          ), 
+                          by = Country]
+IntPerformance1 = cbind(c("AUS","BRA","CHN","FRA","ITA","JPN","DEU","IND","UK"),round(IntPerformance1[, -"Country"],digits = 3))
+setnames(IntPerformance1,"V1","Country")
+setorderv(IntPerformance1,"Country",1)
+stargazer(IntPerformance1,summary = FALSE,out = 'tables/performance/tab_intPerf1.tex')
+
+intlist = vector(mode = "list",length = 3)
+
+for(i in 1:length(c("av_return","sv_return","xlogret"))){
+  r = c("av_return","sv_return","xlogret")[i]
+  tmp = IntData[!is.na(dg)&!(is.na(av_weight)|is.na(sv_weight)), 
+          as.list(ddsummary2(get(r))), 
+          by = Country]
+  tmp = round(tmp[, -"Country"],digits = 3)
+  intlist[[i]] = tmp
+}
+IntPerformance2 = cbind(intlist[[1]],cbind(intlist[[2]],intlist[[3]]))
+setnames(IntPerformance2,rep(c("Avg DD","Avg Length","Avg Recovery"),3))
+IntPerformance2 = cbind(c("AUS","BRA","CHN","FRA","ITA","JPN","DEU","IND","UK"),IntPerformance2)
+setnames(IntPerformance2,"V1","Country")
+setorderv(IntPerformance2,"Country",1)
+stargazer(IntPerformance2,summary = FALSE,out = 'tables/performance/tab_intPerf2.tex')
+
+IntPerformance3 = IntData[!is.na(dg)&!(is.na(av_weight)|is.na(sv_weight)),
+                           .(abs_change = round(mean(abs(diff(av_weight)),na.rm = T),3),
+                             Break_even = round((mean(av_return,na.rm = T)-mean(xlogret,na.rm = T)) / mean(abs(diff(av_weight)),na.rm = T)*10000,3),
+                             abs_change = round(mean(abs(diff(sv_weight)),na.rm = T),3),
+                             Break_even = round((mean(sv_return,na.rm = T)-mean(xlogret,na.rm = T)) / mean(abs(diff(sv_weight)),na.rm = T)*10000,3)
+                           )
+                          , by = Country]
+IntPerformance3 = cbind(c("AUS","BRA","CHN","FRA","ITA","JPN","DEU","IND","UK"),IntPerformance3[,2:5])
+setnames(IntPerformance3,"V1","Country")
+setorderv(IntPerformance3,"Country",1)
+IntPerformance3 = cbind(IntPerformance1[,1:2],IntPerformance3[,2:3],IntPerformance1[,4],IntPerformance3[,4:5],IntPerformance1[,6])
+
+stargazer(IntPerformance3,summary = FALSE,out = 'tables/performance/tab_intPerf3.tex')
+
