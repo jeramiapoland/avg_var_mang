@@ -1751,7 +1751,7 @@ setnames(goyal_data,c("us.mretd","us.mretx","us.dps12","us.price"),new = c("mret
 # bigI = merge(bigI,subset(goyal_data,select = c("year","month","us.mretd","us.mretx","us.dps12","Rfree")),all.x=TRUE)
 goyal_data[, dp := dps12 / price]
 gdata = subset(goyal_data,select=c("year","month","mretd","dps12","dp"))
-gdata[, Country := "us"]
+gdata[, Country := "usa"]
 # bigI = merge(bigI,subset(m_data,select = c("year","month","mkt_var1m","avg_var1m","avg_cor1m")))
 # setnames(bigI,c("mkt_var1m","avg_var1m","avg_cor1m"),c("us.var1m","us.avar1m","us.acorr1m"))
 gdata = merge(gdata,subset(m_data,select = c("year","month","mkt_var1m","avg_cor1m","avg_var1m")),by=c("year","month"))
@@ -1759,6 +1759,7 @@ setnames(gdata,c("mkt_var1m","avg_cor1m","avg_var1m"),c("var1m","acorr1m","avar1
 gdata[, var1m.tm1 := shift(var1m)]
 gdata[, avar1m.tm1 := shift(avar1m)]
 gdata[, acorr1m.tm1 := shift(acorr1m)]
+gdata[, quater := quarter(as.Date(paste0(year,"-",month,"-01")))]
 
 # # japan indicies #
 # j_index = read_excel(path = 'japan.xlsx',col_names = TRUE,skip = 1)
@@ -2052,3 +2053,258 @@ IntPerformance3 = cbind(IntPerformance1[,1:2],IntPerformance3[,2:3],IntPerforman
 
 stargazer(IntPerformance3,summary = FALSE,out = 'tables/performance/tab_intPerf3.tex')
 
+# world avar1m #
+ratios = fread('fredgraph_mcap2gdp.csv')
+ratios = melt(ratios,id.vars = "DATE",value.name = "mkt2gdp",variable.name = "Country")
+ratios[, mkt2gdp := mkt2gdp / 100]
+
+usGDP = fread(input = 'usGDP.csv')
+usGDP[, year := year(as.Date(DATE,format="%Y-%m-%d"))]
+usGDP[, quarter := quarter(as.Date(DATE,format="%Y-%m-%d"))]
+ausGDP = fread('australia_gdp.csv')
+ausGDP[, year := year(as.Date(DATE,format="%Y-%m-%d"))]
+gdp = merge(subset(usGDP,select = c("year","quarter","us")),subset(ausGDP,select = c("year","australia")),by=c("year"))
+ausmkt2gdp = fread(input = 'australia.csv')
+ratios[, year := year(as.Date(DATE,format="%Y-%m-%d"))]
+ratios[, DATE := NULL]
+ratios = rbind(ratios,ausmkt2gdp)
+
+files = list.files(pattern = ".*\\_gdp\\.csv")
+files = files[2:length(files)]
+for(f in files){
+  tmp = fread(input = f)
+  tmp[, year := year(as.Date(DATE,format="%Y-%m-%d"))]
+  tmp[, DATE := NULL]
+  gdp = merge(gdp,tmp,by=c("year"),all.x=TRUE)
+}
+setnames(gdp,"us","usa")
+gdp = melt(gdp,id.vars = c("year","quarter"),variable.name = "Country",value.name = "gdp")
+ratios[, year := as.numeric(year)]
+mktvalue = merge(gdp,ratios,by=c("year","Country"))
+setkey(mktvalue,year,quarter)
+mktvalue = mktvalue[mkt2gdp > 0]
+mktvalue[, mktcap := gdp * mkt2gdp]
+mktvalue[, weight := mktcap / sum(mktcap), by = c("year","quarter")]
+gdata = merge(gdata,subset(goyal_data,select = c("year","month","Rfree")), by=c("year","month"))
+gdata[, Rf_lag := shift(Rfree)]
+gdata[, xlogret := log1p(mretd) - log1p(Rf_lag)]
+gdata[!is.na(dg), c_av := genc(.SD,"av"), .SDcols = c("xlogret","avar1m.tm1","var1m.tm1")]
+gdata[!is.na(dg), c_sv := genc(.SD,"sv"), .SDcols = c("xlogret","avar1m.tm1","var1m.tm1")]
+gdata[, "av_weight" := c_av/avar1m.tm1]
+gdata[, "sv_weight" := c_sv/var1m.tm1]
+gdata[, av_return := av_weight * xlogret]
+gdata[, sv_return := sv_weight * xlogret]
+IntData = rbind(IntData,subset(gdata,select = colnames(gdata)[colnames(gdata)%in%colnames(IntData)]))
+IntData[, quarter := quarter(as.Date(paste0(year,"-",month,"-01")))]
+world_avar = merge(subset(mktvalue,select = c("year","quarter","weight","Country")),IntData,
+                   by=c("year","quarter","Country"),all.y=TRUE)
+world_avar = world_avar[!is.na(weight)]
+world_avar[, worldavar1m := sum(avar1m*weight), by = c("year","month")]
+world_avar[, worldvar1m := sum(var1m*weight), by = c("year","month")]
+worldData1 = bigData2[Country %in% c("world")]
+world_avar = unique(world_avar,by=c("year","month","worldavar1m","worldvar1m"))
+worldData1 = merge(worldData1,subset(world_avar,select=c("year","month","worldavar1m","worldvar1m")),by=c("year","month"))
+worldData2 = bigData2[Country %in% c("worldD")]
+worldData2 = merge(worldData2,subset(world_avar,select=c("year","month","worldavar1m","worldvar1m")),by=c("year","month"))
+worldData = rbind(worldData1,worldData2)
+worldData = merge(worldData,subset(goyal_data,select = c("year","month","Rfree")), by=c("year","month"))
+worldData[, avar1m.tm1 := shift(worldavar1m), by = c("Country")]
+worldData[, var1m.tm1 := shift(worldvar1m), by = c("Country")]
+# worldData[, Rf_lag := shift(Rfree)]
+# worldData[, xlogret := log1p(mretd) - log1p(Rf_lag)]
+worldData[!is.na(dg), c_av := genc(.SD,"av"), .SDcols = c("xlogret","avar1m.tm1","var1m.tm1")]
+worldData[!is.na(dg), c_sv := genc(.SD,"sv"), .SDcols = c("xlogret","avar1m.tm1","var1m.tm1")]
+worldData[, "av_weight" := c_av/avar1m.tm1]
+worldData[, "sv_weight" := c_sv/var1m.tm1]
+worldData[, av_return := av_weight * xlogret]
+worldData[, sv_return := sv_weight * xlogret]
+worldData[!is.na(dg)&!(is.na(av_weight)|is.na(sv_weight)), 
+          .(av_return = mean(av_return)*1200, 
+            av_sharpe = mean(av_return)*sqrt(12)/sd(av_return),
+            sv_return = mean(sv_return)*1200, 
+            sv_sharpe = mean(sv_return)*sqrt(12)/sd(sv_return),
+            bh_return = mean(xlogret)*1200,
+            bh_sharpe = mean(xlogret)*sqrt(12)/sd(xlogret)
+          ), 
+          by = Country]
+worldData[!is.na(dg)&!(is.na(av_weight)|is.na(sv_weight)),
+        .(abs_change = round(mean(abs(diff(av_weight)),na.rm = T),3),
+          Break_even = round((mean(av_return,na.rm = T)-mean(xlogret,na.rm = T)) / mean(abs(diff(av_weight)),na.rm = T)*10000,3),
+          abs_change = round(mean(abs(diff(sv_weight)),na.rm = T),3),
+          Break_even = round((mean(sv_return,na.rm = T)-mean(xlogret,na.rm = T)) / mean(abs(diff(sv_weight)),na.rm = T)*10000,3)
+        )
+        , by = Country]
+intlist = vector(mode = "list",length = 3)
+for(i in 1:length(c("av_return","sv_return","xlogret"))){
+  r = c("av_return","sv_return","xlogret")[i]
+  tmp = worldData[!is.na(dg)&!(is.na(av_weight)|is.na(sv_weight)), 
+                as.list(ddsummary2(get(r))), 
+                by = Country]
+  tmp = round(tmp[, -"Country"],digits = 3)
+  intlist[[i]] = tmp
+}
+worldPerformance2 = cbind(intlist[[1]],cbind(intlist[[2]],intlist[[3]]))
+setnames(worldPerformance2,rep(c("Avg DD","Avg Length","Avg Recovery"),3))
+worldPerformance2 = cbind(c("world","worldD"),worldPerformance2)
+setnames(worldPerformance2,"V1","Country")
+setorderv(worldPerformance2,"Country",1)
+# stargazer(worldPerformance2,summary = FALSE,out = 'tables/performance/tab_intPerf2.tex')
+
+#### currency carry ####
+currency = fread(input = 'currency_factors.csv')
+currency[, curr.ret.RX.paper := (1+(as.numeric(curr.ret.RX.paper)/100))]
+currency[, curr.hml.paper := (1+(as.numeric(curr.hml.paper)/100))]
+currency = merge(currency,
+                 subset(m_data,
+                        select = c("year","month","avg_var1m","avg_cor1m","mkt_var1m")),
+                 by=c("year","month"),all.x=TRUE)
+currency = merge(currency,subset(goyal_data,select=c("year","month","Rfree")))
+currency = merge(currency,subset(worldData[Country=="worldD"],select = c("year","month","worldavar1m","worldvar1m","avar1m.tm1",
+                                                                           "var1m.tm1")),by=c("year","month"))
+currency[, xlogret := log(curr.hml.paper)]
+currency[, c_av := genc(.SD,"av"), .SDcols = c("xlogret","avar1m.tm1","var1m.tm1")]
+currency[, c_sv := genc(.SD,"sv"), .SDcols = c("xlogret","avar1m.tm1","var1m.tm1")]
+currency[, "av_weight" := c_av/avar1m.tm1]
+currency[, "sv_weight" := c_sv/var1m.tm1]
+currency[, av_return := av_weight * xlogret]
+currency[, sv_return := sv_weight * xlogret]
+currency[!(is.na(av_return)|is.na(sv_return)), 
+          .(av_return = mean(av_return)*1200, 
+            av_sharpe = mean(av_return)*sqrt(12)/sd(av_return),
+            sv_return = mean(sv_return)*1200, 
+            sv_sharpe = mean(sv_return)*sqrt(12)/sd(sv_return),
+            bh_return = mean(xlogret)*1200,
+            bh_sharpe = mean(xlogret)*sqrt(12)/sd(xlogret)
+          )]
+currency[!(is.na(av_weight)|is.na(sv_weight)),
+          .(abs_change = round(mean(abs(diff(av_weight)),na.rm = T),3),
+            Break_even = round((mean(av_return,na.rm = T)-mean(xlogret,na.rm = T)) / mean(abs(diff(av_weight)),na.rm = T)*10000,3),
+            abs_change = round(mean(abs(diff(sv_weight)),na.rm = T),3),
+            Break_even = round((mean(sv_return,na.rm = T)-mean(xlogret,na.rm = T)) / mean(abs(diff(sv_weight)),na.rm = T)*10000,3)
+          )]
+intlist = vector(mode = "list",length = 3)
+for(i in 1:length(c("av_return","sv_return","xlogret"))){
+  r = c("av_return","sv_return","xlogret")[i]
+  tmp = currency[!(is.na(av_weight)|is.na(sv_weight)), 
+                  as.list(ddsummary2(get(r)))]
+  tmp = round(tmp,digits = 3)
+  intlist[[i]] = tmp
+}
+currencyPerformance2 = cbind(intlist[[1]],cbind(intlist[[2]],intlist[[3]]))
+setnames(currencyPerformance2,rep(c("Avg DD","Avg Length","Avg Recovery"),3))
+# currencyPerformance2 = cbind(c("currency","currencyD"),currencyPerformance2)
+setnames(currencyPerformance2,"V1","Country")
+setorderv(currencyPerformance2,"Country",1)
+
+
+bbdollar = as.data.table(read_excel(path = 'moreI.xlsx',sheet = 1,skip = 1))
+bbdollar[, c("year","month") := list(year(Date),month(Date))]
+setorderv(bbdollar,cols = "Date",order = 1)
+bbdollar[, bbdollar := ROC(`Last Price`,type = "discrete")]
+
+reit = as.data.table(read_excel(path = 'moreI.xlsx',sheet = 2,skip = 1))
+reit[, c("year","month") := list(year(Date),month(Date))]
+setorderv(reit,cols = "Date",order = 1)
+setnames(reit,c("Date","price","tr","sma15","dps","year","month"))
+reit[, reit := ROC(tr,type = "discrete")]
+alt_inv = merge(subset(bbdollar,select = c("year","month","bbdollar")),
+                subset(reit,select = c("year","month","reit")),by=c("year","month"))
+dbcurr = as.data.table(read_excel(path = 'moreI.xlsx',sheet = 3,skip = 1))
+dbcurr[, c("year","month") := list(year(Date),month(Date))]
+setorderv(dbcurr,cols = "Date",order = 1)
+dbcurr[, dbcurr := ROC(`DBCRUSI Index - Last Price`,type="discrete")]
+alt_inv = merge(alt_inv,subset(dbcurr,select=c("year","month","dbcurr")),
+                by=c("year","month"),all.x=TRUE)
+
+dbcarry = as.data.table(read_excel(path = 'moreI.xlsx',sheet = 4,skip = 1))
+dbcarry[, c("year","month") := list(year(Date),month(Date))]
+setorderv(dbcarry,cols = "Date",order = 1)
+dbcarry[, dbcarry := ROC(`Mid Price`,type = "discrete")]
+alt_inv = merge(alt_inv,subset(dbcarry,select=c("year","month","dbcarry")),
+                by=c("year","month"),all.x=TRUE)
+
+dbmom = as.data.table(read_excel(path = 'moreI.xlsx',sheet = 5,skip = 1))
+dbmom[, c("year","month") := list(year(Date),month(Date))]
+setorderv(dbmom,cols = "Date",order = 1)
+dbmom[, dbmom := ROC(`Mid Price`,type="discrete")]
+alt_inv = merge(alt_inv,subset(dbmom,select=c("year","month","dbmom")),
+                by=c("year","month"),all.x=TRUE)
+
+dbmom2 = as.data.table(read_excel(path = 'moreI.xlsx',sheet = 6,skip = 1))
+dbmom2[, c("year","month") := list(year(Date),month(Date))]
+setorderv(dbmom2,cols = "Date",order = 1)
+dbmom2[, dbmom2 := ROC(`Mid Price`,type = "discrete")]
+alt_inv = merge(alt_inv,subset(dbmom2,select=c("year","month","dbmom2")),
+                by=c("year","month"),all.x=TRUE)
+
+dbval = as.data.table(read_excel(path = 'moreI.xlsx',sheet = 7,skip = 1))
+dbval[, c("year","month") := list(year(Date),month(Date))]
+setorderv(dbval,cols = "Date",order = 1)
+dbval[, dbval := ROC(`Mid Price`,type = "discrete")]
+alt_inv = merge(alt_inv,subset(dbval,select=c("year","month","dbval")),
+                by=c("year","month"),all.x=TRUE)
+
+bcom = as.data.table(read_excel(path = 'commI.xlsx',sheet = 1,skip = 1))
+bcom[, c("year","month") := list(year(Date),month(Date))]
+bcom = unique(bcom,by=c("year","month"))
+setorderv(bcom,cols = "Date",order = 1)
+bcom[, bcom := ROC(`BCOM Index - Last Price`,type="discrete")]
+alt_inv = merge(alt_inv,subset(bcom,select=c("year","month","bcom")),
+                by=c("year","month"),all.x=TRUE)
+
+gscom = as.data.table(read_excel(path = 'commI.xlsx',sheet = 3,skip = 1))
+gscom[, c("year","month") := list(year(Date),month(Date))]
+gscom = unique(gscom,by=c("year","month"))
+setorderv(gscom,cols = "Date",order = 1)
+gscom[, gscom := ROC(`SPGSESTR Index - Last Price`,type="discrete")]
+alt_inv = merge(alt_inv,subset(gscom,select=c("year","month","gscom")),
+                by=c("year","month"),all.x=TRUE)
+alt_inv_m = melt(alt_inv,id.vars = c("year","month"),variable.name = "index",value.name = "RET") 
+alt_inv_m = merge(alt_inv_m,subset(currency,
+                                   select = c("year","month","Rfree","worldavar1m","worldvar1m",
+                                              "avar1m.tm1","var1m.tm1","avg_var1m","avg_cor1m","mkt_var1m")),
+                  by=c("year","month"),all.x=TRUE)
+setkey(alt_inv_m,index,year,month)
+alt_inv_m[, Rf_lag := shift(Rfree), by = index]
+alt_inv_m[, xlogret := log1p(RET) - log1p(Rf_lag)]
+alt_inv_m[!(is.na(avar1m.tm1)|is.na(var1m.tm1)), c_av := genc(.SD,"av"), .SDcols = c("xlogret","avar1m.tm1","var1m.tm1")]
+alt_inv_m[!(is.na(avar1m.tm1)|is.na(var1m.tm1)), c_sv := genc(.SD,"sv"), .SDcols = c("xlogret","avar1m.tm1","var1m.tm1")]
+alt_inv_m[, "av_weight" := c_av/avar1m.tm1]
+alt_inv_m[, "sv_weight" := c_sv/var1m.tm1]
+alt_inv_m[, av_return := av_weight * xlogret]
+alt_inv_m[, sv_return := sv_weight * xlogret]
+altPerf1 = alt_inv_m[!(is.na(av_return)|is.na(sv_return)), 
+         .(av_return = mean(av_return)*1200, 
+           av_sharpe = mean(av_return)*sqrt(12)/sd(av_return),
+           sv_return = mean(sv_return)*1200, 
+           sv_sharpe = mean(sv_return)*sqrt(12)/sd(sv_return),
+           bh_return = mean(xlogret)*1200,
+           bh_sharpe = mean(xlogret)*sqrt(12)/sd(xlogret)
+         ), by = index]
+altPerf1 = cbind(altPerf1[,1],round(altPerf1[,2:ncol(altPerf1)],3))
+stargazer(altPerf1,summary = FALSE,out = 'tables/performance/tab_altPerf1.tex')
+altPerf2 = alt_inv_m[!(is.na(av_return)|is.na(sv_return)),
+                    .(av_return = mean(av_return)*1200,
+                      abs_change = round(mean(abs(diff(av_weight)),na.rm = T),3),
+                      Break_even = round((mean(av_return,na.rm = T)-mean(xlogret,na.rm = T)) / mean(abs(diff(av_weight)),na.rm = T)*10000,3),
+                      sv_return = mean(sv_return)*1200,
+                      abs_change = round(mean(abs(diff(sv_weight)),na.rm = T),3),
+                      Break_even = round((mean(sv_return,na.rm = T)-mean(xlogret,na.rm = T)) / mean(abs(diff(sv_weight)),na.rm = T)*10000,3),
+                      bh_return = mean(xlogret)*1200
+                    ), by = index]
+stargazer(altPerf2,summary = FALSE,out = 'tables/performance/tab_altPerf2.tex')
+
+intlist = vector(mode = "list",length = 3)
+for(i in 1:length(c("av_return","sv_return","xlogret"))){
+  r = c("av_return","sv_return","xlogret")[i]
+  tmp = alt_inv_m[!(is.na(av_weight)|is.na(sv_weight)), 
+                 as.list(ddsummary2(get(r))), by = index]
+  tmp = round(tmp[, -"index"],digits = 3)
+  intlist[[i]] = tmp
+}
+altPerf3 = cbind(intlist[[1]],cbind(intlist[[2]],intlist[[3]]))
+setnames(altPerf3,rep(c("Avg DD","Avg Length","Avg Recovery"),3))
+altPerf3 = cbind(c("bbdollar","reit","dbcurr","bdcarry","dbmom","dbmom2","dbval","bcom","gscom"),altPerf3)
+setnames(altPerf3,"V1","Index")
+setorderv(altPerf3,"Index",1)
+stargazer(altPerf3,summary = FALSE,out = 'tables/performance/tab_altPerf3.tex')
