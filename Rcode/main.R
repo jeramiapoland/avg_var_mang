@@ -3,7 +3,7 @@ paks <- c("RCurl","data.table","tis","lubridate","ggplot2","stringr","sandwich",
           "PortfolioAnalytics","PerformanceAnalytics","backtest","tidyr","broom","stringdist","BH","parallel","doMC","foreach",
           "doParallel","lmtest","hypergeo","strucchange","formula.tools","multiwave","outliers","forecast","SharpeR","fastmatch",
           "bvarsv","boot","goftest","DescTools","dunn.test","generalCorr","cointReg","psd","plot3D","rootSolve",
-          "fitdistrplus","conics") 
+          "fitdistrplus","conics","panelvar") 
 # note: tikzDevice requires a working latex installation
 # and xlsx require rJava so a properly configured java (try javareconf)
 for (p in paks){
@@ -215,7 +215,7 @@ data = unique(data,by=c("year","month","PERMNO"))
 
 
 m_data = unique(subset(data,select = c("year","month","avg_var1m","avg_cor1m","mkt_var1m","vwretd.monthly","vwretd.tp1",
-                                       "vwretx.tp1","month_mcap")),by=c("year","month"))
+                                       "vwretx.tp1")),by=c("year","month"))
 
 
 ff_data = fread(input = '../../value_momentum_spread/F-F_Research_Data_Factors.CSV')
@@ -229,10 +229,20 @@ ff_data[, RF_lag := shift(RF)]
 ff_data[, Mkt_RF := `Mkt-RF` / 100]
 ff_data[, `Mkt-RF` := NULL]
 ff_data[, c("Mkt_RF","SMB","HML","RF","RF_lag") := lapply(.SD,log1p), .SDcols = c("Mkt_RF","SMB","HML","RF","RF_lag")]
+ff_mom = fread(input = 'F-F_Momentum_Factor.CSV')
+ff_mom[, year:= as.integer(substr(V1,1,4))]
+ff_mom[, month := as.integer(substr(V1,5,6))]
+ff_data = merge(ff_data,ff_mom,by=c("year","month"),all.x=TRUE)
+ff_data[, date := as.Date(paste0(year,"-",month,"-28"))]
+ff_data[, Mom := log1p(Mom /100)]
 
-m_data = merge(m_data,subset(ff_data,select=c("year","month","Mkt_RF","SMB","HML","RF","RF_lag")),by=c("year","month"))
-m_data[, logxret.tp1 := vwretd.tp1 - RF_lag]
+m_data = merge(m_data,subset(ff_data,select=c("year","month","Mkt_RF","SMB","HML","RF","RF_lag")),by=c("year","month"),all.x=TRUE)
+m_data[, logxret.tp1 := vwretd.tp1 - RF]
 m_data[, logxret := vwretd.monthly - RF_lag]
+ff_data[, Mkt_RF := NULL]
+ff_data = merge(ff_data,subset(m_data,select = c("year","month","logxret")),by=c("year","month"),all.x=TRUE)
+ff_data[, Mkt_RF := logxret]
+ff_data[, logxret := NULL]
 
 q_data[, mkt_var.tp1 := shift(mkt_var,type = "lead")]
 q_data[, avg_var.tp1 := shift(avg_var,type = "lead")]
@@ -362,13 +372,13 @@ for(n in 2:nrow(nberD)){
 contractions = str_replace(contractions,"-01","-28")
 contractions = m_data$date[m_data$date %fin% as.Date(contractions,format = "%Y-%m-%d")]
 
-
-spans = list("full" = m_data$date,
-             "pre1962" = m_data[date <= "1962-06-28"]$date,
-             "post1962" = m_data[date >= "1962-06-28"]$date,
-             "contractions" = contractions,
-             "expansions" = m_data[!(date %fin% contractions)]$date,
-             "cont_xGreat" = contractions[!(contractions >= "1929-09-28" & contractions <= "1933-03-28")])
+mdate = m_data[2:nrow(m_data)]$date
+spans = list("full" = mdate,
+             "pre1962" = mdate[mdate <= "1962-06-28"],
+             "post1962" = mdate[mdate >= "1962-06-28"],
+             "contractions" = mdate[mdate %fin% (contractions-months(1))],
+             "expansions" = mdate[!(mdate %fin% (contractions-months(1)))],
+             "cont_xGreat" = mdate[mdate %fin% contractions& !(mdate >= "1929-09-28" & mdate <= "1933-03-28")])
 
 Xsign = data.table(Y = y_list[["monthly"]])
 Xsign[Y == "avg_cor1m.tp1", c("avg_var1m","mkt_var1m","avg_cor1m") := list(1,1,1)]
@@ -600,12 +610,13 @@ sufx = vapply(X = tar_sds,FUN = str_extract,"[:digit:]{2,3}",FUN.VALUE = "0")
 
 #### All returns ####
 upper_lev = seq(1,3,.1)
+m_data[, date := as.Date(paste0(year,"-",month,"-28"))]
 r_dates = m_data[(paper_m_start+1):(nrow(m_data))]$date + months(1)
 returns_dt = array(dim = c(2,3,length(upper_lev)+1,length(m_bh_returns)),
                    dimnames = list(c("av","sv"),sufx,c("NO",upper_lev),as.character(r_dates)))
 for(s in sufx){
-  returns_dt["av",s,"NO",] = get(paste0("av_",suf,"_returns"))
-  returns_dt["sv",s,"NO",] = get(paste0("sv_",suf,"_returns"))
+  returns_dt["av",s,"NO",] = get(paste0("av_",s,"_returns"))
+  returns_dt["sv",s,"NO",] = get(paste0("sv_",s,"_returns"))
 }
 
 for(p in c("av","sv")){
@@ -655,8 +666,8 @@ weight_plot2 = ggplot(data=weights_dt) + geom_line(aes(x=V1,y=Weight,color=Strat
   facet_wrap(~Target,nrow = 3) + 
   labs(title = "Strategy Investment Weight", x = "", y = "") + 
   scale_x_date(date_breaks = "5 year", date_labels =  "%Y") +
-  scale_colour_manual(name = "Strategy",values=cbPalette,labels =c("SV","AV")) + 
-  scale_linetype_manual(name = "Strategy",values=linePalette,labels =c("SV","AV")) +
+  scale_colour_manual(name = "Strategy",values=cbPalette,labels =c("AV","SV")) + 
+  scale_linetype_manual(name = "Strategy",values=linePalette,labels =c("AV","SV")) +
   theme(text = element_text(size=11),panel.grid.major.x = element_blank(),
         panel.grid.major.y = element_line( size=.1, color="black"))+ theme_bw()
 weight_plot2 = nberShade(weight_plot2,xrange = c(min(weights_dt$V1), max(weights_dt$V1)),openShade = FALSE)
@@ -664,20 +675,44 @@ tikz("figures/weight_plot2.tex",width = 5.90551, height = 3, sanitize = FALSE)
 plot(weight_plot2)
 dev.off()
 
+cast_weightsdt = data.table::dcast(weights_dt,formula = V1 ~ ...,value.var = "Weight")
+cast_weightsdt[, diff := av_mang - vol_mang]
+cast_weightsdt[, pos := diff > 0]
+weight_plot3 = ggplot(data=cast_weightsdt,aes(x=as.Date(V1),y=diff)) + geom_line(aes(color=pos,group=1)) + 
+  labs(title = "AV Investment Weight Minus SV Investment Weight", x = "", y = "") + 
+  scale_color_manual(name = "",labels =c("Negative","Positive"),values=c("#bab8b8","#000000")) +
+  scale_x_date(date_breaks = "5 year", date_labels =  "%Y") +
+  theme(text = element_text(size=11),panel.grid.major.x = element_blank(),
+        panel.grid.major.y = element_line( size=.1, color="black"))+ theme_bw()
+weight_plot3 = nberShade(weight_plot3,xrange = c("1926-08-28","2016-12-28"),openShade = FALSE)
+tikz("figures/weight_plot3.tex",width = 5.90551, height = 3, sanitize = FALSE)
+plot(weight_plot3)
+dev.off()
 
 #### performance table ####
-perf_dt = array(dim = c(length(sufx),length(spans),3,5,3),dimnames = list(Target = sufx,Sample = names(spans),
+perf_dt = array(dim = c(length(sufx),length(spans),3,7,3),dimnames = list(Target = sufx,Sample = names(spans),
                                                                           Strategy = c("BH","SV","AV"),
                                                                           Measure = c("Return","Sharpe","Sortino","Kappa$_{3}$",
-                                                                                      "Kappa$_{4}$"),
+                                                                                      "Kappa$_{4}$","alpha$_{FF5}$",
+                                                                                      "alpha$_{FF5+Mom}$"),
                                                                           Constraint = c("1.5","3","NO")))
+ff_data = ff_data[, c("SMB","HML","RF","RF_lag","Mkt_RF","Mom") := lapply(.SD,log1p), 
+                  .SDcols =  c("SMB","HML","RF","RF_lag","Mkt_RF","Mom")]
 m_bh_dates = m_data$date[(paper_m_start+1):(nrow(m_data))]
 set.seed(123)
 for(s in 1:length(spans)){
   sp = spans[[s]]
   fq = 12
   r0 = c(m_bh_returns[m_bh_dates%fin% sp])
-  sp_logical = as.Date(dimnames(returns_dt)[[4]]) %fin% sp
+  sp_logical = (as.Date(dimnames(returns_dt)[[4]])-months(1)) %fin% sp
+  f5 = merge(data.table(date = sp),
+             subset(ff_data,subset = ff_data$date%fin%sp,select = c("date","SMB","HML","Mkt_RF")),all.x=TRUE)
+  f5[, date := NULL]
+  f5 = as.matrix(f5)
+  f6 = merge(data.table(date = sp),
+             subset(ff_data,subset = ff_data$date%fin%sp,select = c("date","SMB","HML","Mkt_RF","Mom")),all.x=TRUE)
+  f6[, date := NULL]
+  f6 = as.matrix(f6)
   for(c in sufx){
     for(l in c("1.5","3","NO")){
       r1 = returns_dt["sv",c,l,sp_logical]
@@ -690,7 +725,9 @@ for(s in 1:length(spans)){
                                 as.character(round((mean(r0)/sd(r0))* sqrt(fq),3)),
                                 as.character(round(sortinoR(r0,annualize = TRUE,freq = fq),3)),
                                 as.character(round(Kappa03(r0),3)),
-                                as.character(round(Kappa04(r0),3))
+                                as.character(round(Kappa04(r0),3)),
+                                as.character(round(alpha(r0,f5)*fq*100,3)),
+                                as.character(round(alpha(r0,f6)*fq*100,3))
                                 # as.character(round(genRachev.ratio(r0),3))
                                 )
       svp_dt = c(as.character(round(mean(r1)*fq*100,3)),
@@ -703,12 +740,18 @@ for(s in 1:length(spans)){
                  as.character(round(Kappa03(r1),3)),
                  ratio.test2(rets1 = rr1,rets2 = rr2,ratio = "Kappa03"),
                  as.character(round(Kappa04(r1),3)),
-                 ratio.test2(rets1 = rr1,rets2 = rr2,ratio = "Kappa04")
+                 ratio.test2(rets1 = rr1,rets2 = rr2,ratio = "Kappa04"),
+                 as.character(round(alpha(r1,f5)*fq*100,3)),
+                 hac_t.test2(alpha(r2,f5),alpha(r1,f5),rr2,rr1,alternative = "less",
+                            paired = TRUE,var.equal = TRUE)$p.val,
+                 as.character(round(alpha(r1,f6)*fq*100,3)),
+                 hac_t.test2(alpha(r2,f5),alpha(r1,f5),rr2,rr1,alternative = "less",
+                             paired = TRUE,var.equal = TRUE)$p.val
                  # as.character(round(genRachev.ratio(r1),3)),
                  # ratio.test2(rets1 = rr1,rets2 = rr2,ratio = "genRachev.ratio")
       )
       svp_dt[is.na(svp_dt)] = 0
-      perf_dt[c,s,"SV",,l] = see.stars(matrix(as.numeric(svp_dt),nrow=1),seq(1,9,by=2),seq(2,10,by=2))[seq(1,9,by=2)]
+      perf_dt[c,s,"SV",,l] = see.stars(matrix(as.numeric(svp_dt),nrow=1),seq(1,13,by=2),seq(2,14,by=2))[seq(1,13,by=2)]
       avp_dt = c(as.character(round(mean(r2)*fq*100,3)),
                  hac_t.test(rr1,rr2,alternative = "less",
                             paired = TRUE,var.equal = TRUE)$p.val,
@@ -719,12 +762,18 @@ for(s in 1:length(spans)){
                  as.character(round(Kappa03(r2),3)),
                  ratio.test2(rets1 = rr2,rets2 = rr1,ratio = "Kappa03"),
                  as.character(round(Kappa04(r2),3)),
-                 ratio.test2(rets1 = rr2,rets2 = rr1,ratio = "Kappa04")
+                 ratio.test2(rets1 = rr2,rets2 = rr1,ratio = "Kappa04"),
                  # as.character(round(genRachev.ratio(r2),3)),
                  # ratio.test2(rets1 = rr2,rets2 = rr1,ratio = "genRachev.ratio")
+                 as.character(round(alpha(r2,f5)*fq*100,3)),
+                 hac_t.test2(alpha(r1,f5),alpha(r2,f5),rr1,rr2,alternative = "less",
+                             paired = TRUE,var.equal = TRUE)$p.val,
+                 as.character(round(alpha(r2,f6)*fq*100,3)),
+                 hac_t.test2(alpha(r1,f5),alpha(r2,f5),rr1,rr2,alternative = "less",
+                             paired = TRUE,var.equal = TRUE)$p.val
       )
       avp_dt[is.na(avp_dt)] = 0
-      perf_dt[c,s,"AV",,l] = see.stars(matrix(as.numeric(avp_dt),nrow=1),seq(1,9,by=2),seq(2,10,by=2))[seq(1,9,by=2)]
+      perf_dt[c,s,"AV",,l] = see.stars(matrix(as.numeric(avp_dt),nrow=1),seq(1,13,by=2),seq(2,14,by=2))[seq(1,13,by=2)]
     }
   }
 }
@@ -791,6 +840,41 @@ tikz("figures/m_ret_plot2.tex",width = 5.90551, height = 9, sanitize = FALSE)
 plot(m_ret_plot)
 dev.off()
 
+m_ret_plot1 = ggplot(data=p1[Constraint=="Leverage - 1.5"]) + geom_line(aes(x=Date,y=Return,color=Strategy,linetype=Strategy)) + 
+  labs(title = "Cummulative Excess Log Returns: Leverage - 1.5", x = "", y = "") + 
+  scale_x_date(date_breaks = "5 year", date_labels =  "%Y") +
+  scale_colour_manual(name = "Strategy",values=cbPalette,labels =c("AV","Market","SV")) + 
+  scale_linetype_manual(name = "Strategy",values=linePalette,labels =c("AV","Market","SV")) +
+  theme(text = element_text(size=11),panel.grid.major.x = element_blank(),
+        panel.grid.major.y = element_line( size=.1, color="black")) +   theme_bw()
+m_ret_plot1 = nberShade(m_ret_plot1,xrange = c(min(p1_dt$Date), max(p1_dt$Date)),openShade = FALSE)
+tikz("figures/m_ret_plot2_1.tex",width = 5.90551, height = 9, sanitize = FALSE)
+plot(m_ret_plot1)
+dev.off()
+
+m_ret_plot2 = ggplot(data=p1[Constraint=="Leverage - 3"]) + geom_line(aes(x=Date,y=Return,color=Strategy,linetype=Strategy)) + 
+  labs(title = "Cummulative Excess Log Returns: Leverage - 3", x = "", y = "") + 
+  scale_x_date(date_breaks = "5 year", date_labels =  "%Y") +
+  scale_colour_manual(name = "Strategy",values=cbPalette,labels =c("AV","Market","SV")) + 
+  scale_linetype_manual(name = "Strategy",values=linePalette,labels =c("AV","Market","SV")) +
+  theme(text = element_text(size=11),panel.grid.major.x = element_blank(),
+        panel.grid.major.y = element_line( size=.1, color="black")) +   theme_bw()
+m_ret_plot2 = nberShade(m_ret_plot2,xrange = c(min(p1_dt$Date), max(p1_dt$Date)),openShade = FALSE)
+tikz("figures/m_ret_plot2_2.tex",width = 5.90551, height = 9, sanitize = FALSE)
+plot(m_ret_plot2)
+dev.off()
+
+m_ret_plot3 = ggplot(data=p1[Constraint=="Leverage - Unconstrained"]) + geom_line(aes(x=Date,y=Return,color=Strategy,linetype=Strategy)) + 
+  labs(title = "Cummulative Excess Log Returns: Leverage - Unconstrained", x = "", y = "") + 
+  scale_x_date(date_breaks = "5 year", date_labels =  "%Y") +
+  scale_colour_manual(name = "Strategy",values=cbPalette,labels =c("AV","Market","SV")) + 
+  scale_linetype_manual(name = "Strategy",values=linePalette,labels =c("AV","Market","SV")) +
+  theme(text = element_text(size=11),panel.grid.major.x = element_blank(),
+        panel.grid.major.y = element_line( size=.1, color="black")) +   theme_bw()
+m_ret_plot3 = nberShade(m_ret_plot3,xrange = c(min(p1_dt$Date), max(p1_dt$Date)),openShade = FALSE)
+tikz("figures/m_ret_plot2_3.tex",width = 5.90551, height = 9, sanitize = FALSE)
+plot(m_ret_plot3)
+dev.off()
 # p2 = data.table(Date = rep(m_data[paper_m_start:(nrow(m_data)-1)]$date,3), 
 #                 Strategy = c(rep("avg_var1m",length(m_av_returns)),rep("mkt_var1m",length(m_vol_returns)),rep("market",length(m_bh_returns))),
 #                 Return = c(m_av_returns,m_vol_returns,m_bh_returns))
@@ -1308,10 +1392,31 @@ m_returns = merge(m_returns,subset(ff_5,select = c("year","month","RMW","CMA")),
 # hac_max_sv = coeftest(lm_max_sv,vcov. = vcovHAC(lm_max_sv))
 # hac_max_av = coeftest(lm_max_av,vcov. = vcovHAC(lm_max_av))
 
-ks.test(adj_m_av_returns,m_bh_returns,alternative = "less")
-dunn.test(list(av_mang = adj_m_av_returns,bh = m_bh_returns),method = "by")
-wt_out = wtdpapb(xa = adj_m_av_returns,xb = m_bh_returns)
+ks.test(adj_m_av_returns,adj_m_vol_returns,alternative = "less")
+dunn.test(list(av_mang = adj_m_av_returns,bh = adj_m_vol_returns),method = "by")
+wt_out = wtdpapb(xa = adj_m_av_returns,xb = adj_m_vol_returns)
 sd2_out = stochdom2(wt_out$dj,wt_out$wpa,wt_out$wpb)
+
+
+smcap = as.timeSeries(data.table(adj_m_av_returns,adj_m_vol_returns))
+summary(smcap)
+round(basicStats(cbind(adj_m_av_returns,adj_m_vol_returns)),3)
+matplot(cbind(adj_m_av_returns,adj_m_vol_returns), typ="l", main="Returns on AV and SV Managed Portfolios")
+layout(matrix(1:4, nrow = 2, ncol = 2))
+dgg=density(adj_m_vol_returns)
+n=length(dgg$x)
+plot(dgg, main="Kernel smooth density for SV")
+dmkt=density(adj_m_av_returns)
+plot(dmkt, main="Kernel smooth density for AV")
+cdfgg=diffinv(dgg$y)
+cdfmkt=diffinv(dmkt$y)
+plot(dgg$x,cdfgg[2:(n+1)], typ="l",
+     main="Cumulative density for SV",xlab="x", ylab="Cumulative density")
+plot(dmkt$x,cdfmkt[2:(n+1)], typ="l",
+     main="Cumulative density for AV",xlab="x", ylab="Cumulative density")
+layout(matrix(1:1, nrow = 1, ncol = 1)) #back to normal plotting
+
+
 
 
 ## leverage ##
@@ -2008,18 +2113,39 @@ IntData = rbind(bigData[Country%fin%c("aus","brazil","china","france","italy","j
                 bigData2[Country%fin%c("germany","india","uk")],fill = TRUE)
 stargazer(IntSummary[Country%fin%unique(IntData$Country)],summary = FALSE,out = 'tables/tab_intSummary.tex')
 
+IntData = IntData %>%
+  mutate(Country =  factor(Country, 
+                           levels = c("aus","brazil","china","germany","france","india",
+                                      "italy","japan","uk","usa"))) %>%
+  arrange(Country) 
+IntData = as.data.table(IntData)
 IntPerformance1 = IntData[!is.na(dg)&!(is.na(av_weight)|is.na(sv_weight)), 
                           .(av_return = mean(av_weight*xlogret)*1200, 
+                            av_returnp = hac_t.test(resReturns(av_weight*xlogret,
+                                                               sv_weight*xlogret),
+                                                    resReturns(sv_weight*xlogret,
+                                                               av_weight*xlogret),alternative = "greater",
+                                                    paired = TRUE,var.equal = TRUE)$p.val,
                             av_sharpe = mean(av_weight*xlogret)*sqrt(12)/sd(av_weight*xlogret),
+                            av_sharpep = ratio.test2(rets1 = 
+                                                       resReturns(av_weight*xlogret,
+                                                                  sv_weight*xlogret),
+                                                     rets2 = resReturns(sv_weight*xlogret,
+                                                                av_weight*xlogret),ratio = "Sratio"),
                             sv_return = mean(sv_weight*xlogret)*1200, 
                             sv_sharpe = mean(sv_weight*xlogret)*sqrt(12)/sd(sv_weight*xlogret),
                             bh_return = mean(xlogret)*1200,
                             bh_sharpe = mean(xlogret)*sqrt(12)/sd(xlogret)
                           ), 
                           by = Country]
-IntPerformance1 = cbind(c("AUS","BRA","CHN","FRA","ITA","JPN","DEU","IND","UK"),round(IntPerformance1[, -"Country"],digits = 3))
+
+
+
+IntPerformance1 = cbind(c("AUS","BRA","CHN","FRA","ITA","JPN","DEU","IND","UK","USA"),round(IntPerformance1[, -"Country"],digits = 3))
 setnames(IntPerformance1,"V1","Country")
-setorderv(IntPerformance1,"Country",1)
+tmpI1 = see.stars(as.matrix(IntPerformance1[, -"Country"],nrow=nrow(IntPerformance1)),c(1,3),c(2,4))[,c(1,3,5:(ncol(IntPerformance1)-1))]
+IntPerformance1 = cbind(c("AUS","BRA","CHN","FRA","ITA","JPN","DEU","IND","UK","USA"),tmpI1)
+# setorderv(IntPerformance1,"Country",1)
 stargazer(IntPerformance1,summary = FALSE,out = 'tables/performance/tab_intPerf1.tex')
 
 intlist = vector(mode = "list",length = 3)
@@ -2119,10 +2245,20 @@ worldData[, "sv_weight" := c_sv/var1m.tm1]
 worldData[, av_return := av_weight * xlogret]
 worldData[, sv_return := sv_weight * xlogret]
 worldData[!is.na(dg)&!(is.na(av_weight)|is.na(sv_weight)), 
-          .(av_return = mean(av_return)*1200, 
-            av_sharpe = mean(av_return)*sqrt(12)/sd(av_return),
-            sv_return = mean(sv_return)*1200, 
-            sv_sharpe = mean(sv_return)*sqrt(12)/sd(sv_return),
+          .(av_return = mean(av_weight*xlogret)*1200, 
+            av_returnp = hac_t.test(resReturns(av_weight*xlogret,
+                                               sv_weight*xlogret),
+                                    resReturns(sv_weight*xlogret,
+                                               av_weight*xlogret),alternative = "greater",
+                                    paired = TRUE,var.equal = TRUE)$p.val,
+            av_sharpe = mean(av_weight*xlogret)*sqrt(12)/sd(av_weight*xlogret),
+            av_sharpep = ratio.test2(rets1 = 
+                                       resReturns(av_weight*xlogret,
+                                                  sv_weight*xlogret),
+                                     rets2 = resReturns(sv_weight*xlogret,
+                                                        av_weight*xlogret),ratio = "Sratio"),
+            sv_return = mean(sv_weight*xlogret)*1200, 
+            sv_sharpe = mean(sv_weight*xlogret)*sqrt(12)/sd(sv_weight*xlogret),
             bh_return = mean(xlogret)*1200,
             bh_sharpe = mean(xlogret)*sqrt(12)/sd(xlogret)
           ), 
@@ -2267,21 +2403,38 @@ alt_inv_m = merge(alt_inv_m,subset(currency,
 setkey(alt_inv_m,index,year,month)
 alt_inv_m[, Rf_lag := shift(Rfree), by = index]
 alt_inv_m[, xlogret := log1p(RET) - log1p(Rf_lag)]
-alt_inv_m[!(is.na(avar1m.tm1)|is.na(var1m.tm1)), c_av := genc(.SD,"av"), .SDcols = c("xlogret","avar1m.tm1","var1m.tm1")]
-alt_inv_m[!(is.na(avar1m.tm1)|is.na(var1m.tm1)), c_sv := genc(.SD,"sv"), .SDcols = c("xlogret","avar1m.tm1","var1m.tm1")]
+alt_inv_m[!(is.na(avar1m.tm1)|is.na(var1m.tm1)), c_av := genc(.SD,"av"), .SDcols = c("xlogret","avar1m.tm1","var1m.tm1"), by = index]
+alt_inv_m[!(is.na(avar1m.tm1)|is.na(var1m.tm1)), c_sv := genc(.SD,"sv"), .SDcols = c("xlogret","avar1m.tm1","var1m.tm1"), by = index]
 alt_inv_m[, "av_weight" := c_av/avar1m.tm1]
 alt_inv_m[, "sv_weight" := c_sv/var1m.tm1]
 alt_inv_m[, av_return := av_weight * xlogret]
 alt_inv_m[, sv_return := sv_weight * xlogret]
 altPerf1 = alt_inv_m[!(is.na(av_return)|is.na(sv_return)), 
-         .(av_return = mean(av_return)*1200, 
-           av_sharpe = mean(av_return)*sqrt(12)/sd(av_return),
-           sv_return = mean(sv_return)*1200, 
-           sv_sharpe = mean(sv_return)*sqrt(12)/sd(sv_return),
-           bh_return = mean(xlogret)*1200,
-           bh_sharpe = mean(xlogret)*sqrt(12)/sd(xlogret)
-         ), by = index]
+                     .(av_return = mean(av_weight*xlogret)*1200, 
+                       av_returnp = hac_t.test(resReturns(av_weight*xlogret,
+                                                          sv_weight*xlogret),
+                                               resReturns(sv_weight*xlogret,
+                                                          av_weight*xlogret),alternative = "greater",
+                                               paired = TRUE,var.equal = TRUE)$p.val,
+                       av_sharpe = mean(av_weight*xlogret)*sqrt(12)/sd(av_weight*xlogret),
+                       av_sharpep = ratio.test2(rets1 = 
+                                                  resReturns(av_weight*xlogret,
+                                                             sv_weight*xlogret),
+                                                rets2 = resReturns(sv_weight*xlogret,
+                                                                   av_weight*xlogret),ratio = "Sratio"),
+                       sv_return = mean(sv_weight*xlogret)*1200, 
+                       sv_sharpe = mean(sv_weight*xlogret)*sqrt(12)/sd(sv_weight*xlogret),
+                       bh_return = mean(xlogret)*1200,
+                       bh_sharpe = mean(xlogret)*sqrt(12)/sd(xlogret)
+                     ), 
+                     by = index]
 altPerf1 = cbind(altPerf1[,1],round(altPerf1[,2:ncol(altPerf1)],3))
+# setnames(altPerf1,"V1","Index")
+tmpI1 = see.stars(as.matrix(altPerf1[, -"index"],nrow=nrow(altPerf1)),c(1,3),c(2,4))[,c(1,3,5:(ncol(altPerf1)-1))]
+altPerf1 = cbind(c("bbdollar","reit","dbcurr","dbcarry","dbmom","dbmom2","dbval","bcom","gscom"),tmpI1)
+# setorderv(IntPerformance1,"Country",1)
+stargazer(IntPerformance1,summary = FALSE,out = 'tables/performance/tab_intPerf1.tex')
+
 stargazer(altPerf1,summary = FALSE,out = 'tables/performance/tab_altPerf1.tex')
 altPerf2 = alt_inv_m[!(is.na(av_return)|is.na(sv_return)),
                     .(av_return = mean(av_return)*1200,
@@ -2308,3 +2461,379 @@ altPerf3 = cbind(c("bbdollar","reit","dbcurr","bdcarry","dbmom","dbmom2","dbval"
 setnames(altPerf3,"V1","Index")
 setorderv(altPerf3,"Index",1)
 stargazer(altPerf3,summary = FALSE,out = 'tables/performance/tab_altPerf3.tex')
+altSummary = alt_inv_m[!(is.na(av_return)|is.na(sv_return)), .(Start = paste(head(year,1),"-",head(month,1)), N = length(.I)), by = "index"]
+
+#### borrowing quartiles ####
+ff_data[, top4 := RF_lag >= .0042908]
+ff_data[, bottom4 := RF_lag <= .0003]
+borrowing_index = subset(ff_data,subset = ff_data$date%in%(spans[[1]]+months(1)),select = c("date","top4","bottom4"))
+rtsdt = t(returns_dt[,"053","NO",])
+rtsdt = as.data.table(rtsdt,keep.rownames=TRUE)
+setnames(rtsdt,c("date","AV","SV"))
+rtsdt[, date := as.Date(date,format="%Y-%m-%d")]
+rtsdt = merge(rtsdt,borrowing_index,by="date")
+perf_dt2 = array(dim = c(1,2,3,7,1),dimnames = list(Target = "053",Sample = c("top4","bottom4"),Strategy = c("BH","SV","AV"),
+                                                    Measure = c("Return","Sharpe","Sortino","Kappa$_{3}$",
+                                                                "Kappa$_{4}$","alpha$_{FF3}$","alpha$_{FF3+Mom}$"),
+                                                    Constraint = "NO"))
+set.seed(123)
+for(s in 1:length(c("top4","bottom4"))){
+  sub = c("top4","bottom4")[s]
+  fq = 12
+  spdt = subset(rtsdt,subset = get(sub)==TRUE,select = c("date",eval(sub)))
+  r0 = c(m_bh_returns[m_bh_dates%fin% spdt$date])
+  f3 = merge(subset(ff_data,select = c("date","SMB","HML","Mkt_RF")),subset(spdt,select = "date"),by="date")
+  f3[, date := NULL]
+  f3 = as.matrix(f3)
+  f4 = merge(subset(ff_data,select = c("date","SMB","HML","Mkt_RF","Mom")),subset(spdt,select = "date"),by="date")
+  f4[, date := NULL]
+  f4 = as.matrix(f4)
+  c = "053"
+  l= "NO"
+  sp_logical = unlist(rtsdt[, eval(sub), with = FALSE])
+  r1 = returns_dt["sv",c,l,sp_logical]
+  r2 = returns_dt["av",c,l,sp_logical]
+  var1 = VAR(y = data.table(r1,r2),p = 1,type = "none", season = fq)
+  return_resid = data.table(r1 = var1$varresult$r1$residuals,r2 = var1$varresult$r2$residuals)
+  rr1 = return_resid$r1
+  rr2 = return_resid$r2
+  a3r1 = alpha(r1,f3)
+  a3r2 = alpha(r2,f3)
+  a4r1 = alpha(r1,f4)
+  a4r2 = alpha(r2,f4)
+  perf_dt2[c,s,"BH",,l]  = c(as.character(round(mean(r0)*fq*100,3)),
+                            as.character(round((mean(r0)/sd(r0))* sqrt(fq),3)),
+                            as.character(round(sortinoR(r0,annualize = TRUE,freq = fq),3)),
+                            as.character(round(Kappa03(r0),3)),
+                            as.character(round(Kappa04(r0),3)),
+                            NA_real_,
+                            NA_real_
+                            #as.character(round(alpha(r0,f5)*fq*100,3)),
+                            #as.character(round(alpha(r0,f6)*fq*100,3))
+                            # as.character(round(genRachev.ratio(r0),3))
+  )
+  svp_dt = c(as.character(round(mean(r1)*fq*100,3)),
+             hac_t.test(rr2,rr1,alternative = "less",
+                        paired = TRUE,var.equal = TRUE)$p.val,
+             as.character(round(Sratio(r1,annualize = TRUE,freq = fq),3)),
+             ratio.test2(rets1 = rr1,rets2 = rr2,ratio = "Sratio"),
+             as.character(round(sortinoR(r1,annualize = TRUE,freq = fq),3)),
+             ratio.test2(rets1 = rr1,rets2 = rr2,ratio = "sortinoR"),
+             as.character(round(Kappa03(r1),3)),
+             ratio.test2(rets1 = rr1,rets2 = rr2,ratio = "Kappa03"),
+             as.character(round(Kappa04(r1),3)),
+             ratio.test2(rets1 = rr1,rets2 = rr2,ratio = "Kappa04"),
+             as.character(round(a3r1[[1]]*fq*100,3)),
+             hac_t.test2(a3r2[[1]],a3r1[[1]],a3r2[[2]],a3r1[[2]],alternative = "less",
+                         paired = TRUE,var.equal = TRUE)$p.val,
+             as.character(round(a4r1[[1]]*fq*100,3)),
+             hac_t.test2(a4r2[[1]],a4r1[[1]],a4r2[[2]],a4r1[[2]],alternative = "less",
+                         paired = TRUE,var.equal = TRUE)$p.val
+             # as.character(round(genRachev.ratio(r1),3)),
+             # ratio.test2(rets1 = rr1,rets2 = rr2,ratio = "genRachev.ratio")
+  )
+  svp_dt[is.na(svp_dt)] = 0
+  perf_dt2[c,s,"SV",,l] = see.stars(matrix(as.numeric(svp_dt),nrow=1),seq(1,13,by=2),seq(2,14,by=2))[seq(1,13,by=2)]
+  avp_dt = c(as.character(round(mean(r2)*fq*100,3)),
+             hac_t.test(rr1,rr2,alternative = "less",
+                        paired = TRUE,var.equal = TRUE)$p.val,
+             as.character(round(Sratio(r2,annualize = TRUE,freq = fq),3)),
+             ratio.test2(rets1 = rr2,rets2 = rr1,ratio = "Sratio"),
+             as.character(round(sortinoR(r2,annualize = TRUE,freq = fq),3)),
+             ratio.test2(rets1 = rr2,rets2 = rr1,ratio = "sortinoR"),
+             as.character(round(Kappa03(r2),3)),
+             ratio.test2(rets1 = rr2,rets2 = rr1,ratio = "Kappa03"),
+             as.character(round(Kappa04(r2),3)),
+             ratio.test2(rets1 = rr2,rets2 = rr1,ratio = "Kappa04"),
+             # as.character(round(genRachev.ratio(r2),3)),
+             # ratio.test2(rets1 = rr2,rets2 = rr1,ratio = "genRachev.ratio")
+             as.character(round(a3r2[[1]]*fq*100,3)),
+             hac_t.test2(a3r1[[1]],a3r2[[1]],a3r1[[2]],a3r2[[2]],alternative = "less",
+                         paired = TRUE,var.equal = TRUE)$p.val,
+             as.character(round(a4r2[[1]]*fq*100,3)),
+             hac_t.test2(a4r1[[1]],a4r2[[1]],a4r1[[2]],a4r2[[2]],alternative = "less",
+                         paired = TRUE,var.equal = TRUE)$p.val
+  )
+  avp_dt[is.na(avp_dt)] = 0
+  perf_dt2[c,s,"AV",,l] = see.stars(matrix(as.numeric(avp_dt),nrow=1),seq(1,13,by=2),seq(2,14,by=2))[seq(1,13,by=2)]
+}
+out2 = rbind(perf_dt2["053",1,,,"NO"],perf_dt2["053",2,,,"NO"])
+ltex2 = stargazer(out2,rownames = FALSE,summary = FALSE,out.header = FALSE)
+cat(x = ltex2,sep = '\n',file = paste0("tables/performance/borrowing_performance.tex"))
+
+#### stochastic dominance ####
+ill_graph_dt = data.table(Wpa = NA_real_, p = seq(0,1,by=.001),
+                          alpha=c(rep(0,length(seq(0,1,by=.001))),
+                                  rep(.4,length(seq(0,1,by=.001))),
+                                  rep(1,length(seq(0,1,by=.001)))))
+ill_graph_dt[, Wpa := exp(-(-log(p))^alpha)]
+ill_graph_dt[, alpha := as.factor(alpha)]
+sd_ill_plot = ggplot(ill_graph_dt) + geom_line(aes(x=p,y=Wpa,color=alpha)) + theme_bw()
+tikz("figures/sd_ill_plot.tex",width = 5.90551, height = 3,sanitize = FALSE)
+plot(sd_ill_plot)
+dev.off()
+sd_table = round(compall(adj_m_av_returns,adj_m_vol_returns),3)
+stargazer(sd_table,summary = FALSE,digits = 3,out = 'tables/performance/sd_utility.tex')
+
+### other investment correlations ####
+MD1 = rbind(subset(IntData,select = c("year","month","xlogret","Country")),
+            subset(worldData[Country=="worldD"],select = c("year","month","xlogret","Country")))
+MD2 = subset(alt_inv_m[index%in%c("bbdollar","reit","dbcurr","dbcarry","dbmom2","bcom")],
+             select = c("year","month","index","xlogret"))
+MD = rbind(MD1,MD2)
+library(dplyr)
+MD = MD %>%
+  mutate(Country =  factor(Country, 
+                           levels = c("aus","brazil","china","germany","france","india",
+                                      "italy","japan","uk","usa","worldD","bbdollar","dbcurr",
+                                      "dbcarry","dbmom2","reit","bcom"))) %>%
+  arrange(Country) 
+MD3 = spread(data = MD,key = Country, value = xlogret) 
+MD3 = as.data.table(MD3)
+mmat = matrix(NA_real_,ncol(MD3)-2,ncol(MD3)-2)
+mmat[] = 1
+mmat[upper.tri(mmat)] = 0
+cMD = cor(MD3[, -c("year","month"), with = FALSE], use = "pairwise.complete.obs")
+cMD = round(cMD,3)
+cMD = cMD * mmat
+cMD[cMD == 0] = NA_real_
+stargazer(cMD,summary = FALSE,out = 'tables/summary/other_invst_corr.tex')
+
+#### mkt2gdp and int returns ####
+pop_dt = fread(input = 'population.csv')
+setnames(pop_dt,
+         c("Country Code","AUS","BRA","CHN","DEU","FRA","GBR","IND","ITA",
+           "JPN","USA")
+         ,c("year","australia","brazil","china","germany","france","uk",
+            "india","italy","japan","usa"))
+pop_dt = melt(pop_dt,id.vars = "year",variable.name = "Country",value.name = "pop")
+ratios = merge(ratios,pop_dt,by=c("year","Country"),all.x=TRUE)
+ratios[, mkt2gdp2 := mkt2gdp * pop]
+ratios[, count := length(unique(Country)), by = c("year")]
+ratios[, top := NULL]
+setorder(setDT(ratios), year, -mkt2gdp2)[, indx := seq_len(.N), by = year][indx <= count/2, top := 1]
+# setorder(setDT(ratios), year, -mkt2gdp2)[, indx := seq_len(.N), by = year][indx >= count - 3, bottom := 1]
+ratios[is.na(top), top := 0]
+# ratios[is.na(bottom), bottom := 0]
+ratios[Country=="uk"&year>=2012, top := 1]
+ratios[Country=="brazil"&year>=2013, top := 0]
+mxD = merge(IntData,ratios,by=c("year","Country"))
+# mkt2gdp_port = mxD[year >= 2005, .(RET = mean(av_return*(top==1),na.rm = T) - mean(av_return*!(top==1),na.rm = T)), by = c("year","month")]
+# mkt2gdp_retSharp = mkt2gdp_port[, .(ret = mean(RET)*1200, sharpe = mean(RET) / sd(RET) * sqrt(12))]
+
+mxD_long = mxD[year >= 2005 & top==1, .(RET = mean(av_return,na.rm = T)), by = c("year","month")]
+mkt2gdp_retSharp_long = mxD_long[, .(ret = mean(RET)*1200, sharpe = mean(RET) / sd(RET) * sqrt(12))]
+mxD_short = mxD[year >= 2005 & top==0, .(RET = mean(av_return,na.rm = T)), by = c("year","month")]
+mkt2gdp_retSharp_short = mxD_short[, .(ret = mean(RET)*1200, sharpe = mean(RET) / sd(RET) * sqrt(12))]
+
+mkt2gdp_port = data.table(year = mxD_long$year, month = mxD_long$month ,RET = mxD_long$RET - mxD_short$RET)
+mkt2gdp_retSharp = mkt2gdp_port[, .(ret = mean(RET)*1200, sharpe = mean(RET) / sd(RET) * sqrt(12))]
+
+globalff = fread(input = 'Global_5_Factors.csv')
+globalff[, year := as.integer(substr(V1,1,4))]
+globalff[, month := as.integer(substr(V1,5,6))]
+globalff[, c("SMB","HML","RMW","CMA","Mkt","RF_lag","Mom") := lapply(.SD/100,log1p), 
+         .SDcols = c("SMB","HML","RMW","CMA","Mkt","RF_lag","Mom")]
+globalff = merge(globalff,subset(worldData[Country=="worldD"],
+                                 select = c("year","month","xlogret")),all.x=TRUE)
+setnames(globalff,"xlogret","Mkt_RF2")
+globalff[, Mkt_RF := Mkt - RF_lag]
+
+a3s = alpha2(mxD_long$RET,as.matrix(globalff[, c("SMB","HML","Mkt_RF2")]))
+a5s = alpha2(mxD_long$RET,as.matrix(globalff[, c("SMB","HML","Mkt_RF2","RMW","CMA")]))
+a6s = alpha2(mxD_long$RET,as.matrix(globalff[, c("SMB","HML","Mkt_RF2","RMW","CMA","Mom")]))
+mkt2gdp_strategyLong = c(mkt2gdp_retSharp_long,a3s[1]*1200,a3s[2],a5s[1]*1200,a5s[2],a6s[1]*1200,a6s[2])
+mkt2gdp_strategyLong = unlist(mkt2gdp_strategyLong)
+
+a3s = alpha2(mxD_short$RET,as.matrix(globalff[, c("SMB","HML","Mkt_RF2")]))
+a5s = alpha2(mxD_short$RET,as.matrix(globalff[, c("SMB","HML","Mkt_RF2","RMW","CMA")]))
+a6s = alpha2(mxD_short$RET,as.matrix(globalff[, c("SMB","HML","Mkt_RF2","RMW","CMA","Mom")]))
+mkt2gdp_strategyshort = c(mkt2gdp_retSharp_short,a3s[1]*1200,a3s[2],a5s[1]*1200,a5s[2],a6s[1]*1200,a6s[2])
+mkt2gdp_strategyshort = unlist(mkt2gdp_strategyshort)
+
+a3s = alpha2(mkt2gdp_port$RET,as.matrix(globalff[, c("SMB","HML","Mkt_RF2")]))
+a5s = alpha2(mkt2gdp_port$RET,as.matrix(globalff[, c("SMB","HML","Mkt_RF2","RMW","CMA")]))
+a6s = alpha2(mkt2gdp_port$RET,as.matrix(globalff[, c("SMB","HML","Mkt_RF2","RMW","CMA","Mom")]))
+mkt2gdp_strategy = c(mkt2gdp_retSharp,a3s[1]*1200,a3s[2],a5s[1]*1200,a5s[2],a6s[1]*1200,a6s[2])
+mkt2gdp_strategy = unlist(mkt2gdp_strategy)
+mkt2gdp2_results = rbind(mkt2gdp_strategyLong,mkt2gdp_strategyshort,mkt2gdp_strategy)
+
+ratios[, top := NULL]
+
+wb_ranking = fread(input = 'worldbank_ranking.csv',header = TRUE)
+wb_melt = melt(wb_ranking,id.vars = "Country",variable.name = "year",value.name = "wbTop")
+wb_melt[, year := as.integer(as.character(year))]
+ratios = merge(ratios,wb_melt,by=c("Country","year"))
+
+# setorder(setDT(ratios), year, -mkt2gdp)[, indx := seq_len(.N), by = year][indx <= count/2, top := 1]
+# setorder(setDT(ratios), year, -mkt2gdp2)[, indx := seq_len(.N), by = year][indx >= count - 3, bottom := 1]
+# ratios[is.na(top), top := 0]
+# ratios[is.na(bottom), bottom := 0]
+# ratios[Country=="uk"&year>=2013, top := 1]
+# ratios[Country=="india"&year>=2013, top := 0]
+mxD = merge(IntData,ratios,by=c("year","Country"))
+
+mxD_long = mxD[year >= 2005 & wbTop==1, .(RET = mean(av_return,na.rm = T)), by = c("year","month")]
+mkt2gdp_retSharp_long = mxD_long[, .(ret = mean(RET)*1200, sharpe = mean(RET) / sd(RET) * sqrt(12))]
+mxD_short = mxD[year >= 2005 & wbTop==0, .(RET = mean(av_return,na.rm = T)), by = c("year","month")]
+mkt2gdp_retSharp_short = mxD_short[, .(ret = mean(RET)*1200, sharpe = mean(RET) / sd(RET) * sqrt(12))]
+
+mkt2gdp_port = data.table(year = mxD_long$year, month = mxD_long$month ,RET = mxD_long$RET - mxD_short$RET)
+mkt2gdp_retSharp = mkt2gdp_port[, .(ret = mean(RET)*1200, sharpe = mean(RET) / sd(RET) * sqrt(12))]
+
+
+a3s = alpha2(mxD_long$RET,as.matrix(globalff[, c("SMB","HML","Mkt_RF2")]))
+a5s = alpha2(mxD_long$RET,as.matrix(globalff[, c("SMB","HML","Mkt_RF2","RMW","CMA")]))
+a6s = alpha2(mxD_long$RET,as.matrix(globalff[, c("SMB","HML","Mkt_RF2","RMW","CMA","Mom")]))
+mkt2gdp_strategyLong = c(mkt2gdp_retSharp_long,a3s[1]*1200,a3s[2],a5s[1]*1200,a5s[2],a6s[1]*1200,a6s[2])
+mkt2gdp_strategyLong = unlist(mkt2gdp_strategyLong)
+
+a3s = alpha2(mxD_short$RET,as.matrix(globalff[, c("SMB","HML","Mkt_RF2")]))
+a5s = alpha2(mxD_short$RET,as.matrix(globalff[, c("SMB","HML","Mkt_RF2","RMW","CMA")]))
+a6s = alpha2(mxD_short$RET,as.matrix(globalff[, c("SMB","HML","Mkt_RF2","RMW","CMA","Mom")]))
+mkt2gdp_strategyshort = c(mkt2gdp_retSharp_short,a3s[1]*1200,a3s[2],a5s[1]*1200,a5s[2],a6s[1]*1200,a6s[2])
+mkt2gdp_strategyshort = unlist(mkt2gdp_strategyshort)
+
+a3s = alpha2(mkt2gdp_port$RET,as.matrix(globalff[, c("SMB","HML","Mkt_RF2")]))
+a5s = alpha2(mkt2gdp_port$RET,as.matrix(globalff[, c("SMB","HML","Mkt_RF2","RMW","CMA")]))
+a6s = alpha2(mkt2gdp_port$RET,as.matrix(globalff[, c("SMB","HML","Mkt_RF2","RMW","CMA","Mom")]))
+mkt2gdp_strategy = c(mkt2gdp_retSharp,a3s[1]*1200,a3s[2],a5s[1]*1200,a5s[2],a6s[1]*1200,a6s[2])
+mkt2gdp_strategy = unlist(mkt2gdp_strategy)
+mkt2gdp2_results2 = rbind(mkt2gdp_strategyLong,mkt2gdp_strategyshort,mkt2gdp_strategy)
+
+cs_wealth = fread(input = 'credit_suisse_wealth.csv',header = TRUE)
+cs_wealth = melt(cs_wealth,id.vars = "Country",variable.name = "year",value.name = "wealth")
+cs_wealth[, year := as.integer(as.character(year))]
+
+cs_wealth = merge(cs_wealth,mktvalue[quarter==1],by=c("year","Country"))
+cs_wealth[, mkt2wealth := mktcap / wealth]
+setkey(cs_wealth,Country,year)
+cs_wealth[, retMcap := ROC(mktcap),by = "Country"]
+cs_wealth[, retCSWealth := ROC(wealth),by = "Country"]
+cs_wealth[, retCSWealth := retMcap / retCSWealth]
+
+ratios = merge(ratios,subset(cs_wealth,select = c("year","Country","retCSWealth")),by=c("Country","year"))
+
+setorder(setDT(ratios), year, -retCSWealth)[, indx := seq_len(.N), by = year][indx <= count/2, CStop2 := 1]
+# setorder(setDT(ratios), year, -mkt2gdp2)[, indx := seq_len(.N), by = year][indx >= count - 3, bottom := 1]
+ratios[is.na(CStop2), CStop2 := 0]
+# ratios[is.na(bottom), bottom := 0]
+# ratios[Country=="uk"&year>=2013, top := 1]
+# ratios[Country=="india"&year>=2013, top := 0]
+mxD = merge(IntData,ratios,by=c("year","Country"))
+
+mxD_long = mxD[year >= 2005 & CStop2==1, .(RET = mean(av_return,na.rm = T)), by = c("year","month")]
+mkt2gdp_retSharp_long = mxD_long[, .(ret = mean(RET)*1200, sharpe = mean(RET) / sd(RET) * sqrt(12))]
+mxD_short = mxD[year >= 2005 & CStop2==0, .(RET = mean(av_return,na.rm = T)), by = c("year","month")]
+mkt2gdp_retSharp_short = mxD_short[, .(ret = mean(RET)*1200, sharpe = mean(RET) / sd(RET) * sqrt(12))]
+
+mkt2gdp_port = data.table(year = mxD_long$year, month = mxD_long$month ,RET = mxD_long$RET - mxD_short$RET)
+mkt2gdp_retSharp = mkt2gdp_port[, .(ret = mean(RET)*1200, sharpe = mean(RET) / sd(RET) * sqrt(12))]
+
+
+a3s = alpha2(mxD_long$RET,as.matrix(globalff[, c("SMB","HML","Mkt_RF")]))
+a5s = alpha2(mxD_long$RET,as.matrix(globalff[, c("SMB","HML","Mkt_RF","RMW","CMA")]))
+a6s = alpha2(mxD_long$RET,as.matrix(globalff[, c("SMB","HML","Mkt_RF","RMW","CMA","Mom")]))
+mkt2gdp_strategyLong = c(mkt2gdp_retSharp_long,a3s[[1]][1]*1200,a3s[[1]][2],a5s[[1]][1]*1200,a5s[[1]][2],a6s[[1]][1]*1200,a6s[[1]][2])
+mkt2gdp_strategyLong = unlist(mkt2gdp_strategyLong)
+
+a3sS = alpha2(mxD_short$RET,as.matrix(globalff[, c("SMB","HML","Mkt_RF")]))
+a5sS = alpha2(mxD_short$RET,as.matrix(globalff[, c("SMB","HML","Mkt_RF","RMW","CMA")]))
+a6sS = alpha2(mxD_short$RET,as.matrix(globalff[, c("SMB","HML","Mkt_RF","RMW","CMA","Mom")]))
+mkt2gdp_strategyshort = c(mkt2gdp_retSharp_short,a3sS[[1]][1]*1200,a3sS[[1]][2],a5sS[[1]][1]*1200,
+                          a5sS[[1]][2],a6sS[[1]][1]*1200,a6sS[[1]][2])
+mkt2gdp_strategyshort = unlist(mkt2gdp_strategyshort)
+
+a3s = unlist(alpha3(mkt2gdp_strategyLong[3]/1200,mkt2gdp_strategyshort[3]/1200,a3s[[2]],a3sS[[2]]))
+a5s = unlist(alpha3(mkt2gdp_strategyLong[5]/1200,mkt2gdp_strategyshort[5]/1200,a5s[[2]],a5sS[[2]]))
+a6s = unlist(alpha3(mkt2gdp_strategyLong[7]/1200,mkt2gdp_strategyshort[7]/1200,a6s[[2]],a6sS[[2]]))
+mkt2gdp_strategy = c(mkt2gdp_retSharp,a3s[1]*1200,a3s[3],a5s[1]*1200,a5s[3],a6s[1]*1200,a6s[3])
+mkt2gdp_strategy = unlist(mkt2gdp_strategy)
+mkt2gdp2_results2 = rbind(mkt2gdp_strategyLong,mkt2gdp_strategyshort,mkt2gdp_strategy)
+
+worldBank_wealth = fread(input = 'wealthData2.csv',header = TRUE)
+worldBank_melt = melt(worldBank_wealth,id.vars = "Country",variable.name = "year",value.name = "wealth")
+worldBank_melt[, year := as.integer(as.character(year))]
+years = seq(2005,2015)
+simpledt = data.table(year = rep(years,each=10),Country=unique(worldBank_melt$Country))
+wbWealth = merge(simpledt,worldBank_melt,by=c("year","Country"),all.x=TRUE)
+library(imputeTS)
+setkey(wbWealth,Country,year)
+wbWealth[, wealth2 := imputeTS::na.kalman(wealth,model = "StructTS"),by="Country"]
+# na.kalman(x, model = "StructTS", smooth = TRUE, nit = -1, ...)
+wbWealth = merge(wbWealth,subset(mktvalue[quarter==1],select = c("year","Country","mktcap")),by=c("year","Country"))
+wbWealth[, mkt2wbWealth := mktcap / wealth2]
+setkey(wbWealth,Country,year)
+wbWealth[, retMcap := ROC(mktcap),by = "Country"]
+wbWealth[, retwbWealth := ROC(wealth2),by = "Country"]
+wbWealth[, retWealth := ROC(wealth),by = "Country"]
+wbWealth[, retRatioWB := retMcap / retwbWealth]
+
+
+ratios = merge(ratios,subset(wbWealth,select = c("year","Country","retRatioWB")),by=c("Country","year"))
+setorder(setDT(ratios), year, -retRatioWB)[, indx := seq_len(.N), by = year][indx <= count/2, WBtop := 1]
+# setorder(setDT(ratios), year, -mkt2gdp2)[, indx := seq_len(.N), by = year][indx >= count - 3, bottom := 1]
+ratios[is.na(WBtop2), WBtop := 0]
+# ratios[is.na(bottom), bottom := 0]
+# ratios[Country=="uk"&year>=2013, top := 1]
+# ratios[Country=="india"&year>=2013, top := 0]
+mxD = merge(IntData,ratios[year>=2006],by=c("year","Country"))
+
+mxD_long = mxD[year >= 2006 & WBtop2==1, .(RET = mean(av_return,na.rm = T)), by = c("year","month")]
+mkt2gdp_retSharp_long = mxD_long[, .(ret = mean(RET)*1200, sharpe = mean(RET) / sd(RET) * sqrt(12))]
+mxD_short = mxD[year >= 2006 & WBtop2==0, .(RET = mean(av_return,na.rm = T)), by = c("year","month")]
+mkt2gdp_retSharp_short = mxD_short[, .(ret = mean(RET)*1200, sharpe = mean(RET) / sd(RET) * sqrt(12))]
+
+mkt2gdp_port = data.table(year = mxD_long$year, month = mxD_long$month ,RET = mxD_long$RET - mxD_short$RET)
+mkt2gdp_retSharp = mkt2gdp_port[, .(ret = mean(RET)*1200, sharpe = mean(RET) / sd(RET) * sqrt(12))]
+
+
+a3s = alpha2(mxD_long$RET,as.matrix(globalff[, c("SMB","HML","Mkt_RF2")]))
+a5s = alpha2(mxD_long$RET,as.matrix(globalff[, c("SMB","HML","Mkt_RF2","RMW","CMA")]))
+a6s = alpha2(mxD_long$RET,as.matrix(globalff[, c("SMB","HML","Mkt_RF2","RMW","CMA","Mom")]))
+mkt2gdp_strategyLong = c(mkt2gdp_retSharp_long,a3s[1]*1200,a3s[2],a5s[1]*1200,a5s[2],a6s[1]*1200,a6s[2])
+mkt2gdp_strategyLong = unlist(mkt2gdp_strategyLong)
+
+a3s = alpha2(mxD_short$RET,as.matrix(globalff[, c("SMB","HML","Mkt_RF2")]))
+a5s = alpha2(mxD_short$RET,as.matrix(globalff[, c("SMB","HML","Mkt_RF2","RMW","CMA")]))
+a6s = alpha2(mxD_short$RET,as.matrix(globalff[, c("SMB","HML","Mkt_RF2","RMW","CMA","Mom")]))
+mkt2gdp_strategyshort = c(mkt2gdp_retSharp_short,a3s[1]*1200,a3s[2],a5s[1]*1200,a5s[2],a6s[1]*1200,a6s[2])
+mkt2gdp_strategyshort = unlist(mkt2gdp_strategyshort)
+
+a3s = alpha2(mkt2gdp_port$RET,as.matrix(globalff[, c("SMB","HML","Mkt_RF2")]))
+a5s = alpha2(mkt2gdp_port$RET,as.matrix(globalff[, c("SMB","HML","Mkt_RF2","RMW","CMA")]))
+a6s = alpha2(mkt2gdp_port$RET,as.matrix(globalff[, c("SMB","HML","Mkt_RF2","RMW","CMA","Mom")]))
+mkt2gdp_strategy = c(mkt2gdp_retSharp,a3s[1]*1200,a3s[2],a5s[1]*1200,a5s[2],a6s[1]*1200,a6s[2])
+mkt2gdp_strategy = unlist(mkt2gdp_strategy)
+mkt2gdp2_results3 = rbind(mkt2gdp_strategyLong,mkt2gdp_strategyshort,mkt2gdp_strategy)
+
+#### panel var ####
+library(panelvar)
+japan_returns = NULL
+many_daily_returns = NULL
+mm_cap = NULL
+gc()
+IntData[, date := paste0(year,month)]
+IntData[, Country := as.factor(Country)]
+IntData[, date := as.factor(date)]
+mxD[, date := paste0(year,month)]
+mxD[, Country := as.factor(Country)]
+mxD[, date := as.factor(date)]
+pvar_dt = mxD[year>=2005,c("Country","date","xlogret","dp","dg","avar1m","acorr1m","var1m","mkt2gdp")]
+pvar_dt[, dp := log1p(dp)]
+pvar_dt[, dg := log1p(dg)]
+panlvar1 = pvargmm(dependent_vars = c("avar1m","acorr1m","dp","dg"),lags = 1, 
+                   #exog_vars = "mkt2gdp",
+                   #predet_vars = "var1m",
+        data = pvar_dt,panel_identifier = c("Country","date"),
+        transformation = "fod", 
+        system_instruments = TRUE, system_constant = FALSE,
+        progressbar = TRUE, steps = "mstep",pca_instruments = TRUE,
+        collapse = TRUE)
+
+pvargmm(dependent_vars = c("dp","dg","avar1m","acorr1m","var1m"),lags = 1, 
+        #exog_vars = "mkt2gdp",predet_vars = "var1m",
+        data = pvar_dt,panel_identifier = c("Country","date"),
+        progressbar = TRUE, steps = "twostep",pca_instruments = TRUE,
+        collapse = TRUE)
+

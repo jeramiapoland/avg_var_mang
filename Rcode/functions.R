@@ -369,11 +369,12 @@ unbiased_lm2 = function(X,expSig,N = 10000,lag=NULL,aic=TRUE){
     tstat_vec[i,] = tail(coef(summary(temp_lm))[, "t value"],-1)
   }
   for(i in 1:length(expSig)){
-    if(expSig[i] > 0){
-      pv[i] = sum(tstat_vec[, i] >= tstat[i])/(N-1)
-    } else {
-      pv[i] = sum(tstat_vec[, i] <= tstat[i])/(N-1)
-    }
+    # if(expSig[i] > 0){
+    #   pv[i] = sum(tstat_vec[, i] >= tstat[i])/(N-1)
+    # } else {
+    #   pv[i] = sum(tstat_vec[, i] <= tstat[i])/(N-1)
+    # }
+    pv[i] = sum(abs(tstat_vec[,i]) >= abs(tstat[i]))/(N-1)
   }
   names(cor_betas) = x_names
   names(tstat) = x_names
@@ -1456,4 +1457,171 @@ ddsummary1 = function(S){
     unlist(ddy),
     unlist(ddz)
   )
+}
+
+ez.utility = function(returns,weights,delta,psi,gamma){
+  return(NULL)
+}
+
+prelec1 = function(n,alp){
+  x <- seq_len(n)
+  p <- rep(0,length(x))
+  wp = p
+  p = x/n
+  lnp = log(p)
+  wp = exp(-(-lnp)^alp)
+  wpdif <- c(wp[1], diff(wp))
+  list(x = x, wp = wp ,p = p, pdif = wpdif)
+}
+
+wtdpapb1 = function(xa,xb,alp=1){
+  Ta = length(xa)
+  Tb = length(xb)
+  k = Ta + Tb
+  pa0 = rep(1/Ta, Ta)
+  pb0 = rep(1/Tb, Tb)
+  xpapb = matrix(0, k, 3)
+  for (i in 1:Ta) {
+    xpapb[i, 1] = xa[i]
+    xpapb[i, 2] = pa0[i]
+  }
+  for (i in 1:Tb) {
+    xpapb[Ta + i, 1] = xb[i]
+    xpapb[Ta + i, 3] = pb0[i]
+  }
+  pra = prelec1(n = Ta + Tb,alp)
+  # prb = prelec1(n = Ta + Tb,alp)
+  sm = sort_matrix(xpapb, 1)
+  pa = sm[, 2]
+  pb = sm[, 3]
+  wpa = pa * pra$pdif
+  wpb = pb * pra$pdif
+  dj = sm[, 1] - sm[1, 1]
+  list(wpa = wpa, wpb = wpb, dj = dj)
+}
+
+ibothf=function(dj){
+  n = length(d)
+  ibf = diag(dj)
+  isf=diag(n)
+  ibf[1,1] = dj[1]
+  for(i in 2:n){
+    for(j in 1:(i-1)){
+      ibf[i,j] = dj[j]+dj[j+1]
+      isf[i,j] = 1
+    }
+  }
+  list(I.smallf=isf, I.bigf=.5*ibf)
+}
+
+comp.portfo = function(xa,xb,alp){
+  if(alp<.0001){alp=.0001; print("alp reset to .0001")}
+  xaa = na.omit(xa)
+  xbb = na.omit(xb)
+  gp= wtdpapb1(xaa,xbb,alp)
+  # ibo = ibothf(gp$dj)
+  stdo = stochdom2(gp$dj,gp$wpa,gp$wpb)
+  out = setDT(stdo)
+  ousum = colSums(out)
+}
+
+compall=function(xa,xb){ #New function for all comparisons
+  alpp=c(.01,seq(0.1, 0.9, by=0.1),0.99)
+  out=matrix(NA,length(alpp),5)
+  for (i in 1:length(alpp)){
+    out[i,1]=alpp[i]
+    out[i,2:5]=comp.portfo(xa,xb, alp=alpp[i])}
+  colnames(out)=c("alpha", "SD1", "SD2", "SD3", "SD4")
+  #print(out)
+  return(out)} #end of the new function
+
+alpha = function(rts,mat){
+  tmplm = lm(rts ~ mat)
+  alpha = coeftest(tmplm,vcov. = vcovHAC(tmplm))[1]
+  out = list(alpha,tmplm$residuals)
+  return(out)
+}
+
+alpha2 = function(rts,mat){
+  tmplm = lm(rts ~ mat)
+  # alpha = coeftest(tmplm,vcov. = vcovHAC(tmplm))[1,c("Estimate","Pr(>|t|)")]
+  alpha = summary(tmplm)$coefficients[1,c(1,4)] 
+  return(list(alpha,tmplm$residuals))
+}
+alpha3 = function(a1,a2,rts1,rts2){
+  # tmplm = lm(rts ~ mat)
+  # alpha = coeftest(tmplm,vcov. = vcovHAC(tmplm))[1,c("Estimate","Pr(>|t|)")]
+  # alpha = summary(tmplm)$coefficients[1,c(1,4)] 
+  alpha = c(a1-a2,hac_t.test2(a1,a2,rts1,rts2,alternative="two-sided"))
+  return(alpha)
+}
+
+hac_t.test2 = function(a1,a2,x,y=NULL,paired=FALSE,alternative=c("two-sided","less","greater"),
+                      var.equal = FALSE){
+  if(!is.null(y)){
+    z = x - y
+    if(paired){
+      nom = a1 - a2
+      LRV = lrvar(z, type = "Newey-West", prewhite = TRUE, adjust = TRUE, lag = NULL)
+      den = sqrt(LRV/length(z))
+      tstat = nom / den
+      if(alternative=="less"){
+        pval = pt(q = tstat, df = length(z) - 1,lower.tail = TRUE)
+      } else if(alternative == "greater"){
+        pval = pt(q = tstat, df = length(z) - 1,lower.tail = FALSE)
+      } else {
+        pval = pt(q = tstat, df = length(z) - 1,lower.tail = FALSE) * 2
+      }
+      return(list(t.stat = tstat,p.val = pval))
+    } else { 
+      nom = a1 - a2
+      if(var.equal){
+        LRV1 = lrvar(x, type = "Newey-West", prewhite = TRUE, adjust = TRUE, lag = NULL)
+        LRV2 = lrvar(y, type = "Newey-West", prewhite = TRUE, adjust = TRUE, lag = NULL)
+        SLRV = (((length(x)-1)*LRV1) + ((length(y)-1)*LRV2)) / (length(x)+length(y)-2)
+        den = sqrt(SLRV)*sqrt((1/length(x)+(1/length(y))))
+        tstat = nom / den
+        if(alternative=="less"){
+          pval = pt(q = tstat, df = length(z) - 1,lower.tail = TRUE)
+        } else if(alternative == "greater"){
+          pval = pt(q = tstat, df = length(z) - 1,lower.tail = FALSE)
+        } else {
+          pval = pt(q = tstat, df = length(z) - 1,lower.tail = FALSE) * 2
+        }
+      } else {
+        LRV1 = lrvar(x, type = "Newey-West", prewhite = TRUE, adjust = TRUE, lag = NULL)
+        LRV2 = lrvar(y, type = "Newey-West", prewhite = TRUE, adjust = TRUE, lag = NULL)
+        den = sqrt((LRV1/length(x)+(LRV2/length(y))))
+        tstat = nom / den
+        if(alternative=="less"){
+          pval = pt(q = tstat, df = length(z) - 1,lower.tail = TRUE)
+        } else if(alternative == "greater"){
+          pval = pt(q = tstat, df = length(z) - 1,lower.tail = FALSE)
+        } else {
+          pval = pt(q = tstat, df = length(z) - 1,lower.tail = FALSE) * 2
+        }
+      }
+      return(list(t.stat = tstat,p.val = pval))
+    }
+  }
+  nom = a1
+  LRV1 = lrvar(x, type = "Newey-West", prewhite = TRUE, adjust = TRUE, lag = NULL)
+  den = sqrt(LRV1/length(x))
+  tstat = nom / den
+  if(alternative=="less"){
+    pval = pt(q = tstat, df = length(z) - 1,lower.tail = TRUE)
+  } else if(alternative == "greater"){
+    pval = pt(q = tstat, df = length(z) - 1,lower.tail = FALSE)
+  } else {
+    pval = pt(q = tstat, df = length(z) - 1,lower.tail = FALSE) * 2
+  }
+  return(list(t.stat = tstat,p.val = pval))
+}
+
+resReturns = function(r1,r2){
+  var1 = VAR(y = data.table(r1,r2),p = 1,type = "none", season = fq)
+  return_resid = data.table(r1 = var1$varresult$r1$residuals,r2 = var1$varresult$r2$residuals)
+  rr1 = return_resid$r1
+  #rr2 = return_resid$r2
+  return(rr1)
 }
