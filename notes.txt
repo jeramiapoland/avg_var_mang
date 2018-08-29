@@ -1,0 +1,25 @@
+notes - 
+		1:	Market variance != future returns (papers)
+			M & M use market variance to manage investment in time series limits risk for level of return
+			Like a portfolio optimization (Markowitz)
+			However, Var(P) = sum sum ....
+			PW show Var (P) = sum sum (wwcov) = sum sum (wwpstdstd) ... = ac*av
+				r_t+1 = b * ac where b > 0
+				cor(r_t+1,av) = 0
+			M&M in month t, c/(sig2) for t + 1
+			I say c/(av) for t + 1
+			With either SV or AV target a set volatility overtime and maximize returns by moving in and out
+			
+		2: 	PW argue that AC is systemic and related to agg wealth including the unobser market componet (Roll)
+			starts with Campbell and Viceira (3)
+			[first 3 lines of (4)] ... shocks to stocks returns has variance (1-theta)*sigma + theta*sigma where theta porportion shock to common stock market component
+			...(8)
+			AC term positive but small if the market is not a large part of aggregate wealth, Ws, or the risk premium on the market is 
+			AV term negative
+			intuitively = (translate above)
+			PW leave this theoretically, I'll offer some suggestive evidence that AV management shows AV is not systematic
+			AC is no longer postively related to future returns on a subset where daily returns are a poorer proxy for the unobs market and stocks not significant part of agg wealth
+			AV management works in international markets
+			AV management works across asset class (equity AV can manage non-equity assets but SV cannot)
+		
+		3: 	

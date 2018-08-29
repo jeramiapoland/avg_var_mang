@@ -6,14 +6,14 @@
 \hline \\[-1.8ex] 
 \\[-1.8ex] & \multicolumn{5}{c}{RET$_{t+1}$} \\ 
 \hline \\[-1.8ex] 
- AV & $-$0.130$^{***}$ &  &  & $-$0.168$^{***}$ & $-$0.173$^{*}$ \\ 
-  & p = 0.001 &  &  & p = 0.0001 & p = 0.052 \\ 
+ AV & $-$0.131 &  &  & $-$0.168$^{**}$ & $0.016$ \\ 
+  & p = 0.166 &  &  & p = 0.020 & p = $0.739$ \\ 
   & & & & & \\ 
- AC &  & 0.049 &  & 0.108$^{***}$ &  \\ 
-  &  & p = 0.212 &  & p = 0.010 &  \\ 
+ AC &  & 0.047$^{***}$ &  & 0.106$^{***}$ &  \\ 
+  &  & p = 0.001 &  & p = 0.0001 &  \\ 
   & & & & & \\ 
- SV &  &  & $-$0.107$^{***}$ &  & 0.048 \\ 
-  &  &  & p = 0.006 &  & p = 0.588 \\ 
+ SV &  &  & $-$0.109 &  & $0.254$ \\ 
+  &  &  & p = $0.746$ &  & p = $0.893$ \\ 
   & & & & & \\ 
  Constant & $-$0.000 & $-$0.000 & $-$0.000 & $-$0.000 & $-$0.000 \\ 
   & p = 1.000 & p = 1.000 & p = 1.000 & p = 1.000 & p = 1.000 \\ 
@@ -27,3 +27,16 @@ Adjusted R$^{2}$ & 0.015 & 0.001 & 0.010 & 0.024 & 0.014 \\
  & \multicolumn{5}{r}{$^{**}$Significant at the 5 percent level.} \\ 
  & \multicolumn{5}{r}{$^{*}$Significant at the 10 percent level.} \\ 
 \end{tabular} 
+
+%\begin{tabular}{@{\extracolsep{5pt}} cccccccccccccc} 
+%	\\[-1.8ex]\hline 
+%	\hline \\[-1.8ex] 
+%	& Y & Form & avg\_var1m & t.stat.avg\_var1m & p.val.avg\_var1m & avg\_cor1m & t.stat.avg\_cor1m & p.val.avg\_cor1m & mkt\_var1m & t.stat.mkt\_var1m & p.val.mkt\_var1m & r.squared & adj.r.squared \\ 
+%	\hline \\[-1.8ex] 
+%	1 & logxret.tp1 & logxret.tp1 \textasciitilde avg\_var1m & $$-$0.131$ & $$-$3.494$ & $0.166$ & $$ & $$ & $$ & $$ & $$ & $$ & $0.087$ & $0.084$ \\ 
+%	2 & logxret.tp1 & logxret.tp1 \textasciitilde avg\_cor1m & $$ & $$ & $$ & $0.047$ & $1.281$ & $0.001$ & $$ & $$ & $$ & $0.121$ & $0.119$ \\ 
+%	3 & logxret.tp1 & logxret.tp1 \textasciitilde mkt\_var1m & $$ & $$ & $$ & $$ & $$ & $$ & $$-$0.109$ & $$-$2.983$ & $0.746$ & $0.135$ & $0.132$ \\ 
+%	4 & logxret.tp1 & logxret.tp1 \textasciitilde avg\_var1m + avg\_cor1m & $$-$0.168$ & $$-$4.395$ & $0.020$ & $0.106$ & $2.766$ & $0$ & $$ & $$ & $$ & $0.167$ & $0.161$ \\ 
+%	5 & logxret.tp1 & logxret.tp1 \textasciitilde avg\_var1m + mkt\_var1m & $0.016$ & $0.181$ & $0.739$ & $$ & $$ & $$ & $0.254$ & $2.843$ & $0.107$ & $0.160$ & $0.155$ \\ 
+%	\hline \\[-1.8ex] 
+%\end{tabular} 

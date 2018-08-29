@@ -85,9 +85,9 @@
 % Use endnotes instead of footnotes - redefine \footnote command
 \renewcommand{\footnote}{\endnote}  % Endnotes instead of footnotes
 
-\author{Jeramia Poland \thanks{\rm Indian School of Business, email \href{mailto:jeramia_poland@isb.edu}{jeramia\_poland@isb.edu}. Acknowledgments : I thank Prachi Deuskar, Nitin Kumar, Tarun Chordia, Omesh Kini, Amit Goyal}}
+\author{Jeramia Poland \thanks{\rm Indian School of Business, email \href{mailto:jeramia_poland@isb.edu}{jeramia\_poland@isb.edu}}}
 
-\title{\Large \bf How to Look Clever and Have Envious Neighbors: Average Volatility Managed Leverage Timing}
+\title{\Large \bf How to Look Clever and Have Envious Neighbors: Average Volatility Managed Investment Timing}
 
 \date{}              % No date for final submission
 
@@ -124,35 +124,63 @@
 
 \input{leverage}
 
+\subsection{Drawdowns}
+
+\input{drawdowns} \label{sec:drawdowns}
+
 \subsection{Investor Utility} \label{sec:invest_util}
 
 \input{invest_util}
 
-\section{Regression Analysis} \label{sec:regression}
-
-\subsection{In Sample} \label{sec:in_sample}
+%\section{Regression Analysis} 
+\section{Systemic Risk}\label{sec:regression}
+\input{systemic_risk}
+\subsection{In-Sample} \label{sec:in_sample}
 
 \input{in_sample}
 
-\subsubsection{Robustness} 
+%\subsection{Sub-Sample}
 
-\input{in_robustness}
 
-\subsection{Out of Sample} \label{sec:out_sample}
+
+%\subsubsection{Robustness} 
+
+%\input{in_robustness}
+%
+%\subsection{Out-of-Sample} \label{sec:out_sample}
+%
+%\input{out_sample}
+%
+%\subsubsection{Robustness}
+%
+%\input{robustness}
+%\section{The Driver} \label{sec:preferences}
+
+%\input{preferences}
+
+
+
+\section{Systematic Risk}
+\input{systematic_ac}
+\subsection{Regression Sub-sampling}\label{sec:subsampling}
+%\input{notes_on_regression_subsampling}
+\input{sub_insample}
+
+
+\subsection{Out-of-Sample} \label{sec:out_sample}
 
 \input{out_sample}
 
 \subsubsection{Robustness}
 
 \input{robustness}
-%\section{The Driver} \label{sec:preferences}
 
-%\input{preferences}
-
-\section{Additional Investment} \label{sec:reinvestment}
-\input{ainvestment}
-\subsection{Global Equity}
-\input{perf_robust}
+\subsection{Additional Investment} \label{sec:reinvestment}
+%\input{ainvestment}
+%\subsubsection{Global Equity} \label{sec:global_equity}
+%\input{perf_robust}
+\subsubsection{Other Asset Classes}
+\input{alt_inv}
 
 \section{Conclusion}
 
@@ -182,6 +210,10 @@
 %\end{equation}
 %\end{proposition}
 
+\clearpage
+
+\section{Acknowledgments}
+\input{Acknowledgments}
 \clearpage
 
 %\appendix
@@ -227,5 +259,15 @@
 \input{figures}
 
 \input{tables}
+
+\section{Appendix} \label{sec:appx}
+
+%\renewcommand{\thesection}{\mbox{Internet Appendix}}
+%\renewcommand{\thesubsection}{\Alph{subsection}}
+%\renewcommand{\thesubsubsection}{\mbox{\Alph{subsection}.\arabic{subsubsection}}}
+%\setcounter{equation}{0}
+%\renewcommand{\theequation}{\mbox{\Alph{subsection}.\arabic{equation}}}
+%%\renewcommand{\thesection}{\mbox{\Alph{section}}}
+\input{Appendix}
 
 \end{document}
