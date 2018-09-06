@@ -2380,6 +2380,19 @@ dbval[, dbval := ROC(`Mid Price`,type = "discrete")]
 alt_inv = merge(alt_inv,subset(dbval,select=c("year","month","dbval")),
                 by=c("year","month"),all.x=TRUE)
 
+bonds = fread(input = 'bondI.csv')
+bonds[, Date := as.Date(as.character(Date),format="%d/%m/%Y")]
+bonds = bonds[!is.na(Date)]
+bonds[, year := year(Date)]
+bonds[, month := month(Date)]
+bonds = unique(bonds,by=c("year","month"))
+bonds[, Date := NULL]
+setkey(bonds,year,month)
+bonds[, bbUSuniv := ROC(bbusu_bond,type = "discrete")]
+bonds[, bbUSagg := ROC(bbusa_bond,type = "discrete")]
+alt_inv = merge(alt_inv,subset(bonds,select = c("year","month","bbUSuniv","bbUSagg")),
+                by = c("year","month"),all.x=TRUE)
+
 bcom = as.data.table(read_excel(path = 'commI.xlsx',sheet = 1,skip = 1))
 bcom[, c("year","month") := list(year(Date),month(Date))]
 bcom = unique(bcom,by=c("year","month"))
@@ -2431,7 +2444,7 @@ altPerf1 = alt_inv_m[!(is.na(av_return)|is.na(sv_return)),
 altPerf1 = cbind(altPerf1[,1],round(altPerf1[,2:ncol(altPerf1)],3))
 # setnames(altPerf1,"V1","Index")
 tmpI1 = see.stars(as.matrix(altPerf1[, -"index"],nrow=nrow(altPerf1)),c(1,3),c(2,4))[,c(1,3,5:(ncol(altPerf1)-1))]
-altPerf1 = cbind(c("bbdollar","reit","dbcurr","dbcarry","dbmom","dbmom2","dbval","bcom","gscom"),tmpI1)
+altPerf1 = cbind(c("bbdollar","reit","dbcurr","dbcarry","dbmom","dbmom2","dbval","bcom","gscom","bbUSuniv","bbUSagg"),tmpI1)
 # setorderv(IntPerformance1,"Country",1)
 stargazer(IntPerformance1,summary = FALSE,out = 'tables/performance/tab_intPerf1.tex')
 
@@ -2445,6 +2458,10 @@ altPerf2 = alt_inv_m[!(is.na(av_return)|is.na(sv_return)),
                       Break_even = round((mean(sv_return,na.rm = T)-mean(xlogret,na.rm = T)) / mean(abs(diff(sv_weight)),na.rm = T)*10000,3),
                       bh_return = mean(xlogret)*1200
                     ), by = index]
+# altPerf1 = cbind(c("bbdollar","reit","dbcurr","dbcarry","dbmom","dbmom2","dbval","bcom","gscom","bbUSuniv","bbUSagg"),tmpI1)
+# altPerf2 = round(altPerf2,3)
+altPerf2 = cbind(altPerf2[,1],round(altPerf2[,2:ncol(altPerf2)],3))
+
 stargazer(altPerf2,summary = FALSE,out = 'tables/performance/tab_altPerf2.tex')
 
 intlist = vector(mode = "list",length = 3)
@@ -2457,7 +2474,7 @@ for(i in 1:length(c("av_return","sv_return","xlogret"))){
 }
 altPerf3 = cbind(intlist[[1]],cbind(intlist[[2]],intlist[[3]]))
 setnames(altPerf3,rep(c("Avg DD","Avg Length","Avg Recovery"),3))
-altPerf3 = cbind(c("bbdollar","reit","dbcurr","bdcarry","dbmom","dbmom2","dbval","bcom","gscom"),altPerf3)
+altPerf3 = cbind(c("bbdollar","reit","dbcurr","bdcarry","dbmom","dbmom2","dbval","bcom","gscom","bbUSuniv","bbUSagg"),altPerf3)
 setnames(altPerf3,"V1","Index")
 setorderv(altPerf3,"Index",1)
 stargazer(altPerf3,summary = FALSE,out = 'tables/performance/tab_altPerf3.tex')
@@ -2578,15 +2595,16 @@ stargazer(sd_table,summary = FALSE,digits = 3,out = 'tables/performance/sd_utili
 ### other investment correlations ####
 MD1 = rbind(subset(IntData,select = c("year","month","xlogret","Country")),
             subset(worldData[Country=="worldD"],select = c("year","month","xlogret","Country")))
-MD2 = subset(alt_inv_m[index%in%c("bbdollar","reit","dbcurr","dbcarry","dbmom2","bcom")],
+MD2 = subset(alt_inv_m[index%in%c("bbdollar","reit","dbcurr","dbcarry","dbmom2","bcom","bbUSuniv","bbUSagg")],
              select = c("year","month","index","xlogret"))
+setnames(MD2,"index","Country")
 MD = rbind(MD1,MD2)
 library(dplyr)
 MD = MD %>%
   mutate(Country =  factor(Country, 
                            levels = c("aus","brazil","china","germany","france","india",
                                       "italy","japan","uk","usa","worldD","bbdollar","dbcurr",
-                                      "dbcarry","dbmom2","reit","bcom"))) %>%
+                                      "dbcarry","dbmom2","reit","bcom","bbUSuniv","bbUSagg"))) %>%
   arrange(Country) 
 MD3 = spread(data = MD,key = Country, value = xlogret) 
 MD3 = as.data.table(MD3)
@@ -2779,9 +2797,9 @@ ratios[is.na(WBtop2), WBtop := 0]
 # ratios[Country=="india"&year>=2013, top := 0]
 mxD = merge(IntData,ratios[year>=2006],by=c("year","Country"))
 
-mxD_long = mxD[year >= 2006 & WBtop2==1, .(RET = mean(av_return,na.rm = T)), by = c("year","month")]
+mxD_long = mxD[year >= 2005 & WBtop2==1, .(RET = mean(av_return,na.rm = T)), by = c("year","month")]
 mkt2gdp_retSharp_long = mxD_long[, .(ret = mean(RET)*1200, sharpe = mean(RET) / sd(RET) * sqrt(12))]
-mxD_short = mxD[year >= 2006 & WBtop2==0, .(RET = mean(av_return,na.rm = T)), by = c("year","month")]
+mxD_short = mxD[year >= 2005 & WBtop2==0, .(RET = mean(av_return,na.rm = T)), by = c("year","month")]
 mkt2gdp_retSharp_short = mxD_short[, .(ret = mean(RET)*1200, sharpe = mean(RET) / sd(RET) * sqrt(12))]
 
 mkt2gdp_port = data.table(year = mxD_long$year, month = mxD_long$month ,RET = mxD_long$RET - mxD_short$RET)
