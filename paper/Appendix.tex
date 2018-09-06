@@ -1,3 +1,14 @@
+\subsection{Investor Utility}
+
+\citet{prelec_probability_1998} defines a flexible function with parameter $\alpha$ controlling the "slope" of the "weight" an investor places on an observed return, ordered from smallest to largest. When $\alpha$ equals zero, investors are EUT-compliant and place equal weight on all observed utilities from returns regardless of size when evaluating two possible portfolios. When $\alpha$ is less than one but greater than zero, investors place greater weight on the lower, negative, realized returns than the higher a result consistent with loss aversion from prospect theory. Figure \ref{fig:sd_ill_graph} shows the relationship between $\alpha$, the ordered cumulative return probability and the weight the investor places on the probability of such a return.\\
+\begin{figure}[htb]
+	\centering
+	\caption{{\bf Non-EUT Investor Decision Weights}: This figure illustrates the incorporation of non-EUT investor preferences in the decision between two investment portfolios used in the stochastic dominance analysis. The cumulative probability, p, of the rank order statistics of the portfolio returns are on the x-axis. The perceived utility weight, W(p,$\alpha$), or importance placed on the possibility of incurring a return with probability p. The parameter $\alpha$ measures EUT compliance, $\alpha$ = 1 when investors care equally about all returns and $\alpha$ < 1 when investors care about extreme loses more than they should".} \label{fig:sd_ill_graph}
+	\input{figures/sd_ill_plot}
+\end{figure}
+Using $\alpha$, I test the stochastic dominance of AV relative to SV. As \citet{hadar_rules_1969,hanoch_efficiency_1969,rothschild_increasing_1970,levy_experimental_2002} detail, the use of stochastic dominance tests allow us to make conclusions about the preference for AV or SV management for investors whose expected utility functions differ from simple mean-variance optimization. In results reported in the appendix, I use the methods detailed in \citet{vinod_h.d._ranking_2004,vinod_hands-intermediate_2008} to test the stochastic dominance of AV over SV to the forth order. Second order stochastic dominance, AV over SV, means that any risk averse investor would prefer AV. \citep{mcfadden_testing_1989,valle_novel_2017} Third order stochastic dominance means that any expected utility investor regardless of the form of the utility function would prefer AV to SV. \citep{whitmore_third-degree_1970,chan_third_2016} At forth order stochastic dominance, in addition to the concept of risk aversion both prudence and temperance are incorporated and all all expected-utility theory (EUT) investors prefer AV management to SV. \citep{kimball_standard_1993,noauthor_risk-aversion_nodate} As table \ref{tab:tab_sd} shows, expected utility investors whose $\alpha$ equals 1 prefer AV management to SV management. The positive numbers in across columns SD2, SD3, and SD4 indicate up to forth order stochastic dominance. Moreover, investors with non-EUT, e.g. prospect theory, preferences still prefer AV management to SV. \citep{kahneman_prospect_1979} For all values of $\alpha$ AV management stochastically dominants to the forth order over the SV portfolio.
+\input{tables/performance/sd_utility}
+
 \subsection{In Sample Regressions}
 \begin{table}
 	\centering \caption{\textbf{:Full In Sample Results} \newline
@@ -72,13 +83,12 @@
 %\end{landscape}
 %\begin{landscape}
 \clearpage
-\subsection{Investor Utility}
 
-\citet{prelec_probability_1998} defines a flexible function with parameter $\alpha$ controlling the "slope" of the "weight" an investor places on an observed return, ordered from smallest to largest. When $\alpha$ equals zero, investors are EUT-compliant and place equal weight on all observed utilities from returns regardless of size when evaluating two possible portfolios. When $\alpha$ is less than one but greater than zero, investors place greater weight on the lower, negative, realized returns than the higher a result consistent with loss aversion from prospect theory. Figure \ref{fig:sd_ill_graph} shows the relationship between $\alpha$, the ordered cumulative return probability and the weight the investor places on the probability of such a return.\\
-	\begin{figure}[htb]
-		\centering
-		\caption{{\bf Non-EUT Investor Decision Weights}: This figure illustrates the incorporation of non-EUT investor preferences in the decision between two investment portfolios used in the stochastic dominance analysis. The cumulative probability, p, of the rank order statistics of the portfolio returns are on the x-axis. The perceived utility weight, W(p,$\alpha$), or importance placed on the possibility of incurring a return with probability p. The parameter $\alpha$ measures EUT compliance, $\alpha$ = 1 when investors care equally about all returns and $\alpha$ < 1 when investors care about extreme loses more than they should".} \label{fig:sd_ill_graph}
-		\input{figures/sd_ill_plot}
-	\end{figure}
-Using $\alpha$, I test the stochastic dominance of AV relative to SV. As \citet{hadar_rules_1969,hanoch_efficiency_1969,rothschild_increasing_1970,levy_experimental_2002} detail, the use of stochastic dominance tests allow us to make conclusions about the preference for AV or SV management for investors whose expected utility functions differ from simple mean-variance optimization. In results reported in the appendix, I use the methods detailed in \citet{vinod_h.d._ranking_2004,vinod_hands-intermediate_2008} to test the stochastic dominance of AV over SV to the forth order. Second order stochastic dominance, AV over SV, means that any risk averse investor would prefer AV. \citep{mcfadden_testing_1989,valle_novel_2017} Third order stochastic dominance means that any expected utility investor regardless of the form of the utility function would prefer AV to SV. \citep{whitmore_third-degree_1970,chan_third_2016} At forth order stochastic dominance, in addition to the concept of risk aversion both prudence and temperance are incorporated and all all expected-utility theory (EUT) investors prefer AV management to SV. \citep{kimball_standard_1993,noauthor_risk-aversion_nodate} As table \ref{tab:tab_sd} shows, expected utility investors whose $\alpha$ equals 1 prefer AV management to SV management. The positive numbers in across columns SD2, SD3, and SD4 indicate up to forth order stochastic dominance. Moreover, investors with non-EUT, e.g. prospect theory, preferences still prefer AV management to SV. \citep{kahneman_prospect_1979} For all values of $\alpha$ AV management stochastically dominants to the forth order over the SV portfolio.
-\input{tables/performance/sd_utility}
+\subsection{Out-of-sample Robust}
+\input{table_oos_robust}
+
+\subsection{Alternate Asset Classes}
+\input{tab_altPerf3}
+\clearpage
+\input{tab_altPerf2}
+\clearpage

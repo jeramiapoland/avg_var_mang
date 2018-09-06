@@ -4,14 +4,17 @@
 \BOOKMARK [2][-]{subsection.2.2}{Leverage}{section.2}% 4
 \BOOKMARK [2][-]{subsection.2.3}{Drawdowns}{section.2}% 5
 \BOOKMARK [2][-]{subsection.2.4}{Investor Utility}{section.2}% 6
-\BOOKMARK [1][-]{section.3}{Systemic Risk}{}% 7
+\BOOKMARK [1][-]{section.3}{Systematic Risk}{}% 7
 \BOOKMARK [2][-]{subsection.3.1}{In-Sample}{section.3}% 8
-\BOOKMARK [1][-]{section.4}{Systematic Risk}{}% 9
-\BOOKMARK [2][-]{subsection.4.1}{Regression Sub-sampling}{section.4}% 10
-\BOOKMARK [2][-]{subsection.4.2}{Out-of-Sample}{section.4}% 11
-\BOOKMARK [2][-]{subsection.4.3}{Additional Investment}{section.4}% 12
-\BOOKMARK [1][-]{section.5}{Conclusion}{}% 13
-\BOOKMARK [1][-]{section.6}{Acknowledgments}{}% 14
-\BOOKMARK [1][-]{section.7}{Appendix}{}% 15
-\BOOKMARK [2][-]{subsection.7.1}{In Sample Regressions}{section.7}% 16
-\BOOKMARK [2][-]{subsection.7.2}{Investor Utility}{section.7}% 17
+\BOOKMARK [2][-]{subsection.3.2}{Systematic Relationships}{section.3}% 9
+\BOOKMARK [2][-]{subsection.3.3}{Regression Sub-sampling}{section.3}% 10
+\BOOKMARK [2][-]{subsection.3.4}{Market Capitalization}{section.3}% 11
+\BOOKMARK [2][-]{subsection.3.5}{Out-of-Sample}{section.3}% 12
+\BOOKMARK [2][-]{subsection.3.6}{Additional Investment}{section.3}% 13
+\BOOKMARK [1][-]{section.4}{Conclusion}{}% 14
+\BOOKMARK [1][-]{section.5}{Acknowledgments}{}% 15
+\BOOKMARK [1][-]{section.6}{Appendix}{}% 16
+\BOOKMARK [2][-]{subsection.6.1}{Investor Utility}{section.6}% 17
+\BOOKMARK [2][-]{subsection.6.2}{In Sample Regressions}{section.6}% 18
+\BOOKMARK [2][-]{subsection.6.3}{Out-of-sample Robust}{section.6}% 19
+\BOOKMARK [2][-]{subsection.6.4}{Alternate Asset Classes}{section.6}% 20
