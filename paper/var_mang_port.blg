@@ -3,6 +3,18 @@ Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
 The top-level auxiliary file: var_mang_port.aux
 The style file: jf.bst
 Database file #1: avg_var_mang.bib
+Repeated entry---line 765 of file avg_var_mang.bib
+ : @article{hocquard_constant-volatility_2013
+ :                                           ,
+I'm skipping whatever remains of this entry
+Repeated entry---line 1797 of file avg_var_mang.bib
+ : @article{ang_cross-section_2006
+ :                                ,
+I'm skipping whatever remains of this entry
+Repeated entry---line 1809 of file avg_var_mang.bib
+ : @article{gonzalez-urteaga_cross-sectional_2016
+ :                                               ,
+I'm skipping whatever remains of this entry
 Database file #2: margin_credit.bib
 I was expecting a `,' or a `}'---line 1308 of file margin_credit.bib
  :   
@@ -23,54 +35,55 @@ Too many commas in name 1 of "Lang, S., Gupta, F. and Prestbo, J." for entry lan
 while executing---line 2701 of file jf.bst
 Too many commas in name 1 of "Lang, S., Gupta, F. and Prestbo, J." for entry lang_2006
 while executing---line 2701 of file jf.bst
-Warning--empty journal in jones_century_2002
+Warning--empty journal in bali_does_nodate
+Warning--empty institution in cao_risk_2016
 Too many commas in name 1 of "Lang, S., Gupta, F. and Prestbo, J." for entry lang_2006
 while executing---line 2867 of file jf.bst
 Too many commas in name 1 of "Lang, S., Gupta, F. and Prestbo, J." for entry lang_2006
 while executing---line 2867 of file jf.bst
 Warning--empty journal in morrison_guarantees_nodate
-Warning--empty journal in pav_notes_nodate
-Warning--empty journal in articlev1
-Warning--empty journal in articlev2
-You've used 66 entries,
+Warning--empty booktitle in pav_notes_nodate
+Warning--empty institution in articlev1
+Warning--empty institution in articlev2
+You've used 99 entries,
             2716 wiz_defined-function locations,
-            999 strings with 14577 characters,
-and the built_in function-call counts, 28459 in all, are:
-= -- 2652
-> -- 1375
-< -- 60
-+ -- 488
-- -- 398
-* -- 2617
-:= -- 5153
-add.period$ -- 66
-call.type$ -- 66
-change.case$ -- 458
-chr.to.int$ -- 66
-cite$ -- 71
-duplicate$ -- 1182
-empty$ -- 1925
-format.name$ -- 530
-if$ -- 5438
+            1160 strings with 19157 characters,
+and the built_in function-call counts, 42139 in all, are:
+= -- 3913
+> -- 2046
+< -- 92
++ -- 728
+- -- 593
+* -- 3820
+:= -- 7662
+add.period$ -- 99
+call.type$ -- 99
+change.case$ -- 690
+chr.to.int$ -- 99
+cite$ -- 105
+duplicate$ -- 1783
+empty$ -- 2843
+format.name$ -- 778
+if$ -- 8058
 int.to.chr$ -- 1
 int.to.str$ -- 1
-missing$ -- 63
-newline$ -- 202
-num.names$ -- 266
-pop$ -- 316
+missing$ -- 88
+newline$ -- 301
+num.names$ -- 398
+pop$ -- 477
 preamble$ -- 1
-purify$ -- 395
+purify$ -- 592
 quote$ -- 0
-skip$ -- 874
+skip$ -- 1319
 stack$ -- 0
-substring$ -- 1918
-swap$ -- 277
-text.length$ -- 9
+substring$ -- 2731
+swap$ -- 419
+text.length$ -- 18
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 582
-warning$ -- 5
-while$ -- 288
+type$ -- 876
+warning$ -- 6
+while$ -- 426
 width$ -- 0
-write$ -- 716
-(There were 7 error messages)
+write$ -- 1077
+(There were 10 error messages)

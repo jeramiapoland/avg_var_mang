@@ -1,26 +1,88 @@
 \begin{table}[!htbp]
-	\centering \caption{\textbf{:In Sample Results - Post 1962} \newline
-		\footnotesize{The table displays in sample regression results for monthly market variance, correlation and return statistics. SV is the annualized monthly variance of daily CRSP market returns. AV and AC are the monthly average variance and average pairwise correlation of daily returns for the top 500 assets in the CRSP market, as in \citet{pollet_average_2010}. RET is the log return of the CRSP market portfolio minus the log return on the 1 month treasury bill. The sample period is from 1962:06 to 2016:12. The series are standardized to a mean of zero and stardard deviation of one.}} \vspace{-3mm}
-	\label{tab:tab_in_sample_1962}
-			\subcaption{Market Return Variance - SV$_{t+1}$}\vspace{-3mm}
-			\begin{adjustbox}{center,max height=.45\totalheight}
-			\input{tables/tab_in_mkt_var1m.tp1_post1962}
+	\centering \caption{\textbf{:Systemic Risk} \newline
+		\footnotesize{Panel (a) displays in sample regression results for monthly market variance, correlation and return statistics. SV is the annualized monthly variance of daily CRSP market returns. AV and AC are the monthly average variance and average pairwise correlation of daily returns for the top 500 assets in the CRSP market, as in \citet{pollet_average_2010}. RET is the log return of the CRSP market portfolio minus the log return on the 1 month treasury bill. The coefficients and p-values bootstrapped for robustness, see section \ref{sec:in_sample} for details.} Panel (b) displays the effect of sorting AV managed country returns on Market Capitalization-to-GDP ratio and forming a strategy long on countries with high ratios and shorting low ratio countries. See \ref{sec:global_equity} for details.} \vspace{-3mm}
+	\label{tab:tab_in_sample_full}
+	\subcaption{In Sample Results}
+	\begin{adjustbox}{width=\textwidth,max height=.45\totalheight}
+%		\input{tables/tab_in_mkt_var1m.tp1_full}
+%	\end{adjustbox}
+%	\subcaption{Average Asset Return Variance - AV$_{t+1}$}\vspace{-3mm}
+%	\begin{adjustbox}{center,max height=.45\totalheight}
+%		\input{tables/tab_in_avg_var1m.tp1_full}
+%	\end{adjustbox}
+%	\subcaption{Average Asset Return Correlation - AC$_{t+1}$}\vspace{-3mm}
+%	\begin{adjustbox}{center,max height=.45\totalheight}
+%		\input{tables/tab_in_avg_cor1m.tp1_full}
+%	\end{adjustbox}
+%	\subcaption{Log Excess Market Return - RET$_{t+1}$}\vspace{-3mm}
+%	\begin{adjustbox}{center,max height=.45\totalheight}
+		\input{tables/tab_in_logxret.tp1_full}
 		\end{adjustbox}
-			\subcaption{Average Asset Return Variance - AV$_{t+1}$}\vspace{-3mm}
-						\begin{adjustbox}{center,max height=.45\totalheight}
-			\input{tables/tab_in_avg_var1m.tp1_post1962}
+		\begin{adjustbox}{width=\textwidth,max height=.45\totalheight}
+		\input{tables/insample/tab_in_logxret.tp1_pre1962}
 		\end{adjustbox}
-			\subcaption{Average Asset Return Correlation - AC$_{t+1}$}\vspace{-3mm}
-						\begin{adjustbox}{center,max height=.45\totalheight}
-			\input{tables/tab_in_avg_cor1m.tp1_post1962}
-		\end{adjustbox}
-			\subcaption{Log Excess Market Return - RET$_{t+1}$}\vspace{-3mm}
-						\begin{adjustbox}{center,max height=.45\totalheight}
-			\input{tables/tab_in_logxret.tp1_post1962}
-		\end{adjustbox}
-\end{table}
+		\begin{adjustbox}{width=\textwidth,max height=.45\totalheight}
+		\input{tables/tab_in_logxret.tp1_post1962}
+%	\end{adjustbox}
+%\end{table}
 %\clearpage
-
+%\begin{table}[!htbp]
+%	\centering \caption{\textbf{:In Sample Results - Pre 1962} \newline
+%		\footnotesize{The table displays in sample regression results for monthly market variance, correlation and return statistics. SV is the annualized monthly variance of daily CRSP market returns. AV and AC are the monthly average variance and average pairwise correlation of daily returns for the top 500 assets in the CRSP market, as in \citet{pollet_average_2010}. RET is the log return of the CRSP market portfolio minus the log return on the 1 month treasury bill. The sample period is from 1926:07 to 2016:1962:06. The series are standardized to a mean of zero and standard deviation of one. The coefficients and p-values are robust, see section \ref{sec:in_sample} for details.}} \vspace{-3mm}
+%	\label{tab:tab_in_sample_1962}
+%			\subcaption{Market Return Variance - SV$_{t+1}$}\vspace{-3mm}
+%			\begin{adjustbox}{center,max height=.45\totalheight}
+%			\input{tables/insample/tab_in_mkt_var1m.tp1_pre1962}
+%		\end{adjustbox}
+%			\subcaption{Average Asset Return Variance - AV$_{t+1}$}\vspace{-3mm}
+%						\begin{adjustbox}{center,max height=.45\totalheight}
+%			\input{tables/insample/tab_in_avg_var1m.tp1_pre1962}
+%		\end{adjustbox}
+%			\subcaption{Average Asset Return Correlation - AC$_{t+1}$}\vspace{-3mm}
+%						\begin{adjustbox}{center,max height=.45\totalheight}
+%			\input{tables/insample/tab_in_avg_cor1m.tp1_pre1962}
+%		\end{adjustbox}
+%			\subcaption{Log Excess Market Return - RET$_{t+1}$}\vspace{-3mm}
+%						\begin{adjustbox}{center,max height=.45\totalheight}
+%			\input{tables/insample/tab_in_logxret.tp1_pre1962}
+%		\end{adjustbox}
+%\end{table}
+%\clearpage
+%\begin{table}[!htbp]
+%	\centering \caption{\textbf{:In Sample Results - Post 1962} \newline
+%		\footnotesize{The table displays in sample regression results for monthly market variance, correlation and return statistics. SV is the annualized monthly variance of daily CRSP market returns. AV and AC are the monthly average variance and average pairwise correlation of daily returns for the top 500 assets in the CRSP market, as in \citet{pollet_average_2010}. RET is the log return of the CRSP market portfolio minus the log return on the 1 month treasury bill. The sample period is from 1962:06 to 2016:12. The series are standardized to a mean of zero and standard deviation of one. The coefficients and p-values are robust, see section \ref{sec:in_sample} for details.}} \vspace{-3mm}
+%	\label{tab:tab_in_sample_2016}
+%	\subcaption{Market Return Variance - SV$_{t+1}$}\vspace{-3mm}
+%	\begin{adjustbox}{center,max height=.45\totalheight}
+%		\input{tables/tab_in_mkt_var1m.tp1_post1962}
+%	\end{adjustbox}
+%	\subcaption{Average Asset Return Variance - AV$_{t+1}$}\vspace{-3mm}
+%	\begin{adjustbox}{center,max height=.45\totalheight}
+%		\input{tables/tab_in_avg_var1m.tp1_post1962}
+%	\end{adjustbox}
+%	\subcaption{Average Asset Return Correlation - AC$_{t+1}$}\vspace{-3mm}
+%	\begin{adjustbox}{center,max height=.45\totalheight}
+%		\input{tables/tab_in_avg_cor1m.tp1_post1962}
+%	\end{adjustbox}
+%	\subcaption{Log Excess Market Return - RET$_{t+1}$}\vspace{-3mm}
+%	\begin{adjustbox}{center,max height=.45\totalheight}
+%		\input{tables/tab_in_logxret.tp1_post1962}
+	\end{adjustbox}
+	\subcaption{Market-to-GDP AV Strategy}
+	\begin{adjustbox}{width=\textwidth,max height=.4\totalheight}
+		\begin{tabular}{ccccc}
+			%\hline
+			\hline \\[-1.8ex] 
+			&RET & Sharpe & $\alpha_{FF5}$ & $\alpha_{FF5+Mom}$\\
+			\hline\\[-1.8ex]
+			SV &7.752 & 0.675 &  4.353 & 4.211 \\
+			AV &11.156 & 0.774 & 7.445$^{***}$ & 7.320$^{***}$ \\
+		\hline
+		\textit{Notes:} & \multicolumn{4}{r}{$^{***}$,$^{**}$, and $^{*}$ Significant at the 1, 5,}\\
+		& &  \multicolumn{3}{r}{and 10 percent levels.}
+	\end{tabular}
+	\end{adjustbox}
+\end{table}
 %\begin{landscape}
 %	\input{tab_var5}
 %\end{landscape}
@@ -29,24 +91,3 @@
 %\end{landscape}
 %\begin{landscape}
 \clearpage
-\begin{table}[!htbp]
-	\centering \caption{\textbf{:Full In Sample Results} \newline
-		\footnotesize{The table displays in sample regression results for monthly market variance, correlation and return statistics. SV is the annualized monthly variance of daily CRSP market returns. AV and AC are the monthly average variance and average pairwise correlation of daily returns for the top 500 assets in the CRSP market, as in \citet{pollet_average_2010}. RET is the log return of the CRSP market portfolio minus the log return on the 1 month treasury bill. The sample period is from 1926:07 to 2016:12.}} \vspace{-3mm}
-	\label{tab:tab_in_sample_full}
-	\subcaption{Market Return Variance - SV$_{t+1}$}\vspace{-3mm}
-	\begin{adjustbox}{center,max height=.45\totalheight}
-		\input{tables/tab_in_mkt_var1m.tp1_full}
-	\end{adjustbox}
-	\subcaption{Average Asset Return Variance - AV$_{t+1}$}\vspace{-3mm}
-	\begin{adjustbox}{center,max height=.45\totalheight}
-		\input{tables/tab_in_avg_var1m.tp1_full}
-	\end{adjustbox}
-	\subcaption{Average Asset Return Correlation - AC$_{t+1}$}\vspace{-3mm}
-	\begin{adjustbox}{center,max height=.45\totalheight}
-		\input{tables/tab_in_avg_cor1m.tp1_full}
-	\end{adjustbox}
-	\subcaption{Log Excess Market Return - RET$_{t+1}$}\vspace{-3mm}
-	\begin{adjustbox}{center,max height=.45\totalheight}
-		\input{tables/tab_in_logxret.tp1_full}
-	\end{adjustbox}
-\end{table}

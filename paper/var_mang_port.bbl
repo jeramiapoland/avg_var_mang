@@ -1,4 +1,4 @@
-\begin{thebibliography}{66}
+\begin{thebibliography}{99}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 
 \bibitem[Amihud and Hurvich(2004)]{Amihud2004}
@@ -11,14 +11,55 @@ Andrews, Donald W.~K., and J.~Christopher Monahan, 1992, An {Improved}
   {Heteroskedasticity} and {Autocorrelation} {Consistent} {Covariance} {Matrix}
   {Estimator}, {\em Econometrica\/} 60, 953--966.
 
+\bibitem[Ang et~al.(2006)Ang, Hodrick, Xing, and Zhang]{ang_cross-section_2006}
+Ang, Andrew, Robert~J. Hodrick, Yuhang Xing, and Xiaoyan Zhang, 2006, The
+  cross-section of volatility and expected returns, {\em The Journal of
+  Finance\/} 61, 259--299.
+
 \bibitem[Baba and Goko(2009)]{baba_hedge_nodate}
 Baba, Naohiko, and Hiromichi Goko, 2009, Hedge {Fund} {Survival}:
   {Non}-{Normal} {Returns}, {Capital} {Outflows}, and {Liquidity}, {\em Journal
   of Financial Research\/} 32, 71--93.
 
+\bibitem[Bali et~al.(2005)Bali, Cakici, and Zhang]{bali_does_nodate}
+Bali, Turan~G, Nusret Cakici, and Zhe Zhang, 2005, Does {Idiosyncratic} {Risk}
+  {Really} {Matter}? ~26.
+
 \bibitem[Barroso and Santa-Clara(2015)]{barroso_momentum_2015}
 Barroso, Pedro, and Pedro Santa-Clara, 2015, Momentum has its moments, {\em
   Journal of Financial Economics\/} 116, 111--120.
+
+\bibitem[Bhardwaj et~al.(2015)Bhardwaj, Gorton, and Rouwenhorst]{NBERw21243}
+Bhardwaj, Geetesh, Gary Gorton, and Geert Rouwenhorst, 2015, Facts and
+  fantasies about commodity futures ten years later, Working Paper 21243,
+  National Bureau of Economic Research.
+
+\bibitem[Bilson(1981)]{noauthor_speculative_nodate}
+Bilson, John, 1981, The "{Speculative} {Efficiency}" {Hypothesis}, {\em The
+  Journal of Business\/} ~18.
+
+\bibitem[Bollerslev et~al.(2017)Bollerslev, Hood, Huss, and
+  Pedersen]{bollerslev_risk_2017}
+Bollerslev, Tim, Benjamin Hood, John Huss, and Lasse~Heje Pedersen, 2017, Risk
+  {Everywhere}: {Modeling} and {Managing} {Volatility}, {SSRN} {Scholarly}
+  {Paper} ID 2722591, Social Science Research Network, Rochester, NY.
+
+\bibitem[Brunnermeier et~al.(2009)Brunnermeier, Nagel, and
+  Pedersen]{brunnermeier_carry_nodate}
+Brunnermeier, Markus~K, Stefan Nagel, and Lasse~H Pedersen, 2009, Carry
+  {Trades} and {Currency} {Crashes}, Working Paper 14473, National Bureau of
+  Economic Research.
+
+\bibitem[Burnside et~al.(2011)Burnside, Eichenbaum, and
+  Rebelo]{burnside_carry_2011}
+Burnside, Craig, Martin Eichenbaum, and Sergio Rebelo, 2011, Carry {Trade} and
+  {Momentum} in {Currency} {Markets}, {\em Annual Review of Financial
+  Economics\/} 3, 511--535.
+
+\bibitem[Buyuksahin et~al.(2008)Buyuksahin, Haigh, and
+  Robe]{buyuksahin_commodities_2008}
+Buyuksahin, Bahattin, Michael~S. Haigh, and Michel~A. Robe, 2008, Commodities
+  and {Equities}: '{A} {Market} of {One}'?, {\em SSRN Electronic Journal\/} .
 
 \bibitem[Campbell(1987)]{CAMPBELL1987373}
 Campbell, John~Y., 1987, Stock returns and the term structure, {\em Journal of
@@ -42,12 +83,17 @@ Campbell, John~Y., and Samuel~B. Thompson, 2008, {Predicting excess stock
 
 \bibitem[Cao(2016)]{cao_risk_2016}
 Cao, Larry, 2016, Risk {Parity} {Made} {Easy}: {Cliff}’s {Notes} and {Other}
-  {Key} {Readings}.
+  {Key} {Readings}, Technical report.
 
 \bibitem[Carr et~al.(2011)Carr, Zhang, and Hadjiliadis]{carr_maximum_2011}
 Carr, Peter, Hongzhong Zhang, and Olympia Hadjiliadis, 2011, Maximum {Drawdown}
   {Insurance}, {\em International Journal of Theoretical and Applied Finance\/}
   14, 1195--1230.
+
+\bibitem[Chan et~al.(2016)Chan, Clark, and Wong]{chan_third_2016}
+Chan, Raymond~H., Ephraim Clark, and Wing-Keung Wong, 2016, On the {Third}
+  {Order} {Stochastic} {Dominance} for {Risk}-{Averse} and {Risk}-{Seeking}
+  {Investors} with {Analysis} of their {Traditional} and {Internet} {Stocks}.
 
 \bibitem[Chong and Hendry(1986)]{Chong1986}
 Chong, Yock~Y, and David~F Hendry, 1986, Econometric evaluation of linear
@@ -70,13 +116,27 @@ Dickey, David~A., and Wayne~A. Fuller, 1979, Distribution of the {Estimators}
 Diebold, Francis~X, and Robert~S Mariano, 1995, Comparing predictive accuracy,
   {\em Journal of Business \& Economic Statistics\/} 13, 253--263.
 
+\bibitem[Eeckhoudt et~al.(1995)Eeckhoudt, Gollier, and
+  Schneider]{noauthor_risk-aversion_nodate}
+Eeckhoudt, Louis, Christian Gollier, and Thierry Schneider, 1995,
+  Risk-aversion, prudence and temperance: A unified approach.
+
 \bibitem[Elliott et~al.(1996)Elliott, Rothenberg, and Stock]{ers1996}
 Elliott, Graham, Thomas~J. Rothenberg, and James~H. Stock, 1996, Efficient
   tests for an autoregressive unit root, {\em Econometrica\/} 64, 813--836.
 
+\bibitem[Erb and Harvey(Forthcoming)]{erb_conquering_nodate}
+Erb, Claude~B, and Campbell~R Harvey, Forthcoming, Conquering {Misperceptions}
+  about {Commodity} {Futures} {Investing}, {\em Financial Analysts Journal\/}
+  ~16.
+
 \bibitem[Fair and Shiller(1990)]{Fair1990}
 Fair, Ray~C, and Robert~J Shiller, 1990, Comparing information in forecasts
   from econometric models, {\em American Economic Review\/} 3, 375--389.
+
+\bibitem[Fama(1984)]{fama_forward_1984}
+Fama, Eugene~F., 1984, Forward and spot exchange rates, {\em Journal of
+  Monetary Economics\/} 14, 319--338.
 
 \bibitem[Ferreira and Santa-Clara(2011)]{Ferreira2011}
 Ferreira, Miguel~A, and Pedro Santa-Clara, 2011, Forecasting stock market
@@ -107,6 +167,28 @@ Glosten, Lawrence, Ravi Jagannathan, and David Runkle, 1993, On the relation
   between the expected value and the volatility of the nominal excess return on
   stocks, {\em The Journal of Finance\/} 48, 1779--1801.
 
+\bibitem[González-Urteaga and
+  Rubio(2016)]{gonzalez-urteaga_cross-sectional_2016}
+González-Urteaga, Ana, and Gonzalo Rubio, 2016, The cross-sectional variation
+  of volatility risk premia, {\em Journal of Financial Economics\/} 119,
+  353--370.
+
+\bibitem[Gorton and Rouwenhorst(2006)]{gorton_facts_2006}
+Gorton, Gary, and K~Geert Rouwenhorst, 2006, Facts and {Fantasies} about
+  {Commodity} {Futures}, {\em Financial Analysts Journal\/} ~22.
+
+\bibitem[Goyal and Santa-Clara(2003)]{goyal_idiosyncratic_2003}
+Goyal, Amit, and Pedro Santa-Clara, 2003, Idiosyncratic {Risk} {Matters}!, {\em
+  The Journal of Finance\/} 58, 975--1007.
+
+\bibitem[Hadar and Russell(1969)]{hadar_rules_1969}
+Hadar, Josef, and William~R. Russell, 1969, Rules for {Ordering} {Uncertain}
+  {Prospects}, {\em The American Economic Review\/} 59, 25--34.
+
+\bibitem[Hanoch and Levy(1969)]{hanoch_efficiency_1969}
+Hanoch, G., and H.~Levy, 1969, The {Efficiency} {Analysis} of {Choices}
+  {Involving} {Risk}, {\em The Review of Economic Studies\/} 36, 335--346.
+
 \bibitem[Harvey et~al.(1998)Harvey, Leybourne, and Newbold]{harvey_tests_1998}
 Harvey, David~S., Stephen~J. Leybourne, and Paul Newbold, 1998, Tests for
   {Forecast} {Encompassing}, {\em Journal of Business \& Economic Statistics\/}
@@ -133,13 +215,22 @@ Huang, Dashan, Fuwei Jiang, Jun Tu, and Guofu Zhou, 2015, {Investor sentiment
   aligned: A powerful predictor of stock returns}, {\em Review of Financial
   Studies\/} 28, 791--837.
 
+\bibitem[Investopedia(2003)]{staff_american_2003}
+Investopedia, 2003, American {Stock} {Exchange} - {AMEX}.
+
 \bibitem[Johansen and Sornette(2000)]{johansen_large_2000}
 Johansen, Anders, and Didier Sornette, 2000, Large {Stock} {Market} {Price}
   {Drawdowns} {Are} {Outliers}, {\em arXiv:cond-mat/0010050\/} arXiv:
   cond-mat/0010050.
 
 \bibitem[Jones(2002)]{jones_century_2002}
-Jones, Charles, 2002, A century of stock market liquidity and trading costs .
+Jones, Charles~M., 2002, A {Century} of {Stock} {Market} {Liquidity} and
+  {Trading} {Costs}, {SSRN} {Scholarly} {Paper} ID 313681, Social Science
+  Research Network, Rochester, NY.
+
+\bibitem[Kahneman and Tversky(1979)]{kahneman_prospect_1979}
+Kahneman, Daniel, and Amos Tversky, 1979, Prospect {Theory}: {An} {Analysis} of
+  {Decision} under {Risk}, {\em Econometrica\/} 47, 263--291.
 
 \bibitem[Kandel and Stambaugh(1996)]{Kandel1996}
 Kandel, Shmuel, and Robert~F Stambaugh, 1996, On the predictability of stock
@@ -155,6 +246,14 @@ Kaplan, Paul~D., and James~A. Knowles, 2004, Kappa: {A} generalized downside
 Kim, Abby~Y., Yiuman Tse, and John~K. Wald, 2016, Time series momentum and
   volatility scaling, {\em Journal of Financial Markets\/} 30, 103--124.
 
+\bibitem[Kimball(1993)]{kimball_standard_1993}
+Kimball, Miles~S., 1993, Standard {Risk} {Aversion}, {\em Econometrica\/} 61,
+  589--611.
+
+\bibitem[Lahiri(1999)]{lahiri_theoretical_1999}
+Lahiri, S.~N., 1999, Theoretical {Comparisons} of {Block} {Bootstrap}
+  {Methods}, {\em The Annals of Statistics\/} 27, 386--404.
+
 \bibitem[Lang and Prestbo(2006)]{lang_2006}
 Lang, Gupta~F., S., and J.~Prestbo, 2006, Hedge fund drawdowns: An empirical
   analysis, \url{http://www.djindex.com}.
@@ -162,6 +261,16 @@ Lang, Gupta~F., S., and J.~Prestbo, 2006, Hedge fund drawdowns: An empirical
 \bibitem[Ledoit and Wolf(2008)]{ledoit_robust_2008}
 Ledoit, Oliver, and Michael Wolf, 2008, Robust performance hypothesis testing
   with the {Sharpe} ratio, {\em Journal of Empirical Finance\/} 15, 850--859.
+
+\bibitem[Levy and Levy(2002)]{levy_experimental_2002}
+Levy, Haim, and Moshe Levy, 2002, Experimental test of the prospect theory
+  value function: {A} stochastic dominance approach, {\em Organizational
+  Behavior and Human Decision Processes\/} 89, 1058--1081.
+
+\bibitem[Lustig and Verdelhan(2007)]{lustig_cross_2007}
+Lustig, Hanno, and Adrien Verdelhan, 2007, The {Cross} {Section} of {Foreign}
+  {Currency} {Risk} {Premia} and {Consumption} {Growth} {Risk}, {\em The
+  American Economic Review\/} 97, 37.
 
 \bibitem[MacKinnon(2002)]{mackinnon_bootstrap_2002}
 MacKinnon, James~G., 2002, Bootstrap inference in econometrics, {\em Canadian
@@ -172,9 +281,17 @@ Magdon-Ismail, Malik, and Amir~F. Atiya, 2006, Maximum {Drawdown}, {SSRN}
   {Scholarly} {Paper} ID 874069, Social Science Research Network, Rochester,
   NY.
 
+\bibitem[Markowitz(1952)]{markowitz_portfolio_1952}
+Markowitz, Harry, 1952, Portfolio {Selection}, {\em The Journal of Finance\/}
+  7, 77.
+
 \bibitem[McCracken(2007)]{mccracken_asymptotics_2007}
 McCracken, Michael~W., 2007, Asymptotics for out of sample tests of {Granger}
   causality, {\em Journal of Econometrics\/} 140, 719--752.
+
+\bibitem[McFadden(1989)]{mcfadden_testing_1989}
+McFadden, Daniel, 1989, Testing for {Stochastic} {Dominance}, in {\em Studies
+  in the {Economics} of {Uncertainty}\/},  113--134 (Springer, New York, NY).
 
 \bibitem[McWhinnie(2014)]{noauthor_warren_nodate}
 McWhinnie, Eric, 2014, Warren {Buffett} on using leverage to invest.
@@ -203,6 +320,11 @@ Ng, Serena, and Pierre Perron, 2001, {Lag Length Selection and the Construction
   of Unit Root Tests with Good Size and Power}, {\em Econometrica\/} 69,
   1519--1554.
 
+\bibitem[NYSE(2016)]{nyse_history}
+NYSE, 2016, American stock exchange: Historical timeline,
+  \url{https://www.nyse.com/publicdocs/American_Stock_Exchange_Historical_Timeline.pdf},
+  Accessed: 2018-08-06.
+
 \bibitem[Olkin and Pratt(1958)]{olkin_1958}
 Olkin, Ingram, and John~W. Pratt, 1958, Unbiased estimation of certain
   correlation coefficients, {\em The Annals of Mathematical Statistics\/} 29,
@@ -216,7 +338,7 @@ Papaioannou, Mr Michael~G., Mr~Joonkyu Park, Jukka Pihlman, and Han van~der
   {Challenges}\/} (International Monetary Fund), Google-Books-ID: ZRycAQAAQBAJ.
 
 \bibitem[Pav(2016)]{pav_notes_nodate}
-Pav, Steven~E, 2016, Notes on the {Sharpe} ratio ~49.
+Pav, Steven~E, 2016, Notes on the {Sharpe} ratio, ~49.
 
 \bibitem[Politis and Romano(1992)]{politis_general_1992}
 Politis, Dimitris~N., and Joseph~P. Romano, 1992, A {General} {Resampling}
@@ -231,6 +353,10 @@ Politis, Dimitris~N., and Joseph~P. Romano, 1994, The {Stationary} {Bootstrap},
 \bibitem[Pollet and Wilson(2010)]{pollet_average_2010}
 Pollet, Joshua~M., and Mungo Wilson, 2010, Average correlation and stock market
   returns, {\em Journal of Financial Economics\/} 96, 364--380.
+
+\bibitem[Prelec(1998)]{prelec_probability_1998}
+Prelec, Drazen, 1998, The {Probability} {Weighting} {Function}, {\em
+  Econometrica\/} 66, 497--527.
 
 \bibitem[Rapach and Zhou(2013)]{Rapach2013}
 Rapach, David, and Guofu Zhou, 2013, {Forecasting stock returns}, in Graham
@@ -257,6 +383,10 @@ Rossi, Barbara, and Atsushi Inoue, 2012, Out-of-{Sample} {Forecast} {Tests}
   {Robust} to the {Choice} of {Window} {Size}, {\em Journal of Business \&
   Economic Statistics\/} 30, 432--453.
 
+\bibitem[Rothschild and Stiglitz(1970)]{rothschild_increasing_1970}
+Rothschild, Michael, and Joseph~E Stiglitz, 1970, Increasing risk: {I}. {A}
+  definition, {\em Journal of Economic Theory\/} 2, 225--243.
+
 \bibitem[Rutterford and Sotiropoulos(2016)]{rutterford_financial_2016}
 Rutterford, Janette, and Dimitris~P. Sotiropoulos, 2016, Financial
   diversification before modern portfolio theory: {UK} financial advice
@@ -281,25 +411,50 @@ Stambaugh, Robert~F., 1999, Predictive regressions, {\em Journal of Financial
   Economics\/} 54, 375--421.
 
 \bibitem[Steward(2010)]{steward_truly_2010}
-Steward, Martin, 2010, The truly balanced portfolio.
+Steward, Martin, 2010, The truly balanced portfolio, {\em IPE\/} .
 
 \bibitem[Taylor(2014)]{taylor_2014}
 Taylor, James, 2014, A nation of small shareholders: Marketing wall street
-  after world war II, {\em Enterprise \& Society\/} 15, 390–392.
+  after world war ii., {\em Enterprise \& Society\/} 15, 390–392.
+
+\bibitem[Valle et~al.(2017)Valle, Roman, and Mitra]{valle_novel_2017}
+Valle, Cristiano~Arbex, Diana Roman, and Gautam Mitra, 2017, Novel approaches
+  for portfolio construction using second order stochastic dominance, {\em
+  Computational Management Science\/} 14, 257--280.
 
 \bibitem[Vecer(2006)]{articlev1}
-Vecer, Jan, 2006, Maximum drawdown and directional trading 19.
+Vecer, Jan, 2006, (1) {Maximum} {Drawdown} and {Directional} {Trading},
+  Technical report.
 
 \bibitem[Vecer(2007)]{articlev2}
-Vecer, Jan, 2007, Preventing portfolio losses by hedging maximum drawdown .
+Vecer, Jan, 2007, (1) {Maximum} {Drawdown} and {Directional} {Trading},
+  Technical report.
 
 \bibitem[Verma(2018)]{verma_volatility-targeting_2018}
 Verma, Sid, 2018, Volatility-{Targeting} {Funds} {Could} {Sell} \$225 {Billion}
   of {Stocks}, {\em Bloomberg.com\/} .
 
+\bibitem[Vinod(2004)]{vinod_h.d._ranking_2004}
+Vinod, H.D., 2004, Ranking mutual funds using unconventional utility theory and
+  stochastic dominance - {ScienceDirect}, {\em Journal of Empirical Finance\/}
+  11.
+
+\bibitem[Vinod(2008)]{vinod_hands-intermediate_2008}
+Vinod, Hrishikesh~D, 2008, {\em Hands-{On} {Intermediate} {Econometrics}
+  {Using} {R}: {Templates} for {Extending} {Dozens} of {Practical}
+  {Examples}({With} {CD}-{ROM})\/} (WORLD SCIENTIFIC).
+
+\bibitem[Vinod(2016)]{vinod_generalized_2016}
+Vinod, Hrishikesh~D., 2016, Generalized {Correlations} and {Kernel} {Causality}
+  {Using} {R} {Package} {GeneralCorr}, {\em SSRN Electronic Journal\/} .
+
 \bibitem[Welch and Goyal(2008)]{Welch2008}
 Welch, Ivo, and Amit Goyal, 2008, {A comprehensive look at the empirical
   performance of equity premium prediction}, {\em Review of Financial
   Studies\/} 21, 1455--1508.
+
+\bibitem[Whitmore(1970)]{whitmore_third-degree_1970}
+Whitmore, G.~A., 1970, Third-{Degree} {Stochastic} {Dominance}, {\em The
+  American Economic Review\/} 60, 457--459.
 
 \end{thebibliography}

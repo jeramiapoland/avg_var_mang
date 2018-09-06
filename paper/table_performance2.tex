@@ -1,21 +1,19 @@
-\begin{landscape}
 	\begin{table}[!htbp] \centering 
 		\caption{\textbf{:Portfolio Performance - Constrained} \newline
 			\footnotesize{This table displays portfolio performance measures for the AV and SV managed portfolio strategies using $c_{10}$, $c_{12}$, and $c_{BH}$  to target the annual volatilities of 10\%, 12\%  and equal to the buy hold market portfolio over the whole data set, 1926 to 2016. Performance ratios are calculated for investment constraints of a maximum of 1.5 and 3, 50\% and 200\% leverage. RET is the average annualized monthly log excess return. Sharpe and Sortino are the Sharpe and Sortino ratios respectively; Kappa$_{3}$ and Kappa$_{4}$ are the lower parital skewness and lower partial kurtosis Kappa measures. See section \ref{sec:asset_allocation} for details. No constraints are plased on the level of investment in the market portfolio for the AV and SV managed portfolio; the buy and hold strategy always has an investment weight of one in the market. Stars on the lines for the AV and SV managed portfolios indicate a significant postive performance difference between those two portfolios.}}
 		\label{tab:tab_performance2} 
-		\subcaption{10\% Volatility Target}
+		\subcaption{Constraint - 1.5}
 		\begin{adjustbox}{max width=10\totalheight}
 		\input{tables/tab_perf_029_constraint}
 		\end{adjustbox}
-				\subcaption{12\% Volatility Target}
+				\subcaption{Constraint - 3}
 		\begin{adjustbox}{max width=10\totalheight}
 			\input{tables/tab_perf_035_constraint}
 		\end{adjustbox}
-		\subcaption{Buy and Hold Volatility Target}
-		\begin{adjustbox}{max width=10\totalheight}
-			\input{tables/tab_perf_053_constraint}
-		\end{adjustbox}
+%		\subcaption{Buy and Hold Volatility Target}
+%		\begin{adjustbox}{max width=10\totalheight}
+%			\input{tables/tab_perf_053_constraint}
+%		\end{adjustbox}
 		%  \subcaption{Investment Constrained [0,3]}
 		%  \input{tables/tab_perf_053_3}
 	\end{table} 
-\end{landscape}

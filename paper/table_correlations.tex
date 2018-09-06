@@ -1,9 +1,13 @@
 \begin{table}[!htbp] 
   \centering \caption{\textbf{:Correlations} \newline
-  	\footnotesize{The table displays Pearson correlation statistics for the market variance and correlation statistics, and returns. RET is the log excess return of the CRSP market portfolio. AC is the average pairwise correlation of the daily returns of the 500 largest firms in the CRSP data set over the month or quarter. AV is the average of the individual variances of daily returns for the 500 largest firms in the CRSP data set. SV is the variance of daily CRSP market returns. See section \ref{sec:Data} for details on construction.}} \vspace{3mm}
+  	\footnotesize{Panel (a) displays Pearson correlation statistics for the market variance and correlation statistics, and returns. RET is the log excess return of the CRSP market portfolio. AC is the average pairwise correlation of the daily returns of the 500 largest firms in the CRSP data set over the month or quarter. AV is the average of the individual variances of daily returns for the 500 largest firms in the CRSP data set. SV is the variance of daily CRSP market returns. See section \ref{sec:Data} for details on construction.} Panel (b) shows the Pearson correlation statistics for the excess log returns for each country. Panel (c) shows the correlation statistics for the excess returns of the other asset classes with the US and World excess log returns. See section \ref{sec:reinvestment} for details.} \vspace{3mm}
   \label{tab:tab_correlations}
-  \subcaption{Sample 1962M6:2016M12}
-    \input{tables/tab_correlation_short}
-  \subcaption{Full Sample 1926M7:2016M12}
+  %\subcaption{Sample 1962M6:2016M12}
+  %  \input{tables/tab_correlation_short}
+  \subcaption{US 1926M7:2016M12}
   \input{tables/tab_correlation_long}
+  \subcaption{Global Equities}
+  \input{tables/summary/global_eq}
+  \subcaption{Global and Other Asset Classes}
+  \input{tables/summary/other_invst_corr}
   \end{table}
