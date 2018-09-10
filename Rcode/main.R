@@ -2579,6 +2579,25 @@ ltex2 = stargazer(out2,rownames = FALSE,summary = FALSE,out.header = FALSE)
 cat(x = ltex2,sep = '\n',file = paste0("tables/performance/borrowing_performance.tex"))
 
 #### stochastic dominance ####
+kd_dt = data.table(AV = adj_m_av_returns, SV = adj_m_vol_returns)
+attach(kd_dt)
+layout(matrix(1:4, nrow = 2, ncol = 2))
+dAV=density(AV)
+n=length(dAV$x)
+tikz("figures/kd_plots.tex",width = 5.90551, height = 3,sanitize = FALSE)
+plot(dAV, main="Kernel smooth density for AV")
+dmkt=density(SV)
+plot(dmkt, main="Kernel smooth density for SV")
+cdfAV=diffinv(dAV$y)
+cdfmkt=diffinv(dmkt$y)
+plot(dAV$x,cdfAV[2:(n+1)], typ="l",
+     main="Cumulative density for AV",xlab="x", ylab="Cumulative density")
+plot(dmkt$x,cdfmkt[2:(n+1)], typ="l",
+     main="Cumulative density for SV",xlab="x", ylab="Cumulative density")
+dev.off()
+layout(matrix(1:1, nrow = 1, ncol = 1)) #back to normal plotting
+detach(kd_dt)
+
 ill_graph_dt = data.table(Wpa = NA_real_, p = seq(0,1,by=.001),
                           alpha=c(rep(0,length(seq(0,1,by=.001))),
                                   rep(.4,length(seq(0,1,by=.001))),
