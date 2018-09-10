@@ -3,15 +3,15 @@ Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
 The top-level auxiliary file: var_mang_port.aux
 The style file: jf.bst
 Database file #1: avg_var_mang.bib
-Repeated entry---line 765 of file avg_var_mang.bib
+Repeated entry---line 854 of file avg_var_mang.bib
  : @article{hocquard_constant-volatility_2013
  :                                           ,
 I'm skipping whatever remains of this entry
-Repeated entry---line 1797 of file avg_var_mang.bib
+Repeated entry---line 1886 of file avg_var_mang.bib
  : @article{ang_cross-section_2006
  :                                ,
 I'm skipping whatever remains of this entry
-Repeated entry---line 1809 of file avg_var_mang.bib
+Repeated entry---line 1898 of file avg_var_mang.bib
  : @article{gonzalez-urteaga_cross-sectional_2016
  :                                               ,
 I'm skipping whatever remains of this entry
@@ -45,45 +45,45 @@ Warning--empty journal in morrison_guarantees_nodate
 Warning--empty booktitle in pav_notes_nodate
 Warning--empty institution in articlev1
 Warning--empty institution in articlev2
-You've used 99 entries,
+You've used 100 entries,
             2716 wiz_defined-function locations,
-            1160 strings with 19157 characters,
-and the built_in function-call counts, 42139 in all, are:
-= -- 3913
-> -- 2046
-< -- 92
-+ -- 728
-- -- 593
-* -- 3820
-:= -- 7662
-add.period$ -- 99
-call.type$ -- 99
-change.case$ -- 690
-chr.to.int$ -- 99
-cite$ -- 105
-duplicate$ -- 1783
-empty$ -- 2843
-format.name$ -- 778
-if$ -- 8058
+            1168 strings with 19376 characters,
+and the built_in function-call counts, 42376 in all, are:
+= -- 3933
+> -- 2057
+< -- 94
++ -- 732
+- -- 596
+* -- 3834
+:= -- 7717
+add.period$ -- 100
+call.type$ -- 100
+change.case$ -- 696
+chr.to.int$ -- 100
+cite$ -- 106
+duplicate$ -- 1799
+empty$ -- 2857
+format.name$ -- 782
+if$ -- 8098
 int.to.chr$ -- 1
 int.to.str$ -- 1
 missing$ -- 88
-newline$ -- 301
-num.names$ -- 398
-pop$ -- 477
+newline$ -- 304
+num.names$ -- 402
+pop$ -- 480
 preamble$ -- 1
-purify$ -- 592
+purify$ -- 597
 quote$ -- 0
-skip$ -- 1319
+skip$ -- 1331
 stack$ -- 0
-substring$ -- 2731
-swap$ -- 419
-text.length$ -- 18
+substring$ -- 2721
+swap$ -- 421
+text.length$ -- 19
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 876
+type$ -- 885
 warning$ -- 6
-while$ -- 426
+while$ -- 429
 width$ -- 0
-write$ -- 1077
+write$ -- 1089
 (There were 10 error messages)

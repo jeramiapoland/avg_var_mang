@@ -1,9 +1,9 @@
 \begin{table}[!htbp]
 	\centering \caption{\textbf{:Systemic Risk} \newline
-		\footnotesize{Panel (a) displays in sample regression results for monthly market variance, correlation and return statistics. SV is the annualized monthly variance of daily CRSP market returns. AV and AC are the monthly average variance and average pairwise correlation of daily returns for the top 500 assets in the CRSP market, as in \citet{pollet_average_2010}. RET is the log return of the CRSP market portfolio minus the log return on the 1 month treasury bill. The coefficients and p-values bootstrapped for robustness, see section \ref{sec:in_sample} for details.} Panel (b) displays the effect of sorting AV managed country returns on Market Capitalization-to-GDP ratio and forming a strategy long on countries with high ratios and shorting low ratio countries. See \ref{sec:global_equity} for details.} \vspace{-3mm}
+		\footnotesize{Panel (a) displays in sample regression results for monthly market variance, correlation and return statistics. SV is the annualized monthly variance of daily CRSP market returns. AV and AC are the monthly average variance and average pairwise correlation of daily returns for the top 500 assets in the CRSP market, as in \citet{pollet_average_2010}. RET is the log return of the CRSP market portfolio minus the log return on the 1 month treasury bill. The coefficients and p-values bootstrapped for robustness, see section \ref{sec:in_sample} for details.} Panel (b) displays the effect of sorting AV managed country returns on Market Capitalization-to-GDP ratio and forming a strategy long on countries with high ratios and shorting low ratio countries. See \ref{sec:market_cap} for details.} \vspace{-3mm}
 	\label{tab:tab_in_sample_full}
 	\subcaption{In Sample Results}
-	\begin{adjustbox}{width=\textwidth,max height=.45\totalheight}
+	\begin{adjustbox}{width=\textwidth,max height=.43\totalheight}
 %		\input{tables/tab_in_mkt_var1m.tp1_full}
 %	\end{adjustbox}
 %	\subcaption{Average Asset Return Variance - AV$_{t+1}$}\vspace{-3mm}
@@ -18,10 +18,10 @@
 %	\begin{adjustbox}{center,max height=.45\totalheight}
 		\input{tables/tab_in_logxret.tp1_full}
 		\end{adjustbox}
-		\begin{adjustbox}{width=\textwidth,max height=.45\totalheight}
+		\begin{adjustbox}{width=\textwidth,max height=.43\totalheight}
 		\input{tables/insample/tab_in_logxret.tp1_pre1962}
 		\end{adjustbox}
-		\begin{adjustbox}{width=\textwidth,max height=.45\totalheight}
+		\begin{adjustbox}{width=\textwidth,max height=.43\totalheight}
 		\input{tables/tab_in_logxret.tp1_post1962}
 %	\end{adjustbox}
 %\end{table}
@@ -68,18 +68,24 @@
 %	\begin{adjustbox}{center,max height=.45\totalheight}
 %		\input{tables/tab_in_logxret.tp1_post1962}
 	\end{adjustbox}
-	\subcaption{Market-to-GDP AV Strategy}
-	\begin{adjustbox}{width=\textwidth,max height=.4\totalheight}
-		\begin{tabular}{ccccc}
-			%\hline
-			\hline \\[-1.8ex] 
-			&RET & Sharpe & $\alpha_{FF5}$ & $\alpha_{FF5+Mom}$\\
-			\hline\\[-1.8ex]
-			SV &7.752 & 0.675 &  4.353 & 4.211 \\
-			AV &11.156 & 0.774 & 7.445$^{***}$ & 7.320$^{***}$ \\
+	\subcaption{Long - Short Strategies}
+	\begin{adjustbox}{width=\textwidth,max height=.43\totalheight}
+	\begin{tabular}{lccccc}
+		\multicolumn{6}{c}{Market RET to Wealth RET}\\
+		\hline\\[-1.8ex]
+		& RET & Sharpe & $\alpha_{FF3}$ & $\alpha_{FF5}$ & $\alpha_{FF5+Mom}$ \\
+		\cline{2-6}
+		Long & 12.601 & 0.747 & 9.484$^{**}$ & 7.909$^{*}$ & 7.725$^{*}$ \\
+		Short & 7.537 & 0.562 & 5.038$^{*}$ & 5.422$^{*}$ & 5.318$^{*}$ \\
+		Long $–$ Short & 5.065 & 0.405 & 4.446$^{***}$ & 2.488$^{***}$ & 2.407$^{**}$ \\
+		\multicolumn{6}{c}{Market to GDP}\\
+		\hline\\[-1.8ex]
+		 & RET & Sharpe & $\alpha_{FF3}$ & $\alpha_{FF5}$ & $\alpha_{FF5+Mom}$ \\
+		 \cline{2-6}
+		Long & 13.896 & 1.021 & 11.443$^{***}$ & 11.322$^{***}$ & 11.181$^{**}$ \\
+		Shot & 5.851 & 0.326 & 2.409 & 1.298 & 1.082 \\
+		Long $–$ Short & 8.045 & 0.601 & 9.034$^{**}$ & 10.024$^{**}$ & 10.100$^{**}$\\
 		\hline
-		\textit{Notes:} & \multicolumn{4}{r}{$^{***}$,$^{**}$, and $^{*}$ Significant at the 1, 5,}\\
-		& &  \multicolumn{3}{r}{and 10 percent levels.}
 	\end{tabular}
 	\end{adjustbox}
 \end{table}
@@ -91,3 +97,16 @@
 %\end{landscape}
 %\begin{landscape}
 \clearpage
+
+%\begin{table}[]
+%	\begin{tabular}{llllll}
+%		Mkt2Wealth & RET & Sharpe & $\alpha_{FF3}$ & $\alpha_{FF5}$ & $\alpha_{FF5+Mom}$ \\
+%		Long & 12.601 & 0.747 & 9.484$^{**}$ & 7.909$^{*}$ & 7.725$^{*}$ \\
+%		Short & 7.537 & 0.562 & 5.038$^{*}$ & 5.422$^{*}$ & 5.318$^{*}$ \\
+%		Long – Short & 5.065 & 0.405 & 4.446$^{***}$ & 2.488$^{***}$ & 2.407$^{**}$ \\
+%		Mkt2GDP & RET & Sharpe & $\alpha_{FF3}$ & $\alpha_{FF5}$ & $\alpha_{FF5+Mom}$ \\
+%		Long & 13.896 & 1.021 & 11.443$^{***}$ & 11.322$^{***}$ & 11.181$^{**}$ \\
+%		Shot & 5.851 & 0.326 & 2.409 & 1.298 & 1.082 \\
+%		Long – Short & 8.045 & 0.601 & 9.034$^{**}$ & 10.024$^{**}$ & 10.100$^{**}$
+%	\end{tabular}
+%\end{table}

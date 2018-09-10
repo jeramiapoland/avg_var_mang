@@ -9,9 +9,9 @@
 \usepackage{hyperref}
 \newcolumntype{H}{>{\setbox0=\hbox\bgroup}c<{\egroup}@{}}
 \usepackage[longnamesfirst]{natbib}
-\usepackage[firstpage]{draftwatermark}
-\SetWatermarkLightness{0.5}
-\SetWatermarkScale{4}
+%%\usepackage[firstpage]{draftwatermark}
+%\SetWatermarkLightness{0.5}
+%\SetWatermarkScale{4}
 \usdate
 
 % These next lines allow including or excluding different versions of text
@@ -133,7 +133,7 @@
 \input{invest_util}
 
 %\section{Regression Analysis} 
-\section{Systemic Risk}\label{sec:regression}
+\section{Systematic Risk}\label{sec:regression}
 \input{systemic_risk}
 \subsection{In-Sample} \label{sec:in_sample}
 
@@ -160,18 +160,20 @@
 
 
 
-\section{Systematic Risk}
+\subsection{Systematic Relationships}
 \input{systematic_ac}
 \subsection{Regression Sub-sampling}\label{sec:subsampling}
 %\input{notes_on_regression_subsampling}
 \input{sub_insample}
 
+\subsection{Market Capitalization} \label{sec:market_cap}
+\input{market_cap}
 
 \subsection{Out-of-Sample} \label{sec:out_sample}
 
 \input{out_sample}
 
-\subsubsection{Robustness}
+\subsubsection{Robust Out-of-Sample}
 
 \input{robustness}
 
@@ -179,7 +181,7 @@
 %\input{ainvestment}
 %\subsubsection{Global Equity} \label{sec:global_equity}
 %\input{perf_robust}
-\subsubsection{Other Asset Classes}
+%\subsubsection{Other Asset Classes} 
 \input{alt_inv}
 
 \section{Conclusion}

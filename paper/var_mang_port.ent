@@ -1,4 +1,21 @@
 \@doanenote {1}
+macro:->This
+holds
+even
+for
+low-risk
+anomaly
+strategies
+like
+the
+\citet
+{frazzini_betting_2014}
+betting
+against
+beta
+portfolio.
+\@endanenote 
+\@doanenote {2}
 macro:->"When
 leverage
 works,
@@ -87,25 +104,6 @@ smart
 people."
 \citep
 {noauthor_warren_nodate}
-\@endanenote 
-\@doanenote {2}
-macro:->See,
-for
-example,
-\citet
-{barroso_momentum_2015}
-and
-\citet
-{kim_time_2016}
-for
-discussions
-of
-volatility
-management
-of
-the
-momentum
-portfolio.
 \@endanenote 
 \@doanenote {3}
 macro:->The
@@ -348,4 +346,22 @@ adjust
 theiraverage
 risk
 exposure."
+\@endanenote 
+\@doanenote {12}
+macro:->The
+reports
+are
+available
+for
+2011
+through
+2017,
+covering
+data
+from
+2000
+to
+2017,
+at
+https://www.credit-suisse.com/corporate/en/research/research-institute/global-wealth-report.html
 \@endanenote 

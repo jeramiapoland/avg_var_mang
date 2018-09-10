@@ -35,14 +35,16 @@ with j $\leq$ 500 for the US market index. Thus, the series of interest, SV, AV,
 	AC_{t} &= \sum_{m=1}^{M}\sum_{m \neq n}^{N}w_{m,t}w_{n,t}\rho_{m,n,t}
 \end{align}
 Figure \ref{fig:time_series} shows the time series behavior of SV and AV, in percent, as well as
-AC for the US market. With the easily noticeable exception of October 1987, spikes in both SV and AV concentrate around NBER defined recessions. Panel (b) of figure \ref{fig:time_series} shows that AV takes a larger weight in the market more often than SV but that SV takes far larger weights in the market in certain times. Figure \ref{fig:weights_plot} makes this clearer and shows that changing the target volatility only affects the most extreme investments made by the SV management strategy.
+AC for the US market. With the easily noticeable exception of October 1987, spikes in both SV and AV concentrate around NBER defined recessions. Panel (b) of figure \ref{fig:time_series} shows that AV takes a larger weight in the market more often than SV but that SV takes far larger weights in the market in certain times. Figure \ref{fig:weights_plot} makes this clearer and shows that changing the target volatility only affects the most extreme investments made by the SV management strategy.\\
 \bigskip
 \centerline{\bf [Place Figure~\ref{fig:weights_plot} about here]}
 \bigskip
+
 Table \ref{tab_summary_stats} panels (a) - (c) show the summary statistics for the calculated variables. Despite the use of the actual number of trading days, the restriction to assets that trade every day, and the adjustment to the calculation of correlation, the quarterly calculated values are almost identical to those in \citet{pollet_average_2010} over the same sample. Over the expanded the period, the annualized monthly AV has a mean value of .88\%. The annualized SV mean is much lower at .25\% monthly. AC is relatively consistent at .23 quarterly in the \cite{pollet_average_2010} sample, .261 monthly in the same sample and .276 over the full time period. AV is more volatile than SV, more than twice as much. In each sample AV has the highest auto-correlation. While AC is also persistent, the stock market variance is only strongly persistent at the monthly frequency with autocorrelation of .61. All three time series are stationary rejecting the unit root null in the tests of \citet{dickey_distribution_1979}, \citet{Ng2001}, and \citet{ers1996}. 
 \bigskip
 \centerline{\bf [Place Table~\ref{tab_summary_stats} about here]}
 \bigskip
+
 As my primary interest is in the use of AV versus SV in the management of leverage in the CRSP market portfolio, I test AV and SV against log excess returns.
 Specifically, I take the difference between the natural log of one plus the CRSP market return and the natural log of one plus the risk-free rate using:
 \begin{equation}
@@ -52,6 +54,7 @@ where $R_{f,t}$ the risk-free return for which I use the 1-month treasury bill, 
 \bigskip
 \centerline{\bf [Place Table~\ref{tab:tab_correlations} about here]}
 \bigskip
+
 Panels (b) and (c) show international and cross asset class excess log return correlations. China is the market least correlated with the rest of the countries and the global market index. Importantly, as panel (c) shows, the other asset class returns are not all highly correlated with the MSCI ACWI returns. The currency return indices are generally weakly negatively correlated while both real estate and commodity returns are positively correlated.
 
 %As in \cite{pollet_average_2010}, July 1963 serves as the start of the basis data period for the regression analysis.\footnote{CRSP has, as of 2005, back-filled NYSE daily returns to 1926, however the pre-1962 data is very different from the post-1962 data. The earlier data is much shallower having months with fewer than 400 assets total that meet the data requirements. Twice as many firms covering twice as many industries are available at the end of 1962 as compared to the end of 1961. As show in \citet{taylor_2014} the NYSE market was not a significant part of marginal wealth in the US following the Great Depression before the late 1950s. And, as documented in \citet{jones_century_2002} the pre-1962 period is significantly and persistently more illiquid.} 
