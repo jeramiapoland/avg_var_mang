@@ -1,4 +1,4 @@
-\begin{thebibliography}{100}
+\begin{thebibliography}{99}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 
 \bibitem[Amihud and Hurvich(2004)]{Amihud2004}
@@ -99,7 +99,8 @@ Carr, Peter, Hongzhong Zhang, and Olympia Hadjiliadis, 2011, Maximum {Drawdown}
 \bibitem[Chan et~al.(2016)Chan, Clark, and Wong]{chan_third_2016}
 Chan, Raymond~H., Ephraim Clark, and Wing-Keung Wong, 2016, On the {Third}
   {Order} {Stochastic} {Dominance} for {Risk}-{Averse} and {Risk}-{Seeking}
-  {Investors} with {Analysis} of their {Traditional} and {Internet} {Stocks}.
+  {Investors} with {Analysis} of their {Traditional} and {Internet} {Stocks},
+  \url{https://mpra.ub.uni-muenchen.de/75002/}.
 
 \bibitem[Chong and Hendry(1986)]{Chong1986}
 Chong, Yock~Y, and David~F Hendry, 1986, Econometric evaluation of linear
@@ -125,7 +126,8 @@ Diebold, Francis~X, and Robert~S Mariano, 1995, Comparing predictive accuracy,
 \bibitem[Eeckhoudt et~al.(1995)Eeckhoudt, Gollier, and
   Schneider]{noauthor_risk-aversion_nodate}
 Eeckhoudt, Louis, Christian Gollier, and Thierry Schneider, 1995,
-  Risk-aversion, prudence and temperance: A unified approach.
+  Risk-aversion, prudence and temperance: A unified approach, {\em Economics
+  Letters\/} 48, 331 -- 336.
 
 \bibitem[Elliott et~al.(1996)Elliott, Rothenberg, and Stock]{ers1996}
 Elliott, Graham, Thomas~J. Rothenberg, and James~H. Stock, 1996, Efficient
@@ -222,7 +224,8 @@ Huang, Dashan, Fuwei Jiang, Jun Tu, and Guofu Zhou, 2015, {Investor sentiment
   Studies\/} 28, 791--837.
 
 \bibitem[Investopedia(2003)]{staff_american_2003}
-Investopedia, 2003, American {Stock} {Exchange} - {AMEX}.
+Investopedia, 2003, American {Stock} {Exchange} - {AMEX},
+  \url{https://www.investopedia.com/terms/a/amex.asp}.
 
 \bibitem[Johansen and Sornette(2000)]{johansen_large_2000}
 Johansen, Anders, and Didier Sornette, 2000, Large {Stock} {Market} {Price}
@@ -301,7 +304,8 @@ McFadden, Daniel, 1989, Testing for {Stochastic} {Dominance}, in {\em Studies
   in the {Economics} of {Uncertainty}\/},  113--134 (Springer, New York, NY).
 
 \bibitem[McWhinnie(2014)]{noauthor_warren_nodate}
-McWhinnie, Eric, 2014, Warren {Buffett} on using leverage to invest.
+McWhinnie, Eric, 2014, Warren {Buffett} on using leverage to invest,
+  \url{https://www.usatoday.com/story/money/markets/2014/01/19/how-warren-buffett-uses-leverage-to-invest/4638423/}.
 
 \bibitem[Memmel(2003)]{memmel_performance_2003}
 Memmel, Christoph, 2003, Performance {Hypothesis} {Testing} with the {Sharpe}
@@ -345,7 +349,8 @@ Papaioannou, Mr Michael~G., Mr~Joonkyu Park, Jukka Pihlman, and Han van~der
   {Challenges}\/} (International Monetary Fund), Google-Books-ID: ZRycAQAAQBAJ.
 
 \bibitem[Pav(2016)]{pav_notes_nodate}
-Pav, Steven~E, 2016, Notes on the {Sharpe} ratio, ~49.
+Pav, Steven~E, 2016, Notes on the {Sharpe} ratio,
+  \url{https://cran.r-project.org/web/packages/SharpeR/vignettes/SharpeRatio.pdf}.
 
 \bibitem[Politis and Romano(1992)]{politis_general_1992}
 Politis, Dimitris~N., and Joseph~P. Romano, 1992, A {General} {Resampling}
@@ -430,12 +435,8 @@ Valle, Cristiano~Arbex, Diana Roman, and Gautam Mitra, 2017, Novel approaches
   Computational Management Science\/} 14, 257--280.
 
 \bibitem[Vecer(2006)]{articlev1}
-Vecer, Jan, 2006, (1) {Maximum} {Drawdown} and {Directional} {Trading},
-  Technical report.
-
-\bibitem[Vecer(2007)]{articlev2}
-Vecer, Jan, 2007, (1) {Maximum} {Drawdown} and {Directional} {Trading},
-  Technical report.
+Vecer, Jan, 2006, {Maximum} {Drawdown} and {Directional} {Trading},
+  \url{https://www.researchgate.net/publication/251215449_Maximum_Drawdown_and_Directional_Trading}.
 
 \bibitem[Verma(2018)]{verma_volatility-targeting_2018}
 Verma, Sid, 2018, Volatility-{Targeting} {Funds} {Could} {Sell} \$225 {Billion}

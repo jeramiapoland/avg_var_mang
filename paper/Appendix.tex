@@ -1,4 +1,25 @@
 \subsection{Investor Utility}
+Following \citet{vinod_hands-intermediate_2008}, I first calculate kernel smoothed density and cumulative distribution functions (CDFs) for the AV and SV managed portfolio return distributions. Figure \ref{fig:kd_graph} shows the density and CDFs estimated for the US equity returns to the buy and hold targeting AV and SV managed portfolios without investment constraints.
+\begin{figure}[htb]
+	\centering
+	\caption{{\bf These figures show the smoothed kernel smoothed density and empirical CDFs calculated for the returns to the AV and SV managed US equity portfolios. These are examples of the estimated distributions are used in the stochastic dominance tests which follow.}} \label{fig:kd_graph}
+	\begin{subfigure}{\textwidth}
+		\input{figures/kd_plots}
+	\end{subfigure}
+	
+	\begin{subfigure}{\textwidth}
+		\input{figures/kd_plots2}
+	\end{subfigure}
+	
+	\begin{subfigure}{\textwidth}
+		\input{figures/kd_plots3}
+	\end{subfigure}
+	
+	\begin{subfigure}{\textwidth}
+		\input{figures/kd_plots4}
+	\end{subfigure}
+\end{figure}
+The stochastic dominance tests involve the comparisons of the CDFs of the appropriate order, or power, of the portfolio returns. Generally, the test is a comparison of which distributions CDF sits "to the right" of the other. The CDF "to the right" means the return distribution which has more likely higher values. The portfolio CDFs can now be compared to test stochastic dominance at various orders, but more information on the preferences of investors can be incorporated before performing the tests.
 
 \citet{prelec_probability_1998} defines a flexible function with parameter $\alpha$ controlling the "slope" of the "weight" an investor places on an observed return, ordered from smallest to largest. When $\alpha$ equals zero, investors are EUT-compliant and place equal weight on all observed utilities from returns regardless of size when evaluating two possible portfolios. When $\alpha$ is less than one but greater than zero, investors place greater weight on the lower, negative, realized returns than the higher a result consistent with loss aversion from prospect theory. Figure \ref{fig:sd_ill_graph} shows the relationship between $\alpha$, the ordered cumulative return probability and the weight the investor places on the probability of such a return.\\
 \begin{figure}[htb]
@@ -10,6 +31,7 @@ Using $\alpha$, I test the stochastic dominance of AV relative to SV. As \citet{
 \input{tables/performance/sd_utility}
 
 \subsection{In Sample Regressions}
+Full in-sample regression results covering the full sample 1926 to 2016, the pre-1962 period and the post-1962 period encompassing the sample of \citet{pollet_average_2010}.
 \begin{table}
 	\centering \caption{\textbf{:Full In Sample Results} \newline
 		\footnotesize{The table displays in sample regression results for monthly market variance, correlation and return statistics. SV is the annualized monthly variance of daily CRSP market returns. AV and AC are the monthly average variance and average pairwise correlation of daily returns for the top 500 assets in the CRSP market, as in \citet{pollet_average_2010}. RET is the log return of the CRSP market portfolio minus the log return on the 1 month treasury bill. The sample period is from 1926:07 to 2016:12. The coefficients and p-values are robust, see section \ref{sec:in_sample} for details.}} \vspace{-3mm}
@@ -86,6 +108,7 @@ Using $\alpha$, I test the stochastic dominance of AV relative to SV. As \citet{
 
 \subsection{Out-of-sample Robust}
 \input{table_oos_robust}
+\clearpage
 
 \subsection{Alternate Asset Classes}
 \input{tab_altPerf3}

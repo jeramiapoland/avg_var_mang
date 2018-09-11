@@ -3,15 +3,15 @@ Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
 The top-level auxiliary file: var_mang_port.aux
 The style file: jf.bst
 Database file #1: avg_var_mang.bib
-Repeated entry---line 854 of file avg_var_mang.bib
+Repeated entry---line 848 of file avg_var_mang.bib
  : @article{hocquard_constant-volatility_2013
  :                                           ,
 I'm skipping whatever remains of this entry
-Repeated entry---line 1886 of file avg_var_mang.bib
+Repeated entry---line 1880 of file avg_var_mang.bib
  : @article{ang_cross-section_2006
  :                                ,
 I'm skipping whatever remains of this entry
-Repeated entry---line 1898 of file avg_var_mang.bib
+Repeated entry---line 1892 of file avg_var_mang.bib
  : @article{gonzalez-urteaga_cross-sectional_2016
  :                                               ,
 I'm skipping whatever remains of this entry
@@ -42,48 +42,45 @@ while executing---line 2867 of file jf.bst
 Too many commas in name 1 of "Lang, S., Gupta, F. and Prestbo, J." for entry lang_2006
 while executing---line 2867 of file jf.bst
 Warning--empty journal in morrison_guarantees_nodate
-Warning--empty booktitle in pav_notes_nodate
-Warning--empty institution in articlev1
-Warning--empty institution in articlev2
-You've used 100 entries,
+You've used 99 entries,
             2716 wiz_defined-function locations,
-            1168 strings with 19376 characters,
-and the built_in function-call counts, 42376 in all, are:
-= -- 3933
-> -- 2057
-< -- 94
-+ -- 732
-- -- 596
-* -- 3834
-:= -- 7717
-add.period$ -- 100
-call.type$ -- 100
-change.case$ -- 696
-chr.to.int$ -- 100
-cite$ -- 106
-duplicate$ -- 1799
-empty$ -- 2857
-format.name$ -- 782
-if$ -- 8098
+            1174 strings with 19747 characters,
+and the built_in function-call counts, 42102 in all, are:
+= -- 3918
+> -- 2046
+< -- 92
++ -- 728
+- -- 593
+* -- 3824
+:= -- 7667
+add.period$ -- 99
+call.type$ -- 99
+change.case$ -- 688
+chr.to.int$ -- 99
+cite$ -- 102
+duplicate$ -- 1776
+empty$ -- 2833
+format.name$ -- 778
+if$ -- 8046
 int.to.chr$ -- 1
 int.to.str$ -- 1
 missing$ -- 88
-newline$ -- 304
-num.names$ -- 402
-pop$ -- 480
+newline$ -- 301
+num.names$ -- 398
+pop$ -- 462
 preamble$ -- 1
-purify$ -- 597
+purify$ -- 592
 quote$ -- 0
-skip$ -- 1331
+skip$ -- 1314
 stack$ -- 0
-substring$ -- 2721
-swap$ -- 421
-text.length$ -- 19
+substring$ -- 2733
+swap$ -- 416
+text.length$ -- 18
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 885
-warning$ -- 6
-while$ -- 429
+type$ -- 876
+warning$ -- 3
+while$ -- 426
 width$ -- 0
-write$ -- 1089
+write$ -- 1084
 (There were 10 error messages)

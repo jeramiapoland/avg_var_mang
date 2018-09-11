@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2018.7.28)  7 SEP 2018 02:01
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2018.7.28)  10 SEP 2018 23:08
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1493,56 +1493,13 @@ Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
 )
 \Hy@SectionHShift=\skip60
 )
-(/usr/share/texlive/texmf-dist/tex/latex/natbib/natbib.sty
-Package: natbib 2010/09/13 8.31b (PWD, AO)
-\bibhang=\skip61
-\bibsep=\skip62
-LaTeX Info: Redefining \cite on input line 694.
-\c@NAT@ctr=\count178
-)
-(/usr/share/texlive/texmf-dist/tex/latex/geometry/geometry.sty
-Package: geometry 2010/09/12 v5.6 Page Geometry
-\Gm@cnth=\count179
-\Gm@cntv=\count180
-\c@Gm@tempcnt=\count181
-\Gm@bindingoffset=\dimen174
-\Gm@wd@mp=\dimen175
-\Gm@odd@mp=\dimen176
-\Gm@even@mp=\dimen177
-\Gm@layoutwidth=\dimen178
-\Gm@layoutheight=\dimen179
-\Gm@layouthoffset=\dimen180
-\Gm@layoutvoffset=\dimen181
-\Gm@dimlist=\toks38
-)
-(/usr/share/texlive/texmf-dist/tex/latex/todonotes/todonotes.sty
-Package: todonotes 2015/07/09 .dtx Todonotes source and documentation.
-Package: todonotes 2012/07/25
-
-(/usr/share/texlive/texmf-dist/tex/latex/xcolor/xcolor.sty
-Package: xcolor 2007/01/21 v2.11 LaTeX color extensions (UK)
-
-(/usr/share/texlive/texmf-dist/tex/latex/latexconfig/color.cfg
-File: color.cfg 2007/01/18 v1.5 color configuration of teTeX/TeXLive
-)
-Package xcolor Info: Driver file: pdftex.def on input line 225.
-Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1337.
-Package xcolor Info: Model `hsb' substituted by `rgb' on input line 1341.
-Package xcolor Info: Model `RGB' extended on input line 1353.
-Package xcolor Info: Model `HTML' substituted by `rgb' on input line 1355.
-Package xcolor Info: Model `Hsb' substituted by `hsb' on input line 1356.
-Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1357.
-Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1358.
-Package xcolor Info: Model `Gray' substituted by `gray' on input line 1359.
-Package xcolor Info: Model `wave' substituted by `hsb' on input line 1360.
-)
 (/usr/share/texlive/texmf-dist/tex/latex/pgf/frontendlayer/tikz.sty
 (/usr/share/texlive/texmf-dist/tex/latex/pgf/basiclayer/pgf.sty
 (/usr/share/texlive/texmf-dist/tex/latex/pgf/utilities/pgfrcs.sty
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/utilities/pgfutil-common.tex
-\pgfutil@everybye=\toks39
-\pgfutil@tempdima=\dimen182
-\pgfutil@tempdimb=\dimen183
+\pgfutil@everybye=\toks38
+\pgfutil@tempdima=\dimen174
+\pgfutil@tempdimb=\dimen175
 
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/utilities/pgfutil-common-lists.t
 ex)) (/usr/share/texlive/texmf-dist/tex/generic/pgf/utilities/pgfutil-latex.def
@@ -1561,30 +1518,30 @@ Package: pgf 2015/08/07 v3.0.1a (rcs-revision 1.15)
 Package: pgfsys 2014/07/09 v3.0.1a (rcs-revision 1.48)
 
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/utilities/pgfkeys.code.tex
-\pgfkeys@pathtoks=\toks40
-\pgfkeys@temptoks=\toks41
+\pgfkeys@pathtoks=\toks39
+\pgfkeys@temptoks=\toks40
 
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/utilities/pgfkeysfiltered.code.t
 ex
-\pgfkeys@tmptoks=\toks42
+\pgfkeys@tmptoks=\toks41
 ))
-\pgf@x=\dimen184
-\pgf@y=\dimen185
-\pgf@xa=\dimen186
-\pgf@ya=\dimen187
-\pgf@xb=\dimen188
-\pgf@yb=\dimen189
-\pgf@xc=\dimen190
-\pgf@yc=\dimen191
+\pgf@x=\dimen176
+\pgf@y=\dimen177
+\pgf@xa=\dimen178
+\pgf@ya=\dimen179
+\pgf@xb=\dimen180
+\pgf@yb=\dimen181
+\pgf@xc=\dimen182
+\pgf@yc=\dimen183
 \w@pgf@writea=\write4
 \r@pgf@reada=\read3
-\c@pgf@counta=\count182
-\c@pgf@countb=\count183
-\c@pgf@countc=\count184
-\c@pgf@countd=\count185
-\t@pgf@toka=\toks43
-\t@pgf@tokb=\toks44
-\t@pgf@tokc=\toks45
+\c@pgf@counta=\count178
+\c@pgf@countb=\count179
+\c@pgf@countc=\count180
+\c@pgf@countd=\count181
+\t@pgf@toka=\toks42
+\t@pgf@tokb=\toks43
+\t@pgf@tokc=\toks44
  (/usr/share/texlive/texmf-dist/tex/generic/pgf/systemlayer/pgf.cfg
 File: pgf.cfg 2008/05/14  (rcs-revision 1.7)
 )
@@ -1600,13 +1557,29 @@ File: pgfsys-common-pdf.def 2013/10/10  (rcs-revision 1.13)
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/systemlayer/pgfsyssoftpath.code.
 tex
 File: pgfsyssoftpath.code.tex 2013/09/09  (rcs-revision 1.9)
-\pgfsyssoftpath@smallbuffer@items=\count186
-\pgfsyssoftpath@bigbuffer@items=\count187
+\pgfsyssoftpath@smallbuffer@items=\count182
+\pgfsyssoftpath@bigbuffer@items=\count183
 )
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/systemlayer/pgfsysprotocol.code.
 tex
 File: pgfsysprotocol.code.tex 2006/10/16  (rcs-revision 1.4)
-))
+)) (/usr/share/texlive/texmf-dist/tex/latex/xcolor/xcolor.sty
+Package: xcolor 2007/01/21 v2.11 LaTeX color extensions (UK)
+
+(/usr/share/texlive/texmf-dist/tex/latex/latexconfig/color.cfg
+File: color.cfg 2007/01/18 v1.5 color configuration of teTeX/TeXLive
+)
+Package xcolor Info: Driver file: pdftex.def on input line 225.
+Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1337.
+Package xcolor Info: Model `hsb' substituted by `rgb' on input line 1341.
+Package xcolor Info: Model `RGB' extended on input line 1353.
+Package xcolor Info: Model `HTML' substituted by `rgb' on input line 1355.
+Package xcolor Info: Model `Hsb' substituted by `hsb' on input line 1356.
+Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1357.
+Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1358.
+Package xcolor Info: Model `Gray' substituted by `gray' on input line 1359.
+Package xcolor Info: Model `wave' substituted by `hsb' on input line 1360.
+)
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcore.code.tex
 Package: pgfcore 2010/04/11 v3.0.1a (rcs-revision 1.7)
 
@@ -1614,12 +1587,12 @@ Package: pgfcore 2010/04/11 v3.0.1a (rcs-revision 1.7)
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmathcalc.code.tex
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmathutil.code.tex)
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmathparser.code.tex
-\pgfmath@dimen=\dimen192
-\pgfmath@count=\count188
+\pgfmath@dimen=\dimen184
+\pgfmath@count=\count184
 \pgfmath@box=\box51
-\pgfmath@toks=\toks46
-\pgfmath@stack@operand=\toks47
-\pgfmath@stack@operation=\toks48
+\pgfmath@toks=\toks45
+\pgfmath@stack@operand=\toks46
+\pgfmath@stack@operation=\toks47
 )
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.code.tex
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.basic.code
@@ -1639,37 +1612,37 @@ tex)
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.integerari
 thmetics.code.tex)))
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmathfloat.code.tex
-\c@pgfmathroundto@lastzeros=\count189
+\c@pgfmathroundto@lastzeros=\count185
 ))
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepoints.code.te
 x
 File: pgfcorepoints.code.tex 2013/10/07  (rcs-revision 1.27)
-\pgf@picminx=\dimen193
-\pgf@picmaxx=\dimen194
-\pgf@picminy=\dimen195
-\pgf@picmaxy=\dimen196
-\pgf@pathminx=\dimen197
-\pgf@pathmaxx=\dimen198
-\pgf@pathminy=\dimen199
-\pgf@pathmaxy=\dimen256
-\pgf@xx=\dimen257
-\pgf@xy=\dimen258
-\pgf@yx=\dimen259
-\pgf@yy=\dimen260
-\pgf@zx=\dimen261
-\pgf@zy=\dimen262
+\pgf@picminx=\dimen185
+\pgf@picmaxx=\dimen186
+\pgf@picminy=\dimen187
+\pgf@picmaxy=\dimen188
+\pgf@pathminx=\dimen189
+\pgf@pathmaxx=\dimen190
+\pgf@pathminy=\dimen191
+\pgf@pathmaxy=\dimen192
+\pgf@xx=\dimen193
+\pgf@xy=\dimen194
+\pgf@yx=\dimen195
+\pgf@yy=\dimen196
+\pgf@zx=\dimen197
+\pgf@zy=\dimen198
 )
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepathconstruct.
 code.tex
 File: pgfcorepathconstruct.code.tex 2013/10/07  (rcs-revision 1.29)
-\pgf@path@lastx=\dimen263
-\pgf@path@lasty=\dimen264
+\pgf@path@lastx=\dimen199
+\pgf@path@lasty=\dimen256
 )
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepathusage.code
 .tex
 File: pgfcorepathusage.code.tex 2014/11/02  (rcs-revision 1.24)
-\pgf@shorten@end@additional=\dimen265
-\pgf@shorten@start@additional=\dimen266
+\pgf@shorten@end@additional=\dimen257
+\pgf@shorten@start@additional=\dimen258
 )
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcorescopes.code.te
 x
@@ -1677,19 +1650,19 @@ File: pgfcorescopes.code.tex 2015/05/08  (rcs-revision 1.46)
 \pgfpic=\box52
 \pgf@hbox=\box53
 \pgf@layerbox@main=\box54
-\pgf@picture@serial@count=\count190
+\pgf@picture@serial@count=\count186
 )
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcoregraphicstate.c
 ode.tex
 File: pgfcoregraphicstate.code.tex 2014/11/02  (rcs-revision 1.12)
-\pgflinewidth=\dimen267
+\pgflinewidth=\dimen259
 )
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcoretransformation
 s.code.tex
 File: pgfcoretransformations.code.tex 2015/08/07  (rcs-revision 1.20)
-\pgf@pt@x=\dimen268
-\pgf@pt@y=\dimen269
-\pgf@pt@temp=\dimen270
+\pgf@pt@x=\dimen260
+\pgf@pt@y=\dimen261
+\pgf@pt@temp=\dimen262
 )
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcorequick.code.tex
 File: pgfcorequick.code.tex 2008/10/09  (rcs-revision 1.3)
@@ -1705,12 +1678,12 @@ File: pgfcorepathprocessing.code.tex 2013/09/09  (rcs-revision 1.9)
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcorearrows.code.te
 x
 File: pgfcorearrows.code.tex 2015/05/14  (rcs-revision 1.43)
-\pgfarrowsep=\dimen271
+\pgfarrowsep=\dimen263
 )
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreshade.code.tex
 File: pgfcoreshade.code.tex 2013/07/15  (rcs-revision 1.15)
-\pgf@max=\dimen272
-\pgf@sys@shading@range@num=\count191
+\pgf@max=\dimen264
+\pgf@sys@shading@range@num=\count187
 )
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreimage.code.tex
 File: pgfcoreimage.code.tex 2013/07/15  (rcs-revision 1.18)
@@ -1741,8 +1714,8 @@ File: pgfmoduleplot.code.tex 2015/08/03  (rcs-revision 1.13)
 (/usr/share/texlive/texmf-dist/tex/latex/pgf/compatibility/pgfcomp-version-0-65
 .sty
 Package: pgfcomp-version-0-65 2007/07/03 v3.0.1a (rcs-revision 1.7)
-\pgf@nodesepstart=\dimen273
-\pgf@nodesepend=\dimen274
+\pgf@nodesepstart=\dimen265
+\pgf@nodesepend=\dimen266
 )
 (/usr/share/texlive/texmf-dist/tex/latex/pgf/compatibility/pgfcomp-version-1-18
 .sty
@@ -1756,10 +1729,10 @@ Package: pgfcomp-version-1-18 2007/07/23 v3.0.1a (rcs-revision 1.1)
 Package: pgffor 2013/12/13 v3.0.1a (rcs-revision 1.25)
 
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmath.code.tex)
-\pgffor@iter=\dimen275
-\pgffor@skip=\dimen276
-\pgffor@stack=\toks49
-\pgffor@toks=\toks50
+\pgffor@iter=\dimen267
+\pgffor@skip=\dimen268
+\pgffor@stack=\toks48
+\pgffor@toks=\toks49
 ))
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/frontendlayer/tikz/tikz.code.tex
 Package: tikz 2015/08/07 v3.0.1a (rcs-revision 1.151)
@@ -1767,99 +1740,87 @@ Package: tikz 2015/08/07 v3.0.1a (rcs-revision 1.151)
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/libraries/pgflibraryplothandlers
 .code.tex
 File: pgflibraryplothandlers.code.tex 2013/08/31 v3.0.1a (rcs-revision 1.20)
-\pgf@plot@mark@count=\count192
-\pgfplotmarksize=\dimen277
+\pgf@plot@mark@count=\count188
+\pgfplotmarksize=\dimen269
 )
-\tikz@lastx=\dimen278
-\tikz@lasty=\dimen279
-\tikz@lastxsaved=\dimen280
-\tikz@lastysaved=\dimen281
-\tikzleveldistance=\dimen282
-\tikzsiblingdistance=\dimen283
+\tikz@lastx=\dimen270
+\tikz@lasty=\dimen271
+\tikz@lastxsaved=\dimen272
+\tikz@lastysaved=\dimen273
+\tikzleveldistance=\dimen274
+\tikzsiblingdistance=\dimen275
 \tikz@figbox=\box57
 \tikz@figbox@bg=\box58
 \tikz@tempbox=\box59
 \tikz@tempbox@bg=\box60
-\tikztreelevel=\count193
-\tikznumberofchildren=\count194
-\tikznumberofcurrentchild=\count195
-\tikz@fig@count=\count196
+\tikztreelevel=\count189
+\tikznumberofchildren=\count190
+\tikznumberofcurrentchild=\count191
+\tikz@fig@count=\count192
 
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/modules/pgfmodulematrix.code.tex
 File: pgfmodulematrix.code.tex 2013/09/17  (rcs-revision 1.8)
-\pgfmatrixcurrentrow=\count197
-\pgfmatrixcurrentcolumn=\count198
-\pgf@matrix@numberofcolumns=\count199
+\pgfmatrixcurrentrow=\count193
+\pgfmatrixcurrentcolumn=\count194
+\pgf@matrix@numberofcolumns=\count195
 )
-\tikz@expandcount=\count266
+\tikz@expandcount=\count196
 
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tik
 zlibrarytopaths.code.tex
 File: tikzlibrarytopaths.code.tex 2008/06/17 v3.0.1a (rcs-revision 1.2)
 )))
-(/usr/share/texlive/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tik
-zlibrarypositioning.code.tex
-File: tikzlibrarypositioning.code.tex 2008/10/06 v3.0.1a (rcs-revision 1.7)
-)
-(/usr/share/texlive/texmf-dist/tex/latex/tools/calc.sty
-Package: calc 2014/10/28 v4.3 Infix arithmetic (KKT,FJ)
-\calc@Acount=\count267
-\calc@Bcount=\count268
-\calc@Adimen=\dimen284
-\calc@Bdimen=\dimen285
-\calc@Askip=\skip63
-\calc@Bskip=\skip64
-LaTeX Info: Redefining \setlength on input line 80.
-LaTeX Info: Redefining \addtolength on input line 81.
-\calc@Ccount=\count269
-\calc@Cskip=\skip65
-)
-\c@@todonotes@numberoftodonotes=\count270
+(/usr/share/texlive/texmf-dist/tex/latex/natbib/natbib.sty
+Package: natbib 2010/09/13 8.31b (PWD, AO)
+\bibhang=\skip61
+\bibsep=\skip62
+LaTeX Info: Redefining \cite on input line 694.
+\c@NAT@ctr=\count197
 )
 (/usr/share/texlive/texmf-dist/tex/latex/tools/indentfirst.sty
 Package: indentfirst 1995/11/23 v1.03 Indent first paragraph (DPC)
 )
 (/usr/share/texlive/texmf-dist/tex/latex/endnotes/endnotes.sty
-\c@endnote=\count271
-\endnotesep=\dimen286
+\c@endnote=\count198
+\endnotesep=\dimen276
 \@enotes=\write5
 ) (./jf.sty)
-\c@condition=\count272
-\c@corollary=\count273
-\c@proposition=\count274
-\c@obs=\count275
+\c@condition=\count199
+\c@corollary=\count266
+\c@proposition=\count267
+\c@obs=\count268
 
 (./var_mang_port.aux)
 \openout1 = `var_mang_port.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 81.
-LaTeX Font Info:    ... okay on input line 81.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 81.
-LaTeX Font Info:    ... okay on input line 81.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 81.
-LaTeX Font Info:    ... okay on input line 81.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 81.
-LaTeX Font Info:    ... okay on input line 81.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 81.
-LaTeX Font Info:    ... okay on input line 81.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 81.
-LaTeX Font Info:    ... okay on input line 81.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 81.
-LaTeX Font Info:    ... okay on input line 81.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 84.
+LaTeX Font Info:    ... okay on input line 84.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 84.
+LaTeX Font Info:    ... okay on input line 84.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 84.
+LaTeX Font Info:    ... okay on input line 84.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 84.
+LaTeX Font Info:    ... okay on input line 84.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 84.
+LaTeX Font Info:    ... okay on input line 84.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 84.
+LaTeX Font Info:    ... okay on input line 84.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 84.
+LaTeX Font Info:    ... okay on input line 84.
 
 (/usr/share/texlive/texmf-dist/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count276
-\scratchdimen=\dimen287
+\scratchcounter=\count269
+\scratchdimen=\dimen277
 \scratchbox=\box61
-\nofMPsegments=\count277
-\nofMParguments=\count278
-\everyMPshowfont=\toks51
-\MPscratchCnt=\count279
-\MPscratchDim=\dimen288
-\MPnumerator=\count280
-\makeMPintoPDFobject=\count281
-\everyMPtoPDFconversion=\toks52
+\nofMPsegments=\count270
+\nofMParguments=\count271
+\everyMPshowfont=\toks50
+\MPscratchCnt=\count272
+\MPscratchDim=\dimen278
+\MPnumerator=\count273
+\makeMPintoPDFobject=\count274
+\everyMPtoPDFconversion=\toks51
 )
 Package marginnote Info: \pdfoutput not 0 and \pdflastxpos available.
 (marginnote)             Extended position detection mode activated.
@@ -1867,117 +1828,93 @@ Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: hyperref package is loaded.
 Package caption Info: End \AtBeginDocument code.
 \AtBeginShipoutBox=\box62
-Package hyperref Info: Link coloring OFF on input line 81.
+Package hyperref Info: Link coloring OFF on input line 84.
  (/usr/share/texlive/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2012/10/27 v2.43 Cross-referencing by name of section
 
 (/usr/share/texlive/texmf-dist/tex/generic/oberdiek/gettitlestring.sty
 Package: gettitlestring 2010/12/03 v1.4 Cleanup title references (HO)
 )
-\c@section@level=\count282
+\c@section@level=\count275
 )
-LaTeX Info: Redefining \ref on input line 81.
-LaTeX Info: Redefining \pageref on input line 81.
-LaTeX Info: Redefining \nameref on input line 81.
+LaTeX Info: Redefining \ref on input line 84.
+LaTeX Info: Redefining \pageref on input line 84.
+LaTeX Info: Redefining \nameref on input line 84.
 
 (./var_mang_port.out) (./var_mang_port.out)
 \@outlinefile=\write6
 \openout6 = `var_mang_port.out'.
 
 
-*geometry* driver: auto-detecting
-*geometry* detected driver: pdftex
-*geometry* verbose mode - [ preamble ] result:
-* driver: pdftex
-* paper: <default>
-* layout: <same size as paper>
-* layoutoffset:(h,v)=(0.0pt,0.0pt)
-* modes: 
-* h-part:(L,W,R)=(72.26999pt, 469.75502pt, 72.26999pt)
-* v-part:(T,H,B)=(72.26999pt, 650.43001pt, 72.26999pt)
-* \paperwidth=614.295pt
-* \paperheight=794.96999pt
-* \textwidth=469.75502pt
-* \textheight=650.43001pt
-* \oddsidemargin=0.0pt
-* \evensidemargin=0.0pt
-* \topmargin=-37.0pt
-* \headheight=12.0pt
-* \headsep=25.0pt
-* \topskip=11.0pt
-* \footskip=30.0pt
-* \marginparwidth=59.0pt
-* \marginparsep=10.0pt
-* \columnsep=10.0pt
-* \skip\footins=10.0pt plus 4.0pt minus 2.0pt
-* \hoffset=0.0pt
-* \voffset=0.0pt
-* \mag=1000
-* \@twocolumnfalse
-* \@twosidefalse
-* \@mparswitchfalse
-* \@reversemarginfalse
-* (1in=72.27pt=25.4mm, 1cm=28.453pt)
-
 ABD: EveryShipout initializing macros
-LaTeX Font Info:    Try loading font information for U+msa on input line 97.
+LaTeX Font Info:    Try loading font information for U+msa on input line 100.
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 97.
+LaTeX Font Info:    Try loading font information for U+msb on input line 100.
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 97.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 100.
+
 
 (/usr/share/texlive/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <8> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 97.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 100.
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <6> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 97.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 100.
  (./abstract.tex)
 [1
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] (./introduction.tex
-\openout5 = `var_mang_port.ent'.
-
+Missing character: There is no ‚ in font cmr9!
+Missing character: There is no Ä in font cmr9!
+Missing character: There is no î in font cmr9!
+Missing character: There is no ‚ in font cmr9!
+Missing character: There is no Ä in font cmr9!
+Missing character: There is no î in font cmr9!
 
 [2
 
-]
+] [3] [4]
 Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ô in font cmr10!
 Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ô in font cmr10!
- [3] [4]
+ [5] [6]
 Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ô in font cmr10!
- [5]
+ [7]
 Missing character: There is no √ in font cmr10!
 Missing character: There is no ° in font cmr10!
-) (./data.tex
+ [8]) (./data.tex
 Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ô in font cmr10!
- [6]
 Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ô in font cmr10!
+ [9]
 
+LaTeX Warning: Reference `tab:tab_int_summary' on page 10 undefined on input li
+ne 27.
 
-LaTeX Warning: Reference `tab:tab_int_summary' on page 7 undefined on input lin
-e 27.
+[10] [11]
+Overfull \hbox (7.46501pt too wide) in paragraph at lines 53--53
+[][][]\OT1/cmr/m/n/9 http://mba.tuck.dartmouth.edu/pages/faculty/ken.french/dat
+a[]library.html#Research| 
+ []
 
-[7] [8]) (./asset_allocation.tex [9] [10]) (./port_performance.tex [11]
-[12]) (./leverage.tex [13] [14]) (./drawdowns.tex [15]) [16] (./invest_util.tex
-[17]) (./systemic_risk.tex [18]
+[12]) (./asset_allocation.tex [13] [14] [15]) [16] (./port_performance.tex
+[17] [18]) [19] (./leverage.tex [20] [21]) (./drawdowns.tex [22] [23]) [24]
+(./invest_util.tex [25] [26]) (./systemic_risk.tex [27]
 Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ô in font cmr10!
@@ -1988,66 +1925,117 @@ Missing character: There is no ù in font cmr10!
 Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ù in font cmr10!
-Missing character: There is no ‚ in font cmr10!
-Missing character: There is no Ä in font cmr10!
-Missing character: There is no ô in font cmr10!
-Missing character: There is no ‚ in font cmr10!
-Missing character: There is no Ä in font cmr10!
-Missing character: There is no ô in font cmr10!
-Missing character: There is no ‚ in font cmr10!
-Missing character: There is no Ä in font cmr10!
-Missing character: There is no ô in font cmr10!
-Missing character: There is no ‚ in font cmr10!
-Missing character: There is no Ä in font cmr10!
-Missing character: There is no ô in font cmr10!
-Missing character: There is no ‚ in font cmr10!
-Missing character: There is no Ä in font cmr10!
-Missing character: There is no ô in font cmr10!
- [19]) (./systematic_ac.tex)
-(./sub_insample.tex [20]) (./market_cap.tex [21]) (./out_sample.tex [22]
-[23] [24]) (./robustness.tex [25]) (./alt_inv.tex [26] [27]) (./conclusion.tex
-[28]) [29] (./Acknowledgments.tex) [30
 
-] (./var_mang_port.bbl [31
-
-]
+[28]
 Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ô in font cmr10!
- [32]
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ô in font cmr10!
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ô in font cmr10!
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ô in font cmr10!
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ô in font cmr10!
+) (./systematic_ac.tex [29]
+Overfull \hbox (26.76129pt too wide) in paragraph at lines 8--8
+[] 
+ []
+
+) (./sub_insample.tex [30]) [31] (./market_cap.tex [32]) (./out_sample.tex
+[33] [34] [35] [36]) (./robustness.tex [37] [38]) (./alt_inv.tex [39] [40]
+[41]) (./conclusion.tex [42]) [43] (./Acknowledgments.tex)
+Overfull \hbox (2.31964pt too wide) in paragraph at lines 1--222
+[]\OT1/cmr/m/n/10.95 First, I would like to thank the mem-bers of my com-mit-te
+e Prachi Deuskar,
+ []
+
+[44
+
+] (./var_mang_port.bbl [45
+
+] [46]
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ô in font cmr10!
+ [47] [48]
 Missing character: There is no √ in font cmr10!
 Missing character: There is no ° in font cmr10!
- [33]
-[34] [35]
+ [49]
+Underfull \hbox (badness 1859) in paragraph at lines 231--234
+[]\OT1/cmr/m/n/10.95 Johansen, An-ders, and Di-dier Sor-nette, 2000, Large Stoc
+k Mar-ket
+ []
+
+[50] [51]
+Underfull \hbox (badness 2903) in paragraph at lines 307--309
+[]\OT1/cmr/m/n/10.95 McWhinnie, Eric, 2014, War-ren Buf-fett on us-ing lever-ag
+e to in-
+ []
+
+
+Underfull \hbox (badness 1147) in paragraph at lines 316--319
+[]\OT1/cmr/m/n/10.95 Moreira, Alan, and Tyler Muir, 2017, Volatility-Managed Po
+rt-fo-lios:
+ []
+
+[52]
+Underfull \hbox (badness 10000) in paragraph at lines 335--338
+[]\OT1/cmr/m/n/10.95 NYSE, 2016, Amer-i-can stock ex-change: His-tor-i-cal time
+-line,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 335--338
+[]$\OT1/cmtt/m/n/10.95 https : / / www . nyse . com / publicdocs / American _ S
+tock _ Exchange _
+ []
+
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 352.
- [36]
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 357.
+[53] [54]
 Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ì in font cmr10!
- [37]
 Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ú in font cmr10!
 Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ù in font cmr10!
-) [38] (./var_mang_port.ent
-Missing character: There is no ‚ in font cmr10!
-Missing character: There is no Ä in font cmr10!
-Missing character: There is no î in font cmr10!
-Missing character: There is no ‚ in font cmr10!
-Missing character: There is no Ä in font cmr10!
-Missing character: There is no î in font cmr10!
-
-Overfull \hbox (38.9948pt too wide) in paragraph at lines 351--367
-[][]\OT1/cmr/m/n/10.95 The re-ports are avail-able for 2011 through 2017, cov-e
-r-ing data from 2000 to 2017, at https://www.credit-
+ [55]
+Underfull \hbox (badness 4353) in paragraph at lines 438--440
+[]\OT1/cmr/m/n/10.95 Vecer, Jan, 2006, Max-i-mum Draw-down and Di-rec-tional Tr
+ad-ing,
  []
 
-) [39
 
-] [40] (./figures.tex
+Underfull \hbox (badness 10000) in paragraph at lines 438--440
+[]$\OT1/cmtt/m/n/10.95 https : / / www . researchgate . net / publication / 251
+215449 _ Maximum _
+ []
+
+) [56] (./var_mang_port.ent
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no î in font cmr10!
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no î in font cmr10!
+
+Overfull \hbox (75.00758pt too wide) in paragraph at lines 190--191
+[][]\OT1/cmr/m/n/10.95 http://mba.tuck.dartmouth.edu/pages/faculty/ken.french/d
+ata[]library.html#Research 
+ []
+
+[57
+
+]) [58] (./figures.tex
 
 Package caption Warning: \captionsetup{subtype*=...} or \subcaptionof
 (caption)                outside box or environment on input line 11.
@@ -2064,13 +2052,13 @@ Package caption Warning: \subcaption
 (caption)                outside box or environment on input line 15.
 See the caption package documentation for explanation.
 
-(./figures/weight_plot3.tex) [41
+(./figures/weight_plot3.tex) [59
 
-] (./figures/weight_plot2.tex) [42
+] (./figures/weight_plot2.tex) [60
 
 ]
 (./figures/m_ret_plot2.tex)
-Overfull \hbox (85.07327pt too wide) in paragraph at lines 10651--32
+Overfull \hbox (194.8283pt too wide) in paragraph at lines 10651--32
 [][]
  []
 
@@ -2080,10 +2068,10 @@ Underfull \hbox (badness 10000) in paragraph at lines 10651--32
  []
 
 
-LaTeX Warning: Float too large for page by 66.61891pt on input line 32.
+LaTeX Warning: Float too large for page by 189.24869pt on input line 32.
 
-[43] (./figures/dd_plot.tex)
-Overfull \hbox (85.07327pt too wide) in paragraph at lines 3673--45
+[61] (./figures/dd_plot.tex)
+Overfull \hbox (194.8283pt too wide) in paragraph at lines 3673--45
 [][]
  []
 
@@ -2092,14 +2080,33 @@ Underfull \hbox (badness 10000) in paragraph at lines 3673--45
 
  []
 
-[44
+[62
 
 
 
-] (./figures/cer_loss_plot.tex) [45
+] (./figures/cer_loss_plot.tex) [63
 
 ] (./figures/cer_const_plot.tex)
-(./figures/cer_gamma_plot.tex) [46
+Overfull \hbox (66.79pt too wide) in paragraph at lines 342--61
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 342--61
+
+ []
+
+(./figures/cer_gamma_plot.tex)
+Overfull \hbox (66.79pt too wide) in paragraph at lines 282--64
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 282--64
+
+ []
+
+[64
 
 ]) (./tables.tex (./table_summary.tex
 
@@ -2118,11 +2125,21 @@ Package caption Warning: \subcaption
 (caption)                outside box or environment on input line 7.
 See the caption package documentation for explanation.
 
+
+Overfull \hbox (15.63666pt too wide) in paragraph at lines 4--7
+ [][] 
+ []
+
 (./tables/summary2.tex)
 
 Package caption Warning: \subcaption
 (caption)                outside box or environment on input line 9.
 See the caption package documentation for explanation.
+
+
+Overfull \hbox (15.63666pt too wide) in paragraph at lines 5--9
+ [][] 
+ []
 
 (./tables/summary3.tex)
 
@@ -2130,9 +2147,16 @@ Package caption Warning: \subcaption
 (caption)                outside box or environment on input line 11.
 See the caption package documentation for explanation.
 
-(./tables/summary/global_summary.tex)) [47
 
-] (./table_correlations.tex
+Overfull \hbox (24.15334pt too wide) in paragraph at lines 4--11
+ [][] 
+ []
+
+(./tables/summary/global_summary.tex)
+
+LaTeX Warning: Float too large for page by 102.78462pt on input line 13.
+
+) [65] (./table_correlations.tex
 
 Package caption Warning: \captionsetup{subtype*=...} or \subcaptionof
 (caption)                outside box or environment on input line 7.
@@ -2149,18 +2173,31 @@ Package caption Warning: \subcaption
 (caption)                outside box or environment on input line 9.
 See the caption package documentation for explanation.
 
+
+Overfull \hbox (53.38312pt too wide) in paragraph at lines 4--9
+ [][] 
+ []
+
 (./tables/summary/global_eq.tex)
 
 Package caption Warning: \subcaption
 (caption)                outside box or environment on input line 11.
 See the caption package documentation for explanation.
 
-(./tables/summary/other_invst_corr.tex)) [48
+(./tables/summary/other_invst_corr.tex)
 
-] (./table_weights.tex) [49
+LaTeX Warning: Float too large for page by 41.16373pt on input line 13.
 
-]
-(./table_performance1.tex
+) [66] (./table_weights.tex
+Overfull \hbox (101.79042pt too wide) in paragraph at lines 8--21
+ [][] 
+ []
+
+) [67
+
+
+
+] (./table_performance1.tex
 
 Package caption Warning: \captionsetup{subtype*=...} or \subcaptionof
 (caption)                outside box or environment on input line 5.
@@ -2177,22 +2214,41 @@ Package caption Warning: \subcaption
 (caption)                outside box or environment on input line 7.
 See the caption package documentation for explanation.
 
+
+Overfull \hbox (61.48721pt too wide) in paragraph at lines 7--7
+ [][] 
+ []
+
 (./tables/performance/tab_perf_NO_expansions.tex)
+Overfull \hbox (70.85553pt too wide) in paragraph at lines 7--9
+ [][] 
+ []
+
 
 Package caption Warning: \subcaption
 (caption)                outside box or environment on input line 10.
 See the caption package documentation for explanation.
 
 (./tables/performance/tab_perf_NO_contractions.tex)
+Overfull \hbox (78.11497pt too wide) in paragraph at lines 7--13
+ [][] 
+ []
+
 
 Package caption Warning: \subcaption
 (caption)                outside box or environment on input line 14.
 See the caption package documentation for explanation.
 
-(./tables/performance/tab_perf_NO_cont_xGreat.tex)) [50
+(./tables/performance/tab_perf_NO_cont_xGreat.tex)
+Overfull \hbox (56.0122pt too wide) in paragraph at lines 7--19
+ [][] 
+ []
 
-]
-(./tables/performance/tab_intPerf1.tex) [51
+
+LaTeX Warning: Float too large for page by 7.8397pt on input line 19.
+
+) [68] (./tables/performance/tab_intPerf1.tex) [69
+
 
 ] (./table_performance3.tex
 
@@ -2211,7 +2267,7 @@ Package caption Warning: \subcaption
 (caption)                outside box or environment on input line 9.
 See the caption package documentation for explanation.
 
-(./tables/performance/tab_perf_borrowing2.tex)) [52
+(./tables/performance/tab_perf_borrowing2.tex)) [70
 
 ] (./table_performance2.tex
 
@@ -2230,7 +2286,17 @@ Package caption Warning: \subcaption
 (caption)                outside box or environment on input line 9.
 See the caption package documentation for explanation.
 
-(./tables/tab_perf_035_constraint.tex)) [53
+
+Overfull \hbox (29.88724pt too wide) in paragraph at lines 8--9
+ [] 
+ []
+
+(./tables/tab_perf_035_constraint.tex)
+Overfull \hbox (40.99959pt too wide) in paragraph at lines 12--19
+ [] 
+ []
+
+) [71
 
 ] (./table_costs.tex
 
@@ -2264,10 +2330,10 @@ Package caption Warning: \subcaption
 (caption)                outside box or environment on input line 20.
 See the caption package documentation for explanation.
 
-) [54
+) [72
 
 
-] [55] (./table_in_sample.tex
+] [73] (./table_in_sample.tex
 
 Package caption Warning: \captionsetup{subtype*=...} or \subcaptionof
 (caption)                outside box or environment on input line 5.
@@ -2293,9 +2359,9 @@ Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ì in font cmr10!
 
-LaTeX Warning: Float too large for page by 1.7212pt on input line 91.
+LaTeX Warning: Float too large for page by 10.82904pt on input line 91.
 
-[56]) (./table_out_sample.tex
+[74]) (./table_out_sample.tex
 
 Package caption Warning: \captionsetup{subtype*=...} or \subcaptionof
 (caption)                outside box or environment on input line 5.
@@ -2318,115 +2384,169 @@ Package caption Warning: \subcaption
 (caption)                outside box or environment on input line 13.
 See the caption package documentation for explanation.
 
-) [57
+
+LaTeX Warning: Float too large for page by 43.15704pt on input line 33.
+
+) [75] (./tab_altPerf1.tex
+Overfull \hbox (21.58131pt too wide) in paragraph at lines 7--28
+ [][] 
+ []
+
+) [76
 
 
 
-] (./tab_altPerf1.tex
 
-LaTeX Warning: Reference `sec:global_equity' on page 58 undefined on input line
- 5.
+]) (./Appendix.tex (./figures/kd_plots.tex)
+Overfull \hbox (66.79pt too wide) in paragraph at lines 597--8
+[][]
+ []
 
 
-LaTeX Warning: Reference `sec:global_equity' on page 58 undefined on input line
- 5.
+Underfull \hbox (badness 10000) in paragraph at lines 597--8
 
-) [58
+ []
 
-]) (./Appendix.tex (./figures/sd_ill_plot.tex)
-(./tables/performance/sd_utility.tex [59
+(./figures/kd_plots2.tex)
+Overfull \hbox (66.79pt too wide) in paragraph at lines 611--12
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 611--12
+
+ []
+
+(./figures/kd_plots3.tex)
+Overfull \hbox (66.79pt too wide) in paragraph at lines 589--16
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 589--16
+
+ []
+
+(./figures/kd_plots4.tex)
+Overfull \hbox (66.79pt too wide) in paragraph at lines 593--20
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 593--20
+
+ []
+
+
+LaTeX Warning: Float too large for page by 201.06511pt on input line 21.
+
+(./figures/sd_ill_plot.tex)
+Overfull \hbox (66.79pt too wide) in paragraph at lines 3230--29
+ [][] 
+ []
+
+(./tables/performance/sd_utility.tex [77
 
 ])
 
 Package caption Warning: \captionsetup{subtype*=...} or \subcaptionof
-(caption)                outside box or environment on input line 17.
+(caption)                outside box or environment on input line 39.
 See the caption package documentation for explanation.
 
 
 Package caption Warning: \subcaption
-(caption)                outside box or environment on input line 17.
+(caption)                outside box or environment on input line 39.
 See the caption package documentation for explanation.
 
 (./tables/tab_in_mkt_var1m.tp1_full.tex)
 
 Package caption Warning: \subcaption
-(caption)                outside box or environment on input line 21.
+(caption)                outside box or environment on input line 43.
 See the caption package documentation for explanation.
 
 (./tables/tab_in_avg_var1m.tp1_full.tex)
 
 Package caption Warning: \subcaption
-(caption)                outside box or environment on input line 25.
+(caption)                outside box or environment on input line 47.
 See the caption package documentation for explanation.
 
 (./tables/tab_in_avg_cor1m.tp1_full.tex)
 
 Package caption Warning: \subcaption
-(caption)                outside box or environment on input line 29.
+(caption)                outside box or environment on input line 51.
 See the caption package documentation for explanation.
 
-(./tables/tab_in_logxret.tp1_full2.tex) [60] [61]
+(./tables/tab_in_logxret.tp1_full2.tex)
+
+LaTeX Warning: Float too large for page by 95.35072pt on input line 55.
+
+[78] [79] [80] [81] [82]
 
 Package caption Warning: \captionsetup{subtype*=...} or \subcaptionof
-(caption)                outside box or environment on input line 39.
+(caption)                outside box or environment on input line 61.
 See the caption package documentation for explanation.
 
 
 Package caption Warning: \subcaption
-(caption)                outside box or environment on input line 39.
+(caption)                outside box or environment on input line 61.
 See the caption package documentation for explanation.
 
 (./tables/insample/tab_in_mkt_var1m.tp1_pre1962.tex)
 
 Package caption Warning: \subcaption
-(caption)                outside box or environment on input line 43.
+(caption)                outside box or environment on input line 65.
 See the caption package documentation for explanation.
 
 (./tables/insample/tab_in_avg_var1m.tp1_pre1962.tex)
 
 Package caption Warning: \subcaption
-(caption)                outside box or environment on input line 47.
+(caption)                outside box or environment on input line 69.
 See the caption package documentation for explanation.
 
 (./tables/insample/tab_in_avg_cor1m.tp1_pre1962.tex)
 
 Package caption Warning: \subcaption
-(caption)                outside box or environment on input line 51.
+(caption)                outside box or environment on input line 73.
 See the caption package documentation for explanation.
 
-(./tables/insample/tab_in_logxret.tp1_pre19622.tex) [62]
+(./tables/insample/tab_in_logxret.tp1_pre19622.tex)
+
+LaTeX Warning: Float too large for page by 124.28804pt on input line 77.
+
+[83]
 
 Package caption Warning: \captionsetup{subtype*=...} or \subcaptionof
-(caption)                outside box or environment on input line 61.
+(caption)                outside box or environment on input line 83.
 See the caption package documentation for explanation.
 
 
 Package caption Warning: \subcaption
-(caption)                outside box or environment on input line 61.
+(caption)                outside box or environment on input line 83.
 See the caption package documentation for explanation.
 
 (./tables/tab_in_mkt_var1m.tp1_post1962.tex)
 
 Package caption Warning: \subcaption
-(caption)                outside box or environment on input line 65.
+(caption)                outside box or environment on input line 87.
 See the caption package documentation for explanation.
 
 (./tables/tab_in_avg_var1m.tp1_post1962.tex)
 
 Package caption Warning: \subcaption
-(caption)                outside box or environment on input line 69.
+(caption)                outside box or environment on input line 91.
 See the caption package documentation for explanation.
 
 (./tables/tab_in_avg_cor1m.tp1_post1962.tex)
 
 Package caption Warning: \subcaption
-(caption)                outside box or environment on input line 73.
+(caption)                outside box or environment on input line 95.
 See the caption package documentation for explanation.
 
-(./tables/tab_in_logxret.tp1_post19622.tex) [63
+(./tables/tab_in_logxret.tp1_post19622.tex)
 
+LaTeX Warning: Float too large for page by 118.57462pt on input line 99.
 
-] (./table_oos_robust.tex
+[84] (./table_oos_robust.tex
 
 Package caption Warning: \captionsetup{subtype*=...} or \subcaptionof
 (caption)                outside box or environment on input line 5.
@@ -2442,57 +2562,43 @@ Package caption Warning: \subcaption
 (caption)                outside box or environment on input line 22.
 See the caption package documentation for explanation.
 
-) (./tab_altPerf3.tex [64
+) [85
+
+
+
+] (./tab_altPerf3.tex [86
 
 ]
-
-LaTeX Warning: Reference `sec:global_equity' on page 65 undefined on input line
- 6.
-
-
-LaTeX Warning: Reference `sec:global_equity' on page 65 undefined on input line
- 6.
-
-[65
-
-]) (./tab_altPerf2.tex
-
-LaTeX Warning: Reference `sec:global_equity' on page 66 undefined on input line
- 5.
-
-
-LaTeX Warning: Reference `sec:global_equity' on page 66 undefined on input line
- 5.
-
-
-Overfull \hbox (32.48476pt too wide) in paragraph at lines 7--29
- [][] 
+Overfull \hbox (48.49634pt too wide) in paragraph at lines 34--35
+ [] 
  []
 
-) [66
+[87
+
+]) (./tab_altPerf2.tex) [88
 
 
 ])
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 275.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 275.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 283.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 283.
  (./var_mang_port.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 275.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 275.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 283.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 283.
 Package rerunfilecheck Info: File `var_mang_port.out' has not changed.
-(rerunfilecheck)             Checksum: 0808FC6D3DA6C00D993CB2AAF8C9B721;1214.
+(rerunfilecheck)             Checksum: E1DC9145D128A539DCE00127996BFFB1;1270.
 
 
 LaTeX Warning: There were undefined references.
 
  ) 
 Here is how much of TeX's memory you used:
- 29019 strings out of 493029
- 541967 string characters out of 6136234
- 1040082 words of memory out of 5000000
- 31615 multiletter control sequences out of 15000+600000
+ 28318 strings out of 493029
+ 529025 string characters out of 6136234
+ 1023821 words of memory out of 5000000
+ 30881 multiletter control sequences out of 15000+600000
  15458 words of font info for 60 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 62i,12n,94p,10410b,875s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 59i,12n,94p,10419b,888s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></us
 r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/shar
 e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texl
@@ -2514,10 +2620,10 @@ pe1/public/amsfonts/cm/cmti10.pfb></usr/share/texlive/texmf-dist/fonts/type1/pu
 blic/amsfonts/cm/cmti12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/a
 msfonts/cm/cmtt10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfont
 s/symbols/msbm10.pfb>
-Output written on var_mang_port.pdf (66 pages, 658507 bytes).
+Output written on var_mang_port.pdf (88 pages, 701291 bytes).
 PDF statistics:
- 1209 PDF objects out of 1440 (max. 8388607)
- 1058 compressed objects within 11 object streams
- 237 named destinations out of 1000 (max. 500000)
- 173 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1376 PDF objects out of 1440 (max. 8388607)
+ 1199 compressed objects within 12 object streams
+ 271 named destinations out of 1000 (max. 500000)
+ 181 words of extra memory for PDF output out of 10000 (max. 10000000)
 
