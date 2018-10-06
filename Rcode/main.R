@@ -2332,6 +2332,7 @@ setnames(currencyPerformance2,rep(c("Avg DD","Avg Length","Avg Recovery"),3))
 setnames(currencyPerformance2,"V1","Country")
 setorderv(currencyPerformance2,"Country",1)
 
+####other alt inv ####
 
 bbdollar = as.data.table(read_excel(path = 'moreI.xlsx',sheet = 1,skip = 1))
 bbdollar[, c("year","month") := list(year(Date),month(Date))]
@@ -2400,6 +2401,13 @@ setorderv(bcom,cols = "Date",order = 1)
 bcom[, bcom := ROC(`BCOM Index - Last Price`,type="discrete")]
 alt_inv = merge(alt_inv,subset(bcom,select=c("year","month","bcom")),
                 by=c("year","month"),all.x=TRUE)
+bcom2 = as.data.table(read_excel('bcomxpe.xlsx'))
+bcom2 = bcom2[!is.na(Date)]
+setkey(bcom2,Date)
+bcom2[, colnames(bcom2)[2:ncol(bcom2)] := lapply(.SD,ROC,type="discrete"), .SDcols = colnames(bcom2)[2:ncol(bcom2)]]
+bcom2[, c("year","month") := list(year(Date),month(Date))]
+bcom2[,Date := NULL]
+alt_inv = merge(alt_inv,bcom2,by=c("year","month"),all.x=TRUE)
 
 gscom = as.data.table(read_excel(path = 'commI.xlsx',sheet = 3,skip = 1))
 gscom[, c("year","month") := list(year(Date),month(Date))]
@@ -2444,7 +2452,8 @@ altPerf1 = alt_inv_m[!(is.na(av_return)|is.na(sv_return)),
 altPerf1 = cbind(altPerf1[,1],round(altPerf1[,2:ncol(altPerf1)],3))
 # setnames(altPerf1,"V1","Index")
 tmpI1 = see.stars(as.matrix(altPerf1[, -"index"],nrow=nrow(altPerf1)),c(1,3),c(2,4))[,c(1,3,5:(ncol(altPerf1)-1))]
-altPerf1 = cbind(c("bbdollar","reit","dbcurr","dbcarry","dbmom","dbmom2","dbval","bcom","gscom","bbUSuniv","bbUSagg"),tmpI1)
+altPerf1 = cbind(c("bbdollar","reit","dbcurr","dbcarry","dbmom","dbmom2","dbval","bcom","gscom","bbUSuniv",
+                   "bbUSagg","bcomxpe_tr","bcomxpe","bcompe","bcompe_tr"),tmpI1)
 # setorderv(IntPerformance1,"Country",1)
 stargazer(IntPerformance1,summary = FALSE,out = 'tables/performance/tab_intPerf1.tex')
 
@@ -2474,7 +2483,8 @@ for(i in 1:length(c("av_return","sv_return","xlogret"))){
 }
 altPerf3 = cbind(intlist[[1]],cbind(intlist[[2]],intlist[[3]]))
 setnames(altPerf3,rep(c("Avg DD","Avg Length","Avg Recovery"),3))
-altPerf3 = cbind(c("bbdollar","reit","dbcurr","bdcarry","dbmom","dbmom2","dbval","bcom","gscom","bbUSuniv","bbUSagg"),altPerf3)
+altPerf3 = cbind(c("bbdollar","reit","dbcurr","dbcarry","dbmom","dbmom2","dbval","bcom","gscom","bbUSuniv",
+                   "bbUSagg","bcomxpe_tr","bcomxpe","bcompe","bcompe_tr"),altPerf3)
 setnames(altPerf3,"V1","Index")
 setorderv(altPerf3,"Index",1)
 stargazer(altPerf3,summary = FALSE,out = 'tables/performance/tab_altPerf3.tex')
