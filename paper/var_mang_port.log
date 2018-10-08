@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2018.7.28)  29 SEP 2018 16:33
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2018.7.28)  8 OCT 2018 17:53
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1893,11 +1893,10 @@ Missing character: There is no ™ in font cmr10!
  [7]
 Missing character: There is no Ã in font cmr10!
 Missing character: There is no ¡ in font cmr10!
- [8]) (./data.tex
+ [8]) (./data.tex [9]
 Missing character: There is no â in font cmr10!
 Missing character: There is no € in font cmr10!
 Missing character: There is no ™ in font cmr10!
- [9]
 Missing character: There is no â in font cmr10!
 Missing character: There is no € in font cmr10!
 Missing character: There is no ™ in font cmr10!
@@ -1912,9 +1911,9 @@ Overfull \hbox (7.46501pt too wide) in paragraph at lines 53--53
 a[]library.html#Research| 
  []
 
-) (./asset_allocation.tex [13] [14] [15]) [16] (./port_performance.tex [17]
-[18] [19]) (./leverage.tex [20] [21]) [22] (./drawdowns.tex [23]) [24]
-(./invest_util.tex [25] [26]) [27] (./systemic_risk.tex
+[13]) (./asset_allocation.tex [14] [15] [16]) (./port_performance.tex [17]
+[18] [19]) (./leverage.tex [20] [21] [22]) (./drawdowns.tex [23] [24])
+(./invest_util.tex [25] [26] [27]) (./systemic_risk.tex
 Missing character: There is no â in font cmr10!
 Missing character: There is no € in font cmr10!
 Missing character: There is no ™ in font cmr10!
@@ -1942,29 +1941,30 @@ Missing character: There is no ™ in font cmr10!
 Missing character: There is no â in font cmr10!
 Missing character: There is no € in font cmr10!
 Missing character: There is no ™ in font cmr10!
-) [29] (./systematic_ac.tex
+ [29]) (./systematic_ac.tex
 Overfull \hbox (26.76129pt too wide) in paragraph at lines 8--8
 [] 
  []
 
-[30]) (./sub_insample.tex) [31] (./market_cap.tex [32]) [33] (./out_sample.tex
-[34] [35] [36]) (./robustness.tex [37] [38]) [39] (./alt_inv.tex [40] [41])
-[42] (./conclusion.tex) [43] (./var_mang_port.bbl [44
+[30]) (./sub_insample.tex [31]) (./market_cap.tex [32] [33]) (./out_sample.tex
+[34] [35] [36] [37]) (./robustness.tex [38] [39]) (./alt_inv.tex [40] [41]
+[42]) (./conclusion.tex [43]) [44] (./var_mang_port.bbl [45
 
-] [45]
+] [46]
 Missing character: There is no â in font cmr10!
 Missing character: There is no € in font cmr10!
 Missing character: There is no ™ in font cmr10!
- [46] [47]
+ [47] [48]
 Missing character: There is no Ã in font cmr10!
 Missing character: There is no ¡ in font cmr10!
- [48]
+
+[49]
 Underfull \hbox (badness 1859) in paragraph at lines 231--234
 []\OT1/cmr/m/n/10.95 Johansen, An-ders, and Di-dier Sor-nette, 2000, Large Stoc
 k Mar-ket
  []
 
-[49] [50]
+[50] [51]
 Underfull \hbox (badness 2903) in paragraph at lines 307--309
 []\OT1/cmr/m/n/10.95 McWhinnie, Eric, 2014, War-ren Buf-fett on us-ing lever-ag
 e to in-
@@ -1976,7 +1976,7 @@ Underfull \hbox (badness 1147) in paragraph at lines 316--319
 rt-fo-lios:
  []
 
-[51]
+[52]
 Underfull \hbox (badness 10000) in paragraph at lines 335--338
 []\OT1/cmr/m/n/10.95 NYSE, 2016, Amer-i-can stock ex-change: His-tor-i-cal time
 -line,
@@ -1990,7 +1990,7 @@ tock _ Exchange _
 
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
 (Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 357.
-[52] [53]
+[53] [54]
 Missing character: There is no â in font cmr10!
 Missing character: There is no € in font cmr10!
 Missing character: There is no “ in font cmr10!
@@ -2000,7 +2000,7 @@ Missing character: There is no œ in font cmr10!
 Missing character: There is no â in font cmr10!
 Missing character: There is no € in font cmr10!
 Missing character: There is no  in font cmr10!
- [54]
+ [55]
 Underfull \hbox (badness 4353) in paragraph at lines 438--440
 []\OT1/cmr/m/n/10.95 Vecer, Jan, 2006, Max-i-mum Draw-down and Di-rec-tional Tr
 ad-ing,
@@ -2012,7 +2012,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 438--440
 215449 _ Maximum _
  []
 
-) [55] (./var_mang_port.ent
+) [56] (./var_mang_port.ent
 Missing character: There is no â in font cmr10!
 Missing character: There is no € in font cmr10!
 Missing character: There is no ” in font cmr10!
@@ -2025,9 +2025,9 @@ Overfull \hbox (75.00758pt too wide) in paragraph at lines 190--191
 ata[]library.html#Research 
  []
 
-[56
+[57
 
-]) [57] (./figures.tex
+]) [58] (./figures.tex
 
 Package caption Warning: \captionsetup{subtype*=...} or \subcaptionof
 (caption)                outside box or environment on input line 11.
@@ -2044,9 +2044,9 @@ Package caption Warning: \subcaption
 (caption)                outside box or environment on input line 15.
 See the caption package documentation for explanation.
 
-(./figures/weight_plot3.tex) [58
+(./figures/weight_plot3.tex) [59
 
-] (./figures/weight_plot2.tex) [59
+] (./figures/weight_plot2.tex) [60
 
 ]
 (./figures/m_ret_plot2.tex)
@@ -2062,7 +2062,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 10651--32
 
 LaTeX Warning: Float too large for page by 189.24869pt on input line 32.
 
-[60] (./figures/dd_plot.tex)
+[61] (./figures/dd_plot.tex)
 Overfull \hbox (194.8283pt too wide) in paragraph at lines 3673--45
 [][]
  []
@@ -2072,11 +2072,11 @@ Underfull \hbox (badness 10000) in paragraph at lines 3673--45
 
  []
 
-[61
+[62
 
 
 
-] (./figures/cer_loss_plot.tex) [62
+] (./figures/cer_loss_plot.tex) [63
 
 ] (./figures/cer_const_plot.tex)
 Overfull \hbox (66.79pt too wide) in paragraph at lines 342--61
@@ -2098,7 +2098,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 282--64
 
  []
 
-[63
+[64
 
 ]) (./tables.tex (./table_summary.tex
 
@@ -2148,7 +2148,7 @@ Overfull \hbox (24.15334pt too wide) in paragraph at lines 4--11
 
 LaTeX Warning: Float too large for page by 102.78462pt on input line 13.
 
-) [64] (./table_correlations.tex
+) [65] (./table_correlations.tex
 
 Package caption Warning: \captionsetup{subtype*=...} or \subcaptionof
 (caption)                outside box or environment on input line 7.
@@ -2180,12 +2180,12 @@ See the caption package documentation for explanation.
 
 LaTeX Warning: Float too large for page by 41.16373pt on input line 13.
 
-) [65] (./table_weights.tex
+) [66] (./table_weights.tex
 Overfull \hbox (101.79042pt too wide) in paragraph at lines 8--21
  [][] 
  []
 
-) [66
+) [67
 
 
 
@@ -2239,7 +2239,7 @@ Overfull \hbox (56.0122pt too wide) in paragraph at lines 7--19
 
 LaTeX Warning: Float too large for page by 7.8397pt on input line 19.
 
-) [67] (./tables/performance/tab_intPerf1.tex) [68
+) [68] (./tables/performance/tab_intPerf1.tex) [69
 
 
 ] (./table_performance3.tex
@@ -2259,7 +2259,7 @@ Package caption Warning: \subcaption
 (caption)                outside box or environment on input line 9.
 See the caption package documentation for explanation.
 
-(./tables/performance/tab_perf_borrowing2.tex)) [69
+(./tables/performance/tab_perf_borrowing2.tex)) [70
 
 ] (./table_performance2.tex
 
@@ -2288,7 +2288,7 @@ Overfull \hbox (40.99959pt too wide) in paragraph at lines 12--19
  [] 
  []
 
-) [70
+) [71
 
 ] (./table_costs.tex
 
@@ -2322,10 +2322,10 @@ Package caption Warning: \subcaption
 (caption)                outside box or environment on input line 20.
 See the caption package documentation for explanation.
 
-) [71
+) [72
 
 
-] [72] (./table_in_sample.tex
+] [73] (./table_in_sample.tex
 
 Package caption Warning: \captionsetup{subtype*=...} or \subcaptionof
 (caption)                outside box or environment on input line 5.
@@ -2338,10 +2338,22 @@ See the caption package documentation for explanation.
 
 (./tables/tab_in_logxret.tp1_full.tex)
 (./tables/insample/tab_in_logxret.tp1_pre1962.tex)
-(./tables/tab_in_logxret.tp1_post1962.tex)
+(./tables/tab_in_logxret.tp1_post1962.tex) [74
+
+]) (./table_sub_performance.tex
+
+Package caption Warning: \captionsetup{subtype*=...} or \subcaptionof
+(caption)                outside box or environment on input line 6.
+See the caption package documentation for explanation.
+
 
 Package caption Warning: \subcaption
-(caption)                outside box or environment on input line 71.
+(caption)                outside box or environment on input line 6.
+See the caption package documentation for explanation.
+
+
+Package caption Warning: \subcaption
+(caption)                outside box or environment on input line 19.
 See the caption package documentation for explanation.
 
 Missing character: There is no â in font cmr10!
@@ -2350,10 +2362,10 @@ Missing character: There is no “ in font cmr10!
 Missing character: There is no â in font cmr10!
 Missing character: There is no € in font cmr10!
 Missing character: There is no “ in font cmr10!
+) [75
 
-LaTeX Warning: Float too large for page by 10.82904pt on input line 91.
 
-[73]) (./table_out_sample.tex
+] (./table_out_sample.tex
 
 Package caption Warning: \captionsetup{subtype*=...} or \subcaptionof
 (caption)                outside box or environment on input line 5.
@@ -2379,13 +2391,12 @@ See the caption package documentation for explanation.
 
 LaTeX Warning: Float too large for page by 43.15704pt on input line 33.
 
-) [74] (./tab_altPerf1.tex
+) [76] (./tab_altPerf1.tex
 Overfull \hbox (21.58131pt too wide) in paragraph at lines 7--28
  [][] 
  []
 
-) [75
-
+) [77
 
 
 
@@ -2437,7 +2448,7 @@ Overfull \hbox (66.79pt too wide) in paragraph at lines 3230--29
  [][] 
  []
 
-(./tables/performance/sd_utility.tex [76
+(./tables/performance/sd_utility.tex [78
 
 ])
 
@@ -2472,7 +2483,7 @@ See the caption package documentation for explanation.
 
 LaTeX Warning: Float too large for page by 95.35072pt on input line 55.
 
-[77] [78] [79] [80] [81]
+[79] [80] [81] [82] [83]
 
 Package caption Warning: \captionsetup{subtype*=...} or \subcaptionof
 (caption)                outside box or environment on input line 61.
@@ -2505,7 +2516,7 @@ See the caption package documentation for explanation.
 
 LaTeX Warning: Float too large for page by 124.28804pt on input line 77.
 
-[82]
+[84]
 
 Package caption Warning: \captionsetup{subtype*=...} or \subcaptionof
 (caption)                outside box or environment on input line 83.
@@ -2538,7 +2549,7 @@ See the caption package documentation for explanation.
 
 LaTeX Warning: Float too large for page by 118.57462pt on input line 99.
 
-[83] (./table_oos_robust.tex
+[85] (./table_oos_robust.tex
 
 Package caption Warning: \captionsetup{subtype*=...} or \subcaptionof
 (caption)                outside box or environment on input line 5.
@@ -2554,20 +2565,20 @@ Package caption Warning: \subcaption
 (caption)                outside box or environment on input line 22.
 See the caption package documentation for explanation.
 
-) [84
+) [86
 
 
 
-] (./tab_altPerf3.tex [85
+] (./tab_altPerf3.tex [87
 
 ]
 Overfull \hbox (48.49634pt too wide) in paragraph at lines 34--35
  [] 
  []
 
-[86
+[88
 
-]) (./tab_altPerf2.tex) [87
+]) (./tab_altPerf2.tex) [89
 
 
 ])
@@ -2584,10 +2595,10 @@ LaTeX Warning: There were undefined references.
 
  ) 
 Here is how much of TeX's memory you used:
- 28316 strings out of 493029
- 529010 string characters out of 6136234
- 1023780 words of memory out of 5000000
- 30880 multiletter control sequences out of 15000+600000
+ 28324 strings out of 493029
+ 529150 string characters out of 6136234
+ 1024129 words of memory out of 5000000
+ 30881 multiletter control sequences out of 15000+600000
  15458 words of font info for 60 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  59i,12n,94p,10419b,888s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -2612,10 +2623,10 @@ pe1/public/amsfonts/cm/cmti10.pfb></usr/share/texlive/texmf-dist/fonts/type1/pu
 blic/amsfonts/cm/cmti12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/a
 msfonts/cm/cmtt10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfont
 s/symbols/msbm10.pfb>
-Output written on var_mang_port.pdf (87 pages, 701063 bytes).
+Output written on var_mang_port.pdf (89 pages, 704798 bytes).
 PDF statistics:
- 1367 PDF objects out of 1440 (max. 8388607)
- 1191 compressed objects within 12 object streams
- 270 named destinations out of 1000 (max. 500000)
+ 1388 PDF objects out of 1440 (max. 8388607)
+ 1209 compressed objects within 13 object streams
+ 274 named destinations out of 1000 (max. 500000)
  173 words of extra memory for PDF output out of 10000 (max. 10000000)
 

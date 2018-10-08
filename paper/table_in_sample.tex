@@ -1,9 +1,9 @@
 \begin{table}[!htbp]
-	\centering \caption{\textbf{:Systemic Risk} \newline
-		\footnotesize{Panel (a) displays in sample regression results for monthly market variance, correlation and return statistics. SV is the annualized monthly variance of daily CRSP market returns. AV and AC are the monthly average variance and average pairwise correlation of daily returns for the top 500 assets in the CRSP market, as in \citet{pollet_average_2010}. RET is the log return of the CRSP market portfolio minus the log return on the 1 month treasury bill. The coefficients and p-values bootstrapped for robustness, see section \ref{sec:in_sample} for details.} Panel (b) displays the effect of sorting AV managed country returns on Market Capitalization-to-GDP ratio and forming a strategy long on countries with high ratios and shorting low ratio countries. See \ref{sec:market_cap} for details.} \vspace{-3mm}
+	\centering \caption{\textbf{:Systemic Risk - Regression} \newline
+		\footnotesize{This table displays in sample regression results for monthly market variance, correlation and return statistics. SV is the annualized monthly variance of daily CRSP market returns. AV and AC are the monthly average variance and average pairwise correlation of daily returns for the top 500 assets in the CRSP market, as in \citet{pollet_average_2010}. RET is the log return of the CRSP market portfolio minus the log return on the 1 month treasury bill. The coefficients and p-values bootstrapped for robustness, see section \ref{sec:in_sample} for details.}} \vspace{-3mm}
 	\label{tab:tab_in_sample_full}
 	\subcaption{In Sample Results}
-	\begin{adjustbox}{width=\textwidth,max height=.43\totalheight}
+	\begin{adjustbox}{width=\textwidth}
 %		\input{tables/tab_in_mkt_var1m.tp1_full}
 %	\end{adjustbox}
 %	\subcaption{Average Asset Return Variance - AV$_{t+1}$}\vspace{-3mm}
@@ -18,10 +18,10 @@
 %	\begin{adjustbox}{center,max height=.45\totalheight}
 		\input{tables/tab_in_logxret.tp1_full}
 		\end{adjustbox}
-		\begin{adjustbox}{width=\textwidth,max height=.43\totalheight}
+		\begin{adjustbox}{width=\textwidth}
 		\input{tables/insample/tab_in_logxret.tp1_pre1962}
 		\end{adjustbox}
-		\begin{adjustbox}{width=\textwidth,max height=.43\totalheight}
+		\begin{adjustbox}{width=\textwidth}
 		\input{tables/tab_in_logxret.tp1_post1962}
 %	\end{adjustbox}
 %\end{table}
@@ -68,26 +68,28 @@
 %	\begin{adjustbox}{center,max height=.45\totalheight}
 %		\input{tables/tab_in_logxret.tp1_post1962}
 	\end{adjustbox}
-	\subcaption{Long - Short Strategies}
-	\begin{adjustbox}{width=\textwidth,max height=.43\totalheight}
-	\begin{tabular}{lccccc}
-		\multicolumn{6}{c}{Market RET to Wealth RET}\\
-		\hline\\[-1.8ex]
-		& RET & Sharpe & $\alpha_{FF3}$ & $\alpha_{FF5}$ & $\alpha_{FF5+Mom}$ \\
-		\cline{2-6}
-		Long & 12.601 & 0.747 & 9.484$^{**}$ & 7.909$^{*}$ & 7.725$^{*}$ \\
-		Short & 7.537 & 0.562 & 5.038$^{*}$ & 5.422$^{*}$ & 5.318$^{*}$ \\
-		Long $–$ Short & 5.065 & 0.405 & 4.446$^{***}$ & 2.488$^{***}$ & 2.407$^{**}$ \\
-		\multicolumn{6}{c}{Market to GDP}\\
-		\hline\\[-1.8ex]
-		 & RET & Sharpe & $\alpha_{FF3}$ & $\alpha_{FF5}$ & $\alpha_{FF5+Mom}$ \\
-		 \cline{2-6}
-		Long & 13.896 & 1.021 & 11.443$^{***}$ & 11.322$^{***}$ & 11.181$^{**}$ \\
-		Shot & 5.851 & 0.326 & 2.409 & 1.298 & 1.082 \\
-		Long $–$ Short & 8.045 & 0.601 & 9.034$^{**}$ & 10.024$^{**}$ & 10.100$^{**}$\\
-		\hline
-	\end{tabular}
-	\end{adjustbox}
+%	\subcaption{Long - Short Strategies}
+%	\begin{adjustbox}{width=\textwidth,max height=.43\totalheight}
+%	\begin{tabular}{lccccc}
+%		\hline\\[-1.8ex]
+%		\multicolumn{6}{c}{Market RET to Wealth RET}\\
+%		\hline\\[-1.8ex]
+%		& RET & Sharpe & $\alpha_{FF3}$ & $\alpha_{FF5}$ & $\alpha_{FF5+Mom}$ \\
+%		\cline{2-6}
+%		Long & 12.601 & 0.747 & 9.484$^{**}$ & 7.909$^{*}$ & 7.725$^{*}$ \\
+%		Short & 7.537 & 0.562 & 5.038$^{*}$ & 5.422$^{*}$ & 5.318$^{*}$ \\
+%		Long $–$ Short & 5.065 & 0.405 & 4.446$^{***}$ & 2.488$^{***}$ & 2.407$^{**}$ \\
+%		\hline\\[-1.8ex]
+%		\multicolumn{6}{c}{Market to GDP}\\
+%		\hline\\[-1.8ex]
+%		 & RET & Sharpe & $\alpha_{FF3}$ & $\alpha_{FF5}$ & $\alpha_{FF5+Mom}$ \\
+%		 \cline{2-6}
+%		Long & 13.896 & 1.021 & 11.443$^{***}$ & 11.322$^{***}$ & 11.181$^{**}$ \\
+%		Shot & 5.851 & 0.326 & 2.409 & 1.298 & 1.082 \\
+%		Long $–$ Short & 8.045 & 0.601 & 9.034$^{**}$ & 10.024$^{**}$ & 10.100$^{**}$\\
+%		\hline
+%	\end{tabular}
+%	\end{adjustbox}
 \end{table}
 %\begin{landscape}
 %	\input{tab_var5}
