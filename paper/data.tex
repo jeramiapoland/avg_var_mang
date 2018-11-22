@@ -5,42 +5,61 @@
 %%\end{equation}
 %%where $R_{m,t}$ is the return on the CRSP market portfolio at time t.
 %To simplify the analysis of individual assets I require that the asset be traded on each in the month. This mitigates any liquidity affects and insures consistent variance, covariance and correlation calculations. This makes the calculation of asset variance:
-To calculate stock market variance (SV), average asset variance (AV), and average asset correlation (AC) for the US equities, I use daily return data from CRSP and calculate the variance of daily returns monthly. To simplify the analysis of individual assets, I require that the asset be traded on each in the month which mitigates any liquidity effects and ensures consistent variance, covariance and correlation calculations. These conditions make the calculation of asset variance:
+To calculate SV, AV, and AC, for the US equities, I use daily return data from CRSP and calculate the variance of daily returns monthly. To simplify the analysis of individual assets, I require that the asset be traded on each day in the month which mitigates any liquidity effects and ensures consistent variance, covariance and correlation calculations. Since the series of daily returns is very short for many months in the data, Pearson’s correlation is not an unbiased estimator of the true correlation, even if the returns are normal. \citep{hotelling_1953} To correct this, I use the approximate correction from \cite{olkin_1958} such that the monthly correlation between two assets m and n is:
 \begin{equation}
-	\sigma^{2}_{m,t} = \frac{1}{T-1}\sum_{\tau = 1}^{T} \left(R_{m,\tau} - \frac{\sum_{\tau = 1}^{T} R_{m,\tau}}{T}\right)^{2}.
+\rho_{m,n,t} = \widehat{\rho_{m,n,t}}\left(1 + \frac{1+\widehat{\rho_{m,n}}^{2}}{2(t-3)}\right)
 \end{equation}
-where $R_{m,\tau}$ is the daily return, including dividends, on an asset for day $\tau$ in month t. When the asset is the market portfolio, so $R_{m,\tau}$ = $R_{s,\tau}$, the result is the variation of market returns, SV. The standard Pearson’s correlation where the correlation of assets m and n for month t is:
+where $\widehat{\rho_{m,n,t}}$ is the Pearson correlation between m and n.\footnote{For details, see the appendix.}
+
+Total index, or portfolio, variance is a function of the variances and covariances of the individual assets. The total portfolio variance of holding N assets is given by:
 \begin{equation}
-	\rho_{m,n,t} = \frac{\sum^{T}_{\tau = 1}\left(R_{m,\tau} - \frac{\sum_{\tau = 1}^{T} R_{m,\tau}}{t}\right)\left(R_{n,\tau} - \frac{\sum_{\tau = 1}^{T} R_{n,\tau}}{t}\right)}{\sqrt{\left(R_{m,\tau} - \frac{\sum_{\tau = 1}^{T} R_{m,\tau}}{t}\right)^{2}\sum_{\tau=1}^{T}\left(R_{n,\tau} - \frac{\sum_{\tau = 1}^{T} R_{n,\tau}}{t}\right)^{2} }}.
+SV_{t} ~:~ \sigma^{2}_{s,t} =  \sum_{m=1}^{N}\sum_{n=1}^{N}w_{m,t}w_{n,t}cov(r_{m,t},r_{n,t})
 \end{equation}
-Unfortunately, for samples as small as the monthly series of daily returns Pearson’s correlation is not an unbiased estimator of the true correlation, even if the returns are normal. \citep{hotelling_1953} The average month in my sample has 22 trading days however the number commonly drops into the teens.\footnote{The shortest trading month in the sample is September 2001 with 15 trading days while 17 is a common number in the months with holidays.} For samples of these sizes, the bias causes an underestimation of the correlation which is worse the lower the true correlation. I employ an approximate correction from \cite{olkin_1958} such that the monthly correlation between two assets m and n is:
-\begin{equation}
-	\rho_{m,n,t} = \widehat{\rho_{m,n,t}}\left(1 + \frac{1+\widehat{\rho_{m,n}}^{2}}{2(t-3)}\right)
-\end{equation}
-where $\widehat{\rho_{m,n,t}}$ is the Pearson correlation between a and b.\footnote{The exact correction suggested in \cite{olkin_1958} is too computationally taxing for the equipment to which I have access.} AV and AC are value-weighted so each month I calculate market capitalization for all of the assets available in CRSP. The capitalization used in month t for asset m is the product of the end of month price (PRC) and common shares outstanding (SHROUT) values for asset m in month t-1. \\
+where $r_{t}$ is the asset return in month t, and $w_{t}$ is the weight of the asset in the index or portfolio. Using average variance and average correlation defined as:
+\begin{align}
+AV_{t} ~:~ \bar{\sigma}^{2}_{t} &= \sum_{m=1}^{N}w_{m,t}\sigma^{2}_{t}\\
+AC_{t} ~:~ \bar{\rho}_{t} &= \sum_{m=1}^{N}\sum_{n=1}^{N}w_{m,t}w_{n,t}\rho_{m,n,t}
+\end{align}
+\citet{pollet_average_2010} show that SV $\approx$ AV*AC. To calculate average correlations, they follow a method which makes an assumption on the deviation of individual asset variance from the average variance. This approach has the advantage of not implying that all variance terms vanish as taking the number of assets, N, to infinity implies.\footnote{This is detailed as approach (b) on \citet{nematrian}.} However, as \citet{tierens_anadu} note it makes no practical difference which approximation is used.
+
+%These conditions make the calculation of asset variance:
+%\begin{equation}
+%	\sigma^{2}_{m,t} = \frac{1}{T-1}\sum_{\tau = 1}^{T} \left(R_{m,\tau} - \frac{\sum_{\tau = 1}^{T} R_{m,\tau}}{T}\right)^{2}.
+%\end{equation}
+%where $R_{m,\tau}$ is the daily return, including dividends, on an asset for day $\tau$ in month t. When the asset is the market portfolio, so $R_{m,\tau}$ = $R_{s,\tau}$, the result is the variation of market returns, SV. The standard Pearson’s correlation where the correlation of assets m and n for month t is:
+%\begin{equation}
+%	\rho_{m,n,t} = \frac{\sum^{T}_{\tau = 1}\left(R_{m,\tau} - \frac{\sum_{\tau = 1}^{T} R_{m,\tau}}{t}\right)\left(R_{n,\tau} - \frac{\sum_{\tau = 1}^{T} R_{n,\tau}}{t}\right)}{\sqrt{\left(R_{m,\tau} - \frac{\sum_{\tau = 1}^{T} R_{m,\tau}}{t}\right)^{2}\sum_{\tau=1}^{T}\left(R_{n,\tau} - \frac{\sum_{\tau = 1}^{T} R_{n,\tau}}{t}\right)^{2} }}.
+%\end{equation}
+%Unfortunately, for samples as small as the monthly series of daily returns Pearson’s correlation is not an unbiased estimator of the true correlation, even if the returns are normal. \citep{hotelling_1953} The average month in my sample has 22 trading days however the number commonly drops into the teens.\footnote{The shortest trading month in the sample is September 2001 with 15 trading days while 17 is a common number in the months with holidays.} For samples of these sizes, the bias causes an underestimation of the correlation which is worse the lower the true correlation. I employ an approximate correction from \cite{olkin_1958} such that the monthly correlation between two assets m and n is:
+%\begin{equation}
+%	\rho_{m,n,t} = \widehat{\rho_{m,n,t}}\left(1 + \frac{1+\widehat{\rho_{m,n}}^{2}}{2(t-3)}\right)
+%\end{equation}
+%where $\widehat{\rho_{m,n,t}}$ is the Pearson correlation between a and b.\footnote{The exact correction suggested in \cite{olkin_1958} is too computationally taxing for the equipment to which I have access.} AV and AC are value-weighted so each month I calculate market capitalization for all of the assets available in CRSP. The capitalization used in month t for asset m is the product of the end of month price (PRC) and common shares outstanding (SHROUT) values for asset m in month t-1. \\
 %\begin{equation}
 %MCAP_{m,t} = PRC_{m,t-1}\times SHROUT_{m,t-1}
 %\end{equation}
+
 \bigskip
 \centerline{\bf [Place Figure~\ref{fig:time_series} about here]}
 \bigskip
-To make the analysis more computationally tractable I use only, at most, the top 500 assets in CRSP by market capitalization for a given month.\footnote{The least number of assets which trade every day in a given month is 392 in August of 1932. There are regularly 500 qualifying assets by the end of the 1930s.} To test the performance of AV management across international equity markets, I collect daily returns for the Australian (AUS), Brazilian (BRA), Chinese (CHN), German (DEU), French (FRA), Indian (IND), Italian (ITA), Japanese (JPN), and English (UK) markets from Compustat - Capital IQ. For international markets the number of assets is chosen to mimic the number of assets in the broad market index used to calculate SV.  Table \ref{tab:tab_int_summary} shows the names of the indices used, the data time frames and the number of assets used for the calculation of market capitalization weights, AV and AC. In all cases the data series are much shorter. The primary limitations are the availability of daily returns and dividend data. To test AV and SV management against a globally diversified portfolio, I use the MSCI All Countries World Index (ACWI). To construct AV and SV leverage timing signals for the world index, I use a market capitalization weighted average of the country values. For each month the weight of the country is the index market capitalization in US dollars divided by the total market capitalization of the 10 country market indices, including the US. Globally, ten markets and more than 1700 assets are covered. Given these asset restriction, an assets market capitalization weight is defined by:
-\begin{equation}
-w_{m,t} = \frac{MCAP_{m,t}}{\sum_{j=1}^{J}MCAP_{n,t}}
-\end{equation}
-with j $\leq$ 500 for the US market index. Thus, the series of interest, SV, AV, and AC are defined by:
-\begin{align}
-	SV_{t} &= \sigma^{2}_{s,t} = \frac{1}{T-1}\sum_{\tau = 1}^{T} \left(R_{s,\tau} - \frac{\sum_{\tau = 1}^{T} R_{s,\tau}}{T}\right)^{2}\\
-	AV_{t} &= \sum_{m=1}^{M} w_{m,t}\sigma^{2}_{m,t}\\
-	AC_{t} &= \sum_{m=1}^{M}\sum_{m \neq n}^{N}w_{m,t}w_{n,t}\rho_{m,n,t}
-\end{align}
+To make the analysis more computationally tractable I use only, at most, the top 500 assets in CRSP by market capitalization for a given month.\footnote{The least number of assets which trade every day in a given month is 392 in August of 1932. There are regularly 500 qualifying assets by the end of the 1930s.} To test the performance of AV management across international equity markets, I collect daily returns for the Australian (AUS), Brazilian (BRA), Chinese (CHN), German (DEU), French (FRA), Indian (IND), Italian (ITA), Japanese (JPN), and English (UK) markets from Compustat - Capital IQ. For international markets the number of assets is chosen to mimic the number of assets in the broad market index used to calculate SV.  Table \ref{tab:tab_int_summary} shows the names of the indices used, the data time frames and the number of assets used for the calculation of market capitalization weights, AV and AC. In all cases the data series are much shorter. The primary limitations are the availability of daily returns and dividend data. To test AV and SV management against a globally diversified portfolio, I use the MSCI All Countries World Index (ACWI). To construct AV and SV leverage timing signals for the world index, I use a market capitalization weighted average of the country values. For each month the weight of the country is the index market capitalization in US dollars divided by the total market capitalization of the 10 country market indices, including the US. Globally, ten markets and more than 1700 assets are covered. 
+%Given these asset restriction, an assets market capitalization weight is defined by:
+%\begin{equation}
+%w_{m,t} = \frac{MCAP_{m,t}}{\sum_{j=1}^{J}MCAP_{n,t}}
+%\end{equation}
+%with j $\leq$ 500 for the US market index. Thus, the series of interest, SV, AV, and AC are defined by:
+%\begin{align}
+%	SV_{t} &= \sigma^{2}_{s,t} = \frac{1}{T-1}\sum_{\tau = 1}^{T} \left(R_{s,\tau} - \frac{\sum_{\tau = 1}^{T} R_{s,\tau}}{T}\right)^{2}\\
+%	AV_{t} &= \sum_{m=1}^{M} w_{m,t}\sigma^{2}_{m,t}\\
+%	AC_{t} &= \sum_{m=1}^{M}\sum_{m \neq n}^{N}w_{m,t}w_{n,t}\rho_{m,n,t}
+%\end{align}
 Figure \ref{fig:time_series} shows the time series behavior of SV and AV, in percent, as well as
 AC for the US market. With the easily noticeable exception of October 1987, spikes in both SV and AV concentrate around NBER defined recessions. Panel (b) of figure \ref{fig:time_series} shows that AV takes a larger weight in the market more often than SV but that SV takes far larger weights in the market in certain times. Figure \ref{fig:weights_plot} makes this clearer and shows that changing the target volatility only affects the most extreme investments made by the SV management strategy.\\
 \bigskip
 \centerline{\bf [Place Figure~\ref{fig:weights_plot} about here]}
 \bigskip
 
-Table \ref{tab_summary_stats} panels (a) - (c) show the summary statistics for the calculated variables. Despite the use of the actual number of trading days, the restriction to assets that trade every day, and the adjustment to the calculation of correlation, the quarterly calculated values are almost identical to those in \citet{pollet_average_2010} over the same sample. Over the expanded the period, the annualized monthly AV has a mean value of .88\%. The annualized SV mean is much lower at .25\% monthly. AC is relatively consistent at .23 quarterly in the \cite{pollet_average_2010} sample, .261 monthly in the same sample and .276 over the full time period. AV is more volatile than SV, more than twice as much. In each sample AV has the highest auto-correlation. While AC is also persistent, the stock market variance is only strongly persistent at the monthly frequency with autocorrelation of .61. All three time series are stationary rejecting the unit root null in the tests of \citet{dickey_distribution_1979}, \citet{Ng2001}, and \citet{ers1996}. 
+Table \ref{tab_summary_stats} panels (a) - (c) show the summary statistics for the calculated variables. Despite differences in approach, the quarterly calculated values are almost identical to those in \citet{pollet_average_2010} over the same sample. Over the expanded the period, the annualized monthly AV has a mean value of .88\%. The annualized SV mean is much lower at .25\% monthly. AC is relatively consistent at .23 quarterly in the \cite{pollet_average_2010} sample, .261 monthly over a similar time period and .276 over the full time period. AV is more volatile than SV, more than twice as much. In each sample AV has the highest auto-correlation. While AC is also persistent, the stock market variance is only strongly persistent at the monthly frequency with autocorrelation of .61. All three time series are stationary rejecting the unit root null in the tests of \citet{dickey_distribution_1979}, \citet{Ng2001}, and \citet{ers1996}. 
 \bigskip
 \centerline{\bf [Place Table~\ref{tab_summary_stats} about here]}
 \bigskip
@@ -50,12 +69,12 @@ Specifically, I take the difference between the natural log of one plus the CRSP
 \begin{equation}
 	r_{t} = \log R_{m,t} - \log R_{f,t} 
 \end{equation}
-where $R_{f,t}$ the risk-free return for which I use the 1-month treasury bill, T-bill, rate from Ken French's website\footnote{http://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data\_library.html\#Research}. As shown in table \ref{tab:tab_correlations} panel (a), over the full data period, each variance and correlation time series are contemporaneously correlated to lower log excess returns. AV is significantly correlated with next month's SV, AV, and AC. Surprisingly, over the full data set, this month's AV is even nominally more correlated with next month's SV than this month's SV is, 0.625 versus .612. Over the basis period, AV is the time series most negatively correlated with next months log excess return at -.129, while it is entirely unrelated to next month's return over the whole data set.
+where $R_{f,t}$ the risk-free return for which I use the 1-month treasury bill, T-bill, rate from Ken French's website\footnote{http://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data\_library.html\#Research}. As shown in table \ref{tab:tab_correlations} panel (a), over the full data period, each variance and correlation time series are contemporaneously correlated to lower log excess returns. AV is significantly correlated with next month's SV, AV, and AC. Surprisingly, over the full data set, this month's AV is even nominally more correlated with next month's SV than this month's SV is, 0.625 versus .612.% Over the basis period, AV is the time series most negatively correlated with next months log excess return at -.129, while it is entirely unrelated to next month's return over the whole data set.
 \bigskip
 \centerline{\bf [Place Table~\ref{tab:tab_correlations} about here]}
 \bigskip
 
-Panels (b) and (c) show international and cross asset class excess log return correlations. China is the market least correlated with the rest of the countries and the global market index. Importantly, as panel (c) shows, the other asset class returns are not all highly correlated with the MSCI ACWI returns. The currency return indices are generally weakly negatively correlated while both real estate and commodity returns are positively correlated.
+Panels (b) and (c) show international and cross asset class excess log return correlations. China is the market least correlated with the rest of the countries and the global market index. Importantly, as panel (c) shows, the other asset class returns are not all highly correlated with the MSCI ACWI returns. The currency return indices are generally weakly negatively correlated while both real estate and commodity returns are positively correlated. The Bloomberg US Universal Bond index is weakly positively correlated with equities and real estate and weekly negatively correlated with currencies.
 
 %As in \cite{pollet_average_2010}, July 1963 serves as the start of the basis data period for the regression analysis.\footnote{CRSP has, as of 2005, back-filled NYSE daily returns to 1926, however the pre-1962 data is very different from the post-1962 data. The earlier data is much shallower having months with fewer than 400 assets total that meet the data requirements. Twice as many firms covering twice as many industries are available at the end of 1962 as compared to the end of 1961. As show in \citet{taylor_2014} the NYSE market was not a significant part of marginal wealth in the US following the Great Depression before the late 1950s. And, as documented in \citet{jones_century_2002} the pre-1962 period is significantly and persistently more illiquid.} 
 For in and out-of-sample tests, I regress market and average variance, and average correlation against these excess log return values next month. Out-of-sample regressions are run with expanding windows so coefficients estimated from a training window are used to forecast values for the first out of sample month. I set the first in-sample training period for the out-of-sample tests at 15\% of the available time series for consistent calculation of robust out of sample statistics later in the analysis. This training window means that out of sample regressions, analysis begins in December 1939 and moves forward one month at a time as the training window expands.

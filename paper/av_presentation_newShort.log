@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2018.7.28)  27 AUG 2018 17:37
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2018.10.12)  26 OCT 2018 10:44
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1285,11 +1285,30 @@ Overfull \hbox (21.98232pt too wide) in paragraph at lines 323--323
 
 ] [41
 
-] [42
+] (./figures/cer_const_plot.tex)
+Overfull \hbox (21.98232pt too wide) in paragraph at lines 356--356
+ [] 
+ []
 
-] [43
+[42
 
-] [44
+] (./figures/cer_gamma_plot.tex)
+Overfull \hbox (21.98232pt too wide) in paragraph at lines 356--356
+ [] 
+ []
+
+[43
+
+] (./figures/cer_gamma_plot.tex)
+Overfull \hbox (21.98232pt too wide) in paragraph at lines 356--356
+ [] 
+ []
+
+
+Overfull \vbox (3.3406pt too high) detected at line 356
+ []
+
+[44
 
 ] [45
 
@@ -1297,8 +1316,7 @@ Overfull \hbox (21.98232pt too wide) in paragraph at lines 323--323
 
 ] [47
 
-]
-[48
+] [48
 
 ] [49
 
@@ -1306,44 +1324,79 @@ Overfull \hbox (21.98232pt too wide) in paragraph at lines 323--323
 
 ] [51
 
-] [52
+]
+Overfull \vbox (20.05635pt too high) detected at line 391
+ []
 
-] [53
-
-] [54
-
-] [55
-
-] [56
-
-] [57
-
-] [58
-
-] [59
+[52
 
 ]
-(./figures/weight_plot2.tex)
-Overfull \hbox (21.60663pt too wide) in paragraph at lines 435--435
- [] 
+Overfull \vbox (20.05635pt too high) detected at line 391
+ []
+
+[53
+
+]
+Overfull \vbox (20.05635pt too high) detected at line 391
+ []
+
+[54
+
+]
+Overfull \vbox (20.05635pt too high) detected at line 391
+ []
+
+[55
+
+]
+Overfull \vbox (20.05635pt too high) detected at line 391
+ []
+
+[56
+
+]
+Overfull \vbox (20.05635pt too high) detected at line 391
+ []
+
+[57
+
+]
+Overfull \vbox (20.05635pt too high) detected at line 391
+ []
+
+[58
+
+]
+Overfull \vbox (20.05635pt too high) detected at line 391
+ []
+
+[59
+
+]
+Overfull \vbox (20.05635pt too high) detected at line 391
  []
 
 [60
 
-] (./figures/weight_plot3.tex)
-Overfull \hbox (99.75034pt too wide) in paragraph at lines 440--440
- [] 
- []
-
-[61
+] [61
 
 ] [62
 
 ] [63
 
-] [64
+] (./figures/weight_plot2.tex)
+Overfull \hbox (21.60663pt too wide) in paragraph at lines 452--452
+ [] 
+ []
 
-] [65
+[64
+
+] (./figures/weight_plot3.tex)
+Overfull \hbox (99.75034pt too wide) in paragraph at lines 457--457
+ [] 
+ []
+
+[65
 
 ] [66
 
@@ -1353,39 +1406,39 @@ Overfull \hbox (99.75034pt too wide) in paragraph at lines 440--440
 
 ] [69
 
-] (./figures/m_ret_plot2.tex)
-[70
+] [70
 
-] (./tables/tab_perf_053_full.tex) [71
+] [71
+
+] [72
+
+] [73
+
+] (./figures/m_ret_plot2.tex)
+[74
+
+] (./tables/tab_perf_053_full.tex) [75
 
 ] (./figures/dd_plot.tex)
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <14.4> on input line 505.
+(Font)              <14.4> on input line 522.
 LaTeX Font Info:    Font shape `OT1/lmss/m/it' in size <14.4> not available
-(Font)              Font shape `OT1/lmss/m/sl' tried instead on input line 505.
+(Font)              Font shape `OT1/lmss/m/sl' tried instead on input line 522.
 
 LaTeX Font Info:    Font shape `OT1/lmss/bx/it' in size <14.4> not available
-(Font)              Font shape `OT1/lmss/bx/sl' tried instead on input line 505
+(Font)              Font shape `OT1/lmss/bx/sl' tried instead on input line 522
 .
- [72
+ [76
 
 ]
-[73
-
-] [74
-
-] (./figures/cer_const_plot.tex) [75
-
-] (./figures/cer_gamma_plot.tex)
-[76
-
-] [77
+[77
 
 ] [78
 
-] [79
+] (./figures/cer_const_plot.tex) [79
 
-] [80
+] (./figures/cer_gamma_plot.tex)
+[80
 
 ] [81
 
@@ -1407,84 +1460,92 @@ LaTeX Font Info:    Font shape `OT1/lmss/bx/it' in size <14.4> not available
 
 ] [90
 
-]
-(./tables/insample/tab_in_logxret.tp1_post1962.tex) [91
+] [91
+
+] [92
+
+] [93
+
+] [94
 
 ]
-(./tables/insample/tab_in_logxret.tp1_pre1962.tex) [92
+(./tables/insample/tab_in_logxret.tp1_post1962.tex) [95
 
 ]
-Overfull \vbox (24.76067pt too high) detected at line 834
- []
-
-[93
+(./tables/insample/tab_in_logxret.tp1_pre1962.tex) [96
 
 ]
-Overfull \vbox (24.76067pt too high) detected at line 834
- []
-
-[94
-
-]
-Overfull \vbox (95.01494pt too high) detected at line 834
- []
-
-[95
-
-]
-Overfull \vbox (95.01494pt too high) detected at line 834
- []
-
-[96
-
-]
-Overfull \vbox (95.01494pt too high) detected at line 834
+Overfull \vbox (24.76067pt too high) detected at line 851
  []
 
 [97
 
 ]
-Overfull \vbox (95.01494pt too high) detected at line 834
+Overfull \vbox (24.76067pt too high) detected at line 851
  []
 
 [98
 
 ]
-Overfull \vbox (24.76067pt too high) detected at line 834
+Overfull \vbox (95.01494pt too high) detected at line 851
  []
 
 [99
 
-] (./tables/tab_oos_avg_var1m_full.tex) [100
+]
+Overfull \vbox (95.01494pt too high) detected at line 851
+ []
 
-] [101
+[100
 
 ]
-Overfull \vbox (13.93935pt too high) detected at line 933
+Overfull \vbox (95.01494pt too high) detected at line 851
+ []
+
+[101
+
+]
+Overfull \vbox (95.01494pt too high) detected at line 851
  []
 
 [102
 
-] [103
+]
+Overfull \vbox (24.76067pt too high) detected at line 851
+ []
 
-] [104
+[103
+
+] (./tables/tab_oos_avg_var1m_full.tex) [104
 
 ] [105
 
-] [106
+]
+Overfull \vbox (13.93935pt too high) detected at line 950
+ []
+
+[106
 
 ] [107
 
 ] [108
 
+] [109
+
+] [110
+
+] [111
+
+] [112
+
 ]
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `\translate ' on input line 1091.
+(hyperref)                removing `\translate ' on input line 1108.
 
-[109
+[113
 
-] [110
+] [114
 
 ]
 \tf@nav=\write6
@@ -1496,29 +1557,29 @@ Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
 \tf@snm=\write8
 \openout8 = `av_presentation_newShort.snm'.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1120.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 1120.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1137.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 1137.
  (./av_presentation_newShort.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1120.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1120.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1137.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1137.
 
 Package rerunfilecheck Info: File `av_presentation_newShort.out' has not change
 d.
-(rerunfilecheck)             Checksum: FBABE7F6B25DC93280845A22A622E713;773.
+(rerunfilecheck)             Checksum: 075FCD03758C56313E0B056980ECF5EA;773.
 
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1120.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1137.
  ) 
 Here is how much of TeX's memory you used:
- 21524 strings out of 493029
- 419533 string characters out of 6136234
- 991001 words of memory out of 5000000
- 24234 multiletter control sequences out of 15000+600000
+ 21540 strings out of 493029
+ 419799 string characters out of 6136233
+ 991049 words of memory out of 5000000
+ 24236 multiletter control sequences out of 15000+600000
  103773 words of font info for 93 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 56i,15n,64p,2423b,721s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 56i,15n,64p,2423b,730s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texmf/fonts/enc/dvips/lm/lm-mathit.enc}{/usr/share/texmf/fonts/en
 c/dvips/lm/lm-mathsy.enc}{/usr/share/texmf/fonts/enc/dvips/lm/lm-rm.enc}{/usr/s
 hare/texmf/fonts/enc/dvips/lm/lm-mathex.enc}</usr/share/texlive/texmf-dist/font
@@ -1533,10 +1594,10 @@ e/texmf/fonts/type1/public/lm/lmss8.pfb></usr/share/texmf/fonts/type1/public/lm
 mf/fonts/type1/public/lm/lmsy10.pfb></usr/share/texmf/fonts/type1/public/lm/lms
 y6.pfb></usr/share/texmf/fonts/type1/public/lm/lmsy8.pfb></usr/share/texlive/te
 xmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on av_presentation_newShort.pdf (110 pages, 718342 bytes).
+Output written on av_presentation_newShort.pdf (114 pages, 735051 bytes).
 PDF statistics:
- 4757 PDF objects out of 5155 (max. 8388607)
- 4575 compressed objects within 46 object streams
- 237 named destinations out of 1000 (max. 500000)
+ 4924 PDF objects out of 5155 (max. 8388607)
+ 4736 compressed objects within 48 object streams
+ 245 named destinations out of 1000 (max. 500000)
  164 words of extra memory for PDF output out of 10000 (max. 10000000)
 

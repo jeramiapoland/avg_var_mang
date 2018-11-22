@@ -49,7 +49,7 @@
 	\begin{itemize}[<+->]
 		\item Risk (Portfolio Variance) = Reward : Markowitz (1952)
 		\item Risk != Reward : Haugen and Heins (1972), Campbell (1987), French et al. (1987), Golsten et al. (1993)
-		\item Moreira and Muir (2017) - scaling month t+1 investment in the market by month t daily return variance
+		\item Moreira and Muir (2017) - scaling month t+1 investment in the market index by month t daily return variance
 		\item Stock market return variance : SV$_{t}$ = $\sum_{m=1}^{N}\sum_{n=1}^{N}w_{m,t}w_{n,t}cov(r_{m,t},r_{n,t})$
 		\item Pollet and Wilson (2010) - decomposition of market variance into a compensated and uncompensated component
 		\begin{itemize}[<+->]
@@ -58,8 +58,7 @@
 			%\item SV$_{t} \approx  \bar{\sigma}^{2}_{t}\sum_{m=1}^{N}\sum_{n=1}^{N}w_{m,t}w_{n,t}\rho_{m,n,t} = \bar{\sigma}^{2}_{t}\bar{\rho}_{t}$ = AV*AC
 			\item SV$_{t} \approx AV*AC$
 			\item $r_{t+1} = \alpha_{1} + \beta_{1}AC_{t} + \epsilon_{1,t}$, $\beta_{1}$ positive and significant
-			\item $r_{t+1} = \alpha_{2} + \beta_{2}AV_{t} + \epsilon_{2,t}$, $\beta_{2}$ insignificant
-			\item $SV_{t+1} = \alpha_{3} + \beta_{3}AV_{t} + \epsilon_{3,t}$, $\beta_{3}$ positive and significant 
+			\item $r_{t+1} = \alpha_{2} + \beta_{2}AV_{t} + \epsilon_{2,t}$, $\beta_{2}$ insignificant 
 		\end{itemize}
 %		\item Risk Management/Risk Parity funds $\approx$ \$400 billion, 2016
 %		\item Variance Management - Barraso and Santa-Clara (2015) 
@@ -91,7 +90,8 @@
 		\item If SV$_{t} \approx$ AV*AC, there maybe something to looking at AV and/or AC separately
 		\item Moreira and Muir (2017) : weight = $\frac{c_{SV}}{SV_{t}}$, c is scaling factor used to match variance to buy and hold for comparison
 		\item Me : weight = $\frac{c_{AV}}{AV_{t}}$
-		\item AV$_{t}$ management decreases investment when AV$_{t}$ is high (future risk will be high)
+		\item $SV_{t+1} = \alpha_{3} + \beta_{3}AV_{t} + \epsilon_{3,t}$, $\beta_{3}$ positive and significant
+		\item AV$_{t}$ management decreases investment when AV$_{t}$ is high (future risk will be high, returns not coming)
 		\item AV$_{t}$ management avoids decreasing investment when SV$_{t}$ is high because AC is high (future returns are coming)
 	\end{itemize}
 \end{frame}
@@ -115,7 +115,7 @@
 \begin{frame}{Central Idea II}
 	\begin{itemize}[<+->]
 		\item Pollet and Wilson (2010) : $cov(r_{s,t+1},r_{u,t+1})$ approximation has to many unobservables to test.
-		\item If it is correct, when AC is high and higher $r_{s,t+1}$ is expected higher $r_{u,t+1}$
+		\item If it is correct, when AC is high and higher $r_{s,t+1}$ is expected $\Rightarrow$ higher $r_{u,t+1}$
 		\item This holds so long as AC (AV) is calculated from daily returns which are sufficiently representative of all asset returns and asset returns are significantly related to returns no aggregate wealth
 		\item Suggestive evidence is support of Pollet and Wilson (2010) relation
 		\begin{itemize}[<+->]
@@ -339,8 +339,24 @@
 	\end{block}}
 \end{frame}
 
+\begin{frame}{Investor Utility}
+	\only<1>{
+	\begin{figure}
+		\resizebox{11cm}{6cm}{\input{figures/cer_const_plot}}
+	\end{figure}
+	}
+	\only<2-3>{
+		\begin{figure}
+			\resizebox{11cm}{6cm}{\input{figures/cer_gamma_plot}}
+		\end{figure}
+	}
+	\only<3>{\begin{itemize}
+			\item Stochastic dominance tests show that non-EUT investors prefer AV management.
+		\end{itemize}}
+\end{frame}
 
-\begin{frame}{Not US Equity Performance}
+
+\begin{frame}{Global Equity Performance}
 	\onslide<+->{\begin{block}{Global Equity}
 		\begin{itemize}[<+->]
 			\item AV better in 8 of 9 international markets
@@ -359,18 +375,29 @@
 \begin{frame}{Contribution}
 	\onslide<+->{\begin{block}{Variance Management}
 			\begin{itemize}[<+->]
+				\item Moreira and Muir (2017) and Hocquard, Ng, and Papageorgiou (2013)
 				\item AV is a better dynamic volatility management signal - returns, ratios, drawdowns, costs
-				\item AV management works globally and for a globally diversified equity portfolio
-				\item AV management works across asset class 
+				\item AV management works globally and across asset classes (SV does not)
 			\end{itemize}
 		\end{block}}
 		\onslide<+->{\begin{block}{Risk Dynamics}
 				\begin{itemize}[<+->]
+					\item Gonzlez-Urteaga and Rubio (2016) and Bollerslev, Hood, Huss, and Pedersen (2017)
 					\item AV comes from the foundations of investment risk
-					\item AV management is better because it responds not just to total risk, but the mix of systematic and non-systematic
+					\item Responds to the mix of systematic and non-systematic risk
 					\item AV is related to global non-systematic risk across asset classes
 				\end{itemize}}
 			\end{block}		
+\end{frame}
+
+\section{Conclusion}
+\begin{frame}{Conclusion}
+	\begin{itemize}
+		\item AV management is better than SV: higher returns, better ratios, lower costs
+		\item AV management is better because it times moving in and out of investments to changes in systematic risk which is compensated and non-systematic risk which is not
+		\item As such, AV management is a useful signal both globally and across assets classes where SV management does not perform
+		\item Thank you
+	\end{itemize}
 \end{frame}
 
 \section{Data}

@@ -1,14 +1,14 @@
 \beamer@endinputifotherversion {3.36pt}
 \beamer@sectionintoc {1}{Risk and Reward}{2}{0}{1}
 \beamer@sectionintoc {2}{Results Preview}{33}{0}{2}
-\beamer@sectionintoc {3}{Data}{57}{0}{3}
-\beamer@sectionintoc {4}{Results}{60}{0}{4}
-\beamer@subsectionintoc {4}{1}{Investment}{60}{0}{4}
-\beamer@subsectionintoc {4}{2}{Performance}{63}{0}{4}
-\beamer@sectionintoc {5}{Suggestively Systematic}{77}{0}{5}
-\beamer@subsectionintoc {5}{1}{Regression Subsamples}{77}{0}{5}
-\beamer@subsectionintoc {5}{2}{In Sample}{91}{0}{5}
-\beamer@subsectionintoc {5}{3}{Out of Sample}{93}{0}{5}
-\beamer@subsectionintoc {5}{4}{Global Results}{102}{0}{5}
-\beamer@subsectionintoc {5}{5}{Asset Results}{105}{0}{5}
-\beamer@sectionintoc {6}{Conclusion}{108}{0}{6}
+\beamer@sectionintoc {3}{Data}{61}{0}{3}
+\beamer@sectionintoc {4}{Results}{64}{0}{4}
+\beamer@subsectionintoc {4}{1}{Investment}{64}{0}{4}
+\beamer@subsectionintoc {4}{2}{Performance}{67}{0}{4}
+\beamer@sectionintoc {5}{Suggestively Systematic}{81}{0}{5}
+\beamer@subsectionintoc {5}{1}{Regression Subsamples}{81}{0}{5}
+\beamer@subsectionintoc {5}{2}{In Sample}{95}{0}{5}
+\beamer@subsectionintoc {5}{3}{Out of Sample}{97}{0}{5}
+\beamer@subsectionintoc {5}{4}{Global Results}{106}{0}{5}
+\beamer@subsectionintoc {5}{5}{Asset Results}{109}{0}{5}
+\beamer@sectionintoc {6}{Conclusion}{112}{0}{6}

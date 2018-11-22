@@ -1,4 +1,4 @@
-\begin{thebibliography}{99}
+\begin{thebibliography}{101}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 
 \bibitem[Amihud and Hurvich(2004)]{Amihud2004}
@@ -28,7 +28,7 @@ Baird, Sarah, Jed Friedman, and Norbert Schady, 2010, Aggregate {Income}
 
 \bibitem[Bali et~al.(2005)Bali, Cakici, and Zhang]{bali_does_nodate}
 Bali, Turan~G, Nusret Cakici, and Zhe Zhang, 2005, Does {Idiosyncratic} {Risk}
-  {Really} {Matter}? ~26.
+  {Really} {Matter}?, {\em Journal of Finance\/} ~26.
 
 \bibitem[Barro(1989)]{barro_cross-country_1989}
 Barro, Robert, 1989, A {Cross}-{Country} {Study} of {Growth}, {Saving}, and
@@ -68,8 +68,8 @@ Burnside, Craig, Martin Eichenbaum, and Sergio Rebelo, 2011, Carry {Trade} and
 
 \bibitem[Buyuksahin et~al.(2008)Buyuksahin, Haigh, and
   Robe]{buyuksahin_commodities_2008}
-Buyuksahin, Bahattin, Michael~S. Haigh, and Michel~A. Robe, 2008, Commodities
-  and {Equities}: '{A} {Market} of {One}'?, {\em SSRN Electronic Journal\/} .
+Buyuksahin, Bahattin, Michael Haigh, and Michel Robe, 2008, Commodities and
+  {Equities}: '{A} {Market} of {One}'?, {\em SSRN Electronic Journal\/} .
 
 \bibitem[Campbell and Hentschel(1992)]{campbell_no_1992}
 Campbell, John~Y., and Ludger Hentschel, 1992, No news is good news: {An}
@@ -251,6 +251,10 @@ Kaplan, Paul~D., and James~A. Knowles, 2004, Kappa: {A} generalized downside
   risk-adjusted performance measure, {\em Journal of Performance
   Measurement.\/} 8, 42--54.
 
+\bibitem[Kemp(2013)]{nematrian}
+Kemp, Malcom, 2013, Measuring the average correlation of stocks in a universe,
+  \url{http://www.nematrian.com/MeasuringAverageStockCorrelation}.
+
 \bibitem[Kimball(1993)]{kimball_standard_1993}
 Kimball, Miles~S., 1993, Standard {Risk} {Aversion}, {\em Econometrica\/} 61,
   589--611.
@@ -319,7 +323,7 @@ Moreira, Alan, and Tyler Muir, 2017, Volatility-{Managed} {Portfolios}:
 
 \bibitem[Morrison and Tadrowski(2013)]{morrison_guarantees_nodate}
 Morrison, Steven, and Laura Tadrowski, 2013, Guarantees and {Target}
-  {Volatility} {Funds} ~12.
+  {Volatility} {Funds}, Technical report, Moody's Analytics.
 
 \bibitem[Newey and West(1987)]{newey_simple_1987}
 Newey, Whitney~K., and Kenneth~D. West, 1987, A {Simple}, {Positive}
@@ -423,6 +427,10 @@ Stambaugh, Robert~F., 1999, Predictive regressions, {\em Journal of Financial
 \bibitem[Taylor(2014)]{taylor_2014}
 Taylor, James, 2014, A nation of small shareholders: Marketing wall street
   after world war ii., {\em Enterprise \& Society\/} 15, 390–392.
+
+\bibitem[Tierens and Anadu(2004)]{tierens_anadu}
+Tierens, I., and M.~Anadu, 2004, Does it matter which methodology you use to
+  measure average correlation across stocks?, Research note, Goldman Sachs.
 
 \bibitem[Traflet(2003)]{traflet_own_2003}
 Traflet, Janice, 2003, “{Own} {Your} {Share} of {American} {Business}”:

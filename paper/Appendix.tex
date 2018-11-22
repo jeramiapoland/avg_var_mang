@@ -1,3 +1,17 @@
+\subsection{data}
+The data liquidity restrictions make the calculation of asset variance:
+\begin{equation}
+	\sigma^{2}_{m,t} = \frac{1}{T-1}\sum_{\tau = 1}^{T} \left(R_{m,\tau} - \frac{\sum_{\tau = 1}^{T} R_{m,\tau}}{T}\right)^{2}.
+\end{equation}
+where $R_{m,\tau}$ is the daily return, including dividends, on an asset for day $\tau$ in month t. When the asset is the market portfolio, so $R_{m,\tau}$ = $R_{s,\tau}$, the result is the variation of market returns, SV. The standard Pearson’s correlation where the correlation of assets m and n for month t is:
+\begin{equation}
+	\rho_{m,n,t} = \frac{\sum^{T}_{\tau = 1}\left(R_{m,\tau} - \frac{\sum_{\tau = 1}^{T} R_{m,\tau}}{t}\right)\left(R_{n,\tau} - \frac{\sum_{\tau = 1}^{T} R_{n,\tau}}{t}\right)}{\sqrt{\left(R_{m,\tau} - \frac{\sum_{\tau = 1}^{T} R_{m,\tau}}{t}\right)^{2}\sum_{\tau=1}^{T}\left(R_{n,\tau} - \frac{\sum_{\tau = 1}^{T} R_{n,\tau}}{t}\right)^{2} }}.
+\end{equation}
+Unfortunately, for samples as small as the monthly series of daily returns Pearson’s correlation is not an unbiased estimator of the true correlation, even if the returns are normal. \citep{hotelling_1953} The average month in my sample has 22 trading days however the number commonly drops into the teens.\footnote{The shortest trading month in the sample is September 2001 with 15 trading days while 17 is a common number in the months with holidays.} For samples of these sizes, the bias causes an underestimation of the correlation which is worse the lower the true correlation. I employ an approximate correction from \cite{olkin_1958} such that the monthly correlation between two assets m and n is:
+\begin{equation}
+	\rho_{m,n,t} = \widehat{\rho_{m,n,t}}\left(1 + \frac{1+\widehat{\rho_{m,n}}^{2}}{2(t-3)}\right)
+\end{equation}
+where $\widehat{\rho_{m,n,t}}$ is the Pearson correlation between a and b.\footnote{The exact correction suggested in \cite{olkin_1958} is too computationally taxing for the equipment to which I have access.} AV and AC are value-weighted so each month I calculate market capitalization for all of the assets available in CRSP. The capitalization used in month t for asset m is the product of the end of month price (PRC) and common shares outstanding (SHROUT) values for asset m in month t-1. \\
 \subsection{Investor Utility}
 Following \citet{vinod_hands-intermediate_2008}, I first calculate kernel smoothed density and cumulative distribution functions (CDFs) for the AV and SV managed portfolio return distributions. Figure \ref{fig:kd_graph} shows the density and CDFs estimated for the US equity returns to the buy and hold targeting AV and SV managed portfolios without investment constraints.
 \begin{figure}[htb]

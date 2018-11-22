@@ -1,0 +1,1328 @@
+\documentclass[handout]{beamer}
+\usetheme{Hannover}
+\usecolortheme{seahorse}
+\usepackage{graphics,graphicx,lmodern,amsmath,appendixnumberbeamer,enumerate}
+\useoutertheme{infolines}
+\setbeamertemplate{headline}{} % removes the headline that infolines inserts
+\setbeamertemplate{footline}[frame number]
+\usepackage{multimedia,etoolbox,xmpmulti,bm,array}
+%\usepackage{natbib}
+%\bibliographystyle{jf}
+%% make bibliography entries smaller
+%\renewcommand\bibfont{\scriptsize}
+%% If you have more than one page of references, you want to tell beamer
+%% to put the continuation section label from the second slide onwards
+%\setbeamertemplate{frametitle continuation}[from second]
+%% Now get rid of all the colours
+%\setbeamercolor*{bibliography entry title}{fg=black}
+%\setbeamercolor*{bibliography entry author}{fg=black}
+%\setbeamercolor*{bibliography entry location}{fg=black}
+%\setbeamercolor*{bibliography entry note}{fg=black}
+%% and kill the abominable icon
+%\setbeamertemplate{bibliography item}{}
+%\renewcommand{\newblock}{}
+
+\usepackage{tikz,adjustbox,array,appendixnumberbeamer}
+\newcolumntype{H}{>{\setbox0=\hbox\bgroup}c<{\egroup}@{}}
+\usepackage{hyperref}
+\makeatletter
+\patchcmd{\insertverticalnavigation}%
+{\ifx\beamer@nav@css\beamer@hidetext{\usebeamertemplate{section in sidebar}}\else{\usebeamertemplate{section in sidebar shaded}}\fi}%
+{{\usebeamertemplate{section in sidebar}}}{}{}
+\makeatother
+
+
+\begin{document}
+
+\title[Average Variance]{How to Look Clever and Have Envious Neighbors: Average
+	Volatility Managed Investment}   
+\author[J. Poland]{Jeramia Poland} 
+\date{\today}
+\institute[ISB]{\includegraphics[scale=.5]{../../../Pictures/Latex_Central/isb-logo.jpg}\\Indian School of Business}
+
+\begin{frame}
+\titlepage
+\end{frame}
+
+\section{Risk and Reward}
+\begin{frame}{Background}
+	\begin{itemize}[<+->]
+		\item Risk (Portfolio Variance) = Reward : Markowitz (1952)
+		\item Variance != Reward : Haugen and Heins (1972), Campbell (1987), French et al. (1987), Golsten et al. (1993)
+		\item Moreira and Muir (2017) - scaling month t+1 investment in the market index by month t daily return variance
+		\item Stock market return variance : SV$_{t}$ = $\sum_{m=1}^{N}\sum_{n=1}^{N}w_{m,t}w_{n,t}cov(r_{m,t},r_{n,t})$
+		\item Pollet and Wilson (2010) - decomposition of market variance into a compensated and uncompensated component
+		\begin{itemize}[<+->]
+			\item average variance (AV) : $\bar{\sigma}^{2}_{t} = \sum_{m=1}^{N}w_{m,t}\sigma^{2}_{t}$
+			\item average correlation (AC) : $\bar{\rho}_{t} = \sum_{m=1}^{N}\sum_{n=1}^{N}w_{m,t}w_{n,t}\rho_{m,n,t}$
+			%\item SV$_{t} \approx  \bar{\sigma}^{2}_{t}\sum_{m=1}^{N}\sum_{n=1}^{N}w_{m,t}w_{n,t}\rho_{m,n,t} = \bar{\sigma}^{2}_{t}\bar{\rho}_{t}$ = AV*AC
+			\item SV$_{t} \approx AV*\bm{AC}$  - Anadu and Tierens (2004)
+			\item $\bm{r_{t+1} = \alpha_{1} + \beta_{1}AC_{t} + \epsilon_{1,t},~\beta_{1}}$ \textbf{positive and significant}
+			\item $r_{t+1} = \alpha_{2} + \beta_{2}AV_{t} + \epsilon_{2,t}$, $\beta_{2}$ insignificant 
+		\end{itemize}
+%		\item Risk Management/Risk Parity funds $\approx$ \$400 billion, 2016
+%		\item Variance Management - Barraso and Santa-Clara (2015) 
+%		\item Moreira and Muir (2017) - investing more in the market portfolio when last month's market variance was lower and less when it was higher = better performance
+%		\begin{itemize}[<+->]
+%			\item Variance is positively correlated with future standard deviation (risk) but not return
+%			\item Scaling by variance manages risk without losing return - time series
+%		\end{itemize}
+%		\item Empirical exercises - manage momentum crashes; increase return for fixed level risk over time span
+	\end{itemize}
+\end{frame}
+
+%\begin{frame}{Pollet and Wilson (2010)}
+%	\begin{itemize}[<+->]
+%		\item $\sum_{m=1}^{N}\sum_{n=1}^{N}w_{m,t}w_{n,t}\rho_{m,n,t}\sigma_{m,t}\sigma_{n,t}$
+%		\item average variance (AV) : $\bar{\sigma}^{2}_{t} = \sum_{m=1}^{N}w_{m,t}\sigma^{2}_{t}$
+%		\item deviation from average :  $\sigma_{m,t}\sigma_{n,t} = \bar{\sigma}^{2}_{t} + \xi_{m,n,t}$
+%		\item SV$_{t}$ = $\bar{\sigma^{2}_{t}}\sum_{m=1}^{N}\sum_{n=1}^{N}w_{m,t}w_{n,t}\rho_{m,n,t} + \sum_{m=1}^{N}\sum_{n=1}^{N}w_{m,t}w_{n,t}\rho_{m,n,t}\xi_{m,n,t}$
+%		\item average correlation (AC) : $\bar{\rho}_{t} = \sum_{m=1}^{N}\sum_{n=1}^{N}w_{m,t}w_{n,t}\rho_{m,n,t}$
+%		\item SV$_{t} \approx  \bar{\sigma}^{2}_{t}\sum_{m=1}^{N}\sum_{n=1}^{N}w_{m,t}w_{n,t}\rho_{m,n,t} = \bar{\sigma}^{2}_{t}\bar{\rho}_{t}$ = AV*AC
+%		\item $r_{t+1} = \alpha_{1} + \beta_{1}AC_{t} + \epsilon_{1,t}$, $\beta_{1}$ positive and significant
+%		\item $r_{t+1} = \alpha_{2} + \beta_{2}AV_{t} + \epsilon_{2,t}$, $\beta_{2}$ insignificant
+%		\item $SV_{t+1} = \alpha_{3} + \beta_{3}AV_{t} + \epsilon_{3,t}$, $\beta_{3}$ positive and significant 
+%	\end{itemize}
+%\end{frame}
+
+\begin{frame}{Central Idea I}
+	\begin{itemize}[<+->]
+		\item If SV$_{t} \approx$ AV*AC, there maybe something to looking at AV and/or AC separately
+		\item Moreira and Muir (2017) : weight = $\frac{c_{SV}}{SV_{t}}$, c is scaling factor to match buy and hold volatility
+		\item Me : weight = $\frac{c_{AV}}{AV_{t}}$, $c_{AV}$ to match buy and hold volatility
+		\item $SV_{t+1} = \alpha_{3} + \beta_{3}AV_{t} + \epsilon_{3,t}$, $\beta_{3}$ positive and significant
+		\item AV$_{t}$ management decreases investment when AV$_{t}$ is high 
+		\item AV$_{t}$ management avoids decreasing investment when SV$_{t}$ is high because AC is high
+		\item Should find AV management outperforms SV management
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{More Pollet and Wilson (2010)}
+	\begin{itemize}[<+->]
+		\item Roll (1972) : relevant for time-series, variance-in-mean relation of stock market return 
+		%- variance stock returns maybe weak proxy for variance in aggregate wealth portfolio
+		\item Variance of observed returns $\neq$ variance of "market" returns $\neq$ variance of aggregate wealth
+		\item Shocks to true market returns are positively related to the common observed component, AC
+		\item AC is positively related to the covariance of stock market returns and aggregate wealth,  $cov(r_{s,t+1},r_{u,t+1})$
+		\item AV is not
+		\item The relationships depend on the proportion of the true market observed, $w_{s,t}$, and the aggregate wealth $\beta_{t}$ for the index
+		\item \hyperlink{PWII}{\beamerbutton{Details}}
+		\item \hypertarget<8>{PWreturn}{\beamerbutton{PW Return}}
+	\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{Central Idea II}
+	\begin{itemize}[<+->]
+		%\item Pollet and Wilson (2010) : $cov(r_{s,t+1},r_{u,t+1})$ approximation has to many unobservables to test.
+		\item If AC = systematic, when AC is high $\Rightarrow$ higher $r_{u,t+1}$ is expected
+		\item $r_{u,t}$ is not observable through index returns
+		\item Suggestive evidence is support of Pollet and Wilson (2010) relation
+		\begin{itemize}[<+->]
+			\item In a subset where daily returns are unrepresentative, AC won't predict $r_{s,t+1}$, AV management wont' perform
+			\item AV management should work globally
+			\item Equity AV management has higher investment in times of higher $cov(r_{s,t+1},r_{u,t+1})$, so it should work across asset classes
+		\end{itemize}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Preview Results}
+	\begin{itemize}[<+->]
+		\item AV management outperforms SV management - returns, ratios, turnover, drawdowns, and utility
+		\item AV management works better under practical investment constraints
+		\item AV management works globally
+		\item AV management works because changes in AV and AC signal changes in the systematic and unsystematic risk in the economy
+		\begin{itemize}[<+->]
+			\item In and Out-of-sample tests show changes in AV have more information about future risk and return than changes in SV
+			\item AV managed returns depend on the relationship of the proxy daily returns and aggregate wealth in time-series and cross-sectionally
+			\item The AV of equity returns can be used to manage investment in other assets across the economy
+		\end{itemize}
+		
+	\end{itemize}
+\end{frame}
+
+%\begin{frame}{Risk and Reward}
+%	\begin{itemize}[<+->]
+%		\item Investors have to expect compensation for systematic risk when investing
+%		\item If they do not receive proper compensation for risk which cannot be otherwise managed they will not invest their capital
+%		\item This notion is fundamental to modern finance and portfolio optimization - the "efficient frontier" is defined by those portfolios providing the highest return for given levels of portfolio variance
+%		\item Moreira and Muir (2017) show that managing portfolio investment by the inverse of the prior month's return variance, investing more in the market portfolio when last month's market variance was lower and less when it was higher
+%		\item Can we do better than last month's variance?
+%		\item Why can we do better? What does this tell us about the dynamics of systematic risk and economic returns? 
+%	\end{itemize}
+%\end{frame}
+
+%\begin{frame}{Equity Premium}
+%	\begin{itemize}
+%		\item[] Equity Premium
+%			%\begin{block}{Equity Premium}
+%				\begin{itemize}[<+->]
+%					\item Markowitz (1952) - formal portfolio variance, return optimization
+%					\item Haugen (1972) - low risk portfolios out perform
+%					\item 
+%				\end{itemize}
+%		%	\end{block}
+%		%	\begin{block}{Volatiltiy Managed Market Investment}
+%		\item Volatility Managed Market Investment
+%				\begin{itemize}[<+->]
+%					\item $W_{t}R_{st}$ where $R_{st}$ is the monthly return to the CRSP market portfolio in month t.
+%					\item $\sigma^2(r_{s,t-1})$ is the variance, where $r_{s,t-1}$ is the series of daily returns of the CRSP market portfolio for month t-1
+%					\item $W_{t}$ = $\frac{1}{\sigma^2(r_{s,t-1})}$ is the investment weight on the CRSP market portfolio for month t
+%				\end{itemize}
+%		%	\end{block}
+%	\end{itemize}
+%\end{frame}
+%
+%\begin{frame}{Moreira and Muir 2017}
+%	\begin{figure}
+%			\includegraphics{mm}
+%	\end{figure}
+%
+%\end{frame}
+
+%\begin{frame}{Variance Decomposition}
+%	\begin{itemize}[<+->]
+%	\item[]	%\begin{block}{Market Variance}
+%	Market Variance
+%			\begin{itemize}[<+->]
+%				\item Campbell, Lettau, and Xu (2001) - variance of individual assets vs market variance and CAPM
+%				\item Pollet and Wilson (2010) - decompose quarterly variance of market portfolio - Avg cor and Avg var
+%			\end{itemize}
+%	%	\end{block}
+%	\item[] Avg Var and Avg Cor
+%	%	\begin{block}{Avg Var and Avg Cor}
+%
+%			\begin{align*}
+%			R_{s,t} &= \sum_{1}^{N}w_{n,t}R_{n,t} \\
+%			\sigma^{2}(r_{s,t}) &= \sum_{n=1}^{N} \sum_{m=1}^{N}w_{n,t}w_{m,t}\sigma^{2}_{n,t}\sigma^{2}_{m,t}\rho_{n,m,t}\\
+%			\sigma^{2}_{s,t} &= \sum_{n=1}^{N} w_{n,t}\sigma^{2}_{n,t} \times \sum_{n=1}^{N}\sum_{m \neq n}^{N}w_{n,t}w_{m,t}\rho_{n,m,t}\\
+%			AV_{t} &= \sum_{n=1}^{N} w_{n,t}\sigma^{2}_{n,t} ~ \text{ and } ~ AC_{t} = \sum_{n=1}^{N}\sum_{m \neq n}^{N}w_{n,t}w_{m,t}\rho_{n,m,t}
+%			\end{align*}
+%	%	\end{block}
+%	\end{itemize}
+%	
+%\end{frame}
+
+%\begin{frame}{Pollet and Wilson 2010 - Risk}
+%		\vspace{-12pt}
+%		\begin{table}
+%			\caption{1963Q2:2007Q1}
+%			\vspace{-18pt}
+%			\begin{adjustbox}{width=\textwidth,height=3cm}
+%				\input{tab_var_rep_4_presentation.tex}
+%			\end{adjustbox}
+%		\end{table}
+%\end{frame}
+%
+%\begin{frame}{Pollet and Wilson 2010 - Returns}
+%		\vspace{-12pt}
+%		\begin{table}
+%			\caption{1963Q2:2007Q1}
+%			\vspace{-18pt}
+%			\begin{adjustbox}{width=\textwidth,height=3cm}
+%				\input{tab_ret_rep1.tex}
+%			\end{adjustbox}
+%		\end{table}
+%\end{frame}
+
+%\begin{frame}{Average Variance}
+%	\begin{itemize}[<+->]
+%		\item The average variance of the individual assets in the market (AV) we can do better
+%		\item We do better because AV is a signal of future risk but not a signal of future return
+%		\item Pollet and Wilson (2010) demonstrate that breaking portfolio variance can be well approximated as the product of the average pairwise correlation (AC) of assets in the market and AV.
+%		\item AC is the systematic component, related to changes in aggregate wealth, and correlated with higher returns. AV is not.
+%		\item Scaling back investment when AV is high and investing more when AV is low reduces investment risk without reducing return over time.
+%	\end{itemize}
+%\end{frame}
+
+%\begin{frame}{Central Ideas}
+%	\begin{itemize}[<+->]
+%		\item If we are going to manage variance to control/time risk what is the proper way?
+%		\item We know that portfolio variance is the weighted summation of asset variances and covariance
+%		\item Return to the fundamental make up of portfolio variance for the right signal
+%		\item Why does the right signal better control exposure to uncompensated risk
+%		\item Pollet and Wilson (2010) demonstrate that stock market portfolio variance (SV) $\approx$ the product of average pairwise correlation (AC) of assets in the market and average asset variance (AV).
+%		\item AC is the systematic component, related to changes in aggregate wealth, and correlated with higher returns. AV is not.
+%		\item AV is the right management signal it reduces exposure to uncompensated non-systematic risk without reducing returns
+%	\end{itemize}
+%\end{frame}
+
+%\section{Data}
+%
+%\begin{frame}{Data}
+%	\begin{block}{CRSP daily returns}
+%		\begin{itemize}
+%			\item NYSE daily return (1926-2017)
+%			\item NYSE-AMEX daily returns (1962-2017)
+%			\item NASDAQ daily returns (1974-2017)
+%			\item Monthly Variance Stats and MCAP of gaming industry
+%		\end{itemize}
+%	\end{block}
+%	\begin{block}{Asaif Manela's Website}
+%		\begin{itemize}
+%			\item ICRF = $\frac{MarEqt}{MarEqt + BookDbt}$ He, Kelly, Manela (2017)
+%			\item LF$_{AEM}$ = $\frac{FinAsst}{FinAsst - BankDbt}$ Adrian, Etula and Muir (2014)
+%			\item BC = year on year increase in bank credit Gandhi (2016)
+%		\end{itemize}
+%	\end{block}
+%	\begin{block}{NYSE}
+%		\begin{itemize}
+%			\item $\Delta$ MD = month to month change in Margin Debt
+%		\end{itemize}
+%	\end{block}	
+%\end{frame}
+%
+%\section{Variance Decomposition}
+%
+%%\begin{frame}{Market Variance}
+%%	\begin{align}
+%%	%SV_{t} &= \frac{1}{t-1}\sum_{\tau = 1}^{t} \left(R^{m}_{\tau} - \frac{\sum_{\tau = 1}^{t} R^{m}_{\tau}}{t}\right)^{2}\\
+%%	SV_{t} &= \sum_{n=1}^{N} \sum_{m=1}^{N}w^{n}_{t}w^{m}_{t}\sigma^{2}_{n,t}\sigma^{2}_{m,t}\rho^{n,m}_{t}\\
+%%	SV_{t} &= \sum_{n=1}^{N} w^{n}_{t}\sigma^{2}_{n,t} \times \sum_{n=1}^{N}\sum_{m \neq n}^{N}w^{n}_{t}w^{m}_{t}\rho^{n,m}_{t}\\
+%%	AV_{t} &= \sum_{n=1}^{N} w^{n}_{t}\sigma^{2}_{n,t}\\
+%%	AC_{t} &= \sum_{n=1}^{N}\sum_{m \neq n}^{N}w^{n}_{t}w^{m}_{t}\rho^{n,m}_{t}\\
+%%	\end{align}
+%%\end{frame}
+%
+%\begin{frame}{Summary Stats}
+%	\begin{table}[!htbp] \centering 
+%		\begin{adjustbox}{width=\textwidth}
+%			\begin{tabular}{lcccccc} 
+%				%\input{summary1}
+%				%\input{summary2}
+%				\input{summary3}
+%			\end{tabular}
+%		\end{adjustbox}
+%	\end{table}
+%\end{frame}
+
+\section{Results}
+\subsection{Performance}
+%\begin{frame}{Performance}
+%	\begin{adjustbox}{width=\textwidth}
+%		\begin{tabular}{cccccc}
+%			\multicolumn{6}{c}{1926:08-2016:12}\\
+%			\hline \hline \\[-1.8ex] 
+%			& Return & Sharpe & Max DD & $|\delta\omega|$ & Break Even \\ 
+%			\hline \\[-1.8ex] 
+%			BH & 5.932 & 0.319 & -84.8 &  &  \\ 
+%			SV & 8.598 & 0.462 & -63.6 & .75 & 30.7 \\ 
+%			AV & 9.677*** & 0.520* & -60.3 & .32 & 83.1\\ 
+%			\hline
+%		\end{tabular}
+%	\end{adjustbox}
+%
+%\end{frame}
+%\begin{frame}{US Equity Performance}
+%	\only<1>{\begin{figure}
+%		\resizebox{11cm}{6.5cm}{\input{figures/m_ret_plot2_1}}
+%	\end{figure}
+%	\centering
+%	AV : 7.89\%  SV : 6.17\%  BH : 5.93\%} 
+%	\only<2>{\begin{figure}
+%		\resizebox{11cm}{6.5cm}{\input{figures/m_ret_plot2_2}}
+%	\end{figure}
+%	\centering
+%	AV : 9.68\%  SV : 7.61\%  BH : 5.93\% }
+%	\only<3>{\begin{figure}
+%			\resizebox{11cm}{6.5cm}{\input{figures/m_ret_plot2_3}}
+%		\end{figure}
+%		\centering
+%		AV : 9.68\%  SV : 8.60\%  BH : 5.93\% }
+%\end{frame}
+\begin{frame}{US Equity Performance}
+	\begin{figure}
+		\resizebox{11cm}{6.5cm}{\input{figures/m_ret_plot2_3}}
+	\end{figure}
+	\centering
+	AV : 9.68\%  SV : 8.60\%  BH : 5.93\%
+\end{frame}
+
+\begin{frame}{Performance Measures}
+	\begin{itemize}[<+->]
+		\item RET = annualized average log excess return
+		\item Sharpe = $\frac{\mathbb{E}[R_{x}]}{\sigma(R_{x})}$, dollar of returns for dollar of variance
+		\item Sortino = $\frac{\mathbb{E}[R_{x} - 0]}{\sqrt  {\int _{{-\infty }}^{0}(0-R_{x})^{2}f(R_{x})\,dR}}$, return for downside
+		\item Kappa$_{n}$ = $\frac{\mathbb{E}[R_{x} - 0]}{\sqrt[\leftroot{-2}\uproot{2}n]{LPM_{n}}}$, where LPM is lower partial moment Kappa$_{2}$ = Sortino
+		%\item UpsidePotential = $\frac {\mathbb {E} [(R_{x}-0)_{+}]}{\sqrt {\mathbb {E} [(R_{x}-0)_{-}^{2}]}}$, dollar of average gain for downside risk
+		%\item Rachev = $\frac {ET{L_{\alpha }}\left({{r_{f}}-x'r}\right)}{ET{L_{\beta }}\left({x'r-{r_{f}}}\right)}$ where $ET{L_{\alpha }}={\frac {1}{\alpha }}\int _{0}^{\alpha }{Va{R_{q}}\left(X\right)dq}$, dollar of possible extreme gain for dollar of possible extreme loss
+		\item Drawdown - peak to valley loss in portfolio value
+		\item Break Even - trading costs, basis points, which erase gains
+		\item Certainty Equivalent Return gain (CER) = Average utility from AV - Average utility from SV for mean-variance investor with risk aversion $\gamma$
+	\end{itemize}
+\end{frame}
+
+%\begin{frame}{Returns}
+%	\begin{adjustbox}{width=\textwidth,height=.8\textheight}
+%		\input{figures/m_ret_plot2}
+%	\end{adjustbox}
+%\end{frame}
+
+\begin{frame}{Performance}
+	\begin{center}
+		1926:07-2016:12\\
+		c$_{BH}$: Unconstrained
+	\end{center}
+	\vspace{-12pt}
+	 \begin{adjustbox}{width=\textwidth}
+	 	\input{tables/performance/tab_perf_NO_full}
+	 \end{adjustbox}
+	 \vspace{-12pt}
+%	 \begin{center}
+%	 	Constraint - 1.5
+%	 \end{center}
+%	 \vspace{-12pt}
+%	 \begin{adjustbox}{max width=10\totalheight}
+%	 	\input{tables/tab_perf_029_constraint}
+%	 \end{adjustbox}
+	 \begin{center}
+	 	Constraint - 3
+	 \end{center}
+	 \vspace{-6pt}
+	 \begin{adjustbox}{max width=\textwidth}
+	 	\input{tables/tab_perf_035_constraint}
+	 \end{adjustbox}
+\end{frame}
+
+\begin{frame}{Performance Summary}
+	\onslide<+->{\begin{block}{Unconstrained}
+		\begin{itemize}[<+->]
+			\item Outperforms with higher returns for the same variance
+			\item Outperforms with other risk specifications - downside, skewness, kurtosis, $\alpha$
+		\end{itemize}
+	\end{block}}
+	\onslide<+->{\begin{block}{Leverage}
+		\begin{itemize}[<+->]
+			\item As leverage constraints tighten AV outperforms SV
+			\item AV and SV management outperforms the buy and hold - gains hedging (months $<$ 1)
+			\item SV needs more than 1500\% leverage, AV  $\approx$ 300\%
+			\item AV management is cheaper and more practical
+		\end{itemize}
+	\end{block}}
+\end{frame}
+
+\begin{frame}{Investor Utility}
+	\only<1>{
+	\begin{figure}
+		\resizebox{11cm}{6cm}{\input{figures/cer_const_plot}}
+	\end{figure}
+	}
+	\only<2-3>{
+		\begin{figure}
+			\resizebox{11cm}{6cm}{\input{figures/cer_gamma_plot}}
+		\end{figure}
+	}
+	\only<3>{\begin{itemize}
+			\item Stochastic dominance tests show that non-EUT investors prefer AV management.
+		\end{itemize}}
+\end{frame}
+
+\subsection{Systematic Risk}
+
+\begin{frame}{Suggestively Systematic}
+	\begin{itemize}[<+->]
+		\item CRSP dialy returns contain only NYSE firms, are shallower, more illiquid, and investment was not a meaningful part of aggregate wealth 1926 - 1962 - NYSE (2016) and Taylor (2014) 
+		\item AC should not predict returns 1926 - 1962
+		\item AV management should work globally
+		\item AV management using the AV of equity returns should generate better performance across asset classes
+		\item AV managed returns should depend systematically on the representativeness of daily returns
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Regression Sub-samples}
+	\begin{adjustbox}{width=\textwidth}
+		\input{tables/insample/tab_in_logxret.tp1_pre1962}
+	\end{adjustbox}
+	\begin{adjustbox}{width=\textwidth}
+		\input{tables/tab_in_logxret.tp1_post1962}
+	\end{adjustbox}
+\end{frame}
+
+\begin{frame}{Global Performance}
+	\begin{adjustbox}{width=\textwidth}
+		\begin{tabular}{@{\extracolsep{5pt}} ccccccc} 
+			\\[-1.8ex]\hline 
+			\hline \\[-1.8ex]
+			& \multicolumn{2}{c}{AV} &\multicolumn{2}{c}{SV}& \multicolumn{2}{c}{BH}\\
+			\cline{2-3} \cline{4-5} \cline{6-7}\\
+			Country & RET & Sharpe & RET & Sharpe & RET & Sharpe \\ 
+			\hline \\[-1.8ex] 
+			AUS & 12.477*** & 0.981 & 11.993 & 0.943 & 7.805 & 0.614 \\ 
+			BRA & 11.000*** & 0.291 & 9.037 & 0.240 & 6.163 & 0.164 \\ 
+			CHN & 27.381 & 0.868 & 24.926 & 0.790 & 12.286 & 0.390 \\ 
+			DEU & 11.064*** & 0.537* & 7.633 & 0.371 & 5.399 & 0.262 \\ 
+			FRA & 7.243*** & 0.404 & 6.128 & 0.341 & 4.904 & 0.273 \\ 
+			IND & 14.893*** & 0.633 & 12.256 & 0.521 & 11.460 & 0.487 \\ 
+			ITA & 3.838 & 0.194 & 3.912 & 0.198 & 1.451 & 0.073 \\ 
+			JPN & 1.375*** & 0.068 & 0.129 & 0.006 & -0.775 & -0.038 \\ 
+			UK & 6.591*** & 0.485 & 5.984 & 0.441 & 5.111 & 0.376 \\ 
+			%USA & 9.739*** & 0.517* & 8.57 & 0.455 & 5.994 & 0.318 \\
+			World & 8.603$^{***}$ & 0.551 &  8.306 & 0.536  & 4.484 & 0.290\\
+			\hline \\[-1.8ex] 
+		\end{tabular} 
+	\end{adjustbox}
+\end{frame}
+
+\begin{frame}{Systematic Performance}
+	\begin{center}
+	Global Long - Short\\
+	Ratio of Market RET to Wealth$\dagger$ RET ($w_{s,t}$)
+	\end{center}
+	\vspace{-6pt}
+	\begin{adjustbox}{width=\textwidth}
+		\begin{tabular}{lccccc}
+			\hline\\[-1.8ex]
+%			\multicolumn{6}{c}{Market RET to Wealth RET}\\
+%			\hline\\[-1.8ex]
+			& RET & Sharpe & $\alpha_{FF3}$ & $\alpha_{FF5}$ & $\alpha_{FF5+Mom}$ \\
+			\cline{2-6}
+			Long & 12.601 & 0.747 & 9.484$^{**}$ & 7.909$^{*}$ & 7.725$^{*}$ \\
+			Short & 7.537 & 0.562 & 5.038$^{*}$ & 5.422$^{*}$ & 5.318$^{*}$ \\
+			Long - Short & 5.065 & 0.405 & 4.446$^{***}$ & 2.488$^{***}$ & 2.407$^{**}$ \\
+			\hline\\[-1.8ex]
+		\end{tabular}
+	\end{adjustbox}
+	$\dagger$ Credit Suisse annual reports on global wealth (2000-2017)
+\end{frame}
+
+\begin{frame}{Economy-Wide Performance}
+	\begin{center}
+		Investment weight in other asset classes managed by equity AV
+	\end{center}
+	\vspace{-6pt}
+	\begin{adjustbox}{width=\textwidth}
+\begin{tabular}{@{\extracolsep{5pt}} Hccccccc} 
+	\\[-1.8ex]\hline 
+	\hline \\[-1.8ex] 
+	& & \multicolumn{2}{c}{AV} &\multicolumn{2}{c}{SV}& \multicolumn{2}{c}{BH}\\
+	\cline{3-4} \cline{5-6} \cline{7-8}\\
+	& Index & RET & Sharpe & RET & Sharpe & RET & Sharpe \\ 
+	\hline \\[-1.8ex] 
+	1 & Dollar$_{BB}$ & $1.324^{***}$ & $0.170$ & $0.606$ & $0.078$ & $-0.296$ & $-0.038$ \\ 
+	
+	3 & Curr$_{DB}$ & $1.195^{***}$ & $0.272^{*}$ & $-0.668$ & $-0.152$ & $-0.244$ & $-0.056$ \\ 
+	4 & Carry$_{DB}$ & $1.440^{***}$ & $0.134$ & $-0.361$ & $-0.033$ & $-2.071$ & $-0.192$ \\ 
+	%5 & dbmom & $1.540$ & $0.170$ & $-0.854$ & $-0.094$ & $-0.226$ & $-0.025$ \\ 
+	6 & Mom$_{DB}$ & $1.942^{***}$ & $0.214$ & $0.413$ & $0.045$ & $1.095$ & $0.120$ \\ 
+	%7 & dbval & $0.148$ & $0.020$ & $0.847$ & $0.112$ & $1.466$ & $0.194$ \\ 
+	2 & REIT$_{S\&P}$ & $26.706^{***}$ & $0.995$ & $14.980$ & $0.558$ & $5.302$ & $0.198$ \\ 
+	8 & Comm$_{BB}$ & $-5.579^{***}$ & $-0.303$ & $-6.431$ & $-0.349$ & $-5.279$ & $-0.286$ \\ 
+	%9 & gscom & $-5.799$ & $-0.250$ & $-4.371$ & $-0.188$ & $-2.741$ & $-0.118$ \\ 
+	10 & Bond$_{Univ}$ & 3.951*** & 1.168*** & 1.436 & 0.425 & 3.276 & 0.969 \\ 
+	%11 & bbUSagg & 3.381*** & 0.969** & 1.341 & 0.384 & 3.357 & 0.962 \\ 
+	\hline \\[-1.8ex] 
+\end{tabular} 
+	\end{adjustbox}
+\end{frame}
+
+%\begin{frame}{Contribution}
+%	\onslide<+->{\begin{block}{Variance Management}
+%			\begin{itemize}[<+->]
+%				\item Moreira and Muir (2017) and Hocquard, Ng, and Papageorgiou (2013)
+%				\item AV is a better dynamic volatility management signal - returns, ratios, drawdowns, costs
+%				\item AV management works globally and across asset classes (SV does not)
+%			\end{itemize}
+%		\end{block}}
+%		\onslide<+->{\begin{block}{Risk Dynamics}
+%				\begin{itemize}[<+->]
+%					\item Gonzlez-Urteaga and Rubio (2016) and Bollerslev, Hood, Huss, and Pedersen (2017)
+%					\item AV comes from the foundations of investment risk
+%					\item Responds to the mix of systematic and non-systematic risk
+%					\item AV is related to global non-systematic risk across asset classes
+%				\end{itemize}}
+%			\end{block}		
+%		\end{frame}
+
+
+%\begin{frame}{Global Equity Performance}
+%	\onslide<+->{\begin{block}{Global Equity}
+%		\begin{itemize}[<+->]
+%			\item AV better in 8 of 9 international markets
+%			\item AV better for globally diversified equity portfolio
+%		\end{itemize}
+%	\end{block}}
+%	\onslide<+->{\begin{block}{Other Asset Classes}
+%		\begin{itemize}[<+->]
+%			\item AV better across currency indices
+%			\item AV better real estate investment management
+%		\end{itemize}}
+%	\end{block}
+%	\onslide<+->{This is consistent with the notion that AV management times investment to systematic risk for which investors are compensated and minimizes non-systematic risk.}
+%\end{frame}
+
+\section{Conclusion}
+
+\begin{frame}{Conclusion}
+	\onslide<+->{\begin{block}{Variance Management}
+			\begin{itemize}[<+->]
+				\item Moreira and Muir (2017) and Hocquard, Ng, and Papageorgiou (2013)
+				\item AV is a better dynamic volatility management signal - returns, ratios, drawdowns, costs
+				\item AV management works globally and across asset classes (SV does not)
+			\end{itemize}
+		\end{block}}
+		\onslide<+->{\begin{block}{Risk Dynamics}
+				\begin{itemize}[<+->]
+					\item Gonzlez-Urteaga and Rubio (2016) and Bollerslev, Hood, Huss, and Pedersen (2017)
+					\item AV comes from the foundations of investment risk
+					\item AV management informs about the risk mix across the economy
+				\end{itemize}}
+			\end{block}		
+\end{frame}
+
+%\section{Conclusion}
+%\begin{frame}{Conclusion}
+%	\begin{itemize}
+%		\item AV management is better than SV: higher returns, better ratios, lower costs
+%		\item As such, AV management is a useful signal both globally and across assets classes where SV management does not perform
+%		\item AV management is better because it times moving in and out of investments to changes in systematic risk which is compensated and non-systematic risk which is not
+%		\item AV management informs about the risk mix across the economy
+%		\item Thank you
+%	\end{itemize}
+%\end{frame}
+
+\section{Data}
+\begin{frame}{Equity Data}
+		\begin{adjustbox}{width=\textwidth}
+	\begin{tabular}{ccccc}
+		\multicolumn{5}{c}{Equity Data}\\
+		\hline \hline \\[-1.8ex] 
+		Country & Start & Obs & Index & Assets\\
+		\hline\\[-1.8ex]
+		USA & 1926 - 8 & 1085 & CRSP & 500\\
+		AUS & 2000 - 5 & $212$& ASX & $200$ \\ 
+		BRA & 1995 - 2 & $275$& iShares MSCI Brazil ETF& $60$ \\ 
+		CHN & 2005 - 5 & $152$& CSI 300& $300$ \\ 
+		DEU & 1993 - 11 & $290$& HDAX& $110$ \\
+		FRA & 1993 - 9 & $292$& SBF 120& $120$ \\ 
+		IND & 2000 - 5 & $212$& Nifty 50& $50$ \\ 
+		ITA & 2003 - 8 & $173$& FTSE MIB& $40$ \\ 
+		JPN & 1993 - 6 & $295$& Nikkei& $255$ \\ 
+		UK & 1993 - 6 & $295$& FTSE& $100$ \\ 
+		World & 1995 - 3 & 274 & MSCI ACWI & 1735\\
+		\hline
+	\end{tabular}
+		\end{adjustbox}
+\end{frame}
+
+\begin{frame}{Non-Equity Data}
+	\begin{adjustbox}{width=\textwidth}
+		\begin{tabular}{ccccc}
+			\multicolumn{4}{c}{Other Asset Data}\\
+			\hline \hline \\[-1.8ex] 
+			Index & Start & Obs & Asset Class\\
+			\hline\\
+			Bloomberg US Spot & 2005 - 6 & 158 & Currency\\
+			Deutsche Bank Currency & 2005 - 6 & $158$& Currency \\ 
+			Deutsche Bank Carry & 2005 - 6 & $158$& Currency \\ 
+			Deutsche Bank Momentum & 2005 - 6 & $158$& Currency \\ 
+			S\&P REIT Index & 2005 - 6 & $158$& Real Estate \\
+			Bloomberg Commodity & 2005 - 6 &158 & Commodities\\
+			\hline
+		\end{tabular}
+	\end{adjustbox}
+\end{frame}
+\begin{frame}{AV Construction}
+		\begin{itemize}
+			%\item for month t, with T trading days, R$_{s,T}$ is the daily CRSP market return
+			\item SV$_{t}$ = $\sigma^{2}_{S,t}$
+			\item With m assets in the market, AV$_{t}$ = $\sum_{m=1}^{M} w_{m,t}\sigma^{2}_{m,t}$
+			\item $W_{t}$ = $\frac{c}{X}$ is the investment weight in the portfolio, where X $\in$ \{AV$_{t-1}$,SV$_{t-1}$\}
+			\item The constant c$_{target}$ is used to control the volatility of the strategy
+			\item c$_{BH}$ matching the buy and hold
+			\item For robustness, c$_{10}$ and c$_{12}$ targeting 10\% or 12\% annual return volatility
+		\end{itemize}
+\end{frame}
+
+\section{Results}
+\subsection{Investment}
+\begin{frame}{Investment Weights}
+			\begin{figure}
+			\scalebox{.52}{\input{figures/weight_plot2}}
+			\end{figure}
+\end{frame}
+\begin{frame}{Investment Weights Again}
+	\begin{figure}
+		\scalebox{.65}{\input{figures/weight_plot3}}
+	\end{figure}
+\end{frame}
+\begin{frame}{Investment Weight Again Again}
+	\begin{adjustbox}{width=\textwidth}
+		\begin{tabular}{@{\extracolsep{5pt}}lcHccccccc} 
+			\\[-1.8ex]\hline 
+			\hline \\[-1.8ex] 
+			Portfolio & Target & N & \multicolumn{1}{c}{Mean} & \multicolumn{1}{c}{St. Dev.} & \multicolumn{1}{c}{Min} & \multicolumn{1}{c}{Pctl(25)} & \multicolumn{1}{c}{Median} & \multicolumn{1}{c}{Pctl(75)} & \multicolumn{1}{c}{Max} \\ 
+			\hline \\[-1.8ex] 
+			SV & $c_{10}$ & 1,085 & 0.697 & 0.762 & 0.009 & 0.246 & 0.512 & 0.874 & 8.743 \\ 
+			AV & $c_{10}$ & 1,085 & 0.702 & 0.383 & 0.018 & 0.425 & 0.667 & 0.915 & 2.296 \\ 
+			SV & $c_{12}$ & 1,085 & 0.841 & 0.920 & 0.011 & 0.297 & 0.618 & 1.055 & 10.552 \\ 
+			AV & $c_{12}$ & 1,085 & 0.848 & 0.463 & 0.022 & 0.513 & 0.805 & 1.104 & 2.772 \\ 
+			SV & $c_{BH}$ & 1,085 & 1.290 & 1.412 & 0.017 & 0.455 & 0.948 & 1.619 & 16.193 \\ 
+			AV & $c_{BH}$ & 1,085 & 1.301 & 0.710 & 0.033 & 0.787 & 1.235 & 1.694 & 4.253 \\ 
+			\hline \\[-1.8ex] 
+		\end{tabular} 
+	\end{adjustbox}
+\end{frame}
+
+\subsection{Performance}
+\begin{frame}{Performance Measures}
+	\begin{itemize}[<+->]
+		\item RET = annualized average log excess return
+		\item Sharpe = $\frac{\mathbb{E}[R_{x}]}{\sigma(R_{x})}$, dollar of returns for dollar of variance
+		\item Sortino = $\frac{\mathbb{E}[R_{x} - 0]}{\sqrt  {\int _{{-\infty }}^{0}(0-R_{x})^{2}f(R_{x})\,dR}}$, return for downside
+		\item Kappa$_{n}$ = $\frac{\mathbb{E}[R_{x} - 0]}{\sqrt[\leftroot{-2}\uproot{2}n]{LPM_{n}}}$, where LPM is lower partial moment Kappa$_{2}$ = Sortino
+		%\item UpsidePotential = $\frac {\mathbb {E} [(R_{x}-0)_{+}]}{\sqrt {\mathbb {E} [(R_{x}-0)_{-}^{2}]}}$, dollar of average gain for downside risk
+		%\item Rachev = $\frac {ET{L_{\alpha }}\left({{r_{f}}-x'r}\right)}{ET{L_{\beta }}\left({x'r-{r_{f}}}\right)}$ where $ET{L_{\alpha }}={\frac {1}{\alpha }}\int _{0}^{\alpha }{Va{R_{q}}\left(X\right)dq}$, dollar of possible extreme gain for dollar of possible extreme loss
+		\item Drawdown - peak to valley loss in portfolio value
+		\item Break Even - trading costs, basis points, which erase gains
+		\item Certainty Equivalent Return gain (CER) = Average utility from AV - Average utility from SV for mean-variance investor with risk aversion $\gamma$
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Returns}
+	\begin{adjustbox}{width=\textwidth,height=.8\textheight}
+		\input{figures/m_ret_plot2}
+	\end{adjustbox}
+\end{frame}
+\begin{frame}{Performance}
+	\begin{center}
+		c$_{BH}$: 1926:07-2016:12
+	\end{center}
+	\vspace{-12pt}
+	\begin{adjustbox}{width=\textwidth}
+		\input{tables/tab_perf_053_full}
+	\end{adjustbox}
+\end{frame}
+
+\begin{frame}{Drawdowns: c$_{BH}$}
+	\begin{adjustbox}{width=\textwidth}
+		\input{figures/dd_plot}
+	\end{adjustbox}
+	\begin{adjustbox}{width=\textwidth}
+		\begin{tabular}{@{\extracolsep{5pt}} cccccccc} 
+			\\[-1.8ex]\hline 
+			\hline \\[-1.8ex] 
+			Strategy & N & Max DD & Avg DD & Max Length & Avg Length & Max Recovery & Avg Recovery \\ 
+			\hline \\[-1.8ex] 
+			BH & $82$ & $$-$84.803$ & $$-$8.069$ & $188$ & $11.549$ & $154$ & $7.207$ \\ 
+			SV & $65$ & $$-$63.637$ & $$-$11.196$ & $246$ & $14.954$ & $135$ & $7.446$ \\ 
+			AV & $87$ & $$-$60.264$ & $$-$9.026$ & $205$ & $10.851$ & $135$ & $5.034$ \\ 
+			\hline \\[-1.8ex] 
+		\end{tabular}
+	\end{adjustbox}
+\end{frame}
+
+\begin{frame}{Drawdown Insurance: c$_{BH}$}
+	\begin{block}{Knockout}
+		\begin{itemize}
+			\item Drawndown large enough to shutter fund (investor pull-out), cost manager job
+			\item Assuming 45\% loss in a 12-month period as knockout
+			\item SV 1.06\% and AV  .55\% using Pav (2016)
+			\item AV $\approx$ half the cost to insure, Carr, Zhang, and Hadjiliadis (2011)
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+\begin{frame}{Leverage}
+	\begin{adjustbox}{width=\textwidth}
+		\begin{tabular}{@{\extracolsep{5pt}} cccccc} 
+			\hline \\[-1.8ex] 
+			& \multicolumn{5}{c}{c$_{BH}$: Constraint - 1.5}\\
+			\cline{2-6}
+			Portfolio & Return & Sharpe & Sortino & Kappa$_{3}$ & Kappa$_{4}$\\ 
+			\hline \\[-1.8ex] 
+			BH & 5.932 & 0.319 & 0.129 & 0.082 & 0.061 \\ 
+			SV & 6.171 & 0.467 & 0.200 & 0.128 & 0.091 \\ 
+			AV & 7.885*** & 0.486 & 0.204 & 0.133 & 0.097 \\ 
+			\hline\\
+			& \multicolumn{5}{c}{c$_{BH}$: Constraint - 3}\\
+			\cline{2-6}
+			Portfolio & Return & Sharpe & Sortino & Kappa$_{3}$ & Kappa$_{4}$\\ 
+			BH & 5.932 & 0.319 & 0.129 & 0.082 & 0.061\\
+			SV & 7.606 & 0.456 & 0.199 & 0.129 & 0.096\\
+			AV & 9.677*** & 0.522** & 0.226** & 0.150** & 0.112**\\
+			\hline\\
+			\textit{Notes:} & \multicolumn{5}{r}{$^{***}$,$^{**}$, and $^{*}$ Significant at the 1, 5, and 10 percent levels.}
+		\end{tabular}
+	\end{adjustbox}
+\end{frame}
+
+\begin{frame}{Leverage}
+	\begin{adjustbox}{width=\textwidth}
+		\input{figures/cer_const_plot}
+	\end{adjustbox}
+\end{frame}
+
+\begin{frame}{Leverage}
+	\begin{adjustbox}{width=\textwidth}
+		\input{figures/cer_gamma_plot}
+	\end{adjustbox}
+	Risk averse, mean-variance investors see substantial utility gains switching from the SV to AV managed portfolio and these gains increase with leverage usage and risk aversion
+\end{frame}
+
+%\subsection{In Sample}
+%%\item $W_{t}$ = $\frac{1}{AV_{t-1}}$ is the investment weight on the CRSP market portfolio
+%\begin{frame}{Variance Prediction}
+%	\vspace{-6pt}
+%	\begin{center}
+%		1926:08-2016:12
+%	\end{center}
+%		\vspace{-30pt}
+% \begin{table}
+% 	\begin{adjustbox}{width=\textwidth,height=3.5cm}
+% 	\input{tables/tab_in_mkt_var1m.tp1_full}
+% 	\end{adjustbox}
+%
+% \end{table}
+%\end{frame}
+
+%\begin{frame}{AV Prediction}
+%	\vspace{-12pt}
+%	\begin{table}
+%		\begin{adjustbox}{width=\textwidth,height=4cm}
+%			\input{tab_var78}
+%		\end{adjustbox}
+%		
+%	\end{table}
+%\end{frame}
+
+%\begin{frame}{Return Prediction}
+%		\vspace{-6pt}
+%		\begin{center}
+%			1926:08-2016:12
+%		\end{center}
+%		\vspace{-30pt}
+%	\begin{table}
+%		\begin{adjustbox}{width=\textwidth,height=3.5cm}
+%			\input{tables/tab_in_logxret.tp1_full}
+%		\end{adjustbox}
+%		
+%	\end{table}
+%\end{frame}
+
+%\begin{frame}{Risk vs Return}
+%	\vspace{-12pt}
+%	\begin{table}
+%		\caption{1962M7:2016M12}
+%		\vspace{-6pt}
+%		\begin{adjustbox}{width=10cm,height=4cm}
+%			\input{tab_ret7.tex}
+%		\end{adjustbox}
+%	\end{table}
+%\end{frame}
+
+%\subsection{Out of Sample}
+%\begin{frame}{Out-of-Sample Tests}
+%	\begin{itemize}[<+->]
+%		\item Divide the sample 1962:06 - 2016:12 into 15\% training 85\% prediction
+%		\begin{itemize}
+%			\item Initial training period $t = q$ months. First ~8 years.
+%			\item Remaining period $t = q+1, q+2,..,T$ for out-of-sample forecast evaluation.
+%		\end{itemize}
+%		\item Regression model is "trained" over initial period
+%		\begin{itemize}
+%			\item Estimate $\hat \alpha_{t}$ and $\hat \beta_{t}$ by regressing $\{r_{s+1}\}_{s=1}^{t-1}$ on a constant and $\{x\}_{s=1}^{t-1}$
+%		\end{itemize}
+%		\item Generate one period ahead prediction \\
+%		\begin{itemize}
+%			\item $\hat r_{t+1} = \hat \alpha_{t} + \hat \beta_{t}x_{t}$
+%		\end{itemize}
+%		\item Each following month the ``training" window expands by one month
+%	\end{itemize}
+%\end{frame}
+%
+
+%
+%\begin{frame}{Out of Sample Stats}
+%	\begin{itemize}
+%		\item $R_{oos}^{2}$ and MSE-F test improvement in forecast accuracy relative to a benchmark
+%		\item Encompassing tests impose the greater requirement that the benchmark have no valuable forecasting information
+%	\end{itemize}
+%	\begin{block}{ENC-NEW Mcracken and Clark 2009}
+%		\begin{itemize}
+%			\item ENC-NEW = $T\times \frac{\frac{1}{T}\sum_{1}^{T}(e_{b,t}^{2}-e_{b,t}e_{x,t})}{MSFE_{x}}$
+%			\item ENC-NEW = F-type statistic on the imporvement of including the benchmark
+%		\end{itemize}
+%	\end{block}
+%	\begin{block}{ENC-HLN Harvey, Lebourne and Newbold 1998}
+%		\begin{itemize}
+%			\item Optimal forecast = $\hat{y}^{*}_{t} = (1-\lambda)\hat{y}_{b,t} + \lambda \hat{y}_{x,t}$
+%			\item $\lambda$ = measure of the optimal combination of forecasts from x and the benchmark
+%		\end{itemize}
+%	\end{block}
+%\end{frame}
+%
+%\begin{frame}{Out of Sample Results}
+%	\vspace{-12pt}
+%	\begin{table}
+%		\caption{1970M7:2016M12}
+%		\vspace{-6pt}
+%		\begin{adjustbox}{width=\textwidth}
+%			\input{tab_oos.tex}
+%		\end{adjustbox}
+%	\end{table}
+%\end{frame}
+
+%\begin{frame}{Out of Sample Results}
+%	\vspace{-12pt}
+%	\begin{table}
+%		\caption{Sample 1970:07 to 2016:12}
+%		\vspace{-6pt}
+%		\begin{adjustbox}{center,max height=\totalheight}
+%			\input{tables/tab_oos_avg_var1m_post1962}
+%		\end{adjustbox}
+%	\end{table}
+%\end{frame}
+
+%\begin{frame}{Out of Sample Results}
+%	\vspace{-12pt}
+%	\begin{table}
+%		\caption{Sample 1939:12 to 2016:12}
+%		\vspace{-6pt}
+%		\begin{adjustbox}{center,max height=\totalheight}
+%			\input{tables/tab_oos_avg_var1m_full}
+%		\end{adjustbox}
+%	\end{table}
+%\end{frame}
+
+
+
+\section{Suggestively Systematic}
+
+\subsection{Regression Subsamples}
+
+\begin{frame}{AC/AV and Systematic Risk}
+	\begin{itemize}[<+->]
+		\item Pollet and Wilson (2010) - AC is positively related to the correlation of market returns and aggregate wealth, including the unobserved component of the "true market"
+		\item AC signal changes in systematic risk when the daily returns used are a good proxy for the "true market" and the market is a significant part of aggregate wealth.
+		\item This is similar to the difference in results between Goyal and Santa Clara (2003) and Bali et all (2005) when the latter removes a significant number of daily returns and the forecasting ability of idiosyncratic volatility disappears
+		\item Thus we can run a placebo-like test on a sub-sample where the daily returns are not representative
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Subsample Tests}
+	\begin{itemize}[<+->]
+		\item The CRSP daily return data contains only returns for assets traded on the New York Stock Exchange (NYSE) prior to 1962. 
+		\item The prior data is much shallower with fewer than 400 assets 
+		\item As much as 13\% of market capitalization is not captured by CRSP data as of the 1950s. 
+		\item Twice as many firms covering twice as many industries are available at the end of 1962 as compared to the end of 1961. 
+		\item As shown in Taylor (2014) the NYSE market was not a significant part of marginal wealth in the US following the Great Depression before the late 1950s. 
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Regressions}
+	\begin{itemize}[<+->]
+		\item Expect AC not to predict returns in the pre-1962 data but it should post-1962
+		\item In-sample regression coefficients can be corrected for possible "volatility feedback" -  Campbell and
+		Hentschel (1992)
+		\item Amihud and Hurvich (2004) - bias correction
+		\item Omit variance (SV$_{t+1}$) prediction by AV as it works in both sub-samples
+		\item Goyal and Welch (2008) forecasting relationships maybe unstable and quite sensitive to sample period choice; they may not respond dynamically with the limited information available to investors in real-time and may not explain or support a trading strategy
+	\end{itemize}
+\end{frame}
+
+%\item $W_{t}$ = $\frac{1}{AV_{t-1}}$ is the investment weight on the CRSP market portfolio
+%\begin{frame}{Variance Prediction}
+%	\vspace{-6pt}
+%	\begin{center}
+%		1926:08-1962:06
+%	\end{center}
+%	\vspace{-30pt}
+%	\begin{table}
+%		\begin{adjustbox}{width=\textwidth,height=3.5cm}
+%			\input{tables/insample/tab_in_mkt_var1m.tp1_pre1962}
+%		\end{adjustbox}
+%	\end{table}
+%\end{frame}
+
+%\begin{frame}{AV Prediction}
+%	\vspace{-12pt}
+%	\begin{table}
+%		\begin{adjustbox}{width=\textwidth,height=4cm}
+%			\input{tab_var78}
+%		\end{adjustbox}
+%		
+%	\end{table}
+%\end{frame}
+
+\subsection{In Sample}
+%\item $W_{t}$ = $\frac{1}{AV_{t-1}}$ is the investment weight on the CRSP market portfolio
+%\begin{frame}{Variance Prediction}
+%	\vspace{-6pt}
+%	\begin{center}
+%		1962:07 - 2016:12
+%	\end{center}
+%	\vspace{-30pt}
+%	\begin{table}
+%		\begin{adjustbox}{width=\textwidth,height=3.5cm}
+%			\input{tables/tab_in_mkt_var1m.tp1_post1962}
+%		\end{adjustbox}
+%	\end{table}
+%\end{frame}
+
+\begin{frame}{Return Prediction}
+	\vspace{-6pt}
+	\begin{center}
+		1962:07 - 2016:12
+	\end{center}
+	\vspace{-30pt}
+	\begin{table}
+		\begin{adjustbox}{width=\textwidth,height=3.5cm}
+			\input{tables/insample/tab_in_logxret.tp1_post1962}
+		\end{adjustbox}
+	\end{table}
+\end{frame}
+
+%\begin{frame}{Variance Prediction}
+%	\vspace{-6pt}
+%	\begin{center}
+%		1926:08 - 1962:06
+%	\end{center}
+%	\vspace{-24pt}
+%	\begin{table}
+%		\begin{adjustbox}{width=\textwidth,height=3.5cm}
+%			\input{tables/insample/tab_in_mkt_var1m.tp1_pre1962}
+%		\end{adjustbox}
+%		
+%	\end{table}
+%\end{frame}
+
+\begin{frame}{Return Prediction}
+	\vspace{-6pt}
+	\begin{center}
+		1926:08 - 1962:07
+	\end{center}
+	\vspace{-30pt}
+	\begin{table}
+		\begin{adjustbox}{width=\textwidth,height=3.5cm}
+			\input{tables/insample/tab_in_logxret.tp1_pre1962}
+		\end{adjustbox}
+		
+	\end{table}
+\end{frame}
+
+\subsection{Out of Sample}
+
+\begin{frame}{Out of Sample Stats}
+	%	    \begin{itemize}
+	%	    	\item y$_{t}$ - $\hat{y}_{x,t}$ =  $e_{x,t}$ : forecast error of preditor x
+	%	    	\item $\frac{1}{T}\sum_{1}^{T}(e_{x,t})^{2}$ = MSFE$_{x}$: mean squared forecast error based on predictor $x$
+	%	    \end{itemize}
+	%	    \begin{block}{$R_{oos}^{2}$ Campbell and Thompson 2007}
+	%	    	\begin{itemize}
+	%	    		\item $R^{2}_{os}$ = 1 - $\frac{MSFE_{x}}{MSFE_{b}}$
+	%	    		\item $R^{2}_{os}$ = proportional reduction in MSFE
+	%	    	\end{itemize}
+	%	    \end{block}
+	\onslide<+->{\begin{block}{Diebold-Marino Statistic (1995)}
+		\begin{itemize}
+			\item DM = $\frac{\bar{d}}{\sqrt{\frac{2\pi f_{d}(0)}{T}}}$
+			\item Asymptotically normally statistic comparing significance of accuracy ratio   
+		\end{itemize}
+	\end{block}}
+	\only<3-6>{\begin{block}{MSE-F Mcracken (2004)}
+		\begin{itemize}
+			\item MSE-F = $T \times \frac{\frac{1}{T}\sum_{1}^{T}(e_{b,t}^{2}-e_{x,t}^{2})}{MSFE_{x}}$
+			\item MSE-F = F-type test for significance in squared residual
+		\end{itemize}
+	\end{block}}
+	\onslide<5->{\begin{block}{ENC-HLN Harvey, Lebourne and Newbold (1998)}
+		\begin{itemize}
+			\item Optimal forecast = $\hat{y}^{*}_{t} = (1-\lambda)\hat{y}_{b,t} + \lambda \hat{y}_{x,t}$
+			\item $\lambda$ = measure of the optimal combination of forecasts
+		\end{itemize}
+	\end{block}}
+	\onslide<7->{\begin{block}{Rossi and Inoue (2012)}
+		\begin{itemize}
+			\item Calculate OOS stats on all feasible window specifications
+			\item Use asymptotic distribution $\rightarrow$ stat critical values
+			\item Different critical values for Type I (R$_{T}$) and Type II (A$_{T}$) error tests
+		\end{itemize}
+	\end{block}}
+\end{frame}
+
+\begin{frame}{Out of Sample Results}
+	\vspace{-12pt}
+	\begin{table}
+		\caption{Sample 1939:12 to 2016:12}
+		\vspace{-6pt}
+		\begin{adjustbox}{center,max height=\totalheight}
+			\input{tables/tab_oos_avg_var1m_full}
+		\end{adjustbox}
+	\end{table}
+\end{frame}
+
+\begin{frame}{Robust Out of Sample Results}
+	\vspace{-12pt}
+	\begin{table}
+		\caption{Sample 1939:12 to 2016:12}
+		\vspace{-6pt}
+		\begin{adjustbox}{center,max height=\totalheight}
+			\begin{tabular}{cccc}
+				\hline\\[-1.8ex]
+				Stat & Variable & DM & ENC-HLN \\
+				\hline\\[-1.8ex]
+				%$R_{T}$ & AC$_{t+1}$ & 28.532*** & 6.769*** \\
+				$R_{T}$ & SV$_{t+1}$ & 8.874*** & 1.838*** \\
+				%$R_{T}$ & AV$_{t+1}$ & 34.347*** & 18.197*** \\
+				$R_{T}$ & RET$_{t+1}$ & 29.124*** & 4.871*** \\
+				%$A_{T}$ & AC$_{t+1}$ & 19.867*** & 1.828*** \\
+				$A_{T}$ & SV$_{t+1}$ & 2.647*** & 0.949*** \\
+				%$A_{T}$ & AV$_{t+1}$ & 21.751*** & 10.7*** \\
+				$A_{T}$ & RET$_{t+1}$ & 13.347*** & 1.68*** \\
+				\hline\\[-1.8ex]
+				\textit{Notes:} & \multicolumn{3}{r}{$^{***}$,$^{**}$, and $^{*}$ Significant at the 1,}\\
+				& \multicolumn{3}{r}{ 5, and 10 percent levels.}
+			\end{tabular}
+		\end{adjustbox}
+		%				\subcaption{Robust Rolling Window Results}
+		%				\begin{adjustbox}{center,max height=\totalheight}
+		%					\begin{tabular}{cccc}
+		%						\hline\\[-1.8ex]
+		%						Stat & Variable & DM & ENC-HLN \\
+		%						\hline\\[-1.8ex]
+		%						$R_{T}$ & AC$_{t+1}$ & 27.398*** & 8.706** \\
+		%						$R_{T}$ & SV$_{t+1}$ & 21.92*** & 3.973 \\
+		%						$R_{T}$ & AV$_{t+1}$ & 34.292*** & 29.804*** \\
+		%						$R_{T}$ & RET$_{t+1}$ & 15.964*** & 3.884 \\
+		%						$A_{T}$ & AC$_{t+1}$ & 8.08*** & 1.542 \\
+		%						$A_{T}$ & SV$_{t+1}$ & 8.218*** & 2.062 \\
+		%						$A_{T}$ & AV$_{t+1}$ & 21.631*** & 19.449*** \\
+		%						$A_{T}$ & RET$_{t+1}$ & 9.209*** & 1.78\\
+		%						\hline\\
+		%						\textit{Notes:} & \multicolumn{3}{r}{$^{***}$,$^{**}$, and $^{*}$ Significant at the 1,} \\ 
+		%						& \multicolumn{3}{r}{ 5, and 10 percent levels.}
+		%					\end{tabular}
+		%		\end{adjustbox}
+	\end{table}
+	\begin{itemize}[<+->]
+		\item These results compare the use AV to SV in forecasting - not case either is good (RET) but AV is better
+	\end{itemize}
+\end{frame}
+
+%\begin{frame}{Out of Sample Results}
+%	\vspace{-12pt}
+%	\begin{table}
+%		\caption{Sample 1939:12 to 1962:06}
+%		\vspace{-6pt}
+%		\begin{adjustbox}{center,max height=\totalheight}
+%			\input{tables/outsample/tab_oos_avg_var1m_pre1962}
+%		\end{adjustbox}
+%	\end{table}
+%\end{frame}
+
+\subsection{Global Results}
+\begin{frame}{Global Equity}
+	\begin{itemize}
+		\item If AV management times investment to compensated risk because it changes in response to changes in systematic vs non-systematic risk it should work outside the US
+		\item World AV and SV are market cap weighted averages of country values, US included
+	\end{itemize}
+	\begin{adjustbox}{width=\textwidth}
+		\begin{tabular}{@{\extracolsep{5pt}} Hccccccc} 
+			\\[-1.8ex]\hline 
+			\hline \\[-1.8ex]
+			& & \multicolumn{2}{c}{AV} &\multicolumn{2}{c}{SV}& \multicolumn{2}{c}{BH}\\
+			\cline{3-4} \cline{5-6} \cline{7-8}\\[-1.8ex] 
+			& Country & RET & Sharpe & RET & Sharpe & RET & Sharpe \\ 
+			\hline \\[-1.8ex] 
+			1 & AUS & $12.477$ & $0.981$ & $11.993$ & $0.943$ & $7.805$ & $0.614$ \\ 
+			2 & BRA & $11.000$ & $0.291$ & $9.037$ & $0.240$ & $6.163$ & $0.164$ \\ 
+			3 & CHN & $27.381$ & $0.868$ & $24.926$ & $0.790$ & $12.286$ & $0.390$ \\ 
+			4 & DEU & $11.064$ & $0.537$ & $7.633$ & $0.371$ & $5.399$ & $0.262$ \\ 
+			5 & FRA & $7.243$ & $0.404$ & $6.128$ & $0.341$ & $4.904$ & $0.273$ \\ 
+			6 & IND & $14.893$ & $0.633$ & $12.256$ & $0.521$ & $11.460$ & $0.487$ \\ 
+			7 & ITA & $3.838$ & $0.194$ & $3.912$ & $0.198$ & $1.451$ & $0.073$ \\ 
+			8 & JPN & $1.375$ & $0.068$ & $0.129$ & $0.006$ & $$-$0.775$ & $$-$0.038$ \\ 
+			9 & UK & $6.591$ & $0.485$ & $5.984$ & $0.441$ & $5.111$ & $0.376$ \\ 
+			10 & World & 8.604 & 0.551 &  8.306 & 0.536 & 4.484 &  0.290\\
+			\hline \\[-1.8ex] 
+		\end{tabular} 
+	\end{adjustbox}
+\end{frame}
+
+\begin{frame}{Global Equity Again}
+	\begin{center}
+		Drawdown Statistics
+	\end{center}
+	\begin{adjustbox}{width=\textwidth}
+		\begin{tabular}{@{\extracolsep{5pt}} Hcccccccccc} 
+			\\[-1.8ex]\hline 
+			\hline \\[-1.8ex] 
+			& & \multicolumn{3}{c}{AV} &\multicolumn{3}{c}{SV}& \multicolumn{3}{c}{BH}\\
+			\cline{3-5} \cline{6-8} \cline{9-11}
+			& Country & Avg DD & Avg Length & Avg Recovery & Avg DD & Avg Length & Avg Recovery & Avg DD & Avg Length & Avg Recovery \\ 
+			\hline \\[-1.8ex] 
+			1 & AUS & -$6.302$ & $7.174$ & $3.348$ & -$5.322$ & $9.263$ & $5.421$ & -$6.318$ & $8.600$ & $4.550$ \\ 
+			2 & BRA & -$8.059$ & $9.560$ & $4.208$ & -$17.469$ & $15.235$ & $5.500$ & -$15.064$ & $17.067$ & $4.286$ \\ 
+			3 & CHN & -$9.511$ & $10.333$ & $5.917$ & -$10.074$ & $10.583$ & $3.727$ & -$19.374$ & $27.400$ & $2.000$ \\ 
+			4 & DEU & -$11.051$ & $10.625$ & $5.783$ & -$12.587$ & $16.812$ & $9.933$ & -$10.706$ & $17.125$ & $12.333$ \\ 
+			5 & FRA & -$10.263$ & $14.111$ & $5.941$ & -$15.260$ & $18.267$ & $10.214$ & -$11.590$ & $19.071$ & $15.077$ \\ 
+			6 & IND & -$8.170$ & $6.500$ & $2.885$ & -$12.545$ & $12.467$ & $5.733$ & -$10.862$ & $8.318$ & $4.500$ \\ 
+			7 & ITA & -$14.625$ & $19.500$ & $2.143$ & -$18.174$ & $22.571$ & $2.333$ & -$8.919$ & $15.400$ & $1.667$ \\ 
+			8 & JPN & -$30.655$ & $72.750$ & $41.750$ & -$78.514$ & $294.000$ & $175.000$ & -$40.792$ & $148.00$ & $2.000$ \\ 
+			9 & UK & -$6.060$ & $11.609$ & $4.652$ & -$7.872$ & $14.158$ & $8.158$ & -$6.018$ & $10.560$ & $7.240$ \\ 
+			10 & World & -6.982   &   9.909  &      7.333& -9.776   &    12.500    &    7.059 &-8.209&10.091 &       6.429\\
+			\hline 
+		\end{tabular} 
+	\end{adjustbox}
+\end{frame}
+
+\begin{frame}{Global Equity Again Again}
+	\begin{center}
+		Trading Costs
+	\end{center}
+	\begin{adjustbox}{width=\textwidth}
+		\begin{tabular}{@{\extracolsep{5pt}} Hcccccccc} 
+			\\[-1.8ex]\hline 
+			\hline \\[-1.8ex] 
+			& & \multicolumn{3}{c}{AV} & \multicolumn{3}{c}{SV}\\ 
+			\cline{3-5} \cline{6-8}
+			& Country & RET & $|\Delta\omega|$ & Break Even 
+			& RET & $|\Delta\omega|$ & Break Even & RET$_{BH}$ \\ 
+			\hline \\[-1.8ex] 
+			1 & AUS & 12.477 & 0.486 & 80.139 & 11.993 & 0.466 & 74.914 & 7.805 \\ 
+			2 & BRA & 11.000 & 0.253 & 159.118 & 9.037 & 0.623 & 38.462 & 6.163 \\ 
+			3 & CHN & 27.381 & 0.305 & 412.715 & 24.926 & 0.538 & 195.972 & 12.286 \\ 
+			4 & DEU & 11.064 & 0.499 & 94.545 & 7.633 & 0.581 & 32.052 & 5.399 \\ 
+			5 & FRA & 7.243 & 0.468 & 41.656 & 6.128 & 0.536 & 19.041 & 4.904 \\ 
+			6 & IND & 14.893 & 0.710 & 40.316 & 12.256 & 0.507 & 13.097 & 11.460 \\ 
+			7 & ITA & 3.838 & 0.448 & 44.366 & 3.912 & 0.603 & 33.991 & 1.451 \\ 
+			8 & JPN & 1.375 & 0.442 & 40.518 & 0.129 & 0.551 & 13.675 & -0.775 \\ 
+			9 & UK & 6.591 & 0.473 & 26.113 & 5.984 & 0.509 & 14.287 & 5.111 \\ 
+			10 & World & 8.604 &  0.439  &   78.113&  8.306   &   0.642  &   49.586 & 4.484\\
+			\hline
+		\end{tabular} 
+	\end{adjustbox}
+\end{frame}
+
+\subsection{Asset Results}
+\begin{frame}{Asset Classes}
+	\begin{itemize}
+		\item If AV management times to changes systematic vs non-systematic risk, equity AV should provide a management signal for more than equities
+		\item Moriera and Muir (2017) show that equity SV does not work as a signal for currency investment
+		\item World AV and SV used with c calculated to match buy and hold for each index
+	\end{itemize}
+	\begin{adjustbox}{width=\textwidth}
+\begin{tabular}{@{\extracolsep{5pt}} Hccccccc} 
+	\\[-1.8ex]\hline 
+	\hline \\[-1.8ex] 
+	& & \multicolumn{2}{c}{AV} &\multicolumn{2}{c}{SV}& \multicolumn{2}{c}{BH}\\
+	\cline{3-4} \cline{5-6} \cline{7-8}\\
+	& Index & RET & Sharpe & RET & Sharpe & RET & Sharpe \\ 
+	\hline \\[-1.8ex] 
+	1 & Bloomberg Dollar & $1.324$ & $0.170$ & $0.606$ & $0.078$ & -$0.296$ & -$0.038$ \\ 
+	
+	3 & DB Currency & $1.195$ & $0.272$ & -$0.668$ & -$0.152$ & -$0.244$ & -$0.056$ \\ 
+	4 & DB Carry & $1.440$ & $0.134$ & -$0.361$ & -$0.033$ & -$2.071$ & -$0.192$ \\ 
+	%5 & dbmom & $1.540$ & $0.170$ & -$0.854$ & -$0.094$ & -$0.226$ & -$0.025$ \\ 
+	6 & DB Mom & $1.942$ & $0.214$ & $0.413$ & $0.045$ & $1.095$ & $0.120$ \\ 
+	%7 & dbval & $0.148$ & $0.020$ & $0.847$ & $0.112$ & $1.466$ & $0.194$ \\ 
+	2 & S\&P REIT & $26.706$ & $0.995$ & $14.980$ & $0.558$ & $5.302$ & $0.198$ \\ 
+	8 & Bloomberg Commodity & -$5.579$ & -$0.303$ & -$6.431$ & -$0.349$ & -$5.279$ & -$0.286$ \\ 
+	%9 & gscom & -$5.799$ & -$0.250$ & -$4.371$ & -$0.188$ & -$2.741$ & -$0.118$ \\ 
+	\hline \\[-1.8ex] 
+\end{tabular} 
+	\end{adjustbox}
+\end{frame}
+
+\begin{frame}{Asset Classes Again}
+	\begin{center}
+		Drawdown Statistics
+	\end{center}
+	\begin{adjustbox}{width=\textwidth}
+\begin{tabular}{@{\extracolsep{5pt}} Hcccccccccc} 
+	\\[-1.8ex]\hline 
+	\hline \\[-1.8ex] 
+	%& & \multicolumn{3}{c}{AV} & \multicolumn{3}{c}{SV}\\ 
+	%\cline{3-5} \cline{6-8}\\
+	%& Index & RET & $\abs{\Delta\omega}$ & Break Even 
+	%& RET & $\abs{\Delta\omega}$ & Break Even & RET$_{BH}$ \\ 
+	%\hline \\[-1.8ex] 
+	& & \multicolumn{3}{c}{AV} &\multicolumn{3}{c}{SV}& \multicolumn{3}{c}{BH}\\
+	\cline{3-5} \cline{6-8} \cline{9-11}\\
+	& Index & Avg DD & Avg Length & Avg Recovery & Avg DD & Avg Length & Avg Recovery & Avg DD & Avg Length & Avg Recovery \\ 
+	\hline\\
+	1 & Bloomberg Dollar & -$8.393$ & $29.000$ & $12.750$ & -$10.632$ & $39.333$ & $21.333$ & -$13.565$ & $60.000$ & $27.000$ \\ 
+	4 & DB Currency & -$2.236$ & $9.750$ & $2.667$ & -$10.471$ & $59.500$ & $20.500$ & -$8.839$ & $59.500$ & $41.500$ \\ 
+	3 & DB Carry & -$7.336$ & $14.250$ & $7.375$ & -$33.972$ & $121.000$ & $98.000$ & -$30.332$ & $60.000$ & $21.000$ \\ 
+	%5 & dbmom & -$5.058$ & $14.875$ & $5.375$ & -$18.685$ & $59.000$ & $17.000$ & -$14.339$ & $38.667$ & $18.667$ \\ 
+	6 & DB Mom & -$4.748$ & $11.900$ & $3.300$ & -$14.679$ & $59.000$ & $17.000$ & -$12.278$ & $38.333$ & $18.333$ \\ 
+	%7 & dbval & -$6.831$ & $29.000$ & $9.250$ & -$6.375$ & $29.750$ & $26.750$ & -$8.194$ & $22.800$ & $12.000$ \\ 
+	%8 & gscom & -$12.310$ & $12.444$ & $3.556$ & -$28.723$ & $28.750$ & $14.000$ & -$14.716$ & $16.429$ & $3.143$ \\ 
+	9 & S\&P REIT & -$7.692$ & $4.400$ & $1.800$ & -$15.016$ & $9.455$ & $5.000$ & -$17.004$ & $15.143$ & $9.286$ \\ 
+	2 & Bloomberg Commodity & -$9.784$ & $12.222$ & $2.111$ & -$31.116$ & $39.000$ & $12.333$ & -$26.638$ & $39.333$ & $4.333$\\
+	\hline \\[-1.8ex] 
+\end{tabular} 
+	\end{adjustbox}
+\end{frame}
+
+\begin{frame}{Asset Classes Again Again}
+	\begin{center}
+		Trading Costs
+	\end{center}
+	\begin{adjustbox}{width=\textwidth}
+\begin{tabular}{@{\extracolsep{5pt}} Hcccccccc} 
+	\\[-1.8ex]\hline 
+	\hline \\[-1.8ex] 
+	%& & \multicolumn{3}{c}{AV} &\multicolumn{3}{c}{SV}& \multicolumn{3}{c}{BH}\\
+	%\cline{3-5} \cline{6-8} \cline{9-11}\\
+	%& Index & Avg DD & Avg Length & Avg Recovery & Avg DD & Avg Length & Avg Recovery & Avg DD & Avg Length & Avg Recovery \\ 
+	& & \multicolumn{3}{c}{AV} & \multicolumn{3}{c}{SV}\\ 
+	\cline{3-5} \cline{6-8}\\
+	& Index & RET & $|\Delta\omega|$ & Break Even 
+	& RET & $|\Delta\omega|$ & Break Even & RET$_{BH}$ \\ 
+	\hline \\[-1.8ex] 
+	1 & Bloomberg Dollar & $1.324$ & $0.411$ & $32.846$ & $0.606$ & $0.620$ & $12.126$ & -$0.296$ \\ 
+	3 & DB Currency & $1.195$ & $0.430$ & $27.851$ & -$0.668$ & $0.482$ & -$7.339$ & -$0.244$ \\ 
+	4 & DB Carry & $1.440$ & $0.427$ & $68.600$ & -$0.361$ & $0.510$ & $27.947$ & -$2.071$ \\ 
+	%5 & dbmom & $1.540$ & $0.439$ & $33.547$ & -$0.854$ & $0.589$ & -$8.882$ & -$0.226$ \\ 
+	6 & DB Mom & $1.942$ & $0.441$ & $16.010$ & $0.413$ & $0.599$ & -$9.501$ & $1.095$ \\ 
+	%7 & dbval & $0.148$ & $0.451$ & -$24.337$ & $0.847$ & $0.545$ & -$9.471$ & $1.466$ \\ 
+	2 & S\&P REIT & $26.706$ & $0.592$ & $301.254$ & $14.980$ & $0.807$ & $99.908$ & $5.302$ \\ 
+	8 & Bloomberg Commodity & -$5.579$ & $0.460$ & -$5.430$ & -$6.431$ & $0.555$ & -$17.285$ & -$5.279$ \\ 
+	%9 & gscom & -$5.799$ & $0.453$ & -$56.298$ & -$4.371$ & $0.484$ & -$28.059$ & -$2.741$ \\ 
+	\hline \\[-1.8ex] 
+\end{tabular} 
+	\end{adjustbox}
+\end{frame}
+
+\section{Conclusion}
+\begin{frame}{Conclusion}
+	\begin{itemize}
+		\item AV management is better than SV: higher returns, better ratios, lower costs
+		\item AV management is better because it times moving in and out of investments to changes in systematic risk which is compensated and non-systematic risk which is not
+		\item As such, AV management is a useful signal both globally and across assets classes where SV management does not perform
+		\item Thank you
+	\end{itemize}
+\end{frame}
+
+\appendix
+
+\begin{frame}{More Pollet and Wilson (2010)}
+	\hypertarget{PWII}{\beamerbutton{PW Details}}
+	\begin{itemize}
+		\item Start with Campbell and Viceira (2002) : $r_{i,t+1} \approx \gamma\sigma_{i,m,t} - \frac{\sigma_{i,t}^{2}}{2}$, m is true market
+		\item holds for i = s, stock market portfolio
+		\item $r_{s,t+1} \approx \gamma cov_{t}(r_{s,t+1},r_{m,t+1}) - \frac{\sigma_{s,t}^{2}}{2}$ 
+		\item $r_{s,t+1} \approx \gamma cov_{t}(r_{s,t+1},w_{s,t}r_{s,t+1}+(1-w_{s,t})r_{u,t+1}) - \frac{\sigma_{s,t}^{2}}{2}$, u is observable component
+		\item $r_{s,t+1} \approx \gamma cov_{t}(r_{s,t+1},w_{s,t}r_{s,t+1}+(1-w_{s,t})r_{u,t+1}) - \frac{\sigma_{s,t}^{2}}{2}$ 
+		\item $r_{s,t+1} \approx \gamma w_{s,t} var_{t}(r_{s,t+1})+cov(r_{s,t},(1-w_{s,t})r_{u,t+1}) - \frac{\sigma_{s,t}^{2}}{2}$ 
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{More Pollet and Wilson (2010)}
+	\begin{itemize}
+		\item assume shocks to stock returns :  $\bar{\epsilon}_{z,t+1}+\epsilon_{i,t+1}$, z common i idiosyncratic
+		\item $r_{s,t+1} = \beta_{t}r_{m,t} + \bar{\epsilon}_{z,t+1}$ 
+		\item var($\bar{\epsilon}_{z,t+1}+\epsilon_{i,t+1}$) = $\sigma^{2}_{z,t} = \theta_{t}\sigma^{2}_{z,t} + (1-\theta_{t})\sigma^{2}_{i,t}$, $\theta$ common part
+		\item $r_{u,t+1} = \frac{1-w_{s,t}\beta_{t}}{1-w_{s,t}}r_{m,t} - \frac{w_{s,t}\beta_{t}}{1-w_{s,t}}$
+		\item substitute and simplify (many steps)
+		\item $cov(r_{s,t},r_{u,t+1}) = \frac{1-w_{s,t}\beta_{t}}{1-w_{s,t}}\frac{\bar{\sigma}^{2}_{t}}{\beta_{t}}\frac{\bar{\rho}_{t}-\theta_{t}}{1-\theta_{t}}\bar{\rho_{t}} - \frac{w_{s,t}\theta_{t}}{1-w_{s,t}}\frac{\bar{\sigma}^{2}_{t}}{\beta_{t}}\frac{1-\bar{\rho}_{t}}{1-\theta_{t}}\bar{\sigma}^{2}_{t}$
+		\item more simplification
+		\item $cov(r_{s,t},r_{u,t+1}) = \pi_{0} + \zeta_{1}\bar{\rho_{t}} + \zeta_{2}\bar{\sigma}^{2}_{t}$
+		\item $\zeta_{1}$ positive but small for plausible values of $w_{s,t}$ and $\beta_{t}$, $\zeta_{2}$ negative but small for plausible values
+		\item \hyperlink{PWreturn}{\beamerbutton{Return}}
+	\end{itemize}
+\end{frame}
+
+\end{document}
