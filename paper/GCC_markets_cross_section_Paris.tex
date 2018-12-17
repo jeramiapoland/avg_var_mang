@@ -1,0 +1,122 @@
+\documentclass[xcolor=table]{beamer}
+\usetheme{Hannover}
+\usecolortheme{seahorse}
+\setbeamertemplate{caption}{\insertcaption}
+\usepackage{graphics,graphicx,lmodern,amsmath,appendixnumberbeamer,enumerate}
+\useoutertheme{infolines}
+\setbeamertemplate{headline}{} % removes the headline that infolines inserts
+\setbeamertemplate{footline}[frame number]
+\usepackage{multimedia,etoolbox,xmpmulti,adjustbox,subfig,booktabs}
+%\usepackage[table]{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{snakes}
+\usepackage{hyperref}
+\makeatletter
+\patchcmd{\insertverticalnavigation}%
+{\ifx\beamer@nav@css\beamer@hidetext{\usebeamertemplate{section in sidebar}}\else{\usebeamertemplate{section in sidebar shaded}}\fi}%
+{{\usebeamertemplate{section in sidebar}}}{}{}
+\makeatother
+
+
+\usepackage{graphicx}
+\begin{document}
+%	\setlist[itemize]{noitemsep, topsep=0pt}
+\title[GCC Markets]{\textbf{Cross-Section of Returns in Frontier Markets:
+		Evidence from the GCC Markets}}
+\vspace{-24pt}
+\author[J. Poland]{{Bader S. Alhashel}}
+\date{\today}
+\institute[ISB]{Jeramia Poland\\
+	\includegraphics[scale=.5]{/home/jeramia/Pictures/Latex_Central/isb-logo.jpg}\\Indian School of Business}
+
+\begin{frame}
+\titlepage
+\end{frame}
+
+\section{FF3-GCC}
+\begin{frame}{What the paper does}
+   \begin{itemize}[<+->]
+   	\item Arbitrage factors are tested in the GCC markets (combined and individually)
+   	\item CAPM \& FF-3 are tested in the GCC markets
+   	\item The results are in-line with prior research (developed, emerging, and frontier)
+   \end{itemize}
+\end{frame}
+
+\begin{frame}{What the paper depends on}
+ \begin{itemize}[<+->]
+ 	\item Interest in GCC
+ 	\item Factors have not been tested before in GCC
+ 	\item Return anomalies exit in GCC markets (prior lit)
+ 	\item Diversification investment (growing)
+ 	\item Oil markets
+ 	\item "Out-of-sample" factor tests
+ \end{itemize}
+\end{frame}
+
+\begin{frame}{What the paper has going for it\\
+		and what it doesn't}
+\begin{itemize}[<+->]
+	\item The execution is good
+	\item The setting has potential
+	\item The novelty of the emerging or frontier GCC probably not enough
+	\item The results are not too surprising
+\end{itemize}
+\end{frame}
+
+\section{Suggestions}
+
+\begin{frame}{Comment}
+\begin{itemize}[<+->]
+	\item As is the paper really needs to convince the readers that the GCC is both different from prior markets and the same - tension between OOS testing and validation of prior results
+	\item To argue the reader should be interested in GCC results in themselves there has to be some reason to expect unexpected results (different return generating factors)
+	\item (none) Results for GCC and Kuwait (FF-3)
+	\item "Out-of-sample": only yields meaningful results if the validation set has the same data generating process (same factors)
+	\item The asset pricing model tests don't add much without and evaluation on the impact of prior work
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Suggestions}
+	\begin{itemize}[<+->]
+	\item Create some tension around the GCC - unexpected results
+	\item Don't refer to the GCC - go bigger and more fundamental
+	\item Position as test of asset pricing factors in commodity (petrol) heavy economy - MCap\_comm / MCap; return sensitivity
+	\item \begin{itemize}
+		\item Gorton and Rouwenhorst (2006); Buyuksahin, Haigh, and Robe (2008); Bhardwaj, Gorton, and Rouwenhorst (2015) document the lack of relationship between equity and commodity returns
+		\item As cited its seen as a diversification location
+		\item Discount rates could be set by risk factors outside the observed market
+		\item Compare / contrast - US 1970s; Russia; South America w/ GCC and Kuwait
+	\end{itemize} 
+	\item Alternatively, institutional penetration or type
+\end{itemize}
+\end{frame}
+
+%\begin{frame}{Why widen the paper}
+%	\begin{itemize}[<+->]
+%		\item Paper already contains some interesting observations which look unintuitive:
+%		\begin{itemize}[<+->]
+%			\item 2014 collapse in oil prices and the non-response by OPEC
+%			\begin{itemize}[<+->]
+%				\item We have the conclusion that profit is not sensitive to storage costs - What about in the face decreasing prices, as in 2014? Was OPEC acting optimally?
+%				\item We have for fixed storage quantity the available quanity becomes less important as potential income decreases, What happens when extraction/production is fixed? Was there no real OPEC response one production because they had room to act optimally through storage?
+%				\item General statement on fixed cost investment (storage) exposes members of an uncompetitive market to entry
+%			\end{itemize}
+%			\item In several places reserves levels become unimportant to the current management decision, typically as a result or affect
+%			\begin{itemize}[<+->]
+%				\item Making the reserve nullification a cause, could this have something to say about the emergence of alternative energy sources? 
+%				\item General statement on the management of obsolete or expiring goods in less competitive markets, or in the face of uncertain pricing, demand or production?
+%			\end{itemize} 
+%		\end{itemize}
+%	\end{itemize}
+%\end{frame}
+
+\begin{frame}{Summary}
+\begin{itemize}[<+->]
+	\item The papers content is well done
+	\item A clearer stand needs to be taken on why GCC
+	\item The motivation needs to claim bigger
+	\item The data may provide the distinctions needed
+\end{itemize}
+\end{frame}
+
+
+\end{document} 

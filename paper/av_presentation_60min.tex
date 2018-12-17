@@ -1,4 +1,4 @@
-\documentclass[handout]{beamer}
+\documentclass{beamer}
 \usetheme{Hannover}
 \usecolortheme{seahorse}
 \usepackage{graphics,graphicx,lmodern,amsmath,appendixnumberbeamer,enumerate}
@@ -55,12 +55,14 @@
 \section{Risk and Reward}
 \begin{frame}{Background}
 	\begin{itemize}[<+->]
-		\item Risk (Portfolio Variance) = Reward : Markowitz (1952)
-		\item Variance != Reward : Haugen and Heins (1972), Campbell (1987), French et al. (1987), Golsten et al. (1993)
-		\item Moreira and Muir (2017) - scaling month t+1 investment in the market index by month t daily return variance
-		\item Stock market return variance : SV$_{t}$ = $\sum_{m=1}^{N}\sum_{n=1}^{N}w_{m,t}w_{n,t}cov(r_{m,t},r_{n,t})$
+		%		\item Risk (Portfolio Variance) = Reward : Markowitz (1952)
+		%		\item Variance != Reward : Haugen and Heins (1972), Campbell (1987), French et al. (1987), Golsten et al. (1993)
+		\item How should risk (portfolio volatility) be managed?
+		\item Hocquard et al (2013) - scaling investment to manage tail risk
+		\item Moreira and Muir (2017) - scaling month t+1 investment by month t daily return variance for alpha (Sharpe)
 		\item Pollet and Wilson (2010) - decomposition of market variance into a compensated and uncompensated component
 		\begin{itemize}[<+->]
+			\item Stock market return variance : SV$_{t}$ = $\sum_{m=1}^{N}\sum_{n=1}^{N}w_{m,t}w_{n,t}cov(r_{m,t},r_{n,t})$
 			\item average variance (AV) : $\bar{\sigma}^{2}_{t} = \sum_{m=1}^{N}w_{m,t}\sigma^{2}_{t}$
 			\item average correlation (AC) : $\bar{\rho}_{t} = \sum_{m=1}^{N}\sum_{n=1}^{N}w_{m,t}w_{n,t}\rho_{m,n,t}$
 			%\item SV$_{t} \approx  \bar{\sigma}^{2}_{t}\sum_{m=1}^{N}\sum_{n=1}^{N}w_{m,t}w_{n,t}\rho_{m,n,t} = \bar{\sigma}^{2}_{t}\bar{\rho}_{t}$ = AV*AC
@@ -68,14 +70,14 @@
 			\item $\bm{r_{t+1} = \alpha_{1} + \beta_{1}AC_{t} + \epsilon_{1,t},~\beta_{1}}$ \textbf{positive and significant}
 			\item $r_{t+1} = \alpha_{2} + \beta_{2}AV_{t} + \epsilon_{2,t}$, $\beta_{2}$ insignificant 
 		\end{itemize}
-%		\item Risk Management/Risk Parity funds $\approx$ \$400 billion, 2016
-%		\item Variance Management - Barraso and Santa-Clara (2015) 
-%		\item Moreira and Muir (2017) - investing more in the market portfolio when last month's market variance was lower and less when it was higher = better performance
-%		\begin{itemize}[<+->]
-%			\item Variance is positively correlated with future standard deviation (risk) but not return
-%			\item Scaling by variance manages risk without losing return - time series
-%		\end{itemize}
-%		\item Empirical exercises - manage momentum crashes; increase return for fixed level risk over time span
+		%		\item Risk Management/Risk Parity funds $\approx$ \$400 billion, 2016
+		%		\item Variance Management - Barraso and Santa-Clara (2015) 
+		%		\item Moreira and Muir (2017) - investing more in the market portfolio when last month's market variance was lower and less when it was higher = better performance
+		%		\begin{itemize}[<+->]
+		%			\item Variance is positively correlated with future standard deviation (risk) but not return
+		%			\item Scaling by variance manages risk without losing return - time series
+		%		\end{itemize}
+		%		\item Empirical exercises - manage momentum crashes; increase return for fixed level risk over time span
 	\end{itemize}
 \end{frame}
 
@@ -95,19 +97,21 @@
 
 \begin{frame}{Central Idea I}
 	\begin{itemize}[<+->]
-		\item If SV$_{t} \approx$ AV*AC, there maybe something to looking at AV and/or AC separately
-		\item Moreira and Muir (2017) : weight = $\frac{c_{SV}}{SV_{t}}$, c is scaling factor to match buy and hold volatility
+		%\item If SV$_{t} \approx$ AV*AC, there maybe something to looking at AV and/or AC separately
+		%\item Zeroing in on AV manages the dynamic mix, limiting uncompensated risk without losing next months return (through AC)
+		%\item Moreira and Muir (2017) : weight = $\frac{c_{SV}}{SV_{t}}$, c is scaling factor to match buy and hold volatility
+		\item Use AV to avoid divesting high AC or investing high AV
 		\item Me : weight = $\frac{c_{AV}}{AV_{t}}$, $c_{AV}$ to match buy and hold volatility
-		\item $SV_{t+1} = \alpha_{3} + \beta_{3}AV_{t} + \epsilon_{3,t}$, $\beta_{3}$ positive and significant
-		\item AV$_{t}$ management decreases investment when AV$_{t}$ is high 
-		\item AV$_{t}$ management avoids decreasing investment when SV$_{t}$ is high because AC is high
+		%\item $SV_{t+1} = \alpha_{3} + \beta_{3}AV_{t} + \epsilon_{3,t}$, $\beta_{3}$ positive and significant
+		%\item AV$_{t}$ management decreases investment when AV$_{t}$ is high 
+		%\item AV$_{t}$ management avoids decreasing investment when SV$_{t}$ is high because AC is high
 		\item Should find AV management outperforms SV management
 	\end{itemize}
 \end{frame}
 
 \begin{frame}{More Pollet and Wilson (2010)}
 	\begin{itemize}[<+->]
-		\item Roll (1972) : relevant for time-series, variance-in-mean relation of stock market return 
+		%\item Roll (1972) : relevant for time-series, variance-in-mean relation of stock market return 
 		%- variance stock returns maybe weak proxy for variance in aggregate wealth portfolio
 		\item Variance of observed returns $\neq$ variance of "market" returns $\neq$ variance of aggregate wealth
 		\item Shocks to true market returns are positively related to the common observed component, AC
@@ -153,7 +157,7 @@
 \begin{frame}{Contribution}
 		\onslide<+->{\begin{block}{Variance Management}
 				\begin{itemize}[<+->]
-					\item Moreira and Muir (2017) and Hocquard, Ng, and Papageorgiou (2013)
+				%	\item Moreira and Muir (2017) and Hocquard, Ng, and Papageorgiou (2013)
 					\item AV is a better dynamic volatility management signal
 					\item AV management works globally and across asset classes (SV does not)
 				\end{itemize}
@@ -461,12 +465,6 @@
 	\end{itemize}
 \end{frame}
 
-\begin{frame}{Returns}
-	\begin{adjustbox}{width=\textwidth,height=.8\textheight}
-		\input{figures/m_ret_plot2}
-	\end{adjustbox}
-\end{frame}
-
 %\begin{frame}{Returns}
 %	\begin{adjustbox}{width=\textwidth,height=.8\textheight}
 %		\input{figures/m_ret_plot2}
@@ -540,6 +538,23 @@
 	\end{adjustbox}
 \end{frame}
 
+\begin{frame}{Drawdown Insurance: Unconstrained }
+	\begin{block}{Knockout}
+		\begin{itemize}
+			\item Drawndown large enough to shutter fund (investor pull-out), cost manager job
+			\item Assuming 45\% loss in a 12-month period as knockout
+			\item SV 1.06\% and AV  .55\% using Pav (2016)
+			\item AV $\approx$ half the cost to insure, Carr, Zhang, and Hadjiliadis (2011)
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+\begin{frame}{Leverage and Returns}
+	\begin{adjustbox}{width=\textwidth,height=.8\textheight}
+		\input{figures/m_ret_plot2}
+	\end{adjustbox}
+\end{frame}
+
 \begin{frame}{Leverage}
 	\begin{adjustbox}{width=\textwidth}
 		\begin{tabular}{@{\extracolsep{5pt}} cccccc} 
@@ -564,17 +579,6 @@
 	\end{adjustbox}
 \end{frame}
 
-\begin{frame}{Drawdown Insurance: Unconstrained }
-	\begin{block}{Knockout}
-		\begin{itemize}
-			\item Drawndown large enough to shutter fund (investor pull-out), cost manager job
-			\item Assuming 45\% loss in a 12-month period as knockout
-			\item SV 1.06\% and AV  .55\% using Pav (2016)
-			\item AV $\approx$ half the cost to insure, Carr, Zhang, and Hadjiliadis (2011)
-		\end{itemize}
-	\end{block}
-\end{frame}
-
 
 
 
@@ -597,11 +601,24 @@
 \subsection{Systematic Risk}
 
 \begin{frame}{Suggestively Systematic}
+%	\begin{itemize}[<+->]
+%		\item Check for performance across markets globally
+%		\item Test the dependence of AC and AV on the relationship of index daily returns and aggregate wealth in US equity time series
+%		\item Test the dependence of AV managed return performance on the relationship of daily returns and aggregate wealth - US time series and global cross section
+%		\item Test the ability of AV calculated from equity returns to manage investment in other asset classes
+%	\end{itemize}
 	\begin{itemize}[<+->]
-		\item Check for performance across markets globally
-		\item Test the dependence of AC and AV on the relationship of index daily returns and aggregate wealth in US equity time series
-		\item Test the dependence of AV managed return performance on the relationship of daily returns and aggregate wealth - US time series and global cross section
-		\item Test the ability of AV calculated from equity returns to manage investment in other asset classes
+		\item 1926-1962 CRSP dialy returns - low $w_{s,t}$ and $\beta_{t}$
+		\begin{itemize}[<+->]
+			\item shallower with only NYSE firms, est below 87\% market cap
+			\item persistently illiquid
+			\item investment not meaningful part of aggregate wealth
+			\item NYSE (2016) and Taylor (2014)
+			\item AC should not predict returns 1926 - 1962
+		\end{itemize}
+		\item AV managed returns should depend systematically on the representativeness of daily 
+		\item AV management should work globally
+		\item AV management using the AV of equity returns should generate better performance across asset classes
 	\end{itemize}
 \end{frame}
 
@@ -630,14 +647,14 @@
 	\end{adjustbox}
 \end{frame}
 
-\begin{frame}{AC/AV and Systematic Risk}
-	\begin{itemize}[<+->]
-		\item Pollet and Wilson (2010) - AC is positively related to the correlation of market returns and aggregate wealth, including the unobserved component of the "true market"
-		\item AC signal changes in systematic risk when the daily returns used are a good proxy for the "true market" and the market is a significant part of aggregate wealth.
-		\item This is similar to the difference in results between Goyal and Santa Clara (2003) and Bali et all (2005) when the latter removes a significant number of daily returns and the forecasting ability of idiosyncratic volatility disappears
-		\item Thus we can run a placebo-like test on a sub-sample where the daily returns are not representative
-	\end{itemize}
-\end{frame}
+%\begin{frame}{AC/AV and Systematic Risk}
+%	\begin{itemize}[<+->]
+%		\item Pollet and Wilson (2010) - AC is positively related to the correlation of market returns and aggregate wealth, including the unobserved component of the "true market"
+%		\item AC signal changes in systematic risk when the daily returns used are a good proxy for the "true market" and the market is a significant part of aggregate wealth.
+%		\item This is similar to the difference in results between Goyal and Santa Clara (2003) and Bali et all (2005) when the latter removes a significant number of daily returns and the forecasting ability of idiosyncratic volatility disappears
+%		\item Thus we can run a placebo-like test on a sub-sample where the daily returns are not representative
+%	\end{itemize}
+%\end{frame}
 
 %\begin{frame}{Subsample Tests}
 %	\begin{itemize}[<+->]
@@ -655,8 +672,9 @@
 		\item In-sample regression coefficients can be corrected for possible "volatility feedback" -  Campbell and
 		Hentschel (1992)
 		\item Amihud and Hurvich (2004) - bias correction
-		\item Omit variance (SV$_{t+1}$) prediction by AV as it works in both sub-samples
-		\item Goyal and Welch (2008) forecasting relationships maybe unstable and quite sensitive to sample period choice; they may not respond dynamically with the limited information available to investors in real-time and may not explain or support a trading strategy
+		%\item Omit variance (SV$_{t+1}$) prediction by AV as it works in both sub-samples
+		%\item Goyal and Welch (2008) forecasting relationships maybe unstable and quite sensitive to sample period choice; they may not respond dynamically with the limited information available to investors in real-time and may not explain or support a trading strategy
+		\item forecasts unstable, sensitive to period; may not be dynamic or informative of anything - Welch and Goyal (2008)
 	\end{itemize}
 \end{frame}
 
@@ -764,14 +782,15 @@
 					\begin{itemize}[<+->]
 						\item AC fails when it "should"
 						\item AV forecasts better than SV with robust in and out-of-sample performance
-						\item These results compare the use AV to SV in forecasting - not case either is good (RET) but AV is better
+						%\item These results compare the use AV to SV in forecasting - not case either is good (RET) but AV is better
+						\item AV is a more informative signal
 					\end{itemize}
 				\end{frame}
 
 
 
 \begin{frame}{Systematic Performance}
-	\begin{itemize}
+	\begin{itemize}[<+->]
 		\item Use a proxy for the weight of stock returns in the return on aggregate wealth, $w_{s,t}$
 		\item Form long/short portfolios for above and below median countries
 	\end{itemize}
@@ -800,7 +819,7 @@
 \end{frame}
 
 \begin{frame}{Economy-Wide Performance}
-	\begin{itemize}
+	\begin{itemize}[<+->]
 		\item Equity SV does not manage Currency investments - Moreira and Muir (2017)
 		\item Equity AV should still signal unsystematic risk and manage other assets
 	\end{itemize}

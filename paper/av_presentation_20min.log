@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2018.10.12)  27 NOV 2018 14:34
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2018.10.12)  17 DEC 2018 10:58
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1223,20 +1223,20 @@ LaTeX Font Info:    Font shape `OT1/lmss/bx/it' in size <5> not available
 
 ] [13
 
-] [14
+]
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <9> on input line 159.
+LaTeX Font Info:    Font shape `OT1/lmss/m/it' in size <9> not available
+(Font)              Font shape `OT1/lmss/m/sl' tried instead on input line 159.
+
+LaTeX Font Info:    Font shape `OT1/lmss/bx/it' in size <9> not available
+(Font)              Font shape `OT1/lmss/bx/sl' tried instead on input line 159
+.
+ [14
 
 ] [15
 
-]
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <9> on input line 158.
-LaTeX Font Info:    Font shape `OT1/lmss/m/it' in size <9> not available
-(Font)              Font shape `OT1/lmss/m/sl' tried instead on input line 158.
-
-LaTeX Font Info:    Font shape `OT1/lmss/bx/it' in size <9> not available
-(Font)              Font shape `OT1/lmss/bx/sl' tried instead on input line 158
-.
- [16
+] [16
 
 ] [17
 
@@ -1255,16 +1255,16 @@ LaTeX Font Info:    Font shape `OT1/lmss/bx/it' in size <9> not available
 ] [24
 
 ]
+(./figures/m_ret_plot2_3.tex)
+Overfull \hbox (21.98232pt too wide) in paragraph at lines 356--356
+ [] 
+ []
+
 [25
 
 ] [26
 
-] (./figures/m_ret_plot2_3.tex)
-Overfull \hbox (21.98232pt too wide) in paragraph at lines 355--355
- [] 
- []
-
-[27
+] [27
 
 ] [28
 
@@ -1276,38 +1276,38 @@ Overfull \hbox (21.98232pt too wide) in paragraph at lines 355--355
 
 ] [32
 
-] [33
-
-] [34
-
 ]
 (./tables/performance/tab_perf_NO_full.tex)
-(./tables/tab_perf_035_constraint.tex) [35
+(./tables/tab_perf_035_constraint.tex) [33
 
 ] (./figures/cer_const_plot.tex)
-Overfull \hbox (21.98232pt too wide) in paragraph at lines 434--434
+Overfull \hbox (21.98232pt too wide) in paragraph at lines 435--435
  [] 
+ []
+
+[34
+
+] (./figures/cer_gamma_plot.tex)
+Overfull \hbox (21.98232pt too wide) in paragraph at lines 435--435
+ [] 
+ []
+
+[35
+
+] (./figures/cer_gamma_plot.tex)
+Overfull \hbox (21.98232pt too wide) in paragraph at lines 435--435
+ [] 
+ []
+
+
+Overfull \vbox (3.3406pt too high) detected at line 435
  []
 
 [36
 
-] (./figures/cer_gamma_plot.tex)
-Overfull \hbox (21.98232pt too wide) in paragraph at lines 434--434
- [] 
- []
+] [37
 
-[37
-
-] (./figures/cer_gamma_plot.tex)
-Overfull \hbox (21.98232pt too wide) in paragraph at lines 434--434
- [] 
- []
-
-
-Overfull \vbox (3.3406pt too high) detected at line 434
- []
-
-[38
+] [38
 
 ] [39
 
@@ -1323,98 +1323,98 @@ Overfull \vbox (3.3406pt too high) detected at line 434
 
 ] [45
 
-] [46
+]
+(./tables/insample/tab_in_logxret.tp1_pre1962.tex)
+(./tables/tab_in_logxret.tp1_post1962.tex) [46
 
 ] [47
 
-]
-(./tables/insample/tab_in_logxret.tp1_pre1962.tex)
-(./tables/tab_in_logxret.tp1_post1962.tex) [48
+] [48
 
 ] [49
 
-] [50
+]
+Overfull \vbox (5.58548pt too high) detected at line 594
+ []
 
-] [51
+[50
 
 ]
-Overfull \vbox (5.58548pt too high) detected at line 593
+Overfull \vbox (5.58548pt too high) detected at line 594
+ []
+
+[51
+
+]
+Overfull \vbox (5.58548pt too high) detected at line 594
  []
 
 [52
 
 ]
-Overfull \vbox (5.58548pt too high) detected at line 593
+Overfull \vbox (5.58548pt too high) detected at line 594
  []
 
 [53
 
 ]
-Overfull \vbox (5.58548pt too high) detected at line 593
+Overfull \vbox (5.58548pt too high) detected at line 594
  []
 
 [54
 
 ]
-Overfull \vbox (5.58548pt too high) detected at line 593
+Overfull \vbox (5.58548pt too high) detected at line 594
  []
 
 [55
 
 ]
-Overfull \vbox (5.58548pt too high) detected at line 593
+Overfull \vbox (5.58548pt too high) detected at line 594
  []
 
 [56
 
 ]
-Overfull \vbox (5.58548pt too high) detected at line 593
+Overfull \vbox (5.58548pt too high) detected at line 594
  []
 
 [57
 
 ]
-Overfull \vbox (5.58548pt too high) detected at line 593
- []
-
-[58
-
-]
-Overfull \vbox (5.58548pt too high) detected at line 593
- []
-
-[59
-
-]
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `\translate ' on input line 594.
+(hyperref)                removing `\translate ' on input line 595.
 
 \c@finalframe=\count175
-[60
+[58
 
-] [61
+] [59
 
-] [62
+] [60
 
 ]
 
 Package hyperref Warning: Difference (2) between bookmark levels is greater 
-(hyperref)                than one, level fixed on input line 661.
+(hyperref)                than one, level fixed on input line 662.
 
 (./figures/weight_plot2.tex)
-Overfull \hbox (21.60663pt too wide) in paragraph at lines 666--666
+Overfull \hbox (21.60663pt too wide) in paragraph at lines 667--667
  [] 
  []
 
-[63
+[61
 
 ] (./figures/weight_plot3.tex)
-Overfull \hbox (99.75034pt too wide) in paragraph at lines 671--671
+Overfull \hbox (99.75034pt too wide) in paragraph at lines 672--672
  [] 
  []
 
-[64
+[62
+
+] [63
+
+] [64
 
 ] [65
 
@@ -1428,35 +1428,35 @@ Overfull \hbox (99.75034pt too wide) in paragraph at lines 671--671
 
 ] [70
 
-] [71
-
-] [72
-
 ] (./figures/m_ret_plot2.tex)
-[73
+[71
 
-] (./tables/tab_perf_053_full.tex) [74
+] (./tables/tab_perf_053_full.tex) [72
 
 ] (./figures/dd_plot.tex)
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <14.4> on input line 736.
+(Font)              <14.4> on input line 737.
 LaTeX Font Info:    Font shape `OT1/lmss/m/it' in size <14.4> not available
-(Font)              Font shape `OT1/lmss/m/sl' tried instead on input line 736.
+(Font)              Font shape `OT1/lmss/m/sl' tried instead on input line 737.
 
 LaTeX Font Info:    Font shape `OT1/lmss/bx/it' in size <14.4> not available
-(Font)              Font shape `OT1/lmss/bx/sl' tried instead on input line 736
+(Font)              Font shape `OT1/lmss/bx/sl' tried instead on input line 737
 .
- [75
+ [73
 
 ]
-[76
+[74
 
-] [77
+] [75
 
-] (./figures/cer_const_plot.tex) [78
+] (./figures/cer_const_plot.tex) [76
 
 ] (./figures/cer_gamma_plot.tex)
-[79
+[77
+
+] [78
+
+] [79
 
 ] [80
 
@@ -1482,67 +1482,67 @@ LaTeX Font Info:    Font shape `OT1/lmss/bx/it' in size <14.4> not available
 
 ] [91
 
-] [92
-
-] [93
+]
+(./tables/insample/tab_in_logxret.tp1_post1962.tex) [92
 
 ]
-(./tables/insample/tab_in_logxret.tp1_post1962.tex) [94
+(./tables/insample/tab_in_logxret.tp1_pre1962.tex) [93
 
 ]
-(./tables/insample/tab_in_logxret.tp1_pre1962.tex) [95
+Overfull \vbox (24.76067pt too high) detected at line 1066
+ []
+
+[94
 
 ]
-Overfull \vbox (24.76067pt too high) detected at line 1065
+Overfull \vbox (24.76067pt too high) detected at line 1066
+ []
+
+[95
+
+]
+Overfull \vbox (95.01494pt too high) detected at line 1066
  []
 
 [96
 
 ]
-Overfull \vbox (24.76067pt too high) detected at line 1065
+Overfull \vbox (95.01494pt too high) detected at line 1066
  []
 
 [97
 
 ]
-Overfull \vbox (95.01494pt too high) detected at line 1065
+Overfull \vbox (95.01494pt too high) detected at line 1066
  []
 
 [98
 
 ]
-Overfull \vbox (95.01494pt too high) detected at line 1065
+Overfull \vbox (95.01494pt too high) detected at line 1066
  []
 
 [99
 
 ]
-Overfull \vbox (95.01494pt too high) detected at line 1065
+Overfull \vbox (24.76067pt too high) detected at line 1066
  []
 
 [100
 
-]
-Overfull \vbox (95.01494pt too high) detected at line 1065
- []
+] (./tables/tab_oos_avg_var1m_full.tex) [101
 
-[101
+] [102
 
 ]
-Overfull \vbox (24.76067pt too high) detected at line 1065
+Overfull \vbox (13.93935pt too high) detected at line 1165
  []
 
-[102
-
-] (./tables/tab_oos_avg_var1m_full.tex) [103
+[103
 
 ] [104
 
-]
-Overfull \vbox (13.93935pt too high) detected at line 1164
- []
-
-[105
+] [105
 
 ] [106
 
@@ -1556,10 +1556,6 @@ Overfull \vbox (13.93935pt too high) detected at line 1164
 
 ] [111
 
-] [112
-
-] [113
-
 ]
 \tf@nav=\write6
 \openout6 = `av_presentation_20min.nav'.
@@ -1570,24 +1566,24 @@ Overfull \vbox (13.93935pt too high) detected at line 1164
 \tf@snm=\write8
 \openout8 = `av_presentation_20min.snm'.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1350.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 1350.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1351.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 1351.
 
 (./av_presentation_20min.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1350.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1350.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1351.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1351.
 
 Package rerunfilecheck Info: File `av_presentation_20min.out' has not changed.
-(rerunfilecheck)             Checksum: D49D42C20C5BB901008D346230974AC9;362.
+(rerunfilecheck)             Checksum: 632E1302E275C5BFD7C55FE0AE70B06F;362.
 
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1350.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1351.
  ) 
 Here is how much of TeX's memory you used:
- 21580 strings out of 493029
- 421092 string characters out of 6136233
+ 21576 strings out of 493029
+ 421050 string characters out of 6136233
  991248 words of memory out of 5000000
  24269 multiletter control sequences out of 15000+600000
  122102 words of font info for 105 fonts, out of 8000000 for 9000
@@ -1615,10 +1611,10 @@ type1/public/lm/lmsso8.pfb></usr/share/texmf/fonts/type1/public/lm/lmsso9.pfb><
 /usr/share/texmf/fonts/type1/public/lm/lmsy10.pfb></usr/share/texmf/fonts/type1
 /public/lm/lmsy6.pfb></usr/share/texmf/fonts/type1/public/lm/lmsy8.pfb></usr/sh
 are/texlive/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on av_presentation_20min.pdf (113 pages, 776066 bytes).
+Output written on av_presentation_20min.pdf (111 pages, 770349 bytes).
 PDF statistics:
- 3772 PDF objects out of 4296 (max. 8388607)
- 3589 compressed objects within 36 object streams
- 236 named destinations out of 1000 (max. 500000)
+ 3705 PDF objects out of 4296 (max. 8388607)
+ 3524 compressed objects within 36 object streams
+ 232 named destinations out of 1000 (max. 500000)
  108 words of extra memory for PDF output out of 10000 (max. 10000000)
 
