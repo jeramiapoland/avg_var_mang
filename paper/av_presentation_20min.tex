@@ -57,11 +57,13 @@
 	\begin{itemize}[<+->]
 %		\item Risk (Portfolio Variance) = Reward : Markowitz (1952)
 %		\item Variance != Reward : Haugen and Heins (1972), Campbell (1987), French et al. (1987), Golsten et al. (1993)
+		\item Portfolio management literature - volatility management / volatility managed portfolios
 		\item Hocquard et al (2013) - scaling investment to manage tail risk
 		\item Moreira and Muir (2017) - scaling month t+1 investment by month t daily return variance for alpha (Sharpe)
 		\item Stock market return variance : SV$_{t}$ = $\sum_{m=1}^{N}\sum_{n=1}^{N}w_{m,t}w_{n,t}cov(r_{m,t},r_{n,t})$
 		\item Pollet and Wilson (2010) - decomposition of market variance into a compensated and uncompensated component
 		\begin{itemize}[<+->]
+			\item $cov(r_{m,t},r_{n,t})=\sigma^{2}_{m,t}\sigma^{2}_{n,t}\rho_{m,n,t}$
 			\item average variance (AV) : $\bar{\sigma}^{2}_{t} = \sum_{m=1}^{N}w_{m,t}\sigma^{2}_{t}$
 			\item average correlation (AC) : $\bar{\rho}_{t} = \sum_{m=1}^{N}\sum_{n=1}^{N}w_{m,t}w_{n,t}\rho_{m,n,t}$
 			%\item SV$_{t} \approx  \bar{\sigma}^{2}_{t}\sum_{m=1}^{N}\sum_{n=1}^{N}w_{m,t}w_{n,t}\rho_{m,n,t} = \bar{\sigma}^{2}_{t}\bar{\rho}_{t}$ = AV*AC
@@ -100,11 +102,13 @@
 		%\item Zeroing in on AV manages the dynamic mix, limiting uncompensated risk without losing next months return (through AC)
 		%\item Moreira and Muir (2017) : weight = $\frac{c_{SV}}{SV_{t}}$, c is scaling factor to match buy and hold volatility
 		\item Use AV to avoid divesting high AC or investing high AV
-		\item Me : weight = $\frac{c_{AV}}{AV_{t}}$, $c_{AV}$ to match buy and hold volatility
+		\item $w_{t+1}$ = $\frac{c_{AV}}{AV_{t}}$, $c_{AV}$ to match buy and hold volatility
+		\item $R_{t+1}$ = $w_{t+1}R_{Index,t+1}$
 		%\item $SV_{t+1} = \alpha_{3} + \beta_{3}AV_{t} + \epsilon_{3,t}$, $\beta_{3}$ positive and significant
 		%\item AV$_{t}$ management decreases investment when AV$_{t}$ is high 
 		%\item AV$_{t}$ management avoids decreasing investment when SV$_{t}$ is high because AC is high
-		\item Should find AV management outperforms SV management
+		\item \textbf{Should find AV management outperforms SV management}
+		\item \textbf{AV management should work globally}
 	\end{itemize}
 \end{frame}
 
@@ -152,9 +156,9 @@
 				\item the aggregate wealth $\beta_{t}$ for the index
 				\item if index returns are not a significant part of investor wealth or uncorrelated then signals not useful
 			\end{itemize}
+			\item AV managed returns should vary systematically with $w_{s,t}$ and $\beta_{t}$
 		\end{itemize}
-		\item AV management should work globally
-		\item Equity AV management has higher investment in times of higher $cov(r_{s,t+1},r_{u,t+1})$, so it should work across asset classes
+		\item \textbf{Equity AV management has higher investment in times of higher $cov(r_{s,t+1},r_{u,t+1})$, so it should work across asset classes}
 	\end{itemize}
 \end{frame}
 
@@ -365,7 +369,7 @@
 		%\item Rachev = $\frac {ET{L_{\alpha }}\left({{r_{f}}-x'r}\right)}{ET{L_{\beta }}\left({x'r-{r_{f}}}\right)}$ where $ET{L_{\alpha }}={\frac {1}{\alpha }}\int _{0}^{\alpha }{Va{R_{q}}\left(X\right)dq}$, dollar of possible extreme gain for dollar of possible extreme loss
 		\item Drawdown - peak to valley loss in portfolio value
 		\item Break Even - trading costs, basis points, which erase gains
-		\item Certainty Equivalent Return gain (CER) = Average utility from AV - Average utility from SV for mean-variance investor with risk aversion $\gamma$
+		\item Certainty Equivalent Return gain (CER) = Utility from AV - Utility from SV for mean-variance investor with risk aversion $\gamma$
 	\end{itemize}
 \end{frame}
 
@@ -419,46 +423,23 @@
 %\end{frame}
 
 \begin{frame}{Investor Utility}
-	\only<1>{
-	\begin{figure}
-		\resizebox{11cm}{6cm}{\input{figures/cer_const_plot}}
+%	\only<1>{
+\begin{itemize}[<+->]
+	\item $\Delta \text{ CER} = \left(\hat \mu_{r_{AV}} - \frac{1}{2}\gamma\hat \sigma^{2}_{r_{AV}}\right) - \left(\hat \mu_{r_{SV}} - \frac{1}{2}\gamma\hat \sigma^{2}_{r_{SV}}\right)$
+	\item[] 	\begin{figure}
+		\resizebox{10cm}{5cm}{\input{figures/cer_const_plot}}
 	\end{figure}
-	}
-	\only<2-3>{
-		\begin{figure}
-			\resizebox{11cm}{6cm}{\input{figures/cer_gamma_plot}}
-		\end{figure}
-	}
-	\only<3>{\begin{itemize}
-			\item Stochastic dominance tests show that non-EUT investors prefer AV management.
-		\end{itemize}}
-\end{frame}
+\end{itemize}
 
-\subsection{Systematic Risk}
-
-\begin{frame}{Suggestively Systematic}
-	\begin{itemize}[<+->]
-		\item 1926-1962 CRSP dialy returns - low $w_{s,t}$ and $\beta_{t}$
-		\begin{itemize}[<+->]
-			\item shallower with only NYSE firms, est below 87\% market cap
-			\item persistently illiquid
-			\item investment not meaningful part of aggregate wealth
-			\item NYSE (2016) and Taylor (2014)
-			\item AC should not predict returns 1926 - 1962
-		\end{itemize}
-		\item AV managed returns should depend systematically on the representativeness of daily 
-		\item AV management should work globally
-		\item AV management using the AV of equity returns should generate better performance across asset classes
-	\end{itemize}
-\end{frame}
-
-\begin{frame}{Regression Sub-samples}
-	\begin{adjustbox}{width=\textwidth}
-		\input{tables/insample/tab_in_logxret.tp1_pre1962}
-	\end{adjustbox}
-	\begin{adjustbox}{width=\textwidth}
-		\input{tables/tab_in_logxret.tp1_post1962}
-	\end{adjustbox}
+	%}
+%	\only<2-3>{
+%		\begin{figure}
+%			\resizebox{11cm}{6cm}{\input{figures/cer_gamma_plot}}
+%		\end{figure}
+%	}
+%	\only<3>{\begin{itemize}
+%			\item Stochastic dominance tests show that non-EUT investors prefer AV management.
+%		\end{itemize}}
 \end{frame}
 
 \begin{frame}{Global Performance}
@@ -484,59 +465,102 @@
 			\hline \\[-1.8ex] 
 		\end{tabular} 
 	\end{adjustbox}
-\end{frame}
+	\end{frame}
+
+\subsection{Systematic Risk}
+
+%\begin{frame}{Suggestively Systematic}
+%	\begin{itemize}[<+->]
+%		\item 1926-1962 CRSP dialy returns - low $w_{s,t}$ and $\beta_{t}$
+%		\begin{itemize}[<+->]
+%			\item shallower with only NYSE firms, est below 87\% market cap
+%			\item persistently illiquid
+%			\item investment not meaningful part of aggregate wealth
+%			\item NYSE (2016) and Taylor (2014)
+%			\item AC should not predict returns 1926 - 1962
+%		\end{itemize}
+%		\item AV managed returns should depend systematically on the representativeness of daily 
+%		\item AV management should work globally
+%		\item AV management using the AV of equity returns should generate better performance across asset classes
+%	\end{itemize}
+%\end{frame}
+%
+%\begin{frame}{Regression Sub-samples}
+%	\begin{adjustbox}{width=\textwidth}
+%		\input{tables/insample/tab_in_logxret.tp1_pre1962}
+%	\end{adjustbox}
+%	\begin{adjustbox}{width=\textwidth}
+%		\input{tables/tab_in_logxret.tp1_post1962}
+%	\end{adjustbox}
+%\end{frame}
+
+
 
 \begin{frame}{Systematic Performance}
-	\begin{center}
-	Global Long - Short\\
-	Ratio of Market Index RET to Wealth$\dagger$ RET ($w_{s,t}$)
-	\end{center}
-	\vspace{-6pt}
-	\begin{adjustbox}{width=\textwidth}
-		\begin{tabular}{lccccc}
-			\hline\\[-1.8ex]
-			\multicolumn{6}{c}{AV Managed Returns}\\
-			\hline\\[-1.8ex]
-			& RET & Sharpe & $\alpha_{FF3}$ & $\alpha_{FF5}$ & $\alpha_{FF5+Mom}$ \\
-			\cline{2-6}
-			Long & 12.601 & 0.747 & 9.484$^{**}$ & 7.909$^{*}$ & 7.725$^{*}$ \\
-			Short & 7.537 & 0.562 & 5.038$^{*}$ & 5.422$^{*}$ & 5.318$^{*}$ \\
-			Long - Short & 5.065 & 0.405 & 4.446$^{***}$ & 2.488$^{***}$ & 2.407$^{**}$ \\
-			\hline\\[-1.8ex]
-		\end{tabular}
-	\end{adjustbox}
-	$\dagger$ Credit Suisse annual reports on global wealth (2000-2017)
+	\begin{itemize}[<+->]
+		\item AV managed return performance should depend on $w_{s,t}$ and $\beta_{t}$
+		\item Use $\frac{R_{Index,t}}{R_{Wealth,t}}$ to sort countries
+		\item Long high ratio (better AV performance), Short low
+		\item Annually 2005-2015
+		\item 
+%			\begin{center}
+%			Global Long - Short\\
+%			Ratio of Market Index RET to Wealth$\dagger$ RET ($w_{s,t}$)
+%		\end{center}
+		%\vspace{-6pt}
+		\begin{adjustbox}{width=.9\textwidth}
+			\begin{tabular}{lccccc}
+			%	\hline\\[-1.8ex]
+				\multicolumn{6}{c}{AV Managed Returns}\\
+				\hline\\[-1.8ex]
+				& RET & Sharpe & $\alpha_{FF3}$ & $\alpha_{FF5}$ & $\alpha_{FF5+Mom}$ \\
+				\cline{2-6}
+				Long & 12.601 & 0.747 & 9.484$^{**}$ & 7.909$^{*}$ & 7.725$^{*}$ \\
+				Short & 7.537 & 0.562 & 5.038$^{*}$ & 5.422$^{*}$ & 5.318$^{*}$ \\
+				Long - Short & 5.065 & 0.405 & 4.446$^{***}$ & 2.488$^{***}$ & 2.407$^{**}$ \\
+				\hline\\[-1.8ex]
+			\end{tabular}
+		\end{adjustbox}
+		$\dagger$ Credit Suisse annual reports on global wealth (2000-2017)
+		\item Market Cap to GDP also used for robustness
+	\end{itemize}
+
 \end{frame}
 
 \begin{frame}{Economy-Wide Performance}
-	\begin{center}
-		Investment weight in other asset classes managed by equity AV
-	\end{center}
-	\vspace{-6pt}
-	\begin{adjustbox}{width=\textwidth}
-\begin{tabular}{@{\extracolsep{5pt}} Hccccccc}
-	\\[-1.8ex]\hline\\
-	\multicolumn{8}{c}{2005M7:2015M12} \\
-	\hline \\[-1.8ex] 
-	& & \multicolumn{2}{c}{AV} &\multicolumn{2}{c}{SV}& \multicolumn{2}{c}{BH}\\
-	\cline{3-4} \cline{5-6} \cline{7-8}\\
-	& Index & RET & Sharpe & RET & Sharpe & RET & Sharpe \\ 
-	\hline \\[-1.8ex] 
-	1 & Dollar$_{BB}$ & $1.324^{***}$ & $0.170$ & $0.606$ & $0.078$ & $-0.296$ & $-0.038$ \\ 
-	
-	3 & Curr$_{DB}$ & $1.195^{***}$ & $0.272^{*}$ & $-0.668$ & $-0.152$ & $-0.244$ & $-0.056$ \\ 
-	4 & Carry$_{DB}$ & $1.440^{***}$ & $0.134$ & $-0.361$ & $-0.033$ & $-2.071$ & $-0.192$ \\ 
-	%5 & dbmom & $1.540$ & $0.170$ & $-0.854$ & $-0.094$ & $-0.226$ & $-0.025$ \\ 
-	6 & Mom$_{DB}$ & $1.942^{***}$ & $0.214$ & $0.413$ & $0.045$ & $1.095$ & $0.120$ \\ 
-	%7 & dbval & $0.148$ & $0.020$ & $0.847$ & $0.112$ & $1.466$ & $0.194$ \\ 
-	2 & REIT$_{S\&P}$ & $26.706^{***}$ & $0.995$ & $14.980$ & $0.558$ & $5.302$ & $0.198$ \\ 
-	8 & Comm$_{BB}$ & $-5.579^{***}$ & $-0.303$ & $-6.431$ & $-0.349$ & $-5.279$ & $-0.286$ \\ 
-	%9 & gscom & $-5.799$ & $-0.250$ & $-4.371$ & $-0.188$ & $-2.741$ & $-0.118$ \\ 
-	10 & Bond$_{Univ}$ & 3.951*** & 1.168*** & 1.436 & 0.425 & 3.276 & 0.969 \\ 
-	%11 & bbUSagg & 3.381*** & 0.969** & 1.341 & 0.384 & 3.357 & 0.962 \\ 
-	\hline \\[-1.8ex] 
-\end{tabular} 
-	\end{adjustbox}
+	\begin{itemize}
+		\item AV management times return coordination across the economy
+		\item AV calculated from equities, weights are then used on other indices
+		\item[] 	\begin{adjustbox}{width=.9\textwidth}
+			\begin{tabular}{@{\extracolsep{5pt}} Hccccccc}
+			%	\\[-1.8ex]\hline\\
+				\multicolumn{8}{c}{2005M7:2015M12} \\
+				\hline \\[-1.8ex] 
+				& & \multicolumn{2}{c}{AV} &\multicolumn{2}{c}{SV}& \multicolumn{2}{c}{BH}\\
+				\cline{3-4} \cline{5-6} \cline{7-8}\\
+				& Index & RET & Sharpe & RET & Sharpe & RET & Sharpe \\ 
+				\hline \\[-1.8ex] 
+				1 & Dollar$_{BB}$ & $1.324^{***}$ & $0.170$ & $0.606$ & $0.078$ & $-0.296$ & $-0.038$ \\ 
+				
+				3 & Curr$_{DB}$ & $1.195^{***}$ & $0.272^{*}$ & $-0.668$ & $-0.152$ & $-0.244$ & $-0.056$ \\ 
+				4 & Carry$_{DB}$ & $1.440^{***}$ & $0.134$ & $-0.361$ & $-0.033$ & $-2.071$ & $-0.192$ \\ 
+				%5 & dbmom & $1.540$ & $0.170$ & $-0.854$ & $-0.094$ & $-0.226$ & $-0.025$ \\ 
+				6 & Mom$_{DB}$ & $1.942^{***}$ & $0.214$ & $0.413$ & $0.045$ & $1.095$ & $0.120$ \\ 
+				%7 & dbval & $0.148$ & $0.020$ & $0.847$ & $0.112$ & $1.466$ & $0.194$ \\ 
+				2 & REIT$_{S\&P}$ & $26.706^{***}$ & $0.995$ & $14.980$ & $0.558$ & $5.302$ & $0.198$ \\ 
+				8 & Comm$_{BB}$ & $-5.579^{***}$ & $-0.303$ & $-6.431$ & $-0.349$ & $-5.279$ & $-0.286$ \\ 
+				%9 & gscom & $-5.799$ & $-0.250$ & $-4.371$ & $-0.188$ & $-2.741$ & $-0.118$ \\ 
+				10 & Bond$_{Univ}$ & 3.951*** & 1.168*** & 1.436 & 0.425 & 3.276 & 0.969 \\ 
+				%11 & bbUSagg & 3.381*** & 0.969** & 1.341 & 0.384 & 3.357 & 0.962 \\ 
+				\hline \\[-1.8ex] 
+			\end{tabular} 
+		\end{adjustbox}
+	\end{itemize}
+%	\begin{center}
+%		Investment weight in other asset classes managed by equity AV
+%	\end{center}
+%	\vspace{-6pt}
+
 \end{frame}
 
 %\begin{frame}{Contribution}

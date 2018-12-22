@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2018.10.12)  7 DEC 2018 14:47
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2018.10.12)  18 DEC 2018 08:53
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1306,7 +1306,7 @@ Here is how much of TeX's memory you used:
 s10.pfb></usr/share/texmf/fonts/type1/public/lm/lmss12.pfb></usr/share/texmf/fo
 nts/type1/public/lm/lmss8.pfb></usr/share/texmf/fonts/type1/public/lm/lmssbx10.
 pfb>
-Output written on GCC_markets_cross_section_Paris.pdf (32 pages, 197424 bytes).
+Output written on GCC_markets_cross_section_Paris.pdf (32 pages, 197452 bytes).
 
 PDF statistics:
  979 PDF objects out of 1000 (max. 8388607)
