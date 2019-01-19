@@ -5,7 +5,7 @@
 
 \usepackage{setspace,graphicx,epstopdf,amsmath,amsfonts,amssymb,amsthm,versionPO}
 \usepackage{marginnote,datetime,enumitem,rotating,fancyvrb}
-\usepackage{float,lscape,adjustbox,array,subcaption,tabularx,physics}
+\usepackage{float,lscape,adjustbox,array,subcaption,tabularx,physics,microtype}
 \usepackage{hyperref,url,tikz}
 \newcolumntype{H}{>{\setbox0=\hbox\bgroup}c<{\egroup}@{}}
 \usepackage[longnamesfirst]{natbib}
@@ -110,7 +110,7 @@
 \author{Jeramia Poland\thanks{\rm Indian School of Business, email \href{mailto:jeramia_poland@isb.edu}{jeramia\_poland@isb.edu} \newline
 		\protect\input{Acknowledgments} } }
 
-\title{\Large \bf How to Look Clever and Have Envious Neighbors: Average Variance Managed Investment Timing}
+\title{\Large \bf Average Variance Managed Investment Timing}
 
 \date{}              % No date for final submission
 
@@ -131,7 +131,11 @@
 
 \input{introduction.tex}
 
-\section{Data} \label{sec:Data}
+\section{Theoretical Framework} \label{sec:theory}
+
+\input{theory}
+
+\section{Data and Methodology} \label{sec:Data}
 
 \input{data}
 
@@ -139,17 +143,13 @@
 
 \input{asset_allocation}
 
-\subsection{Portfolio Performance} \label{sec:port_performance}
+\subsection{US Performance} \label{sec:port_performance}
 
 \input{port_performance}
 
-\subsection{Leverage} \label{sec:leverage}
+\section{Leverage} \label{sec:leverage}
 
 \input{leverage}
-
-\subsection{Drawdowns}
-
-\input{drawdowns} \label{sec:drawdowns}
 
 \subsection{Investor Utility} \label{sec:invest_util}
 
@@ -158,6 +158,18 @@
 %\section{Regression Analysis} 
 \section{Systematic Risk}\label{sec:regression}
 \input{systemic_risk}
+
+\subsection{Additional Investment} \label{sec:reinvestment}
+%\input{ainvestment}
+%\subsubsection{Global Equity} \label{sec:global_equity}
+%\input{perf_robust}
+%\subsubsection{Other Asset Classes} 
+\input{alt_inv}
+
+
+\subsection{Return Dependence} \label{sec:market_cap}
+\input{market_cap}
+
 \subsection{In-Sample} \label{sec:in_sample}
 
 \input{in_sample}
@@ -183,14 +195,11 @@
 
 
 
-\subsection{Systematic Relationships}
-\input{systematic_ac}
+%\subsection{Systematic Relationships}\label{sec:systematic}
+%\input{systematic_ac}
 \subsection{Regression Sub-sampling}\label{sec:subsampling}
 %\input{notes_on_regression_subsampling}
 \input{sub_insample}
-
-\subsection{Market Capitalization} \label{sec:market_cap}
-\input{market_cap}
 
 \subsection{Out-of-Sample} \label{sec:out_sample}
 
@@ -200,12 +209,6 @@
 
 \input{robustness}
 
-\section{Additional Investment} \label{sec:reinvestment}
-%\input{ainvestment}
-%\subsubsection{Global Equity} \label{sec:global_equity}
-%\input{perf_robust}
-%\subsubsection{Other Asset Classes} 
-\input{alt_inv}
 
 \section{Conclusion}
 

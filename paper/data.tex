@@ -11,15 +11,15 @@ To calculate SV, AV, and AC, for the US equities, I use daily return data from C
 \end{equation}
 where $\widehat{\rho_{m,n,t}}$ is the Pearson correlation between m and n.\footnote{For details, see the appendix.}
 
-Total index, or portfolio, variance is a function of the variances and covariances of the individual assets. The total portfolio variance of holding N assets is given by:
-\begin{equation}
-SV_{t} ~:~ \sigma^{2}_{s,t} =  \sum_{m=1}^{N}\sum_{n=1}^{N}w_{m,t}w_{n,t}cov(r_{m,t},r_{n,t})
-\end{equation}
-where $r_{t}$ is the asset return in month t, and $w_{t}$ is the weight of the asset in the index or portfolio. Using average variance and average correlation defined as:
-\begin{align}
-AV_{t} ~:~ \bar{\sigma}^{2}_{t} &= \sum_{m=1}^{N}w_{m,t}\sigma^{2}_{t}\\
-AC_{t} ~:~ \bar{\rho}_{t} &= \sum_{m=1}^{N}\sum_{n=1}^{N}w_{m,t}w_{n,t}\rho_{m,n,t}
-\end{align}
+%Total index, or portfolio, variance is a function of the variances and covariances of the individual assets. The total portfolio variance of holding N assets is given by:
+%\begin{equation}
+%SV_{t} ~:~ \sigma^{2}_{s,t} =  \sum_{m=1}^{N}\sum_{n=1}^{N}w_{m,t}w_{n,t}cov(r_{m,t},r_{n,t})
+%\end{equation}
+%where $r_{t}$ is the asset return in month t, and $w_{t}$ is the weight of the asset in the index or portfolio. Using average variance and average correlation defined as:
+%\begin{align}
+%AV_{t} ~:~ \bar{\sigma}^{2}_{t} &= \sum_{m=1}^{N}w_{m,t}\sigma^{2}_{t}\\
+%AC_{t} ~:~ \bar{\rho}_{t} &= \sum_{m=1}^{N}\sum_{n=1}^{N}w_{m,t}w_{n,t}\rho_{m,n,t}
+%\end{align}
 \citet{pollet_average_2010} show that SV $\approx$ AV*AC. To calculate average correlations, they follow a method which makes an assumption on the deviation of individual asset variance from the average variance. This approach has the advantage of not implying that all variance terms vanish as taking the number of assets, N, to infinity implies.\footnote{This is detailed as approach (b) on \citet{nematrian}.} However, as \citet{tierens_anadu} note it makes no practical difference which approximation is used.
 
 %These conditions make the calculation of asset variance:
@@ -42,7 +42,7 @@ AC_{t} ~:~ \bar{\rho}_{t} &= \sum_{m=1}^{N}\sum_{n=1}^{N}w_{m,t}w_{n,t}\rho_{m,n
 \bigskip
 \centerline{\bf [Place Figure~\ref{fig:time_series} about here]}
 \bigskip
-To make the analysis more computationally tractable I use only, at most, the top 500 assets in CRSP by market capitalization for a given month.\footnote{The least number of assets which trade every day in a given month is 392 in August of 1932. There are regularly 500 qualifying assets by the end of the 1930s.} To test the performance of AV management across international equity markets, I collect daily returns for the Australian (AUS), Brazilian (BRA), Chinese (CHN), German (DEU), French (FRA), Indian (IND), Italian (ITA), Japanese (JPN), and English (UK) markets from Compustat - Capital IQ. For international markets the number of assets is chosen to mimic the number of assets in the broad market index used to calculate SV.  Table \ref{tab:tab_int_summary} shows the names of the indices used, the data time frames and the number of assets used for the calculation of market capitalization weights, AV and AC. In all cases the data series are much shorter. The primary limitations are the availability of daily returns and dividend data. To test AV and SV management against a globally diversified portfolio, I use the MSCI All Countries World Index (ACWI). To construct AV and SV leverage timing signals for the world index, I use a market capitalization weighted average of the country values. For each month the weight of the country is the index market capitalization in US dollars divided by the total market capitalization of the 10 country market indices, including the US. Globally, ten markets and more than 1700 assets are covered. 
+To make the analysis more computationally tractable I use only, at most, the top 500 assets in CRSP by market capitalization for a given month.\footnote{The least number of assets which trade every day in a given month is 392 in August of 1932. There are regularly 500 qualifying assets by the end of the 1930s.} To test the performance of AV management across international equity markets, I collect daily returns for the Australian (AUS), Brazilian (BRA), Chinese (CHN), German (DEU), French (FRA), Indian (IND), Italian (ITA), Japanese (JPN), and English (UK) markets from Compustat - Capital IQ. For international markets the number of assets is chosen to mimic the number of assets in the broad market index used to calculate SV.  Table \ref{tab_summary_stats} shows the names of the indices used, the data time frames and the number of assets used for the calculation of market capitalization weights, AV and AC. In all cases the data series are much shorter. The primary limitations are the availability of daily returns and dividend data for total returns. To test AV and SV management against a globally diversified portfolio, I use the MSCI All Countries World Index (ACWI). To construct AV and SV leverage timing signals for the world index, I use a market capitalization weighted average of the country values. For each month the weight of the country is the index market capitalization in US dollars divided by the total market capitalization of the 10 country market indices, including the US. Globally, ten markets and more than 1700 assets are covered. 
 %Given these asset restriction, an assets market capitalization weight is defined by:
 %\begin{equation}
 %w_{m,t} = \frac{MCAP_{m,t}}{\sum_{j=1}^{J}MCAP_{n,t}}
@@ -59,7 +59,7 @@ AC for the US market. With the easily noticeable exception of October 1987, spik
 \centerline{\bf [Place Figure~\ref{fig:weights_plot} about here]}
 \bigskip
 
-Table \ref{tab_summary_stats} panels (a) - (c) show the summary statistics for the calculated variables. Despite differences in approach, the quarterly calculated values are almost identical to those in \citet{pollet_average_2010} over the same sample. Over the expanded the period, the annualized monthly AV has a mean value of .88\%. The annualized SV mean is much lower at .25\% monthly. AC is relatively consistent at .23 quarterly in the \cite{pollet_average_2010} sample, .261 monthly over a similar time period and .276 over the full time period. AV is more volatile than SV, more than twice as much. In each sample AV has the highest auto-correlation. While AC is also persistent, the stock market variance is only strongly persistent at the monthly frequency with autocorrelation of .61. All three time series are stationary rejecting the unit root null in the tests of \citet{dickey_distribution_1979}, \citet{Ng2001}, and \citet{ers1996}. 
+Table \ref{tab_summary_stats} panels (a) - (c) show the summary statistics for the calculated variables. Despite differences in approach, the quarterly calculated values are almost identical to those in \citet{pollet_average_2010} over the same sample. Over the expanded the period, the annualized monthly AV has a mean value of 0.88\%. The annualized SV mean is much lower at 0.25\% monthly. AC is relatively consistent at 0.23 quarterly in the \cite{pollet_average_2010} sample, 0.261 monthly over a similar time period and 0.276 over the full time period. AV is more volatile than SV, more than twice as much. In each sample AV has the highest auto-correlation. While AC is also persistent, the stock market variance is only strongly persistent at the monthly frequency with autocorrelation of 0.61. All three time series are stationary rejecting the unit root null in the tests of \citet{dickey_distribution_1979}, \citet{Ng2001}, and \citet{ers1996}. 
 \bigskip
 \centerline{\bf [Place Table~\ref{tab_summary_stats} about here]}
 \bigskip
@@ -69,7 +69,8 @@ Specifically, I take the difference between the natural log of one plus the CRSP
 \begin{equation}
 	r_{t} = \log R_{m,t} - \log R_{f,t} 
 \end{equation}
-where $R_{f,t}$ the risk-free return for which I use the 1-month treasury bill, T-bill, rate from Ken French's website\footnote{http://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data\_library.html\#Research}. As shown in table \ref{tab:tab_correlations} panel (a), over the full data period, each variance and correlation time series are contemporaneously correlated to lower log excess returns. AV is significantly correlated with next month's SV, AV, and AC. Surprisingly, over the full data set, this month's AV is even nominally more correlated with next month's SV than this month's SV is, 0.625 versus .612.% Over the basis period, AV is the time series most negatively correlated with next months log excess return at -.129, while it is entirely unrelated to next month's return over the whole data set.
+where $R_{f,t}$ the risk-free return for which I use the 1-month treasury bill, T-bill, rate from Ken French's website\footnote{http://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data\_library.html\#Research}. As shown in table \ref{tab:tab_correlations} panel (a), over the full data period, each variance and correlation time series are contemporaneously correlated to lower log excess returns. AV is significantly correlated with next month's SV, AV, and AC. Surprisingly, over the full data set, this month's AV is even nominally more correlated with next month's SV than this month's SV is, 0.625 versus 0.612.% Over the basis period, AV is the time series most negatively correlated with next months log excess return at -0.129, while it is entirely unrelated to next month's return over the whole data set.
+
 \bigskip
 \centerline{\bf [Place Table~\ref{tab:tab_correlations} about here]}
 \bigskip

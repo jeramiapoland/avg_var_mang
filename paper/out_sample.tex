@@ -16,7 +16,7 @@ I use the \citet{Diebold1995} statistic and \citet{mccracken_asymptotics_2007} M
 \begin{equation}
 	DM = \frac{\bar{d}}{\sqrt{\frac{2\pi f_{d}(0)}{T}}}
 \end{equation}
-where $\bar{d}$ is the mean difference in the loss differential. The loss differential is the function used to measure the difference between the forecasted and actual values. I use the squared forecast error, $(y_{t} - \hat{y}_{t})^{2}$. So, $\bar{d}$ is the mean value of the difference between the squared error using AV and the squared error using the benchmark forecast from SV.
+where $\bar{d}$ is the mean difference in the loss differential. The loss differential is the function used to measure the difference between the forecast and actual values. I use the squared forecast error, $(y_{t} - \hat{y}_{t})^{2}$. So, $\bar{d}$ is the mean value of the difference between the squared error using AV and the squared error using the benchmark forecast from SV.
 \begin{equation}
 	\bar{d} = \frac{1}{T}\sum^{T}_{\tau=1}((y_{t} - \hat{y}_{AV,t})^{2} - (y_{t} - \hat{y}_{SV,t})^{2})
 \end{equation}
@@ -29,7 +29,7 @@ where $\hat{y}^{x}_{t}$ is the out-of-sample prediction of $y_{t}$ generated fro
 MSE-F = T \frac{MSFE_{x}-MSFE_{b}}{MSFE_{b}}.
 \end{equation}
 The significance of the F-statistic is determined from bootstrapped values provided in \citet{mccracken_asymptotics_2007}.
-Each of these two tests depends on the reduction of average squared error by the predictor x relative to a benchmark model. The final measure is a forecast encompassing statistic. 
+Each of these two tests depends on the reduction of average squared error by the predictor x relative to a benchmark, b, model. The final measure is a forecast encompassing statistic. 
 
 Encompassing tests the more stringent requirement that the benchmark forecasts contain no useful information absent in the forecasts of variable x. Forecast encompassing tests come from the literature on optimal forecast combination. \citep{Chong1986,Fair1990} An optimal forecast as a convex combination of two forecasts for time period t +1 defined as
 \begin{equation} \label{eq:forecast_comb}

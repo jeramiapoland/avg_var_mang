@@ -1,0 +1,59 @@
+As \citet{samuelson_general_1967} demonstrates "diversification always pays." This work is not any criticism of diversification which works to reduce risk by minimizing idiosyncratic risk through holding a cross section of many assets. AV management works by limiting the risk investors face to uncompensated risk, as much as possible, over time. AV is non-systematic, uncompensated risk. AC is compensated systematic risk. These assertions are supported algebraically \citet{pollet_average_2010}. I highlight some important results below and refer the reader to their excellent article for further details. 
+
+To explore the relationship of variance and future returns, we start with the market equilibrium optimal portfolio weights for investors with power utility over end-of-period wealth from \citet{noauthor_strategic_nodate}:
+
+\begin{align*}
+E_{t}[r_{i,t+1}-r_{f,t+1}] + \frac{\sigma^{2}_{i,t}}{2} \approxeq& \gamma \sigma_{im,t}
+\end{align*}
+
+where $i$ is an asset in the market, $r_{f,t+1}$ is the log return to the risk free rate, and $\sigma_{im,t}$ is the covariance of $i$ and the market, m.. The implication is that the excess returns of an asset are proportional to the conditional covariance of the asset with the market. This log CAPM holds for the stock market observed by an index proxy, asset s, like the S\&P 500 or CRSP index. Hence, by replacing the covariance of the index, s, and the market with the level covariance of $R_{s}$ and $R_{m}$ and then decomposing this covariance into the weighted sum of the variance of the market index and the covariance of the index with the remainder of the market aggregate wealth not observable through the index, asset u, excess returns are related to observed index variance and return covariance.
+
+\begin{align*}
+E_{t}[r_{s,t+1}-r_{f,t+1}] + \frac{\sigma^{2}_{s,t}}{2} \approxeq& \gamma cov_{t}(R_{s,t+1},R_{m,t+1})\\
+& \gamma cov_{t}(R_{s,t+1},w_{s,t}R_{s,t}+(1-w_{s,t}R_{u,t+1}))\\
+& \gamma (w_{s,t}Var_{t}(R_{s,t+1})+(1-w_{s,t})cov_{t}(R_{s,t+1},R_{u,t+1}))
+\end{align*}
+
+Total index, or portfolio, variance is a function of the variances and covariances of the individual assets. The total portfolio variance of holding K assets is given by:
+\begin{equation}
+SV_{t} ~:~ \sigma^{2}_{s,t} =  \sum_{j=1}^{K}\sum_{k=1}^{K}w_{j,t}w_{k,t}cov(R_{j,t},R_{k,t})
+\end{equation}
+where $w_{t}$ is the market capitalization weight of the asset in the index or portfolio. Average variance and average correlation are defined as:
+\begin{align}
+AV_{t} ~:~ \bar{\sigma}^{2}_{t} &= \sum_{k=1}^{K}w_{k,t}\sigma^{2}_{t}\\
+AC_{t} ~:~ \bar{\rho}_{t} &= \sum_{j=1}^{K}\sum_{k=1}^{K}w_{j,t}w_{k,t}\rho_{j,k,t}
+\end{align}
+
+The return of the stock market index as a function of the return on aggregate wealth, market, is given by the equation:
+\begin{align*}
+R_{s,t+1} = \beta_{t}R_{m,t+1} + \epsilon_{t+1}
+\end{align*}
+where $\epsilon_{t+1}$ is the stock-specific shock component of any shock to aggregate wealth. Any such shock to the stock market, will have a common stock component, $\bar{\epsilon}_{z,t+1}$, with variance $\theta_{t+1}\sigma^{2}_{z,t+1}$ and an idiosyncratic component with variance (1-$\theta_{t+1}$)$\sigma^{2}_{z,t+1}$. The shock to the stock market will be a component of a shock to aggregate wealth with variance $\sigma^{2}_{m,t}$. As the number of assets, K, grows the pairwise covariance converges to the variance of the market index and the return on aggregate wealth is the weighted combination of the return to the stock market and the unobserved portfolio. Thus, the return unobservable from the market index, $R_{u,t+1}$, can be written as:
+\begin{align*}
+	R_{u,t+1} = \left(\frac{1-w_{s,t}\beta_{t}}{1-w_{s,t}}\right)R_{m,t+1} - \left(\frac{w_{s,t}}{1-w_{s,t}}\right)\bar{\epsilon}_{z,t+1}
+\end{align*}
+
+and the covariance of returns to the observable index and the unobservable component of aggregate wealth is:
+
+\begin{align*}
+	Cov(R_{s,t+1},R_{u,t+1}) = \left(\frac{1-w_{s,t}\beta_{t}}{1-w_{s,t}}\right)\frac{\bar{\sigma}^{2}_{t}}{\beta_{t}}\left(\frac{\bar{\rho}_{t}-\theta_{t}}{1-\theta_{t}}\right) - \left(\frac{w_{s,t}}{1-w_{s,t}}\right)\left(\frac{1-\bar{\rho}_{t}}{1-\theta_{t}}\right)\bar{\sigma}^{2}_{t}.
+\end{align*}
+
+
+Equation (6) from \citet{pollet_average_2010} gives the relationship of AC ($\bar{\rho}$), AV ($\bar{\sigma}^{2}_{t}$) and the risk premium.
+\begin{align*}
+	E_{t}[r_{s,t}] - r_{f,t} + \frac{\sigma^{2}_{s,t}}{2} &= \frac{\gamma}{\beta_{t}(1-\theta_{t})}\bar{\rho}_{t}\bar{\sigma}^{2}_{t} - \frac{\gamma}{\beta_{t}(1-\theta_{t})}\theta_{t}\bar{\sigma}^{2}_{t}
+\end{align*}
+As they explain, ceteris paribus a change in AV has both positive and negative effects on returns with similar magnitudes. So, AV should have no significant relationship with future returns. AC, in contrast, has only a positive effect on future returns.
+
+Equation (8), in \cite{pollet_average_2010}, relates AC and AV to the correlation of stock returns and the unobserved component of aggregate wealth, the unconditional $\beta$ of the stock market on aggregate wealth, and the unconditional proportion of shock which is common, $\theta$: 
+\begin{align*}
+cov(R_{s,t},R_{u,t+1}) &= \pi_{0} + \frac{(1-w_{s,t}\beta(1-\theta))E[\bar{\sigma}^{2}_{t}]}{(1-w_{s,t})\beta(1-\theta)}\bar{\rho}_{t}- \frac{(1-w_{s,t}\beta(1-\theta))E[\bar{\rho}_{t}]-\theta}{(1-w_{s,t})\beta(1-\theta)}\bar{\sigma}^{2}_{t}.
+\end{align*}
+Again they explain, the denominators for both coefficients of interest are positive if the $\beta$ of the stock market on aggregate wealth is positive and the proportion of the market which is observed, $w_{s}$ is greater than zero but less than one. Hence, the coefficient for AC is positive if 1-$w_{s}\beta \geq 0$ or equivalently if the covariance between the unobservable return and aggregate wealth is positive. For plausible parameter values 1-$w_{s}\beta(1-\theta)$ is small and $E[\bar{\rho}_{t}]-\theta$ is close to zero, as $\theta$ represents the portion of the shock to stock returns which is common among returns. Thus, the effect of AV will be negative but small. 
+%So, the relationship of AC to future stock returns and the ability of AC to signal an increase in the correlation of returns across the economy depends on the portion that the observed proxy, i.e. stock index, returns make of the market and the significance of the market in aggregate wealth. If the daily returns are not a good proxy for market returns and the market is not a significant component of aggregate wealth it is unlikely AC will serve as a signal of systematic risk or changes in the economy. An example of a similar effect described occurs in the difference in results shown by \citet{goyal_idiosyncratic_2003} and \citet{bali_does_nodate} when the latter removes a significant number of daily returns from the market proxy and the forecasting ability of idiosyncratic volatility disappears. When the coverage of the proxy daily returns decreases the information on the mix of systemic and non-systemic risk disappears.
+
+Although the algebra is dense, the intuition is fairly clear. A shock to the economy will have an average common effect; the affect on the stock market will have a common effect from which each asset will deviate idiosyncratically. The idiosyncratic variance of stocks is orthogonal to the common aggregate effect. Thus when the variance of stock returns is largely from the average variance of individual assets then returns across the market are not covarying, hence returns across the economy need not covary. Managing investment timing by AV will avoid investment when risk is high but future returns are uncertain or possibly negative, as equation (6) implies. Additionally, managing investment by AV will give investors a signal, from equities, for higher returns in other asset classes, as equation (8) implies.
+
+The formation and analysis of the AV signal come from the fundamental understanding of risk, portfolio variance and returns. This work requires a few publicly available data sets and a few considerations for the calculations at the monthly frequency. Most of the work is in the calculations required to show significance in portfolio performance and in the regressions which establish the relationship of AV, risk, and future returns.
+

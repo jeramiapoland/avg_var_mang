@@ -1,17 +1,17 @@
-This is BibTeX, Version 0.99d (TeX Live 2015/Debian)
-Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+This is BibTeX, Version 0.99d (TeX Live 2017/Debian)
+Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
 The top-level auxiliary file: var_mang_port.aux
 The style file: jf.bst
 Database file #1: avg_var_mang.bib
-Repeated entry---line 869 of file avg_var_mang.bib
+Repeated entry---line 919 of file avg_var_mang.bib
  : @article{hocquard_constant-volatility_2013
  :                                           ,
 I'm skipping whatever remains of this entry
-Repeated entry---line 1901 of file avg_var_mang.bib
+Repeated entry---line 1951 of file avg_var_mang.bib
  : @article{ang_cross-section_2006
  :                                ,
 I'm skipping whatever remains of this entry
-Repeated entry---line 1913 of file avg_var_mang.bib
+Repeated entry---line 1963 of file avg_var_mang.bib
  : @article{gonzalez-urteaga_cross-sectional_2016
  :                                               ,
 I'm skipping whatever remains of this entry
@@ -36,49 +36,50 @@ while executing---line 2701 of file jf.bst
 Too many commas in name 1 of "Lang, S., Gupta, F. and Prestbo, J." for entry lang_2006
 while executing---line 2701 of file jf.bst
 Warning--empty institution in cao_risk_2016
+Warning--empty year in ici_factbook; set to ????
 Too many commas in name 1 of "Lang, S., Gupta, F. and Prestbo, J." for entry lang_2006
 while executing---line 2867 of file jf.bst
 Too many commas in name 1 of "Lang, S., Gupta, F. and Prestbo, J." for entry lang_2006
 while executing---line 2867 of file jf.bst
-You've used 101 entries,
+You've used 100 entries,
             2716 wiz_defined-function locations,
-            1185 strings with 20084 characters,
-and the built_in function-call counts, 42665 in all, are:
-= -- 3970
-> -- 2078
+            1179 strings with 19778 characters,
+and the built_in function-call counts, 41906 in all, are:
+= -- 3893
+> -- 2048
 < -- 93
-+ -- 739
-- -- 602
-* -- 3870
-:= -- 7790
-add.period$ -- 101
-call.type$ -- 101
-change.case$ -- 703
-chr.to.int$ -- 101
++ -- 727
+- -- 593
+* -- 3798
+:= -- 7670
+add.period$ -- 100
+call.type$ -- 100
+change.case$ -- 695
+chr.to.int$ -- 100
 cite$ -- 102
-duplicate$ -- 1797
-empty$ -- 2866
-format.name$ -- 791
-if$ -- 8141
+duplicate$ -- 1768
+empty$ -- 2808
+format.name$ -- 781
+if$ -- 7982
 int.to.chr$ -- 1
 int.to.str$ -- 1
-missing$ -- 87
-newline$ -- 307
-num.names$ -- 406
-pop$ -- 464
+missing$ -- 84
+newline$ -- 304
+num.names$ -- 402
+pop$ -- 461
 preamble$ -- 1
-purify$ -- 603
+purify$ -- 596
 quote$ -- 0
-skip$ -- 1332
+skip$ -- 1310
 stack$ -- 0
-substring$ -- 2751
-swap$ -- 417
+substring$ -- 2660
+swap$ -- 407
 text.length$ -- 17
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 894
-warning$ -- 1
-while$ -- 431
+type$ -- 885
+warning$ -- 2
+while$ -- 423
 width$ -- 0
-write$ -- 1107
+write$ -- 1094
 (There were 10 error messages)
