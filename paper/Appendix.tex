@@ -12,7 +12,16 @@ Unfortunately, for samples as small as the monthly series of daily returns Pears
 	\rho_{m,n,t} = \widehat{\rho_{m,n,t}}\left(1 + \frac{1+\widehat{\rho_{m,n}}^{2}}{2(t-3)}\right)
 \end{equation}
 where $\widehat{\rho_{m,n,t}}$ is the Pearson correlation between a and b.\footnote{The exact correction suggested in \cite{olkin_1958} is too computationally taxing for the equipment to which I have access.} AV and AC are value-weighted so each month I calculate market capitalization for all of the assets available in CRSP. The capitalization used in month t for asset m is the product of the end of month price (PRC) and common shares outstanding (SHROUT) values for asset m in month t-1. \\
-%\subsection{Investor Utility}\label{stoch_dom}
+\subsection{Stochastic Dominance}
+\subsubsection{Kernel Estimation}
+To estimate f, an unknown distribution, using i.i.d observations x = {$x_{1}, x_{2}, \dots, x_{n}$} the kernel density estimator:\\
+$\widehat{f}_{h}(x)={\frac{1}{n}}\sum_{i=1}^{n}K_{h}(x-x_{i})={\frac{1}{nh}}\sum_{i=1}^{n}K{\Big(}{\frac{x-x_{i}}{h}}{\Big)}$
+is used where K is a non-negative function, the kernel, and h is a non-negative smoothing parameter, often called the bandwidth. $K_{h}$ is the scaled kernel, $\frac{1}{h}K(\frac{x}{h})$. The Gaussian kernel is used, 
+$K(x^{*},x_{i})= exp\left(-{\frac  {(x^{*}-x_{i})^{2}}{2b^{2}}}\right)$
+along with Silverman's, \citet{silverman2018density}, "rule of thumb" bandwidth which is 0.9 times the minimum of the standard deviation and the interquartile range of x divided by 1.34 times the sample size to the negative one-fifth power.
+\subsubsection{Vinod's Test}
+Repeated simulated return series are taken from the observed returns to the AV and SV management strategies. These the empirical CDFs from these simulated series are tested for stochastic dominance to the forth order while incorporating deviations from EUT. For example, the test for second-order stochastic dominance checks if 
+$\int_{x*}^{x} F_{ab}(y)dy \leq 0$ for $x \in [x_{*},x*]$ comparing distributions a and b. This involves the integral of $F_{ab}$ itself the integral of the empirical probability distribution defined by the simulated samples. The method of \citet{anderson_1996} is used to convert this integration into matrix pre-multiplication on the vectors of observed return probabilities. For a detailed walk-through of the calculations with supporting code see \citet{vinod_hands-intermediate_2008}. 
 %Following \citet{vinod_hands-intermediate_2008}, I first calculate kernel smoothed density and cumulative distribution functions (CDFs) for the AV and SV managed portfolio return distributions. Figure \ref{fig:kd_graph} shows the density and CDFs estimated for the US equity returns to the buy and hold targeting AV and SV managed portfolios without investment constraints.
 %\begin{figure}[htb]
 %	\centering
@@ -125,6 +134,38 @@ Full in-sample regression results covering the full sample 1926 to 2016, the pre
 \clearpage
 
 \subsection{Alternate Asset Classes}
+The following tables detail the drawdown, turnover, and break even trading cost statistics for alternate asset classes managed by equity AV. 
+%\begingroup
+%\vfill
+%%\centering % uncomment to centre the table horizontally as well as vertically
+%\begin{sideways}
+%%	\setlength{\tabcolsep}{3pt}
+%%	\begin{threeparttable}
+%%		\caption{P-values of Augmented Dickey-Fuller Test}
+%%		\label{my-label}
+%%		\begin{tabular}{@{}llllllllllllll@{}}
+%%			\toprule
+%%			Variable & Austria & Belgium & Finland & France & Germany & Netherl. & Greece & Italy & Ireland & Portugal & Spain & All eurozone & US \\ \midrule
+%%			\textit{Yield-OIS (10y)} & 0.1807 & 0.1912 & 0.1255 & 0.3142 & 0.1641 & 0.1995 & 0.4182 & 0.4180 & 0.5964 & 0.6333 & 0.4743 & & \textbf{0.0437} \\
+%%			\textit{CDS } & 0.0779 & 0.2706 & 0.3143 & 0.2230 & 0.0938 & 0.2775 & 0.7790 & 0.1399 & 0.2852 & 0.3403 & 0.2272 & & \\
+%%			\textit{Redom} & \textbf{0.0005} & 0.1273 & \textbf{0.0001} & \textbf{0.0287} & & 0.0718 & 0.6975 & 0.2210 & 0.6008 & 0.5033 & 0.4064 & & \\
+%%			\textit{BAS }& \textbf{0.0000} & \textbf{0.0111} & \textbf{0.0012} & \textbf{0.0000} & \textbf{0.0000} & 0.0021 & \textbf{0.0026} & 0.0000 & 0.3094 & 0.4802 & 0.0000 & & \\
+%%			\textit{OIS rate (10y)} & \multicolumn{1}{c}{} & & & & & & & & & & & 0.8880 & 0.0907 \\
+%%			\textit{VSTOXX} & \multicolumn{1}{c}{\textbf{}} & & & & & & & & & & & \textbf{0.0009} & \\
+%%			\textit{CESI} & \multicolumn{1}{c}{\textbf{}} & & & & & & & & & & & \textbf{0.0246} & \textbf{0.0146} \\ \bottomrule
+%%		\end{tabular}
+%%		\begin{tablenotes}[para,flushleft]
+%%			\footnotesize
+%%			\item \textbf{Notes}: This table shows the p-values of the Augmented Dickey-Fuller (ADF) test. The null hypothesis is that the variable has a unit root. This hypothesis is rejected when the p-value < 0.05 (highlighted in bold). The ADF with trend and intercept has been performed if variables have a clear trend. The column ``All eurozone'' shows the p-values for the time series observations. All variables in this test are measured in level values.
+%%		\end{tablenotes}
+%%	\end{threeparttable}
+%\input{tab_altPerf3}
+%%\clearpage
+%
+%\end{sideways}
+%\vfill
+%\restoregeometry
+%\endgroup
 \input{tab_altPerf3}
 \clearpage
 \input{tab_altPerf2}

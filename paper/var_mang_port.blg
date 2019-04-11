@@ -3,15 +3,15 @@ Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
 The top-level auxiliary file: var_mang_port.aux
 The style file: jf.bst
 Database file #1: avg_var_mang.bib
-Repeated entry---line 919 of file avg_var_mang.bib
+Repeated entry---line 982 of file avg_var_mang.bib
  : @article{hocquard_constant-volatility_2013
  :                                           ,
 I'm skipping whatever remains of this entry
-Repeated entry---line 1951 of file avg_var_mang.bib
+Repeated entry---line 2014 of file avg_var_mang.bib
  : @article{ang_cross-section_2006
  :                                ,
 I'm skipping whatever remains of this entry
-Repeated entry---line 1963 of file avg_var_mang.bib
+Repeated entry---line 2026 of file avg_var_mang.bib
  : @article{gonzalez-urteaga_cross-sectional_2016
  :                                               ,
 I'm skipping whatever remains of this entry
@@ -35,51 +35,53 @@ Too many commas in name 1 of "Lang, S., Gupta, F. and Prestbo, J." for entry lan
 while executing---line 2701 of file jf.bst
 Too many commas in name 1 of "Lang, S., Gupta, F. and Prestbo, J." for entry lang_2006
 while executing---line 2701 of file jf.bst
+Warning--to sort, need author or key in most_2013
+Warning--to sort, need author or key in most_2015
+Warning--to sort, need author or key in most_2016
 Warning--empty institution in cao_risk_2016
-Warning--empty year in ici_factbook; set to ????
 Too many commas in name 1 of "Lang, S., Gupta, F. and Prestbo, J." for entry lang_2006
 while executing---line 2867 of file jf.bst
 Too many commas in name 1 of "Lang, S., Gupta, F. and Prestbo, J." for entry lang_2006
 while executing---line 2867 of file jf.bst
-You've used 100 entries,
+You've used 105 entries,
             2716 wiz_defined-function locations,
-            1179 strings with 19778 characters,
-and the built_in function-call counts, 41906 in all, are:
-= -- 3893
-> -- 2048
-< -- 93
-+ -- 727
-- -- 593
-* -- 3798
-:= -- 7670
-add.period$ -- 100
-call.type$ -- 100
-change.case$ -- 695
-chr.to.int$ -- 100
-cite$ -- 102
-duplicate$ -- 1768
-empty$ -- 2808
-format.name$ -- 781
-if$ -- 7982
+            1196 strings with 20309 characters,
+and the built_in function-call counts, 43109 in all, are:
+= -- 4005
+> -- 2060
+< -- 95
++ -- 739
+- -- 596
+* -- 3870
+:= -- 7876
+add.period$ -- 105
+call.type$ -- 105
+change.case$ -- 720
+chr.to.int$ -- 105
+cite$ -- 115
+duplicate$ -- 1841
+empty$ -- 2925
+format.name$ -- 784
+if$ -- 8221
 int.to.chr$ -- 1
 int.to.str$ -- 1
-missing$ -- 84
-newline$ -- 304
-num.names$ -- 402
-pop$ -- 461
+missing$ -- 86
+newline$ -- 319
+num.names$ -- 410
+pop$ -- 485
 preamble$ -- 1
-purify$ -- 596
+purify$ -- 617
 quote$ -- 0
-skip$ -- 1310
+skip$ -- 1373
 stack$ -- 0
-substring$ -- 2660
-swap$ -- 407
+substring$ -- 2730
+swap$ -- 410
 text.length$ -- 17
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 885
-warning$ -- 2
-while$ -- 423
+type$ -- 927
+warning$ -- 4
+while$ -- 428
 width$ -- 0
-write$ -- 1094
+write$ -- 1138
 (There were 10 error messages)

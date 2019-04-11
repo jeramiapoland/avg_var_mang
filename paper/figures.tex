@@ -41,7 +41,7 @@
 %\clearpage
 \clearpage
 \begin{figure}[!htb]
-	\caption{{\bf Portfolio Drawdowns}: The time series of cumulative drawdowns for the buy and hold market investment as well as the AV and SV managed portfolios. SV and AV managed portfolios are targeting the buy and hold market volatility and have no investment constraints. See section \ref{sec:asset_allocation} for details.} \label{fig:fig_drawdowns}
+	\caption{{\bf Portfolio Drawdowns}: The time series of cumulative drawdowns, loss in portfolio value, for the buy and hold market investment as well as the AV and SV managed portfolios. SV and AV managed portfolios are targeting the buy and hold market volatility and have no investment constraints. See section \ref{sec:drawdowns} for details.} \label{fig:fig_drawdowns}
 	\vspace{-4mm}
 	\begin{adjustbox}{width=\textwidth}
 	\input{figures/dd_plot}
@@ -49,14 +49,14 @@
 \end{figure}
 \clearpage
 \begin{figure}[!htb]
-		\caption{{\bf CER Losses}: This figure displays the loss of certainty equivalent return as leverage constraints are applied to the AV and SV managed portfolios. The losses are expressed in percentage point differences of the constrained returns from the unconstrained returns for investors with $\gamma$ risk aversion coefficients of 1, 2.5, and 5.} \label{fig:cer_loss}
+		\caption{{\bf CER Losses}: This figure displays the loss of certainty equivalent return, for a mean-variance investor, as leverage constraints are applied to the AV and SV managed portfolios. The losses are expressed in percentage point differences of the constrained returns for investors with $\gamma$ risk aversion coefficients of 1, 2.5, and 5 against the baseline of an unconstrained investor employing the AV or SV strategy. See section \ref{sec:invest_util} for details.} \label{fig:cer_loss}
 		\begin{adjustbox}{width=\textwidth}
 			\input{figures/cer_loss_plot}
 		\end{adjustbox}
 	\end{figure}
 \clearpage
 \begin{figure}[!htb]
-		\caption{{\bf CER Gains}: Certainty Equivalent Return gains for mean variance investors with risk aversion coefficients ranging from 1 to 5 and subject to investment constraints ranging from 1 to 3. See section \ref{sec:asset_allocation} for details.} \label{fig:cer_gain}
+		\caption{{\bf CER Gains}: Certainty Equivalent Return gains for mean variance investors with risk aversion coefficients ranging from 1 to 5 and subject to investment constraints ranging from 1 to 3. These gains are calculated as the CER increase for the investor changing from the SV baseline to the AV investment strategy. See section \ref{sec:invest_util} for details.} \label{fig:cer_gain}
 %	\begin{subfigure}
 %		\input{figures/cer3d_plot}
 %	\end{subfigure}
@@ -90,7 +90,7 @@
 %\end{figure}
 \begin{figure}[htb]
 	\centering
-	\caption{{\bf These figures show the smoothed kernel smoothed density and empirical CDFs calculated for the returns to the AV and SV managed US equity portfolios. These are examples of the estimated distributions are used in the stochastic dominance tests which follow.}} \label{fig:kd_graph}
+	\caption{{\bf These figures show the smoothed kernel density PDF estimates and empirical CDFs calculated for the returns to the unconstrained AV and SV managed US equity portfolios. The CDF functions are shown to illuminate the stochastic dominance tests which follow. See section \ref{sec:stoc_dom}}} \label{fig:kd_graph}
 	\begin{subfigure}{\textwidth}
 		\input{figures/kd_plots}
 	\end{subfigure}
@@ -110,7 +110,7 @@
 \clearpage
 \begin{figure}[htb]
 	\centering
-	\caption{{\bf Non-EUT Investor Decision Weights}: This figure illustrates the incorporation of non-EUT investor preferences in the decision between two investment portfolios used in the stochastic dominance analysis. The cumulative probability, p, of the rank order statistics of the portfolio returns are on the x-axis. The perceived utility weight, W(p,$\alpha$), or importance placed on the possibility of incurring a return with probability p. The parameter $\alpha$ measures EUT compliance, $\alpha$ = 1 when investors care equally about all returns and $\alpha <$ 1 when investors care about extreme loses "more than they should".} \label{fig:sd_ill_graph}
+	\caption{{\bf Non-EUT Investor Decision Weights}: This figure illustrates the incorporation of non-EUT investor preferences in the decision between two investment portfolios used in the stochastic dominance analysis. The cumulative probability, p, of the rank order statistics of the portfolio returns are on the x-axis. The perceived utility weight, W(p,$\alpha$), or importance placed on the possibility of incurring a return with probability p. The parameter $\alpha$ measures EUT compliance, $\alpha$ = 1 when investors care equally about all returns and $\alpha <$ 1 when investors care about extreme loses "more than they should". See section \ref{sec:stoc_dom}} \label{fig:sd_ill_graph}
 	\input{figures/sd_ill_plot}
 \end{figure}
 \clearpage

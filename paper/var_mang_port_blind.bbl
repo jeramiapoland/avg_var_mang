@@ -1,4 +1,4 @@
-\begin{thebibliography}{101}
+\begin{thebibliography}{100}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 
 \bibitem[Amihud and Hurvich(2004)]{Amihud2004}
@@ -10,6 +10,11 @@ Amihud, Yakov, and Clifford~M. Hurvich, 2004, Predictive regressions: A
 Andrews, Donald W.~K., and J.~Christopher Monahan, 1992, An {Improved}
   {Heteroskedasticity} and {Autocorrelation} {Consistent} {Covariance} {Matrix}
   {Estimator}, {\em Econometrica\/} 60, 953--966.
+
+\bibitem[Ang et~al.(2011)Ang, Gorovyy, and Inwegen]{ang_hedge_2011}
+Ang, Andrew, Sergiy Gorovyy, and Gregory B.~van Inwegen, 2011, Hedge {Fund}
+  {Leverage}, Technical Report 16801, National Bureau of Economic Research,
+  Inc.
 
 \bibitem[Ang et~al.(2006)Ang, Hodrick, Xing, and Zhang]{ang_cross-section_2006}
 Ang, Andrew, Robert~J. Hodrick, Yuhang Xing, and Xiaoyan Zhang, 2006, The
@@ -25,10 +30,6 @@ Baba, Naohiko, and Hiromichi Goko, 2009, Hedge {Fund} {Survival}:
 Baird, Sarah, Jed Friedman, and Norbert Schady, 2010, Aggregate {Income}
   {Shocks} and {Infant} {Mortality} in the {Developing} {World}, {\em The
   Review of Economics and Statistics\/} 93, 847--856.
-
-\bibitem[Bali et~al.(2005)Bali, Cakici, and Zhang]{bali_does_nodate}
-Bali, Turan~G, Nusret Cakici, and Zhe Zhang, 2005, Does {Idiosyncratic} {Risk}
-  {Really} {Matter}?, {\em Journal of Finance\/} ~26.
 
 \bibitem[Barro(1989)]{barro_cross-country_1989}
 Barro, Robert, 1989, A {Cross}-{Country} {Study} of {Growth}, {Saving}, and
@@ -71,6 +72,9 @@ Burnside, Craig, Martin Eichenbaum, and Sergio Rebelo, 2011, Carry {Trade} and
 Buyuksahin, Bahattin, Michael Haigh, and Michel Robe, 2008, Commodities and
   {Equities}: '{A} {Market} of {One}'?, {\em SSRN Electronic Journal\/} .
 
+\bibitem[Campbell and Viceira(2002)]{noauthor_strategic_nodate}
+Campbell, John, and Luis Viceira, 2002, Strategic {Asset} {Allocation}.
+
 \bibitem[Campbell and Hentschel(1992)]{campbell_no_1992}
 Campbell, John~Y., and Ludger Hentschel, 1992, No news is good news: {An}
   asymmetric model of changing volatility in stock returns, {\em Journal of
@@ -105,6 +109,9 @@ Chan, Raymond~H., Ephraim Clark, and Wing-Keung Wong, 2016, On the {Third}
 \bibitem[Chong and Hendry(1986)]{Chong1986}
 Chong, Yock~Y, and David~F Hendry, 1986, Econometric evaluation of linear
   macro-economic models, {\em Review of Economic Studies\/} 53, 671--690.
+
+\bibitem[Collins(????)]{ici_factbook}
+Collins, Sean, ????, Fact book, http://www.icifactbook.org/.
 
 \bibitem[Davison and Hinkley(1997)]{davison1997bootstrap}
 Davison, Anthony~Christopher, and David~Victor Hinkley, 1997, {\em Bootstrap
@@ -170,11 +177,6 @@ French, Kenneth R.~F, G.William Schwert, and Robert~F. Stambaugh, 1987,
   Expected stock returns and volatility, {\em Journal of Financial Economics\/}
   19, 3 -- 29.
 
-\bibitem[Glosten et~al.(1993)Glosten, Jagannathan, and Runkle]{glosten_1993}
-Glosten, Lawrence, Ravi Jagannathan, and David Runkle, 1993, On the relation
-  between the expected value and the volatility of the nominal excess return on
-  stocks, {\em The Journal of Finance\/} 48, 1779--1801.
-
 \bibitem[González-Urteaga and
   Rubio(2016)]{gonzalez-urteaga_cross-sectional_2016}
 González-Urteaga, Ana, and Gonzalo Rubio, 2016, The cross-sectional variation
@@ -184,10 +186,6 @@ González-Urteaga, Ana, and Gonzalo Rubio, 2016, The cross-sectional variation
 \bibitem[Gorton and Rouwenhorst(2006)]{gorton_facts_2006}
 Gorton, Gary, and K~Geert Rouwenhorst, 2006, Facts and {Fantasies} about
   {Commodity} {Futures}, {\em Financial Analysts Journal\/} ~22.
-
-\bibitem[Goyal and Santa-Clara(2003)]{goyal_idiosyncratic_2003}
-Goyal, Amit, and Pedro Santa-Clara, 2003, Idiosyncratic {Risk} {Matters}!, {\em
-  The Journal of Finance\/} 58, 975--1007.
 
 \bibitem[Hadar and Russell(1969)]{hadar_rules_1969}
 Hadar, Josef, and William~R. Russell, 1969, Rules for {Ordering} {Uncertain}
@@ -307,10 +305,6 @@ McCracken, Michael~W., 2007, Asymptotics for out of sample tests of {Granger}
 McFadden, Daniel, 1989, Testing for {Stochastic} {Dominance}, in {\em Studies
   in the {Economics} of {Uncertainty}\/},  113--134 (Springer, New York, NY).
 
-\bibitem[McWhinnie(2014)]{noauthor_warren_nodate}
-McWhinnie, Eric, 2014, Warren {Buffett} on using leverage to invest,
-  \url{https://www.usatoday.com/story/money/markets/2014/01/19/how-warren-buffett-uses-leverage-to-invest/4638423/}.
-
 \bibitem[Memmel(2003)]{memmel_performance_2003}
 Memmel, Christoph, 2003, Performance {Hypothesis} {Testing} with the {Sharpe}
   {Ratio}, {SSRN} {Scholarly} {Paper} ID 412588, Social Science Research
@@ -389,11 +383,6 @@ Rapach, David~E., Jack~K. Strauss, and Guofu Zhou, 2010, {Out-of-sample equity
   premium prediction: Combination forecasts and links to the real economy},
   {\em Review of Financial Studies\/} 23, 821--862.
 
-\bibitem[Roll(1977)]{roll_critique_1977}
-Roll, Richard, 1977, A critique of the asset pricing theory's tests {Part} {I}:
-  {On} past and potential testability of the theory, {\em Journal of Financial
-  Economics\/} 4, 129 -- 176.
-
 \bibitem[Rossi and Inoue(2012)]{rossi_out--sample_2012}
 Rossi, Barbara, and Atsushi Inoue, 2012, Out-of-{Sample} {Forecast} {Tests}
   {Robust} to the {Choice} of {Window} {Size}, {\em Journal of Business \&
@@ -402,6 +391,10 @@ Rossi, Barbara, and Atsushi Inoue, 2012, Out-of-{Sample} {Forecast} {Tests}
 \bibitem[Rothschild and Stiglitz(1970)]{rothschild_increasing_1970}
 Rothschild, Michael, and Joseph~E Stiglitz, 1970, Increasing risk: {I}. {A}
   definition, {\em Journal of Economic Theory\/} 2, 225--243.
+
+\bibitem[Samuelson(1967)]{samuelson_general_1967}
+Samuelson, Paul~A., 1967, General {Proof} that {Diversification} {Pays}, {\em
+  The Journal of Financial and Quantitative Analysis\/} 2, 1--13.
 
 \bibitem[Scherer(2004)]{scherer_alternative_2004}
 Scherer, Bernd, 2004, An alternative route to performance hypothesis testing,
