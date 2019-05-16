@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2019.1.1)  7 MAY 2019 23:02
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2019.1.1)  15 MAY 2019 16:57
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -2054,15 +2054,14 @@ Missing character: There is no ™ in font cmr10!
 
 LaTeX Warning: Reference `app:stoc_dom' on page 23 undefined on input line 54.
 
-[23]) (./systemic_risk.tex) (./alt_inv.tex [24] [25]) (./market_cap.tex
-[26]) (./in_sample.tex
+[23]) (./systemic_risk.tex) (./alt_inv.tex [24] [25]) [26] (./market_cap.tex
+[27]) (./in_sample.tex
 Missing character: There is no â in font cmr10!
 Missing character: There is no € in font cmr10!
 Missing character: There is no  in font cmr10!
 Missing character: There is no â in font cmr10!
 Missing character: There is no € in font cmr10!
 Missing character: There is no  in font cmr10!
- [27]
 Missing character: There is no â in font cmr10!
 Missing character: There is no € in font cmr10!
 Missing character: There is no ™ in font cmr10!
@@ -2078,8 +2077,8 @@ Missing character: There is no ™ in font cmr10!
 Missing character: There is no â in font cmr10!
 Missing character: There is no € in font cmr10!
 Missing character: There is no ™ in font cmr10!
-) (./sub_insample.tex [28]) [29] (./out_sample.tex
-[30] [31]) (./robustness.tex [32] [33]) (./conclusion.tex [34]) [35]
+ [28]) (./sub_insample.tex [29]) (./out_sample.tex
+[30] [31] [32]) (./robustness.tex [33]) (./conclusion.tex [34]) [35]
 (./var_mang_port.bbl [36
 
 ]
@@ -2513,8 +2512,8 @@ LaTeX Warning: There were undefined references.
 
  ) 
 Here is how much of TeX's memory you used:
- 31685 strings out of 492982
- 593160 string characters out of 6134897
+ 31686 strings out of 492982
+ 593172 string characters out of 6134897
  1191176 words of memory out of 5000000
  34081 multiletter control sequences out of 15000+600000
  547749 words of font info for 160 fonts, out of 8000000 for 9000
@@ -2541,10 +2540,10 @@ pe1/public/amsfonts/cm/cmti10.pfb></usr/share/texlive/texmf-dist/fonts/type1/pu
 blic/amsfonts/cm/cmti12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/a
 msfonts/cm/cmtt10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfont
 s/symbols/msbm10.pfb>
-Output written on var_mang_port.pdf (74 pages, 714633 bytes).
+Output written on var_mang_port.pdf (74 pages, 715646 bytes).
 PDF statistics:
- 1373 PDF objects out of 1440 (max. 8388607)
- 1207 compressed objects within 13 object streams
- 271 named destinations out of 1000 (max. 500000)
+ 1376 PDF objects out of 1440 (max. 8388607)
+ 1210 compressed objects within 13 object streams
+ 272 named destinations out of 1000 (max. 500000)
  17637 words of extra memory for PDF output out of 20736 (max. 10000000)
 
