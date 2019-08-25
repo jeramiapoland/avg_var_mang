@@ -1,10 +1,24 @@
-\begin{thebibliography}{100}
+\begin{thebibliography}{105}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
+
+\bibitem[mos(2013)]{most_2013}
+, 2013, Top 10 most traded currency pairs.
+
+\bibitem[mos(2015)]{most_2015}
+, 2015, The {Most} {Traded} {Currency} {Pairs} in 2015.
+
+\bibitem[mos(2016)]{most_2016}
+, 2016, The {Most} {Traded} {Currency} {Pairs} in the {Forex} {Market} in 2016
+  and {Why} {You} {Should} {Choose} {STO}.
 
 \bibitem[Amihud and Hurvich(2004)]{Amihud2004}
 Amihud, Yakov, and Clifford~M. Hurvich, 2004, Predictive regressions: A
   reduced-bias estimation method, {\em Journal of Financial and Quantitative
   Analysis\/} 39, 813--841.
+
+\bibitem[Anderson(1996)]{anderson_1996}
+Anderson, Gordon, 1996, Nonparametric tests of stochastic dominance in income
+  distributions, {\em Econometrica\/} 64, 1183--93.
 
 \bibitem[Andrews and Monahan(1992)]{andrews_improved_1992}
 Andrews, Donald W.~K., and J.~Christopher Monahan, 1992, An {Improved}
@@ -54,6 +68,10 @@ Bilson, John, 1981, The "{Speculative} {Efficiency}" {Hypothesis}, {\em The
 Bollerslev, Tim, Benjamin Hood, John Huss, and Lasse~Heje Pedersen, 2017, Risk
   {Everywhere}: {Modeling} and {Managing} {Volatility}, {SSRN} {Scholarly}
   {Paper} ID 2722591, Social Science Research Network, Rochester, NY.
+
+\bibitem[Bradfield(2019)]{most_2018}
+Bradfield, David, 2019, Major {Currency} {Pairs}: {A} {Guide} to the {Most}
+  {Traded} {Forex} {Pairs}.
 
 \bibitem[Brunnermeier et~al.(2009)Brunnermeier, Nagel, and
   Pedersen]{brunnermeier_carry_nodate}
@@ -110,8 +128,8 @@ Chan, Raymond~H., Ephraim Clark, and Wing-Keung Wong, 2016, On the {Third}
 Chong, Yock~Y, and David~F Hendry, 1986, Econometric evaluation of linear
   macro-economic models, {\em Review of Economic Studies\/} 53, 671--690.
 
-\bibitem[Collins(????)]{ici_factbook}
-Collins, Sean, ????, Fact book, http://www.icifactbook.org/.
+\bibitem[Collins(2018)]{ici_factbook}
+Collins, Sean, 2018, Fact book, http://www.icifactbook.org/.
 
 \bibitem[Davison and Hinkley(1997)]{davison1997bootstrap}
 Davison, Anthony~Christopher, and David~Victor Hinkley, 1997, {\em Bootstrap
@@ -167,10 +185,6 @@ Fleming, Jeff, Chris Kirby, and Barbara Ostdiek, 2002, The {Economic} {Value}
   Moskowitz]{frazzini_trading_2015}
 Frazzini, Andrea, Ronen Israel, and Tobias~J Moskowitz, 2015, Trading {Costs}
   of {Asset} {Pricing} {Anomalies}, {\em AQR Capital Management.\/} ~60.
-
-\bibitem[Frazzini and Pedersen(2014)]{frazzini_betting_2014}
-Frazzini, Andrea, and Lasse~Heje Pedersen, 2014, Betting against beta, {\em
-  Journal of Financial Economics\/} 111, 1--25.
 
 \bibitem[French et~al.(1987)French, Schwert, and Stambaugh]{FRENCH19873}
 French, Kenneth R.~F, G.William Schwert, and Robert~F. Stambaugh, 1987,
@@ -399,6 +413,11 @@ Samuelson, Paul~A., 1967, General {Proof} that {Diversification} {Pays}, {\em
 \bibitem[Scherer(2004)]{scherer_alternative_2004}
 Scherer, Bernd, 2004, An alternative route to performance hypothesis testing,
   {\em Journal of Asset Management\/} 5, 5--12.
+
+\bibitem[Silverman(2018)]{silverman2018density}
+Silverman, B.W., 2018, {\em Density Estimation for Statistics and Data
+  Analysis\/}, Chapman and Hall/CRC Monographs on Statistics and Applied
+  Probability (Routledge).
 
 \bibitem[Sornette(2003)]{noauthor_sornette_nodate}
 Sornette, {D}., 2003, {\em {Why} {Stock} {Markets} {Crash}: {Critical} {Events}

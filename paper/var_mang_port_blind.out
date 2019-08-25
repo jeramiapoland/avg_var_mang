@@ -19,6 +19,9 @@
 \BOOKMARK [1][-]{section.6}{Conclusion}{}% 19
 \BOOKMARK [1][-]{section.7}{Appendix}{}% 20
 \BOOKMARK [2][-]{subsection.7.1}{data}{section.7}% 21
-\BOOKMARK [2][-]{subsection.7.2}{In Sample Regressions}{section.7}% 22
-\BOOKMARK [2][-]{subsection.7.3}{Out-of-sample Robust}{section.7}% 23
-\BOOKMARK [2][-]{subsection.7.4}{Alternate Asset Classes}{section.7}% 24
+\BOOKMARK [2][-]{subsection.7.2}{Stochastic Dominance}{section.7}% 22
+\BOOKMARK [3][-]{subsubsection.7.2.1}{Kernel Estimation}{subsection.7.2}% 23
+\BOOKMARK [3][-]{subsubsection.7.2.2}{Vinod's Test}{subsection.7.2}% 24
+\BOOKMARK [2][-]{subsection.7.3}{In Sample Regressions}{section.7}% 25
+\BOOKMARK [2][-]{subsection.7.4}{Out-of-sample Robust}{section.7}% 26
+\BOOKMARK [2][-]{subsection.7.5}{Alternate Asset Classes}{section.7}% 27
