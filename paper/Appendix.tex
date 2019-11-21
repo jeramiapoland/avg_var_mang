@@ -1,15 +1,60 @@
-\subsection{Investor Utility}
-
-\citet{prelec_probability_1998} defines a flexible function with parameter $\alpha$ controlling the "slope" of the "weight" an investor places on an observed return, ordered from smallest to largest. When $\alpha$ equals zero, investors are EUT-compliant and place equal weight on all observed utilities from returns regardless of size when evaluating two possible portfolios. When $\alpha$ is less than one but greater than zero, investors place greater weight on the lower, negative, realized returns than the higher a result consistent with loss aversion from prospect theory. Figure \ref{fig:sd_ill_graph} shows the relationship between $\alpha$, the ordered cumulative return probability and the weight the investor places on the probability of such a return.\\
-\begin{figure}[htb]
-	\centering
-	\caption{{\bf Non-EUT Investor Decision Weights}: This figure illustrates the incorporation of non-EUT investor preferences in the decision between two investment portfolios used in the stochastic dominance analysis. The cumulative probability, p, of the rank order statistics of the portfolio returns are on the x-axis. The perceived utility weight, W(p,$\alpha$), or importance placed on the possibility of incurring a return with probability p. The parameter $\alpha$ measures EUT compliance, $\alpha$ = 1 when investors care equally about all returns and $\alpha$ < 1 when investors care about extreme loses more than they should".} \label{fig:sd_ill_graph}
-	\input{figures/sd_ill_plot}
-\end{figure}
-Using $\alpha$, I test the stochastic dominance of AV relative to SV. As \citet{hadar_rules_1969,hanoch_efficiency_1969,rothschild_increasing_1970,levy_experimental_2002} detail, the use of stochastic dominance tests allow us to make conclusions about the preference for AV or SV management for investors whose expected utility functions differ from simple mean-variance optimization. In results reported in the appendix, I use the methods detailed in \citet{vinod_h.d._ranking_2004,vinod_hands-intermediate_2008} to test the stochastic dominance of AV over SV to the forth order. Second order stochastic dominance, AV over SV, means that any risk averse investor would prefer AV. \citep{mcfadden_testing_1989,valle_novel_2017} Third order stochastic dominance means that any expected utility investor regardless of the form of the utility function would prefer AV to SV. \citep{whitmore_third-degree_1970,chan_third_2016} At forth order stochastic dominance, in addition to the concept of risk aversion both prudence and temperance are incorporated and all all expected-utility theory (EUT) investors prefer AV management to SV. \citep{kimball_standard_1993,noauthor_risk-aversion_nodate} As table \ref{tab:tab_sd} shows, expected utility investors whose $\alpha$ equals 1 prefer AV management to SV management. The positive numbers in across columns SD2, SD3, and SD4 indicate up to forth order stochastic dominance. Moreover, investors with non-EUT, e.g. prospect theory, preferences still prefer AV management to SV. \citep{kahneman_prospect_1979} For all values of $\alpha$ AV management stochastically dominants to the forth order over the SV portfolio.
-\input{tables/performance/sd_utility}
+\subsection{data}
+The data liquidity restrictions make the calculation of asset variance:
+\begin{equation}
+	\sigma^{2}_{m,t} = \frac{1}{T-1}\sum_{\tau = 1}^{T} \left(R_{m,\tau} - \frac{\sum_{\tau = 1}^{T} R_{m,\tau}}{T}\right)^{2}.
+\end{equation}
+where $R_{m,\tau}$ is the daily return, including dividends, on an asset for day $\tau$ in month t. When the asset is the market portfolio, so $R_{m,\tau}$ = $R_{s,\tau}$, the result is the variation of market returns, SV. The standard Pearson’s correlation where the correlation of assets m and n for month t is:
+\begin{equation}
+	\rho_{m,n,t} = \frac{\sum^{T}_{\tau = 1}\left(R_{m,\tau} - \frac{\sum_{\tau = 1}^{T} R_{m,\tau}}{t}\right)\left(R_{n,\tau} - \frac{\sum_{\tau = 1}^{T} R_{n,\tau}}{t}\right)}{\sqrt{\left(R_{m,\tau} - \frac{\sum_{\tau = 1}^{T} R_{m,\tau}}{t}\right)^{2}\sum_{\tau=1}^{T}\left(R_{n,\tau} - \frac{\sum_{\tau = 1}^{T} R_{n,\tau}}{t}\right)^{2} }}.
+\end{equation}
+Unfortunately, for samples as small as the monthly series of daily returns Pearson’s correlation is not an unbiased estimator of the true correlation, even if the returns are normal. \citep{hotelling_1953} The average month in my sample has 22 trading days however the number commonly drops into the teens.\footnote{The shortest trading month in the sample is September 2001 with 15 trading days while 17 is a common number in the months with holidays.} For samples of these sizes, the bias causes an underestimation of the correlation which is worse the lower the true correlation. I employ an approximate correction from \cite{olkin_1958} such that the monthly correlation between two assets m and n is:
+\begin{equation}
+	\rho_{m,n,t} = \widehat{\rho_{m,n,t}}\left(1 + \frac{1+\widehat{\rho_{m,n}}^{2}}{2(t-3)}\right)
+\end{equation}
+where $\widehat{\rho_{m,n,t}}$ is the Pearson correlation between a and b.\footnote{The exact correction suggested in \cite{olkin_1958} is too computationally taxing for the equipment to which I have access.} AV and AC are value-weighted so each month I calculate market capitalization for all of the assets available in CRSP. The capitalization used in month t for asset m is the product of the end of month price (PRC) and common shares outstanding (SHROUT) values for asset m in month t-1. \\
+\subsection{Stochastic Dominance}
+\subsubsection{Kernel Estimation}
+To estimate f, an unknown distribution, using i.i.d observations x = {$x_{1}, x_{2}, \dots, x_{n}$} the kernel density estimator:\\
+$\widehat{f}_{h}(x)={\frac{1}{n}}\sum_{i=1}^{n}K_{h}(x-x_{i})={\frac{1}{nh}}\sum_{i=1}^{n}K{\Big(}{\frac{x-x_{i}}{h}}{\Big)}$
+is used where K is a non-negative function, the kernel, and h is a non-negative smoothing parameter, often called the bandwidth. $K_{h}$ is the scaled kernel, $\frac{1}{h}K(\frac{x}{h})$. The Gaussian kernel is used, 
+$K(x^{*},x_{i})= exp\left(-{\frac  {(x^{*}-x_{i})^{2}}{2b^{2}}}\right)$
+along with Silverman's, \citet{silverman2018density}, "rule of thumb" bandwidth which is 0.9 times the minimum of the standard deviation and the interquartile range of x divided by 1.34 times the sample size to the negative one-fifth power.
+\subsubsection{Vinod's Test}
+Repeated simulated return series are taken from the observed returns to the AV and SV management strategies. These the empirical CDFs from these simulated series are tested for stochastic dominance to the forth order while incorporating deviations from EUT. For example, the test for second-order stochastic dominance checks if 
+$\int_{x*}^{x} F_{ab}(y)dy \leq 0$ for $x \in [x_{*},x*]$ comparing distributions a and b. This involves the integral of $F_{ab}$ itself the integral of the empirical probability distribution defined by the simulated samples. The method of \citet{anderson_1996} is used to convert this integration into matrix pre-multiplication on the vectors of observed return probabilities. For a detailed walk-through of the calculations with supporting code see \citet{vinod_hands-intermediate_2008}. 
+%Following \citet{vinod_hands-intermediate_2008}, I first calculate kernel smoothed density and cumulative distribution functions (CDFs) for the AV and SV managed portfolio return distributions. Figure \ref{fig:kd_graph} shows the density and CDFs estimated for the US equity returns to the buy and hold targeting AV and SV managed portfolios without investment constraints.
+%\begin{figure}[htb]
+%	\centering
+%	\caption{{\bf These figures show the smoothed kernel smoothed density and empirical CDFs calculated for the returns to the AV and SV managed US equity portfolios. These are examples of the estimated distributions are used in the stochastic dominance tests which follow.}} \label{fig:kd_graph}
+%	\begin{subfigure}{\textwidth}
+%		\input{figures/kd_plots}
+%	\end{subfigure}
+%	
+%	\begin{subfigure}{\textwidth}
+%		\input{figures/kd_plots2}
+%	\end{subfigure}
+%	
+%	\begin{subfigure}{\textwidth}
+%		\input{figures/kd_plots3}
+%	\end{subfigure}
+%	
+%	\begin{subfigure}{\textwidth}
+%		\input{figures/kd_plots4}
+%	\end{subfigure}
+%\end{figure}
+%The stochastic dominance tests involve the comparisons of the CDFs of the appropriate order, or power, of the portfolio returns. Generally, the test is a comparison of which distributions CDF sits "to the right" of the other. The CDF "to the right" means the return distribution which has more likely higher values. The portfolio CDFs can now be compared to test stochastic dominance at various orders, but more information on the preferences of investors can be incorporated before performing the tests.
+%
+%\citet{prelec_probability_1998} defines a flexible function with parameter $\alpha$ controlling the "slope" of the "weight" an investor places on an observed return, ordered from smallest to largest. When $\alpha$ equals zero, investors are EUT-compliant and place equal weight on all observed utilities from returns regardless of size when evaluating two possible portfolios. When $\alpha$ is less than one but greater than zero, investors place greater weight on the lower, negative, realized returns than the higher a result consistent with loss aversion from prospect theory. Figure \ref{fig:sd_ill_graph} shows the relationship between $\alpha$, the ordered cumulative return probability and the weight the investor places on the probability of such a return.\\
+%\begin{figure}[htb]
+%	\centering
+%	\caption{{\bf Non-EUT Investor Decision Weights}: This figure illustrates the incorporation of non-EUT investor preferences in the decision between two investment portfolios used in the stochastic dominance analysis. The cumulative probability, p, of the rank order statistics of the portfolio returns are on the x-axis. The perceived utility weight, W(p,$\alpha$), or importance placed on the possibility of incurring a return with probability p. The parameter $\alpha$ measures EUT compliance, $\alpha$ = 1 when investors care equally about all returns and $\alpha$ < 1 when investors care about extreme loses more than they should".} \label{fig:sd_ill_graph}
+%	\input{figures/sd_ill_plot}
+%\end{figure}
+%Using $\alpha$, I test the stochastic dominance of AV relative to SV. As \citet{hadar_rules_1969,hanoch_efficiency_1969,rothschild_increasing_1970,levy_experimental_2002} detail, the use of stochastic dominance tests allow us to make conclusions about the preference for AV or SV management for investors whose expected utility functions differ from simple mean-variance optimization. In results reported in the appendix, I use the methods detailed in \citet{vinod_h.d._ranking_2004,vinod_hands-intermediate_2008} to test the stochastic dominance of AV over SV to the forth order. Second order stochastic dominance, AV over SV, means that any risk averse investor would prefer AV. \citep{mcfadden_testing_1989,valle_novel_2017} Third order stochastic dominance means that any expected utility investor regardless of the form of the utility function would prefer AV to SV. \citep{whitmore_third-degree_1970,chan_third_2016} At forth order stochastic dominance, in addition to the concept of risk aversion both prudence and temperance are incorporated and all all expected-utility theory (EUT) investors prefer AV management to SV. \citep{kimball_standard_1993,noauthor_risk-aversion_nodate} As table \ref{tab:tab_sd} shows, expected utility investors whose $\alpha$ equals 1 prefer AV management to SV management. The positive numbers in across columns SD2, SD3, and SD4 indicate up to forth order stochastic dominance. Moreover, investors with non-EUT, e.g. prospect theory, preferences still prefer AV management to SV. \citep{kahneman_prospect_1979} For all values of $\alpha$ AV management stochastically dominants to the forth order over the SV portfolio.
+%\input{tables/performance/sd_utility}
 
 \subsection{In Sample Regressions}
+Full in-sample regression results covering the full sample 1926 to 2016, the pre-1962 period and the post-1962 period encompassing the sample of \citet{pollet_average_2010}.
 \begin{table}
 	\centering \caption{\textbf{:Full In Sample Results} \newline
 		\footnotesize{The table displays in sample regression results for monthly market variance, correlation and return statistics. SV is the annualized monthly variance of daily CRSP market returns. AV and AC are the monthly average variance and average pairwise correlation of daily returns for the top 500 assets in the CRSP market, as in \citet{pollet_average_2010}. RET is the log return of the CRSP market portfolio minus the log return on the 1 month treasury bill. The sample period is from 1926:07 to 2016:12. The coefficients and p-values are robust, see section \ref{sec:in_sample} for details.}} \vspace{-3mm}
@@ -86,8 +131,41 @@ Using $\alpha$, I test the stochastic dominance of AV relative to SV. As \citet{
 
 \subsection{Out-of-sample Robust}
 \input{table_oos_robust}
+\clearpage
 
 \subsection{Alternate Asset Classes}
+The following tables detail the drawdown, turnover, and break even trading cost statistics for alternate asset classes managed by equity AV. 
+%\begingroup
+%\vfill
+%%\centering % uncomment to centre the table horizontally as well as vertically
+%\begin{sideways}
+%%	\setlength{\tabcolsep}{3pt}
+%%	\begin{threeparttable}
+%%		\caption{P-values of Augmented Dickey-Fuller Test}
+%%		\label{my-label}
+%%		\begin{tabular}{@{}llllllllllllll@{}}
+%%			\toprule
+%%			Variable & Austria & Belgium & Finland & France & Germany & Netherl. & Greece & Italy & Ireland & Portugal & Spain & All eurozone & US \\ \midrule
+%%			\textit{Yield-OIS (10y)} & 0.1807 & 0.1912 & 0.1255 & 0.3142 & 0.1641 & 0.1995 & 0.4182 & 0.4180 & 0.5964 & 0.6333 & 0.4743 & & \textbf{0.0437} \\
+%%			\textit{CDS } & 0.0779 & 0.2706 & 0.3143 & 0.2230 & 0.0938 & 0.2775 & 0.7790 & 0.1399 & 0.2852 & 0.3403 & 0.2272 & & \\
+%%			\textit{Redom} & \textbf{0.0005} & 0.1273 & \textbf{0.0001} & \textbf{0.0287} & & 0.0718 & 0.6975 & 0.2210 & 0.6008 & 0.5033 & 0.4064 & & \\
+%%			\textit{BAS }& \textbf{0.0000} & \textbf{0.0111} & \textbf{0.0012} & \textbf{0.0000} & \textbf{0.0000} & 0.0021 & \textbf{0.0026} & 0.0000 & 0.3094 & 0.4802 & 0.0000 & & \\
+%%			\textit{OIS rate (10y)} & \multicolumn{1}{c}{} & & & & & & & & & & & 0.8880 & 0.0907 \\
+%%			\textit{VSTOXX} & \multicolumn{1}{c}{\textbf{}} & & & & & & & & & & & \textbf{0.0009} & \\
+%%			\textit{CESI} & \multicolumn{1}{c}{\textbf{}} & & & & & & & & & & & \textbf{0.0246} & \textbf{0.0146} \\ \bottomrule
+%%		\end{tabular}
+%%		\begin{tablenotes}[para,flushleft]
+%%			\footnotesize
+%%			\item \textbf{Notes}: This table shows the p-values of the Augmented Dickey-Fuller (ADF) test. The null hypothesis is that the variable has a unit root. This hypothesis is rejected when the p-value < 0.05 (highlighted in bold). The ADF with trend and intercept has been performed if variables have a clear trend. The column ``All eurozone'' shows the p-values for the time series observations. All variables in this test are measured in level values.
+%%		\end{tablenotes}
+%%	\end{threeparttable}
+%\input{tab_altPerf3}
+%%\clearpage
+%
+%\end{sideways}
+%\vfill
+%\restoregeometry
+%\endgroup
 \input{tab_altPerf3}
 \clearpage
 \input{tab_altPerf2}

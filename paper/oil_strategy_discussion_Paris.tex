@@ -1,0 +1,119 @@
+\documentclass[xcolor=table]{beamer}
+\usetheme{Hannover}
+\usecolortheme{seahorse}
+\setbeamertemplate{caption}{\insertcaption}
+\usepackage{graphics,graphicx,lmodern,amsmath,appendixnumberbeamer,enumerate}
+\useoutertheme{infolines}
+\setbeamertemplate{headline}{} % removes the headline that infolines inserts
+\setbeamertemplate{footline}[frame number]
+\usepackage{multimedia,etoolbox,xmpmulti,adjustbox,subfig,booktabs}
+%\usepackage[table]{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{snakes}
+\usepackage{hyperref}
+\makeatletter
+\patchcmd{\insertverticalnavigation}%
+{\ifx\beamer@nav@css\beamer@hidetext{\usebeamertemplate{section in sidebar}}\else{\usebeamertemplate{section in sidebar shaded}}\fi}%
+{{\usebeamertemplate{section in sidebar}}}{}{}
+\makeatother
+
+
+\usepackage{graphicx}
+\begin{document}
+%	\setlist[itemize]{noitemsep, topsep=0pt}
+\title[GCC Markets]{\textbf{Cross-Section of Returns in Frontier Markets:
+		Evidence from the GCC Markets}}
+\vspace{-24pt}
+\author[J. Poland]{{Bader S. Alhashel}}
+\date{\today}
+\institute[ISB]{Jeramia Poland\\
+	\includegraphics[scale=.5]{/home/jeramia/Pictures/Latex_Central/isb-logo.jpg}\\Indian School of Business}
+
+\begin{frame}
+\titlepage
+\end{frame}
+
+\section{Optimal Strategy}
+\begin{frame}{What the paper does}
+   \begin{itemize}[<+->]
+   	\item Models the decision on the amout of extracted oil to store and the amount to sell at a given time
+   	\item Optimizes the choice based on maximizing utility given various risk-return utility functions
+   \end{itemize}
+\end{frame}
+
+\begin{frame}{What the paper claims}
+ \begin{itemize}[<+->]
+ 	\item Abstract:
+ 	\begin{itemize}[<+->]
+ 		\item When storage is full - sell more of extracted quantity
+ 		\item When storage is empty - store more to secure reserves against price fluctuations
+ 		\item When half full - sell some and store some.
+ 	\end{itemize}
+ 	\item Intro and Conclusion:
+ 	\begin{itemize}[<+->]
+ 		\item In the face of increase oil price - profit is not sensitive to storage
+ 		\item For a fixed storage quantity - increasing extraction makes reserves less valuable and decreases potential income
+ 		\item For a fixed extraction quantity - total reserves is not important but only storage quantity and the more already stored the more sold.
+ 	\end{itemize}
+ \end{itemize}
+\end{frame}
+
+\begin{frame}{What the paper has going for it}
+\begin{itemize}[<+->]
+	\item Economically important subject - Oil
+	\item Timing - oil/energy market in the last 3 years
+	\item Modeling
+	\item Climate finance
+\end{itemize}
+\end{frame}
+
+\section{Suggestions}
+
+\begin{frame}{Comment}
+\begin{itemize}[<+->]
+	\item As is the paper really needs to hammer home the need for a better model and better optimal strategy solution.
+	\begin{itemize}[<+->]
+		\item More realistic - what are the consequences of the unrealistic models before: unrealistic conclusions, costs? costs to suboptimal predictions?
+		\item Optimal strategy - very intuitive
+	\end{itemize}
+	\item Talk about the contributions in the abstract the way they are discussed in the conclusion
+	\item Consider moving some of the math to an appendix
+	\item Consider framing the alternative utility functions as robustness checks and briefly comment on how using one versus the others impacts the strategy and the conclusions about the relationships between storage, extraction and the value of the reserves.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Suggestions}
+	\begin{itemize}[<+->]
+	\item Use the optimal strategy as a tool rather than an end itself, and the oil/energy market as a setting rather than a restriction.
+	\begin{itemize}[<+->]
+		\item Conclusions tell us things about the optimal management of capital investments (storage), fixed costs, variable costs, 
+		and the setting adds some exploitable oligopoly dynamics
+		\item Demand Uncertainty and Cost Behavior - Banker, Byzalov, and Plehn-Dujowich, Accounting Review 2013
+		\item Cost Behavior and Fundamental Analysis of SG\&A Costs - Anderson, Banker, et al. JAAF 2007
+		\item Demand uncertainty allows higher realizations, fixed capital investments made to capture those - unintuitive high fixed costs when demand (sales) uncertain
+		\item Could leave demand or price uncertain; could bring in OPEC oligopoly and incorporate lower support for price or "sticky" extraction/production
+	\end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Why widen the paper}
+	\begin{itemize}[<+->]
+		\item Paper already contains some interesting observations which look unintuitive:
+		\begin{itemize}[<+->]
+			\item 2014 collapse in oil prices and the non-response by OPEC
+			\begin{itemize}[<+->]
+				\item We have the conclusion that profit is not sensitive to storage costs - What about in the face decreasing prices, as in 2014? Was OPEC acting optimally?
+				\item We have for fixed storage quantity the available quanity becomes less important as potential income decreases, What happens when extraction/production is fixed? Was there no real OPEC response one production because they had room to act optimally through storage?
+				\item General statement on fixed cost investment (storage) exposes members of an uncompetitive market to entry
+			\end{itemize}
+			\item In several places reserves levels become unimportant to the current management decision, typically as a result or affect
+			\begin{itemize}[<+->]
+				\item Making the reserve nullification a cause, could this have something to say about the emergence of alternative energy sources? 
+				\item General statement on the management of obsolete or expiring goods in less competitive markets, or in the face of uncertain pricing, demand or production?
+			\end{itemize} 
+		\end{itemize}
+	\end{itemize}
+\end{frame}
+
+
+\end{document} 

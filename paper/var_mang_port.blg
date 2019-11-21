@@ -1,17 +1,17 @@
-This is BibTeX, Version 0.99d (TeX Live 2015/Debian)
-Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+This is BibTeX, Version 0.99d (TeX Live 2017/Debian)
+Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
 The top-level auxiliary file: var_mang_port.aux
 The style file: jf.bst
 Database file #1: avg_var_mang.bib
-Repeated entry---line 854 of file avg_var_mang.bib
+Repeated entry---line 982 of file avg_var_mang.bib
  : @article{hocquard_constant-volatility_2013
  :                                           ,
 I'm skipping whatever remains of this entry
-Repeated entry---line 1886 of file avg_var_mang.bib
+Repeated entry---line 2014 of file avg_var_mang.bib
  : @article{ang_cross-section_2006
  :                                ,
 I'm skipping whatever remains of this entry
-Repeated entry---line 1898 of file avg_var_mang.bib
+Repeated entry---line 2026 of file avg_var_mang.bib
  : @article{gonzalez-urteaga_cross-sectional_2016
  :                                               ,
 I'm skipping whatever remains of this entry
@@ -35,55 +35,53 @@ Too many commas in name 1 of "Lang, S., Gupta, F. and Prestbo, J." for entry lan
 while executing---line 2701 of file jf.bst
 Too many commas in name 1 of "Lang, S., Gupta, F. and Prestbo, J." for entry lang_2006
 while executing---line 2701 of file jf.bst
-Warning--empty journal in bali_does_nodate
+Warning--to sort, need author or key in most_2013
+Warning--to sort, need author or key in most_2015
+Warning--to sort, need author or key in most_2016
 Warning--empty institution in cao_risk_2016
 Too many commas in name 1 of "Lang, S., Gupta, F. and Prestbo, J." for entry lang_2006
 while executing---line 2867 of file jf.bst
 Too many commas in name 1 of "Lang, S., Gupta, F. and Prestbo, J." for entry lang_2006
 while executing---line 2867 of file jf.bst
-Warning--empty journal in morrison_guarantees_nodate
-Warning--empty booktitle in pav_notes_nodate
-Warning--empty institution in articlev1
-Warning--empty institution in articlev2
-You've used 100 entries,
+You've used 105 entries,
             2716 wiz_defined-function locations,
-            1168 strings with 19376 characters,
-and the built_in function-call counts, 42376 in all, are:
-= -- 3933
-> -- 2057
-< -- 94
-+ -- 732
+            1196 strings with 20309 characters,
+and the built_in function-call counts, 43109 in all, are:
+= -- 4005
+> -- 2060
+< -- 95
++ -- 739
 - -- 596
-* -- 3834
-:= -- 7717
-add.period$ -- 100
-call.type$ -- 100
-change.case$ -- 696
-chr.to.int$ -- 100
-cite$ -- 106
-duplicate$ -- 1799
-empty$ -- 2857
-format.name$ -- 782
-if$ -- 8098
+* -- 3870
+:= -- 7876
+add.period$ -- 105
+call.type$ -- 105
+change.case$ -- 720
+chr.to.int$ -- 105
+cite$ -- 115
+duplicate$ -- 1841
+empty$ -- 2925
+format.name$ -- 784
+if$ -- 8221
 int.to.chr$ -- 1
 int.to.str$ -- 1
-missing$ -- 88
-newline$ -- 304
-num.names$ -- 402
-pop$ -- 480
+missing$ -- 86
+newline$ -- 319
+num.names$ -- 410
+pop$ -- 485
 preamble$ -- 1
-purify$ -- 597
+purify$ -- 617
 quote$ -- 0
-skip$ -- 1331
+skip$ -- 1373
 stack$ -- 0
-substring$ -- 2721
-swap$ -- 421
-text.length$ -- 19
+substring$ -- 2730
+swap$ -- 410
+text.length$ -- 17
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 885
-warning$ -- 6
-while$ -- 429
+type$ -- 927
+warning$ -- 4
+while$ -- 428
 width$ -- 0
-write$ -- 1089
+write$ -- 1138
 (There were 10 error messages)

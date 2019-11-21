@@ -5,8 +5,8 @@
 
 \usepackage{setspace,graphicx,epstopdf,amsmath,amsfonts,amssymb,amsthm,versionPO}
 \usepackage{marginnote,datetime,enumitem,rotating,fancyvrb}
-\usepackage{float,lscape,adjustbox,array,subcaption,tabularx,physics}
-\usepackage{hyperref}
+\usepackage{float,lscape,adjustbox,array,subcaption,tabularx,physics,microtype}
+\usepackage{hyperref,url,tikz}
 \newcolumntype{H}{>{\setbox0=\hbox\bgroup}c<{\egroup}@{}}
 \usepackage[longnamesfirst]{natbib}
 %%\usepackage[firstpage]{draftwatermark}
@@ -14,57 +14,79 @@
 %\SetWatermarkScale{4}
 \usdate
 
+\definecolor{gray}{gray}{0.8}
+
+\setlength{\evensidemargin}{0in}
+\setlength{\oddsidemargin}{0pt}
+\setlength{\topmargin}{0pt}
+\setlength{\textwidth}{6in}
+\setlength{\marginparwidth}{0in}
+\setlength{\voffset}{0pt}
+\setlength{\topmargin}{0in}
+\setlength{\textheight}{9in}
+\setlength{\headheight}{0in}
+\setlength{\headsep}{0in}
+\setlength{\topsep}{0in}
+\setlength{\itemsep}{0in}
+
+\parskip=0.080in
+\parindent=0.25in
+
+
 % These next lines allow including or excluding different versions of text
 % using versionPO.sty
 
-\excludeversion{notes}		% Include notes?
-\includeversion{links}          % Turn hyperlinks on?
-
-% Turn off hyperlinking if links is excluded
-\iflinks{}{\hypersetup{draft=true}}
-
-% Notes options
-\ifnotes{%
-\usepackage[margin=1in,paperwidth=10in,right=2.5in]{geometry}%
-\usepackage[textwidth=1.4in,shadow,colorinlistoftodos]{todonotes}%
-}{%
-\usepackage[margin=1in]{geometry}%
-\usepackage[disable]{todonotes}%
-}
-
-% Allow todonotes inside footnotes without blowing up LaTeX
-% Next command works but now notes can overlap. Instead, we'll define 
-% a special footnote note command that performs this redefinition.
-%\renewcommand{\marginpar}{\marginnote}%
-
-% Save original definition of \marginpar
-\let\oldmarginpar\marginpar
-
-% Workaround for todonotes problem with natbib (To Do list title comes out wrong)
-\makeatletter\let\chapter\@undefined\makeatother % Undefine \chapter for todonotes
-
-% Define note commands
-\newcommand{\smalltodo}[2][] {\todo[caption={#2}, size=\scriptsize, fancyline, #1] {\begin{spacing}{.5}#2\end{spacing}}}
-\newcommand{\rhs}[2][]{\smalltodo[color=green!30,#1]{{\bf RS:} #2}}
-\newcommand{\rhsnolist}[2][]{\smalltodo[nolist,color=green!30,#1]{{\bf RS:} #2}}
-\newcommand{\rhsfn}[2][]{%  To be used in footnotes (and in floats)
-\renewcommand{\marginpar}{\marginnote}%
-\smalltodo[color=green!30,#1]{{\bf RS:} #2}%
-\renewcommand{\marginpar}{\oldmarginpar}}
-%\newcommand{\textnote}[1]{\ifnotes{{\noindent\color{red}#1}}{}}
-\newcommand{\textnote}[1]{\ifnotes{{\colorbox{yellow}{{\color{red}#1}}}}{}}
-
+%%\excludeversion{notes}		% Include notes?
+%\includeversion{links}          % Turn hyperlinks on?
+%
+%% Turn off hyperlinking if links is excluded
+%\iflinks{}{\hypersetup{draft=true}}
+%
+%%% Notes options
+%%\ifnotes{%
+%%\usepackage[margin=1in,paperwidth=10in,right=2.5in]{geometry}%
+%%\usepackage[textwidth=1.4in,shadow,colorinlistoftodos]{todonotes}%
+%%}{%
+%%\usepackage[margin=1in]{geometry}%
+%%\usepackage[disable]{todonotes}%
+%%}
+%
+%% Allow todonotes inside footnotes without blowing up LaTeX
+%% Next command works but now notes can overlap. Instead, we'll define 
+%% a special footnote note command that performs this redefinition.
+%%\renewcommand{\marginpar}{\marginnote}%
+%
+%% Save original definition of \marginpar
+%\let\oldmarginpar\marginpar
+%
+%% Workaround for todonotes problem with natbib (To Do list title comes out wrong)
+%\makeatletter\let\chapter\@undefined\makeatother % Undefine \chapter for todonotes
+%
+%%% Define note commands
+%%\newcommand{\smalltodo}[2][] {\todo[caption={#2}, size=\scriptsize, fancyline, #1] {\begin{spacing}{.5}#2\end{spacing}}}
+%%\newcommand{\rhs}[2][]{\smalltodo[color=green!30,#1]{{\bf RS:} #2}}
+%%\newcommand{\rhsnolist}[2][]{\smalltodo[nolist,color=green!30,#1]{{\bf RS:} #2}}
+%%\newcommand{\rhsfn}[2][]{%  To be used in footnotes (and in floats)
+%%\renewcommand{\marginpar}{\marginnote}%
+%%\smalltodo[color=green!30,#1]{{\bf RS:} #2}%
+%%\renewcommand{\marginpar}{\oldmarginpar}}
+%%%\newcommand{\textnote}[1]{\ifnotes{{\noindent\color{red}#1}}{}}
+%%\newcommand{\textnote}[1]{\ifnotes{{\colorbox{yellow}{{\color{red}#1}}}}{}}
+%
 % Command to start a new page, starting on odd-numbered page if twoside option 
 % is selected above
 \newcommand{\clearRHS}{\clearpage\thispagestyle{empty}\cleardoublepage\thispagestyle{plain}}
-
-% Number paragraphs and subparagraphs and include them in TOC
-\setcounter{tocdepth}{2}
-
-% JF-specific includes:
+%
+%% Number paragraphs and subparagraphs and include them in TOC
+%\setcounter{tocdepth}{2}
+%
+%\renewcommand{\thefootnote}{\arabic{footnote}}
+%
+%% JF-specific includes:
 
 \usepackage{indentfirst} % Indent first sentence of a new section.
 \usepackage{endnotes}    % Use endnotes instead of footnotes
+%\usepackage{footmisc}
 \usepackage{jf}          % JF-specific formatting of sections, etc.
 \usepackage[labelfont=bf,labelsep=period]{caption}   % Format figure captions
 \captionsetup[table]{labelsep=none}
@@ -78,16 +100,19 @@
 \newcommand{\sign}{\mathop{\rm sign}}
 \newcommand{\defeq}{\stackrel{\rm def}{=}}
 
+%\renewcommand{\contentsname}{Average Variance Table of Contents}
+
 \begin{document}
 
 \setlist{noitemsep}  % Reduce space between list items (itemize, enumerate, etc.)
 \onehalfspacing      % Use 1.5 spacing
 % Use endnotes instead of footnotes - redefine \footnote command
-\renewcommand{\footnote}{\endnote}  % Endnotes instead of footnotes
+%\renewcommand{\footnote}{\endnote}  % Endnotes instead of footnotes
 
-\author{Jeramia Poland \thanks{\rm Indian School of Business, email \href{mailto:jeramia_poland@isb.edu}{jeramia\_poland@isb.edu}}}
+\author{Jeramia Poland\thanks{\rm Indian School of Business, email \href{mailto:jeramia_poland@isb.edu}{jeramia\_poland@isb.edu}, +91 9866656230 \newline
+		\protect\input{Acknowledgments} } }
 
-\title{\Large \bf How to Look Clever and Have Envious Neighbors: Average Volatility Managed Investment Timing}
+\title{\Large \bf Average Variance Managed Investment Timing}
 
 \date{}              % No date for final submission
 
@@ -102,13 +127,24 @@
 
 \medskip
 
-\noindent JEL classification: XXX, YYY.
+\noindent JEL classification: G10, G11, G17.
 
 \clearpage
 
+%\tableofcontents
+%\addtocontents{toc}{\protect\thispagestyle{empty}}
+%\newpage
+%\setcounter{page}{1}
+%
+%\clearpage
+
 \input{introduction.tex}
 
-\section{Data} \label{sec:Data}
+\section{Theoretical Framework} \label{sec:theory}
+
+\input{theory}
+
+\section{Data and Methodology} \label{sec:Data}
 
 \input{data}
 
@@ -116,17 +152,13 @@
 
 \input{asset_allocation}
 
-\subsection{Portfolio Performance} \label{sec:port_performance}
+\subsection{US Performance} \label{sec:port_performance}
 
 \input{port_performance}
 
-\subsection{Leverage} \label{sec:leverage}
+\section{Leverage} \label{sec:leverage}
 
 \input{leverage}
-
-\subsection{Drawdowns}
-
-\input{drawdowns} \label{sec:drawdowns}
 
 \subsection{Investor Utility} \label{sec:invest_util}
 
@@ -135,6 +167,18 @@
 %\section{Regression Analysis} 
 \section{Systematic Risk}\label{sec:regression}
 \input{systemic_risk}
+
+\subsection{Additional Investment} \label{sec:reinvestment}
+%\input{ainvestment}
+%\subsubsection{Global Equity} \label{sec:global_equity}
+%\input{perf_robust}
+%\subsubsection{Other Asset Classes} 
+\input{alt_inv}
+
+
+\subsection{Return Dependence} \label{sec:market_cap}
+\input{market_cap}
+
 \subsection{In-Sample} \label{sec:in_sample}
 
 \input{in_sample}
@@ -160,29 +204,20 @@
 
 
 
-\subsection{Systematic Relationships}
-\input{systematic_ac}
+%\subsection{Systematic Relationships}\label{sec:systematic}
+%\input{systematic_ac}
 \subsection{Regression Sub-sampling}\label{sec:subsampling}
 %\input{notes_on_regression_subsampling}
 \input{sub_insample}
-
-\subsection{Market Capitalization} \label{sec:market_cap}
-\input{market_cap}
 
 \subsection{Out-of-Sample} \label{sec:out_sample}
 
 \input{out_sample}
 
-\subsubsection{Robust Out-of-Sample}
+\subsection{Robust Out-of-Sample}
 
 \input{robustness}
 
-\subsection{Additional Investment} \label{sec:reinvestment}
-%\input{ainvestment}
-%\subsubsection{Global Equity} \label{sec:global_equity}
-%\input{perf_robust}
-%\subsubsection{Other Asset Classes} 
-\input{alt_inv}
 
 \section{Conclusion}
 
@@ -214,9 +249,9 @@
 
 \clearpage
 
-\section{Acknowledgments}
-\input{Acknowledgments}
-\clearpage
+%\section{Acknowledgments}
+%\input{Acknowledgments}
+%\clearpage
 
 %\appendix
 %
@@ -249,11 +284,11 @@
 
 \clearpage
 
-% Print end notes
-\renewcommand{\enotesize}{\normalsize}
-\begin{doublespacing}
-  \theendnotes
-\end{doublespacing}
+%% Print end notes
+%\renewcommand{\enotesize}{\normalsize}
+%\begin{doublespacing}
+%  \theendnotes
+%\end{doublespacing}
 
 % Figures and tables, showing how to structure captions
 \clearpage
@@ -262,8 +297,13 @@
 
 \input{tables}
 
-\section{Appendix} \label{sec:appx}
 
+\setcounter{table}{0}
+\renewcommand{\thetable}{\Alph{subsection}.\arabic{table}}
+
+\setcounter{figure}{0}
+\renewcommand{\thefigure}{\Alph{subsection}.\arabic{figure}}
+\section{Appendix} \label{sec:appx}
 %\renewcommand{\thesection}{\mbox{Internet Appendix}}
 %\renewcommand{\thesubsection}{\Alph{subsection}}
 %\renewcommand{\thesubsubsection}{\mbox{\Alph{subsection}.\arabic{subsubsection}}}

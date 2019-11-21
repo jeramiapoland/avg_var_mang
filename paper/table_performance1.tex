@@ -1,19 +1,23 @@
 \begin{table}[!htbp] \centering 
   \caption{\textbf{:Portfolio Performance - Unconstrained} \newline
-  	\footnotesize{This table displays portfolio performance measures for the AV and SV managed portfolio strategies using $c_{BH}$ to target the annual volatility of the buy and hold market portfolio over the whole data set, 1926 to 2016, and over NBER business cycle expansions, contractions and contractions excluding the Great Depression. RET is the average annualized monthly log excess return. Sharpe and Sortino are the Sharpe and Sortino ratios respectively; Kappa$_{3}$ and Kappa$_{4}$ are the lower parital skewness and lower partial kurtosis Kappa measures. See section \ref{sec:asset_allocation} for details. No constraints are plased on the level of investment in the market portfolio for the AV and SV managed portfolio; the buy and hold strategy always has an investment weight of one in the market. Stars on the lines for the AV and SV managed portfolios indicate a significant postive performance difference between those two portfolios.}} 
+  	\footnotesize{This table displays portfolio performance measures for the AV and SV managed portfolio strategies using $c_{BH}$ to target the annual volatility of the buy and hold market portfolio over the whole data set, 1926 to 2016, and over NBER business cycle expansions, contractions and contractions excluding the Great Depression. RET is the average annualized monthly log excess return. Sharpe and Sortino are the Sharpe and Sortino ratios respectively; Kappa$_{3}$ and Kappa$_{4}$ are the lower partial skewness and lower partial kurtosis Kappa measures. See section \ref{sec:asset_allocation} for details. No constraints are placed on the level of investment in the market portfolio for the AV and SV managed portfolio; the buy and hold strategy always has an investment weight of one in the market. Stars on the lines for the AV and SV managed portfolios indicate a significant positive performance difference between those two portfolios.}} 
   \label{tab:tab_performance1} 
 	\subcaption{Full Sample}
+	  \begin{adjustbox}{width=\textwidth}
   \input{tables/performance/tab_perf_NO_full}
+\end{adjustbox}
   	\subcaption{NBER Expansions}
+  	  \begin{adjustbox}{width=\textwidth}
   		\input{tables/performance/tab_perf_NO_expansions}
-
+\end{adjustbox}
   	\subcaption{NBER Contractions}
-
+  \begin{adjustbox}{width=\textwidth}
   		\input{tables/performance/tab_perf_NO_contractions}
-
+\end{adjustbox}
   	\subcaption{NBER Contractions x1929:09-1933:03}
-
+  \begin{adjustbox}{width=\textwidth}
   		\input{tables/performance/tab_perf_NO_cont_xGreat}
+  		\end{adjustbox}
 %  \subcaption{Investment Constrained [0,3]}
 %  \input{tables/tab_perf_053_3}
 \end{table} 

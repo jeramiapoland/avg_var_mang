@@ -1,0 +1,17 @@
+\beamer@endinputifotherversion {3.36pt}
+\beamer@sectionintoc {1}{Risk and Reward}{2}{0}{1}
+\beamer@sectionintoc {2}{Results}{7}{0}{2}
+\beamer@subsectionintoc {2}{1}{Performance}{7}{0}{2}
+\beamer@subsectionintoc {2}{2}{Systematic Risk}{12}{0}{2}
+\beamer@sectionintoc {3}{Conclusion}{17}{0}{3}
+\beamer@sectionintoc {4}{Data}{18}{0}{4}
+\beamer@sectionintoc {5}{Results}{21}{0}{5}
+\beamer@subsectionintoc {5}{1}{Investment}{21}{0}{5}
+\beamer@subsectionintoc {5}{2}{Performance}{24}{0}{5}
+\beamer@sectionintoc {6}{Suggestively Systematic}{32}{0}{6}
+\beamer@subsectionintoc {6}{1}{Regression Subsamples}{32}{0}{6}
+\beamer@subsectionintoc {6}{2}{In Sample}{35}{0}{6}
+\beamer@subsectionintoc {6}{3}{Out of Sample}{37}{0}{6}
+\beamer@subsectionintoc {6}{4}{Global Results}{40}{0}{6}
+\beamer@subsectionintoc {6}{5}{Asset Results}{43}{0}{6}
+\beamer@sectionintoc {7}{Conclusion}{46}{0}{7}
