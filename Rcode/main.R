@@ -3,7 +3,7 @@ paks <- c("RCurl","data.table","tis","lubridate","ggplot2","stringr","sandwich",
           "PortfolioAnalytics","PerformanceAnalytics","backtest","tidyr","broom","stringdist","BH","parallel","doMC","foreach",
           "doParallel","lmtest","hypergeo","strucchange","formula.tools","multiwave","outliers","forecast","SharpeR","fastmatch",
           "bvarsv","boot","goftest","DescTools","dunn.test","generalCorr","cointReg","psd","plot3D","rootSolve",
-          "fitdistrplus","conics","panelvar") 
+          "fitdistrplus","conics","panelvar","imputeTS","rugarch","xts") 
 # note: tikzDevice requires a working latex installation
 # and xlsx require rJava so a properly configured java (try javareconf)
 for (p in paks){
@@ -582,7 +582,7 @@ for(y in y_vars){
 
 write.csv(robust_table,file = "tables/robust.csv")
 
-#### asset allocation ####
+  #### asset allocation ####
 
 # monthly
 #m_start = (paper_1962_start-1) + floor(.15*length((paper_1962_start-1):nrow(m_data)))
@@ -596,6 +596,10 @@ sv_sd = sd(m_sv_returns)
 m_av_weights = (1/m_data[(paper_m_start+1):(nrow(m_data))]$avg_var1m)
 m_av_returns = m_av_weights * m_bh_returns
 av_sd = sd(m_av_returns)
+m_ac_weights = (1/m_data[(paper_m_start+1):(nrow(m_data))]$avg_cor1m)
+m_ac_returns = m_ac_weights * m_bh_returns
+ac_sd = sd(m_ac_returns)
+
 for(t in tar_sds){
   suf = str_extract(t,"[:digit:]{2,3}")
   assign(paste0("c_sv_",suf),(t / sv_sd))
@@ -604,6 +608,9 @@ for(t in tar_sds){
   assign(paste0("c_av_",suf),(t / av_sd))
   assign(paste0("av_",suf,"_weights"), ((t / av_sd) * m_av_weights))
   assign(paste0("av_",suf,"_returns"), ((t / av_sd) * m_av_weights) * m_bh_returns)
+  assign(paste0("c_ac_",suf),(t / ac_sd))
+  assign(paste0("ac_",suf,"_weights"), ((t / ac_sd) * m_ac_weights))
+  assign(paste0("ac_",suf,"_returns"), ((t / ac_sd) * m_ac_weights) * m_bh_returns)
 }
 
 sufx = vapply(X = tar_sds,FUN = str_extract,"[:digit:]{2,3}",FUN.VALUE = "0")
@@ -612,14 +619,15 @@ sufx = vapply(X = tar_sds,FUN = str_extract,"[:digit:]{2,3}",FUN.VALUE = "0")
 upper_lev = seq(1,3,.1)
 m_data[, date := as.Date(paste0(year,"-",month,"-28"))]
 r_dates = m_data[(paper_m_start+1):(nrow(m_data))]$date + months(1)
-returns_dt = array(dim = c(2,3,length(upper_lev)+1,length(m_bh_returns)),
-                   dimnames = list(c("av","sv"),sufx,c("NO",upper_lev),as.character(r_dates)))
+returns_dt = array(dim = c(3,3,length(upper_lev)+1,length(m_bh_returns)),
+                   dimnames = list(c("av","sv","ac"),sufx,c("NO",upper_lev),as.character(r_dates)))
 for(s in sufx){
   returns_dt["av",s,"NO",] = get(paste0("av_",s,"_returns"))
   returns_dt["sv",s,"NO",] = get(paste0("sv_",s,"_returns"))
+  returns_dt["ac",s,"NO",] = get(paste0("ac_",s,"_returns"))
 }
 
-for(p in c("av","sv")){
+for(p in c("av","sv","ac")){
   for(s in sufx){
     w = get(paste0(p,"_",s,"_weights"))
     for(u in upper_lev){
@@ -1051,18 +1059,26 @@ dd_table[, c("Max DD","Avg DD") := list(`Max DD`*100,`Avg DD`*100)]
 dd_table[,2:ncol(dd_table)] = round(dd_table[,2:ncol(dd_table)],3)
 stargazer(dd_table,summary = FALSE,out = "tables/performance/dd_stats.tex")
 
-# knockout drawndown
+#### knockout drawndown ####
 #  “the probability of a 40% drawdown in one year is less than 0.1%.”
 dd_dt_binom = dd_dt[constraint == "NO"]
-dd_dt_binom[, dd40 := as.integer(Return <= -.45)]
-dd_dt_binom[, dd40_gamma := sum(dd40) / (length(dd40) /12) , by = Strategy]
-p40_bh = fitdist(dd_dt_binom[Strategy=="market"]$dd40,distr = "binom",method = "mle",fix.arg = list(size=12),
-                 start=list(prob=(dd_dt_binom[Strategy=="market"]$dd40_gamma[1]/100)))$estimate * 100
-p40_av = fitdist(dd_dt_binom[Strategy=="av_mang"]$dd40,distr = "binom",method = "mle",fix.arg = list(size=12),
-                 start=list(prob=(dd_dt_binom[Strategy=="av_mang"]$dd40_gamma[1]/100)))$estimate * 100
-p40_sv = fitdist(dd_dt_binom[Strategy=="vol_mang"]$dd40,distr = "binom",method = "mle",fix.arg = list(size=12),
-                      start=list(prob=(dd_dt_binom[Strategy=="vol_mang"]$dd40_gamma[1]/100)))$estimate * 100
-
+p_out = vector(mode = "numeric",length = 5)
+pvect = c(-.49, -.45, -.40, -.35)
+probs = array(dim = c(2,length(pvect)),dimnames = list(c("AV","SV"),pvect))
+for (pp in 1:length(pvect)){
+  p = pvect[pp]
+  dd_dt_binom[, dd40 := as.integer(Return <= p)]
+  dd_dt_binom[, dd40_gamma := sum(dd40) / (length(dd40) /12) , by = Strategy]
+  p40_bh = fitdist(dd_dt_binom[Strategy=="market"]$dd40,distr = "binom",method = "mle",fix.arg = list(size=12),
+                   start=list(prob=(dd_dt_binom[Strategy=="market"]$dd40_gamma[1]/100)))$estimate * 100
+  p40_av = fitdist(dd_dt_binom[Strategy=="av_mang"]$dd40,distr = "binom",method = "mle",fix.arg = list(size=12),
+                   start=list(prob=(dd_dt_binom[Strategy=="av_mang"]$dd40_gamma[1]/100)))$estimate * 100
+  probs[1,pp] = p40_av
+  p40_sv = fitdist(dd_dt_binom[Strategy=="vol_mang"]$dd40,distr = "binom",method = "mle",fix.arg = list(size=12),
+                   start=list(prob=(dd_dt_binom[Strategy=="vol_mang"]$dd40_gamma[1]/100)))$estimate * 100
+  probs[2,pp] = p40_sv
+  p_out[pp] = p40_sv / p40_av
+}
 
 # p2 = data.table(Date = rep(q_data[q_start:nrow(q_data)]$date,3), 
 #                 Strategy = c(rep("avg_var,",length(adj_q_av_returns)),rep("mkt_var",length(adj_q_vol_returns)),rep("market",length(q_bh_returns))),
@@ -2665,6 +2681,7 @@ ratios[is.na(top), top := 0]
 ratios[Country=="uk"&year>=2012, top := 1]
 ratios[Country=="brazil"&year>=2013, top := 0]
 mxD = merge(IntData,ratios,by=c("year","Country"))
+mxDusa = merge(IntData[Country=="usa"],ratios,by=c("year","Country"))
 # mkt2gdp_port = mxD[year >= 2005, .(RET = mean(av_return*(top==1),na.rm = T) - mean(av_return*!(top==1),na.rm = T)), by = c("year","month")]
 # mkt2gdp_retSharp = mkt2gdp_port[, .(ret = mean(RET)*1200, sharpe = mean(RET) / sd(RET) * sqrt(12))]
 
@@ -2672,6 +2689,7 @@ mxD_long = mxD[year >= 2005 & top==1, .(RET = mean(av_return,na.rm = T)), by = c
 mkt2gdp_retSharp_long = mxD_long[, .(ret = mean(RET)*1200, sharpe = mean(RET) / sd(RET) * sqrt(12))]
 mxD_short = mxD[year >= 2005 & top==0, .(RET = mean(av_return,na.rm = T)), by = c("year","month")]
 mkt2gdp_retSharp_short = mxD_short[, .(ret = mean(RET)*1200, sharpe = mean(RET) / sd(RET) * sqrt(12))]
+hac_t.test2(mean(mxD_long$RET),mean(mxD_short$RET),mxD_long$RET,mxD_short$RET,paired = TRUE,alternative = "two-sided")
 
 mkt2gdp_port = data.table(year = mxD_long$year, month = mxD_long$month ,RET = mxD_long$RET - mxD_short$RET)
 mkt2gdp_retSharp = mkt2gdp_port[, .(ret = mean(RET)*1200, sharpe = mean(RET) / sd(RET) * sqrt(12))]
@@ -2794,6 +2812,7 @@ mkt2gdp_strategyshort = unlist(mkt2gdp_strategyshort)
 a3s = unlist(alpha3(mkt2gdp_strategyLong[3]/1200,mkt2gdp_strategyshort[3]/1200,a3s[[2]],a3sS[[2]]))
 a5s = unlist(alpha3(mkt2gdp_strategyLong[5]/1200,mkt2gdp_strategyshort[5]/1200,a5s[[2]],a5sS[[2]]))
 a6s = unlist(alpha3(mkt2gdp_strategyLong[7]/1200,mkt2gdp_strategyshort[7]/1200,a6s[[2]],a6sS[[2]]))
+hac_t.test2(12.601084,7.536679,mxD_long$RET,mxD_short$RET,paired = TRUE,alternative = "two-sided")
 mkt2gdp_strategy = c(mkt2gdp_retSharp,a3s[1]*1200,a3s[3],a5s[1]*1200,a5s[3],a6s[1]*1200,a6s[3])
 mkt2gdp_strategy = unlist(mkt2gdp_strategy)
 mkt2gdp2_results2 = rbind(mkt2gdp_strategyLong,mkt2gdp_strategyshort,mkt2gdp_strategy)
@@ -2824,7 +2843,7 @@ ratios[is.na(WBtop2), WBtop := 0]
 # ratios[is.na(bottom), bottom := 0]
 # ratios[Country=="uk"&year>=2013, top := 1]
 # ratios[Country=="india"&year>=2013, top := 0]
-mxD = merge(IntData,ratios[year>=2006],by=c("year","Country"))
+mxD = merge(IntData,ratios[year>=2005],by=c("year","Country"))
 
 mxD_long = mxD[year >= 2005 & WBtop2==1, .(RET = mean(av_return,na.rm = T)), by = c("year","month")]
 mkt2gdp_retSharp_long = mxD_long[, .(ret = mean(RET)*1200, sharpe = mean(RET) / sd(RET) * sqrt(12))]
@@ -2884,3 +2903,439 @@ pvargmm(dependent_vars = c("dp","dg","avar1m","acorr1m","var1m"),lags = 1,
         progressbar = TRUE, steps = "twostep",pca_instruments = TRUE,
         collapse = TRUE)
 
+##### us time series ####
+ff_5[, c("RMW","CMA") := lapply(.SD/100,log1p), .SDcols = c("RMW","CMA")]
+mxDusa = merge(mxDusa,ff_data,by=c("year","month"),all.x=TRUE)
+mxDusa = merge(mxDusa,subset(ff_5,select = c("year","month","RMW","CMA")),by=c("year","month"),all.x=TRUE)
+mxDusa = subset(mxDusa,select = c("SMB","HML","Mkt_RF","RMW","CMA","Mom","RF_lag","av_return","sv_return","xlogret",
+                                  "avar1m","mkt2gdp","year","month","quarter"))
+pop_usa = pop_dt[Country=="usa"]
+mxDusa = merge(mxDusa,pop_usa,by=c("year"),all.x=TRUE)
+mxDusa[, mkt2gdp2 := mkt2gdp * pop]
+summary(mxDusa$mkt2gdp2)
+summary(mxDusa[mkt2gdp2 >= 208237916]$av_return)
+summary(mxDusa[mkt2gdp2 < 208237916]$av_return)
+
+usa_high = mxDusa[mkt2gdp2 >= 208237916, .(ret = mean(av_return)*1200, sharpe = mean(av_return) / sd(av_return) * sqrt(12))]
+
+
+a3s = alpha2(mxDusa[mkt2gdp2 >= 208237916]$av_return,as.matrix(mxDusa[mkt2gdp2 >= 208237916][, c("SMB","HML","Mkt_RF")]))
+a5s = alpha2(mxDusa[mkt2gdp2 >= 208237916]$av_return,as.matrix(mxDusa[mkt2gdp2 >= 208237916][, c("SMB","HML","Mkt_RF","RMW","CMA")]))
+a6s = alpha2(mxDusa[mkt2gdp2 >= 208237916]$av_return,as.matrix(mxDusa[mkt2gdp2 >= 208237916][, c("SMB","HML","Mkt_RF","RMW","CMA","Mom")]))
+usa_high = c(usa_high,a3s[[1]][1]*1200,a3s[[1]][2],a5s[[1]][1]*1200,a5s[[1]][2],a6s[[1]][1]*1200,a6s[[1]][2])
+usa_high = unlist(usa_high)
+
+usa_low = mxDusa[mkt2gdp2 < 208237916, .(ret = mean(av_return)*1200, sharpe = mean(av_return) / sd(av_return) * sqrt(12))]
+
+
+a3s = alpha2(mxDusa[mkt2gdp2 < 208237916]$av_return,as.matrix(mxDusa[mkt2gdp2 < 208237916][, c("SMB","HML","Mkt_RF")]))
+a5s = alpha2(mxDusa[mkt2gdp2 < 208237916]$av_return,as.matrix(mxDusa[mkt2gdp2 < 208237916][, c("SMB","HML","Mkt_RF","RMW","CMA")]))
+a6s = alpha2(mxDusa[mkt2gdp2 < 208237916]$av_return,as.matrix(mxDusa[mkt2gdp2 < 208237916][, c("SMB","HML","Mkt_RF","RMW","CMA","Mom")]))
+usa_low = c(usa_low,a3s[[1]][1]*1200,a3s[[1]][2],a5s[[1]][1]*1200,a5s[[1]][2],a6s[[1]][1]*1200,a6s[[1]][2])
+usa_low = unlist(usa_low)
+usaHighLow_results3 = rbind(usa_high,usa_low)
+
+
+
+#### currency ####
+all_Dates = data.table(m_data[, c("year","month")])
+source(file = 'currency_data.R')
+alt_inv = merge(alt_inv,cvar_month,by=c("year","month"),all.x=T)
+alt_inv[, dbcurr_tp1 := shift(dbcurr,type = "lead")]
+idx = !is.na(alt_inv$avg_cvar)
+m_curr_weights = (1/alt_inv[idx]$avg_cvar)
+m_curr_Wweights = (1/alt_inv[idx]$wavg_cvar)
+# m_curr_returns = m_curr_weights * alt_inv[idx]$dbcurr_tp1
+# sd_curr = sd(m_curr_returns,na.rm = T)
+# m_curr_returns = ((sd(alt_inv[idx]$dbcurr_tp1) / sd_curr) * m_curr_weights) * alt_inv[idx]$dbcurr_tp1
+# expt_curr = mean(alt_inv[idx]$dbcurr_tp1)
+# expt_curr_av =  mean(na.omit(m_curr_returns))
+# expt_curr_sr = expt_curr / sd(alt_inv[idx]$dbcurr_tp1)
+# expt_curr_av_sr = expt_curr_av / sd(alt_inv[!is.na(avg_cvar)]$dbcurr_tp1)
+# alt_inv = merge(alt_inv,subset(m_data,select = c("year","month","vwretd.tp1")),by=c("year","month"),all.x=T)
+# m_curr_returns = ((sd(alt_inv[idx]$dbcurr_tp1) / sd_curr) * m_curr_weights) * alt_inv[idx]$vwretd.tp1
+# expt_curr = mean(na.omit(alt_inv[idx]$vwretd.tp1))
+# expt_curr_av =  mean(na.omit(m_curr_returns))
+# expt_curr_sr = expt_curr / sd(na.omit(alt_inv[idx]$vwretd.tp1))
+# expt_curr_av_sr = expt_curr_av / sd(na.omit(m_curr_returns))
+# 
+# alt_inv[, dbmom_tp1 := shift(dbmom,type = "lead")]
+# m_cmom_returns = m_curr_weights * alt_inv[idx]$vwretd.tp1
+# sd_curr = sd(m_cmom_returns,na.rm = T)
+# m_cmom_returns = ((sd(alt_inv[idx]$dbmom_tp1) / sd_curr) * m_curr_weights) * alt_inv[idx]$vwretd.tp1
+# expt_cmom = mean(na.omit(alt_inv[idx]$vwretd.tp1))
+# expt_cmom_av =  mean(na.omit(m_cmom_returns))
+# expt_cmom_sr = expt_cmom / sd(na.omit(alt_inv[idx]$vwretd.tp1))
+# expt_cmom_av_sr = expt_cmom_av / sd(na.omit(m_cmom_returns))
+
+alt_inv = merge(alt_inv,subset(MD3,select = c("year","month","worldD")),by=c("year","month"),all.x=TRUE)
+alt_inv[, worldD_tp1 := shift(worldD,type = "lead")]
+m_world_returns_curr = m_curr_weights * alt_inv[idx]$worldD_tp1
+sd_curr = sd(m_world_returns_curr,na.rm = T)
+m_worldD_returns_curr = ((sd(alt_inv[idx]$worldD_tp1,na.rm=TRUE) / sd_curr) * m_curr_weights) * alt_inv[idx]$worldD_tp1
+expt_worldD = mean(alt_inv[idx]$worldD_tp1,na.rm = TRUE) *1200
+expt_worldD_curr_av =  mean(na.omit(m_worldD_returns_curr),na.rm = TRUE) *1200
+expt_curr_sr = expt_worldD / sd(alt_inv[idx]$worldD_tp1,na.rm = TRUE) * sqrt(12) / 1200
+expt_curr_av_sr = expt_worldD_curr_av / sd(na.omit(m_worldD_returns_curr),na.rm = TRUE) * sqrt(12) / 1200
+
+
+m_world_returns_Wcurr = m_curr_Wweights * alt_inv[idx]$worldD_tp1
+sd_Wcurr = sd(m_world_returns_Wcurr,na.rm = T)
+m_worldD_returns_Wcurr = ((sd(alt_inv[idx]$worldD_tp1,na.rm=TRUE) / sd_Wcurr) * m_curr_Wweights) * alt_inv[idx]$worldD_tp1
+expt_worldD_Wcurr_av =  mean(na.omit(m_worldD_returns_Wcurr),na.rm = TRUE) *1200
+expt_Wcurr_av_sr = expt_worldD_Wcurr_av / sd(na.omit(m_worldD_returns_Wcurr),na.rm = TRUE) * sqrt(12) / 1200
+
+hac_t.test2(mean(m_worldD_returns_Wcurr,na.rm = TRUE),mean(alt_inv[idx]$worldD_tp1,na.rm = TRUE),na.omit(m_worldD_returns_Wcurr),na.omit(alt_inv[idx]$worldD_tp1),paired="TRUE",alternative="two-sided")
+ratio.test2(rets1 = na.omit(m_worldD_returns_Wcurr),rets2 = na.omit(alt_inv[idx]$worldD_tp1),ratio = "Sratio")
+
+m_world_returns_curr = m_curr_weights * alt_inv[idx]$worldD_tp1
+sd_curr = sd(m_world_returns_curr,na.rm = T)
+m_worldD_returns_curr = ((sd(alt_inv[idx]$worldD_tp1,na.rm=TRUE) / sd_curr) * m_curr_weights) * alt_inv[idx]$worldD_tp1
+expt_worldD = mean(alt_inv[idx]$worldD_tp1,na.rm = TRUE) *1200
+expt_worldD_curr_av =  mean(na.omit(m_worldD_returns_curr),na.rm = TRUE) *1200
+expt_curr_sr = expt_worldD / sd(alt_inv[idx]$worldD_tp1,na.rm = TRUE) * sqrt(12) / 1200
+expt_curr_av_sr = expt_worldD_curr_av / sd(na.omit(m_worldD_returns_curr),na.rm = TRUE) * sqrt(12) / 1200
+
+
+#### bond data #####
+bonds = fread(input = '184f19af785ec04c.csv')
+bonds[, trans_dt := as.Date(as.character(trans_dt),format="%Y%m%d")]
+bonds[,c("year","month","day") := list(year(trans_dt),month(trans_dt),day(trans_dt))]
+setkey(bonds,cusip_id,year,month,day)
+b_trades = bonds[, .(count = length(trans_dt)), by= cusip_id]
+
+bdata = fread(input = '40321c119c99e502.csv')
+bdata[, date := as.Date(DATE,format="%d%b%Y")]
+bdata[, c("year","month") := list(year(date),month(date))]
+bonds = merge(bonds,subset(bdata,select = c("year","month","bond_sym_id","T_Volume","T_DVolume")),by=c("year","month","bond_sym_id"),all.x=TRUE)
+bonds2 = bonds[!bond_sym_id==""&!is.na(bond_sym_id)]
+setkey(bonds2,bond_sym_id,year,month,day)
+bonds2 = unique(bonds2,by=c("bond_sym_id","year","month","day"))
+bonds2[, RET := ROC(close_pr), by= c("bond_sym_id")]
+bonds2 = bonds2[!is.na(T_Volume)&!is.na(RET)]
+bonds3 = unique(bonds2,by=c("bond_sym_id","year","month","day"))
+bonds3 = bonds3[, .(T_Volume = as.numeric(gsub('[$,]', '', T_Volume)), T_DVolume = as.numeric(gsub('[$,]', '', T_DVolume)), 
+                    r_var = var(RET,na.rm=TRUE), sumTV = sum(as.numeric(gsub('[$,]', '', T_Volume))), 
+                    sumTDV = sum(as.numeric(gsub('[$,]', '', T_DVolume)))), by=c("bond_sym_id","year","month")]
+bonds3 = bonds3[!is.na(r_var)]
+bonds3 = unique(bonds3,by=c("bond_sym_id","year","month"))
+bonds3[, c("w1", "w2") := list(T_Volume/sumTV,T_DVolume/sumTDV), by = c("year","month")]
+
+bbonds_sub = unique(bonds3$bond_sym_id)
+bdata = NULL
+bbonds = fread(input = '575296b854687427.csv',colClasses = c(rep("character",7),"numeric","numeric"))
+bbonds = subset(bbonds,subset = bond_sym_id %in% bbonds_sub,select = c("bond_sym_id","trd_rpt_dt","rptd_pr"))
+bbonds[, date := as.Date(trd_rpt_dt,format="%Y%m%d")]
+bbonds = unique(bbonds, by=c("bond_sym_id","date"))
+bbonds[, c("year","month") := list(year(date),month(date))]
+setkey(bbonds,bond_sym_id,date)
+bbonds[, RET := ROC(rptd_pr), by=c("bond_sym_id")]
+bbonds[, r_var := var(RET,na.rm=TRUE), by = c("year","month","bond_sym_id")]
+bbonds = unique(bbonds[!is.na(r_var)],by=c("bond_sym_id","year","month","r_var"))
+bbonds = subset(bbonds,select = c("bond_sym_id","year","month","r_var"))
+bbonds = merge(bbonds,subset(bonds3,select = c("bond_sym_id","year","month","r_var","w1","w2")),by=c("bond_sym_id","year","month"),all.x=TRUE)
+bbonds[is.na(r_var.y), r_var.y := r_var.x]
+bbonds[, r_var.x := NULL]
+setnames(bbonds,"r_var.y","r_var")
+b_lens = bbonds[, .(lna = sum(is.na(w1)), len = length(w1)), by = bond_sym_id]
+b_lens = b_lens[lna > len -3]
+bremove = unique(b_lens$bond_sym_id)
+bbonds = bbonds[!bond_sym_id %in% bremove]
+bbonds[, c("w1","w2") := list(na.kalman(w1,smooth = FALSE,model = "auto.arima"),na.kalman(w2,smooth = FALSE,model = "auto.arima")), by = bond_sym_id]
+bbonds[, c("avg_bvar1","avg_bvar2","avg_bvar3") := list(sum(r_var*w1),sum(r_var*w2),mean(r_var)), by = c("year","month")]
+bondsvar = unique(subset(bbonds,select = c("year","month","avg_bvar1","avg_bvar2","avg_bvar3")))
+setkey(bondsvar,year,month)
+
+alt_inv = merge(alt_inv,bondsvar, by=c("year","month"), all.x=TRUE)
+idx = !is.na(alt_inv$worldD_tp1) & !is.na(alt_inv$avg_bvar1)
+m_bond_Wweights = (1/alt_inv[idx]$avg_bvar1)
+m_world_returns_Wbond = m_bond_Wweights * alt_inv[idx]$worldD_tp1
+sd_Wbond = sd(m_world_returns_Wbond,na.rm = T)
+m_worldD_returns_Wbond = ((sd(alt_inv[idx]$worldD_tp1,na.rm=TRUE) / sd_Wbond) * m_bond_Wweights) * alt_inv[idx]$worldD_tp1
+expt_worldD_Wbond_av =  mean(na.omit(m_worldD_returns_Wbond),na.rm = TRUE) *1200
+expt_Wbond_av_sr = expt_worldD_Wbond_av / sd(na.omit(m_worldD_returns_Wbond),na.rm = TRUE) * sqrt(12) / 1200
+hac_t.test2(mean(m_worldD_returns_Wbond,na.rm = TRUE),mean(alt_inv[idx]$worldD_tp1,na.rm = TRUE),na.omit(m_worldD_returns_Wbond),na.omit(alt_inv[idx]$worldD_tp1),paired="TRUE",alternative="two-sided")
+ratio.test2(rets1 = na.omit(m_worldD_returns_Wbond),rets2 = na.omit(alt_inv[idx]$worldD_tp1),ratio = "Sratio")
+
+
+### other assets SV to Equity management ####
+ooa_data = read_excel(path = 'Book1.xlsx')
+ooa_data = as.data.table(ooa_data)
+ooa_data[, c("X__1","X__2") := NULL]
+ooa_data[, c("year","month") := list(year(Date),month(Date))]
+setkey(ooa_data,Date)
+ooa_data = ooa_data[!is.na(Date)]
+ooa_data[, c("bondRet","currRet","momRet"):=lapply(.SD,ROC,type="discrete"), .SDcols = c("bond","dbcurrency","dbmom")]
+ooa_data[!is.na(currRet), c("bondSV","currSV","momSV") := lapply(.SD,sd), .SDcols=c("bondRet","currRet","momRet"), 
+         by=c("year","month")]
+ooa_data2 = subset(ooa_data,subset = !is.na(currSV)&year <=2015,select = c("year","month","bondSV","currSV","momSV"))
+ooa_data2 = unique(ooa_data2)
+
+
+alt_inv = merge(alt_inv,ooa_data2, by=c("year","month"), all.x=TRUE)
+idx = !is.na(alt_inv$worldD_tp1) & !is.na(alt_inv$bondSV)
+m_bondSV_Wweights = (1/alt_inv[idx]$bondSV)
+m_world_returns_WbondSV = m_bondSV_Wweights * alt_inv[idx]$worldD_tp1
+sd_WbondSV = sd(m_world_returns_WbondSV,na.rm = T)
+m_worldD_returns_WbondSV = ((sd(alt_inv[idx]$worldD,na.rm=TRUE) / sd_WbondSV) * m_bondSV_Wweights) * alt_inv[idx]$worldD_tp1
+expt_worldD_WbondSV =  mean(na.omit(m_worldD_returns_WbondSV),na.rm = TRUE) *1200
+expt_WbondSV_sr = expt_worldD_WbondSV / sd(na.omit(m_worldD_returns_WbondSV),na.rm = TRUE) * sqrt(12) / 1200
+bondSVtest = hac_t.test2(mean(m_worldD_returns_WbondSV,na.rm = TRUE),mean(alt_inv[idx]$worldD_tp1,na.rm = TRUE),na.omit(m_worldD_returns_WbondSV),na.omit(alt_inv[idx]$worldD_tp1),paired="TRUE",alternative="two-sided")
+bondSVSRtest =ratio.test2(rets1 = na.omit(m_worldD_returns_WbondSV),rets2 = na.omit(alt_inv[idx]$worldD_tp1),ratio = "Sratio")
+
+
+# idx = !is.na(alt_inv$worldD_tp1) & !is.na(alt_inv$currSV)
+# m_currSV_Wweights = (1/alt_inv[idx]$currSV)
+# m_world_returns_WcurrSV = m_currSV_Wweights * alt_inv[idx]$worldD_tp1
+# sd_WcurrSV = sd(m_world_returns_WcurrSV,na.rm = T)
+# m_worldD_returns_WcurrSV = ((sd(alt_inv[idx]$worldD,na.rm=TRUE) / sd_WcurrSV) * m_currSV_Wweights) * alt_inv[idx]$worldD_tp1
+# expt_worldD_WcurrSV =  mean(na.omit(m_worldD_returns_WcurrSV),na.rm = TRUE) *1200
+# expt_WcurrSV_sr = expt_worldD_WcurrSV / sd(na.omit(m_worldD_returns_WcurrSV),na.rm = TRUE) * sqrt(12) / 1200
+# currencySVtest = hac_t.test2(mean(m_worldD_returns_WcurrSV,na.rm = TRUE),mean(alt_inv[idx]$worldD_tp1,na.rm = TRUE),na.omit(m_worldD_returns_WcurrSV),na.omit(alt_inv[idx]$worldD_tp1),paired="TRUE",alternative="two-sided")
+# currencySVSRtest = ratio.test2(rets1 = na.omit(m_worldD_returns_WcurrSV),rets2 = na.omit(alt_inv[idx]$worldD_tp1),ratio = "Sratio")
+# 
+# idx = !is.na(alt_inv$worldD_tp1) & !is.na(alt_inv$momSV)
+# m_momSV_Wweights = (1/alt_inv[idx]$momSV)
+# m_world_returns_WmomSV = m_momSV_Wweights * alt_inv[idx]$worldD_tp1
+# sd_WmomSV = sd(m_world_returns_WmomSV,na.rm = T)
+# m_worldD_returns_WmomSV = ((sd(alt_inv[idx]$worldD,na.rm=TRUE) / sd_WmomSV) * m_momSV_Wweights) * alt_inv[idx]$worldD_tp1
+# expt_worldD_WmomSV =  mean(na.omit(m_worldD_returns_WmomSV),na.rm = TRUE) *1200
+# expt_WmomSV_sr = expt_worldD_WmomSV / sd(na.omit(m_worldD_returns_WmomSV),na.rm = TRUE) * sqrt(12) / 1200
+# currencySVtest = hac_t.test2(mean(m_worldD_returns_WmomSV,na.rm = TRUE),mean(alt_inv[idx]$worldD_tp1,na.rm = TRUE),na.omit(m_worldD_returns_WmomSV),na.omit(alt_inv[idx]$worldD_tp1),paired="TRUE",alternative="two-sided")
+# currencySVSRtest = ratio.test2(rets1 = na.omit(m_worldD_returns_WmomSV),rets2 = na.omit(alt_inv[idx]$worldD_tp1),ratio = "Sratio")
+# 
+# idx = !is.na(alt_inv$dbmom_tp1) & !is.na(alt_inv$momSV)
+# m_momSV_Wweights = (1/alt_inv[idx]$momSV)
+# m_world_returns_dbmomSV = m_momSV_Wweights * alt_inv[idx]$dbmom_tp1
+# sd_dbmomSV = sd(m_world_returns_dbmomSV,na.rm = T)
+# m_dbmom_returns_dbmomSV = ((sd(alt_inv[idx]$dbmom,na.rm=TRUE) / sd_dbmomSV) * m_momSV_Wweights) * alt_inv[idx]$dbmom_tp1
+# expt_dbmom_dbmomSV =  mean(na.omit(m_dbmom_returns_dbmomSV),na.rm = TRUE) *1200
+# expt_dbmomSV_sr = expt_dbmom_dbmomSV / sd(na.omit(m_dbmom_returns_dbmomSV),na.rm = TRUE) * sqrt(12) / 1200
+# dbmom_currencySVtest = hac_t.test2(mean(m_dbmom_returns_dbmomSV,na.rm = TRUE),mean(alt_inv[idx]$dbmom_tp1,na.rm = TRUE),na.omit(m_dbmom_returns_dbmomSV),na.omit(alt_inv[idx]$dbmom_tp1),paired="TRUE",alternative="two-sided")
+# dbmom_currencySVSRtest = ratio.test2(rets1 = na.omit(m_dbmom_returns_dbmomSV),rets2 = na.omit(alt_inv[idx]$dbmom_tp1),ratio = "Sratio")
+# 
+# idx = !is.na(alt_inv$dbcurr_tp1) & !is.na(alt_inv$currSV)
+# m_currSV_Wweights = (1/alt_inv[idx]$currSV)
+# m_world_returns_dbcurrSV = m_currSV_Wweights * alt_inv[idx]$dbcurr_tp1
+# sd_dbcurrSV = sd(m_world_returns_dbcurrSV,na.rm = T)
+# m_dbcurr_returns_dbcurrSV = ((sd(alt_inv[idx]$dbcurr,na.rm=TRUE) / sd_dbcurrSV) * m_currSV_Wweights) * alt_inv[idx]$dbcurr_tp1
+# expt_dbcurr_dbcurrSV =  mean(na.omit(m_dbcurr_returns_dbcurrSV),na.rm = TRUE) *1200
+# expt_dbcurrSV_sr = expt_dbcurr_dbcurrSV / sd(na.omit(m_dbcurr_returns_dbcurrSV),na.rm = TRUE) * sqrt(12) / 1200
+# dbcurr_currencySVtest = hac_t.test2(mean(m_dbcurr_returns_dbcurrSV,na.rm = TRUE),mean(alt_inv[idx]$dbcurr_tp1,na.rm = TRUE),na.omit(m_dbcurr_returns_dbcurrSV),na.omit(alt_inv[idx]$dbcurr_tp1),paired="TRUE",alternative="two-sided")
+# dbcurr_currencySVSRtest = ratio.test2(rets1 = na.omit(m_dbcurr_returns_dbcurrSV),rets2 = na.omit(alt_inv[idx]$dbcurr_tp1),ratio = "Sratio")
+# 
+# idx = !is.na(alt_inv$dbcurr_tp1) & !is.na(alt_inv$avg_cvar)
+# m_avg_cvar_Wweights = (1/alt_inv[idx]$avg_cvar)
+# m_world_returns_dbavg_cvar = m_avg_cvar_Wweights * alt_inv[idx]$dbcurr_tp1
+# sd_dbavg_cvar = sd(m_world_returns_dbavg_cvar,na.rm = T)
+# m_dbcurr_returns_dbavg_cvar = ((sd(alt_inv[idx]$dbcurr,na.rm=TRUE) / sd_dbavg_cvar) * m_avg_cvar_Wweights) * alt_inv[idx]$dbcurr_tp1
+# expt_dbcurr_dbavg_cvar =  mean(na.omit(m_dbcurr_returns_dbavg_cvar),na.rm = TRUE) *1200
+# expt_dbavg_cvar_sr = expt_dbcurr_dbavg_cvar / sd(na.omit(m_dbcurr_returns_dbavg_cvar),na.rm = TRUE) * sqrt(12) / 1200
+# dbcurr_currencySVtest = hac_t.test2(mean(m_dbcurr_returns_dbavg_cvar,na.rm = TRUE),mean(alt_inv[idx]$dbcurr_tp1,na.rm = TRUE),na.omit(m_dbcurr_returns_dbavg_cvar),na.omit(alt_inv[idx]$dbcurr_tp1),paired="TRUE",alternative="two-sided")
+# dbcurr_currencySVSRtest = ratio.test2(rets1 = na.omit(m_dbcurr_returns_dbavg_cvar),rets2 = na.omit(alt_inv[idx]$dbcurr_tp1),ratio = "Sratio")
+# 
+# idx = !is.na(alt_inv$dbmom_tp1) & !is.na(alt_inv$avg_cvar)
+# m_avg_cvar_Wweights = (1/alt_inv[idx]$avg_cvar)
+# m_world_returns_dbavg_cvar = m_avg_cvar_Wweights * alt_inv[idx]$dbmom_tp1
+# sd_dbavg_cvar = sd(m_world_returns_dbavg_cvar,na.rm = T)
+# m_dbmom_returns_dbavg_cvar = ((sd(alt_inv[idx]$dbmom,na.rm=TRUE) / sd_dbavg_cvar) * m_avg_cvar_Wweights) * alt_inv[idx]$dbmom_tp1
+# expt_dbmom_dbavg_cvar =  mean(na.omit(m_dbmom_returns_dbavg_cvar),na.rm = TRUE) *1200
+# expt_dbavg_cvar_sr = expt_dbmom_dbavg_cvar / sd(na.omit(m_dbmom_returns_dbavg_cvar),na.rm = TRUE) * sqrt(12) / 1200
+# dbmom_currencySVtest = hac_t.test2(mean(m_dbmom_returns_dbavg_cvar,na.rm = TRUE),mean(alt_inv[idx]$dbmom_tp1,na.rm = TRUE),na.omit(m_dbmom_returns_dbavg_cvar),na.omit(alt_inv[idx]$dbmom_tp1),paired="TRUE",alternative="two-sided")
+# dbmom_currencySVSRtest = ratio.test2(rets1 = na.omit(m_dbmom_returns_dbavg_cvar),rets2 = na.omit(alt_inv[idx]$dbmom_tp1),ratio = "Sratio")
+
+#### oos asset allocation ####
+m_data[, mkt_runVar := (runSD(logxret,n=paper_m_start+1,cumulative = TRUE))]
+m_data[, bh_vol_ewma := EMA(shift(mkt_runVar),n = 12)]
+m_data[, c("av_return","sv_return","av_c","sv_c","av_weight","sv_weight"):=
+         list(NA_real_,NA_real_,NA_real_,NA_real_,NA_real_,NA_real_)]
+
+
+for(n in 4:(nrow(m_data)-1)){
+  oos_sv_weights = (1/m_data[2:n]$mkt_var1m)
+  oos_av_weights = (1/m_data[2:n]$avg_var1m)
+  
+  oos_sv_returns = oos_sv_weights * (m_data[2:n]$logxret)
+  oos_av_returns = oos_av_weights * (m_data[2:n]$logxret)
+  sv_sd = sd(oos_sv_returns)
+  av_sd = sd(oos_av_returns)
+  
+  t_sd = m_data[n]$mkt_runVar
+  c_sv = t_sd / sv_sd
+  c_av = t_sd / av_sd
+  oos_sv_weights =  (c_sv * oos_sv_weights)
+  oos_av_weights =  (c_av * oos_av_weights)
+  
+  sv_returns = oos_sv_weights * m_data[2:n+1]$logxret
+  av_returns = oos_av_weights * m_data[2:n+1]$logxret
+  
+  m_data[n+1, c("av_return","sv_return","av_c","sv_c","av_weight","sv_weight","av_runVar","sv_runVar"):=
+           list(tail(av_returns,1),tail(sv_returns,1),c_av,c_sv,
+                tail(oos_av_weights,1),tail(oos_sv_weights,1),av_sd,sv_sd)]
+}
+
+oos_perf_dt = data.table(Strategy = c("BH","SV_{in}","AV_{in}","SV_{out}","AV_{out}","AV_{BH}"))
+oos_perf_dt[, c("Return","Sharpe","Sortino","Kappa$_{3}$",
+                "Kappa$_{4}$","alpha$_{FF3}$","alpha$_{FF3+Mom}$"):=
+              list(NA_character_,NA_character_,NA_character_,
+                   NA_character_,NA_character_,NA_character_,NA_character_)]
+set.seed(123)
+fq = 12
+r0 = c(m_data[162:1086,logxret])
+f5 = subset(ff_data, subset = date%in%m_data[162:1086,date]
+            ,select = c("date","SMB","HML","Mkt_RF"))
+f5[, date := NULL]
+f5 = as.matrix(f5)
+
+f6 = subset(ff_data, subset = date%in%m_data[162:1086,date]
+            ,select = c("date","SMB","HML","Mkt_RF","Mom"))
+f6[, date := NULL]
+f6 = as.matrix(f6)
+
+r1 = sv_053_returns[161:1085]
+r2 = av_053_returns[161:1085]
+
+var1 = VAR(y = data.table(r1,r2),p = 1,type = "none", season = fq)
+return_resid = data.table(r1 = var1$varresult$r1$residuals,r2 = var1$varresult$r2$residuals)
+rr1 = return_resid$r1
+rr2 = return_resid$r2
+oos_perf_dt[Strategy=="BH", c("Return","Sharpe","Sortino","Kappa$_{3}$","Kappa$_{4}$",
+                              "alpha$_{FF3}$","alpha$_{FF3+Mom}$") := 
+              list(as.character(round(mean(r0)*fq*100,3)),
+                          as.character(round((mean(r0)/sd(r0))* sqrt(fq),3)),
+                          as.character(round(sortinoR(r0,annualize = TRUE,freq = fq),3)),
+                          as.character(round(Kappa03(r0),3)),
+                          as.character(round(Kappa04(r0),3)),
+                          NA_character_,NA_character_
+                          # as.character(round(genRachev.ratio(r0),3))
+)]
+
+rr0 = tail(r0,-1)
+oos_perf_dt[Strategy=="SV_{in}",c("Return","Sharpe","Sortino","Kappa$_{3}$","Kappa$_{4}$",
+                             "alpha$_{FF3}$","alpha$_{FF3+Mom}$"):=
+              list(see.stars(matrix(data=c(as.character(round(mean(r1)*fq*100,3)),
+                          hac_t.test(rr0,rr1,alternative = "less",
+                                     paired = TRUE,var.equal = FALSE)$p.val),nrow = 1),1,2)[1],
+            see.stars(matrix(data=c(as.character(round(Sratio(r1,annualize = TRUE,freq = fq),3)),
+                                  ratio.test2(rets1 = rr1,rets2 = rr0,ratio = "Sratio")),nrow = 1),1,2)[1],
+            see.stars(matrix(data=c(as.character(round(sortinoR(r1,annualize = TRUE,freq = fq),3)),
+                             ratio.test2(rets1 = rr1,rets2 = rr0,ratio = "sortinoR")),nrow = 1),1,2)[1],
+            see.stars(matrix(data=c(as.character(round(Kappa03(r1),3)),
+                             ratio.test2(rets1 = rr1,rets2 = rr0,ratio = "Kappa03")),nrow = 1),1,2)[1],
+            see.stars(matrix(data=c(as.character(round(Kappa04(r1),3)),
+                             ratio.test2(rets1 = rr1,rets2 = rr0,ratio = "Kappa04")),nrow = 1),1,2)[1],
+            see.stars(matrix(data=c(as.character(round(alpha(r1,f5)[[1]]*fq*100,3)),
+                             hac_t.test2(alpha(r0,f5)[[1]],alpha(r1,f5)[[1]],rr0,rr1,alternative = "less",
+                                         paired = TRUE,var.equal = FALSE)$p.val),nrow = 1),1,2)[1],
+            see.stars(matrix(data=c(as.character(round(alpha(r1,f6)[[1]]*fq*100,3)),
+                             hac_t.test2(alpha(r0,f6)[[1]],alpha(r1,f6)[[1]],rr0,rr1,alternative = "less",
+                                         paired = TRUE,var.equal = FALSE)$p.val),nrow = 1),1,2)[1])
+            ]
+
+oos_perf_dt[Strategy=="AV_{in}",c("Return","Sharpe","Sortino","Kappa$_{3}$","Kappa$_{4}$",
+                             "alpha$_{FF3}$","alpha$_{FF3+Mom}$"):=
+              list(see.stars(matrix(data=c(as.character(round(mean(r2)*fq*100,3)),
+                                           hac_t.test(rr0,rr2,alternative = "less",
+                                                      paired = TRUE,var.equal = FALSE)$p.val),nrow = 1),1,2)[1],
+                   see.stars(matrix(data=c(as.character(round(Sratio(r2,annualize = TRUE,freq = fq),3)),
+                                           ratio.test2(rets1 = rr2,rets2 = rr0,ratio = "Sratio")),nrow = 1),1,2)[1],
+                   see.stars(matrix(data=c(as.character(round(sortinoR(r2,annualize = TRUE,freq = fq),3)),
+                                           ratio.test2(rets1 = rr2,rets2 = rr0,ratio = "sortinoR")),nrow = 1),1,2)[1],
+                   see.stars(matrix(data=c(as.character(round(Kappa03(r2),3)),
+                                           ratio.test2(rets1 = rr2,rets2 = rr0,ratio = "Kappa03")),nrow = 1),1,2)[1],
+                   see.stars(matrix(data=c(as.character(round(Kappa04(r2),3)),
+                                           ratio.test2(rets1 = rr2,rets2 = rr0,ratio = "Kappa04")),nrow = 1),1,2)[1],
+                   see.stars(matrix(data=c(as.character(round(alpha(r2,f5)[[1]]*fq*100,3)),
+                                           hac_t.test2(alpha(r0,f5)[[1]],alpha(r2,f5)[[1]],rr0,rr2,alternative = "less",
+                                                       paired = TRUE,var.equal = FALSE)$p.val),nrow = 1),1,2)[1],
+                   see.stars(matrix(data=c(as.character(round(alpha(r2,f6)[[1]]*fq*100,3)),
+                                           hac_t.test2(alpha(r0,f6)[[1]],alpha(r2,f6)[[1]],rr0,rr2,alternative = "less",
+                                                       paired = TRUE,var.equal = FALSE)$p.val),nrow = 1),1,2)[1])
+            ]
+
+r2 = sv_053_returns[161:1085]
+r1 = m_data[162:1086,sv_return]
+
+var1 = VAR(y = data.table(r2,r1),p = 1,type = "none", season = fq)
+return_resid = data.table(r1 = var1$varresult$r1$residuals,r2 = var1$varresult$r2$residuals)
+rr1 = return_resid$r1
+rr2 = return_resid$r2
+
+oos_perf_dt[Strategy=="SV_{out}",c("Return","Sharpe","Sortino","Kappa$_{3}$","Kappa$_{4}$",
+                                   "alpha$_{FF3}$","alpha$_{FF3+Mom}$"):=
+              list(see.stars(matrix(data=c(as.character(round(mean(r1)*fq*100,3)),
+                                           hac_t.test(rr2,rr1,alternative = "less",
+                                                      paired = TRUE,var.equal = FALSE)$p.val),nrow = 1),1,2)[1],
+                   see.stars(matrix(data=c(as.character(round(Sratio(r1,annualize = TRUE,freq = fq),3)),
+                                           ratio.test2(rets1 = rr1,rets2 = rr2,ratio = "Sratio")),nrow = 1),1,2)[1],
+                   see.stars(matrix(data=c(as.character(round(sortinoR(r1,annualize = TRUE,freq = fq),3)),
+                                           ratio.test2(rets1 = rr1,rets2 = rr2,ratio = "sortinoR")),nrow = 1),1,2)[1],
+                   see.stars(matrix(data=c(as.character(round(Kappa03(r1),3)),
+                                           ratio.test2(rets1 = rr1,rets2 = rr2,ratio = "Kappa03")),nrow = 1),1,2)[1],
+                   see.stars(matrix(data=c(as.character(round(Kappa04(r1),3)),
+                                           ratio.test2(rets1 = rr1,rets2 = rr2,ratio = "Kappa04")),nrow = 1),1,2)[1],
+                   see.stars(matrix(data=c(as.character(round(alpha(r1,f5)[[1]]*fq*100,3)),
+                                           hac_t.test2(alpha(r1,f5)[[1]],alpha(r2,f5)[[1]],rr2,rr1,alternative = "less",
+                                                       paired = TRUE,var.equal = FALSE)$p.val),nrow = 1),1,2)[1],
+                   see.stars(matrix(data=c(as.character(round(alpha(r1,f6)[[1]]*fq*100,3)),
+                                           hac_t.test2(alpha(r1,f6)[[1]],alpha(r2,f6)[[1]],rr2,rr1,alternative = "less",
+                                                       paired = TRUE,var.equal = FALSE)$p.val),nrow = 1),1,2)[1])
+            ]
+
+r2 = av_053_returns[161:1085]
+r1 = m_data[162:1086,av_return]
+
+var1 = VAR(y = data.table(r1,r2),p = 1,type = "none", season = fq)
+return_resid = data.table(r1 = var1$varresult$r1$residuals,r2 = var1$varresult$r2$residuals)
+rr1 = return_resid$r1
+rr2 = return_resid$r2
+
+oos_perf_dt[Strategy=="AV_{out}",c("Return","Sharpe","Sortino","Kappa$_{3}$","Kappa$_{4}$",
+                                   "alpha$_{FF3}$","alpha$_{FF3+Mom}$"):=
+              list(see.stars(matrix(data=c(as.character(round(mean(r1)*fq*100,3)),
+                                           hac_t.test(rr2,rr1,alternative = "less",
+                                                      paired = TRUE,var.equal = FALSE)$p.val),nrow = 1),1,2)[1],
+                   see.stars(matrix(data=c(as.character(round(Sratio(r1,annualize = TRUE,freq = fq),3)),
+                                           ratio.test2(rets1 = rr1,rets2 = rr2,ratio = "Sratio")),nrow = 1),1,2)[1],
+                   see.stars(matrix(data=c(as.character(round(sortinoR(r1,annualize = TRUE,freq = fq),3)),
+                                           ratio.test2(rets1 = rr1,rets2 = rr2,ratio = "sortinoR")),nrow = 1),1,2)[1],
+                   see.stars(matrix(data=c(as.character(round(Kappa03(r1),3)),
+                                           ratio.test2(rets1 = rr1,rets2 = rr2,ratio = "Kappa03")),nrow = 1),1,2)[1],
+                   see.stars(matrix(data=c(as.character(round(Kappa04(r1),3)),
+                                           ratio.test2(rets1 = rr1,rets2 = rr2,ratio = "Kappa04")),nrow = 1),1,2)[1],
+                   see.stars(matrix(data=c(as.character(round(alpha(r1,f5)[[1]]*fq*100,3)),
+                                           hac_t.test2(alpha(r1,f5)[[1]],alpha(r2,f5)[[1]],rr2,rr1,alternative = "less",
+                                                       paired = TRUE,var.equal = FALSE)$p.val),nrow = 1),1,2)[1],
+                   see.stars(matrix(data=c(as.character(round(alpha(r1,f6)[[1]]*fq*100,3)),
+                                           hac_t.test2(alpha(r1,f6)[[1]],alpha(r2,f6)[[1]],rr2,rr1,alternative = "less",
+                                                       paired = TRUE,var.equal = FALSE)$p.val),nrow = 1),1,2)[1])
+            ]
+
+r1 = r0
+r2 = m_data[162:1086,av_return]
+
+var1 = VAR(y = data.table(r1,r2),p = 1,type = "none", season = fq)
+return_resid = data.table(r1 = var1$varresult$r1$residuals,r2 = var1$varresult$r2$residuals)
+rr1 = return_resid$r1
+rr2 = return_resid$r2
+
+oos_perf_dt[Strategy=="AV_{BH}",c("Return","Sharpe","Sortino","Kappa$_{3}$","Kappa$_{4}$",
+                                  "alpha$_{FF3}$","alpha$_{FF3+Mom}$"):=
+              list(see.stars(matrix(data=c(as.character(round(mean(r2)*fq*100,3)),
+                                           hac_t.test(rr0,rr2,alternative = "less",
+                                                      paired = TRUE,var.equal = FALSE)$p.val),nrow = 1),1,2)[1],
+                   see.stars(matrix(data=c(as.character(round(Sratio(r2,annualize = TRUE,freq = fq),3)),
+                                           ratio.test2(rets1 = rr2,rets2 = rr0,ratio = "Sratio")),nrow = 1),1,2)[1],
+                   see.stars(matrix(data=c(as.character(round(sortinoR(r2,annualize = TRUE,freq = fq),3)),
+                                           ratio.test2(rets1 = rr2,rets2 = rr0,ratio = "sortinoR")),nrow = 1),1,2)[1],
+                   see.stars(matrix(data=c(as.character(round(Kappa03(r2),3)),
+                                           ratio.test2(rets1 = rr2,rets2 = rr0,ratio = "Kappa03")),nrow = 1),1,2)[1],
+                   see.stars(matrix(data=c(as.character(round(Kappa04(r2),3)),
+                                           ratio.test2(rets1 = rr2,rets2 = rr0,ratio = "Kappa04")),nrow = 1),1,2)[1],
+                   see.stars(matrix(data=c(as.character(round(alpha(r2,f5)[[1]]*fq*100,3)),
+                                           hac_t.test2(alpha(r0,f5)[[1]],alpha(r2,f5)[[1]],rr0,rr2,alternative = "less",
+                                                       paired = TRUE,var.equal = FALSE)$p.val),nrow = 1),1,2)[1],
+                   see.stars(matrix(data=c(as.character(round(alpha(r2,f6)[[1]]*fq*100,3)),
+                                           hac_t.test2(alpha(r0,f6)[[1]],alpha(r2,f6)[[1]],rr0,rr2,alternative = "less",
+                                                       paired = TRUE,var.equal = FALSE)$p.val),nrow = 1),1,2)[1])
+            ]

@@ -628,7 +628,7 @@ bootts = function(e1,e2,stat=c("DM","MSE-F","ENC-HLN"),N=1000,type="recursive",m
       return(enc.hln(e1,e2)[2])
     }
   }
-  kores = detectCores()-2
+  kores = detectCores()-1
   cl = makeCluster(kores,type = "FORK")
   registerDoParallel(cl)
   bootsamples = tsboot(as.ts(E),statistic = statfun,R = N,l = 3, sim = "geom",orig.t = FALSE,
@@ -701,7 +701,7 @@ enc.newRobust = function(formula = NULL, data = NULL, bench = NULL, lowR = NULL,
   }
   # enc_vec1 = rep(NA_real_,highR-lowR)
   # enc_vec2 = rep(NA_real_,highR-lowR)
-  kores = detectCores()-2
+  kores = detectCores()-1
   cl = makeCluster(kores,type = "FORK")
   registerDoParallel(cl)
   mcoptions <- list(preschedule=FALSE, set.seed=FALSE)
@@ -767,7 +767,7 @@ mspe.adjRobust = function(formula = NULL, data = NULL, bench = NULL, lowR = NULL
   if(is.null(highR)){
     highR = ceiling(nrow(data) * .85)
   }
-  kores = detectCores()-2
+  kores = detectCores()-1
   cl = makeCluster(kores,type = "FORK")
   registerDoParallel(cl)
   mcoptions <- list(preschedule=FALSE, set.seed=FALSE)
@@ -827,7 +827,7 @@ dm.test.Robust = function(formula = NULL, data = NULL, bench = NULL, lowR = NULL
   if(is.null(highR)){
     highR = ceiling(nrow(data) * .85)
   }
-  kores = detectCores()-2
+  kores = detectCores()-1
   cl = makeCluster(kores,type = "FORK")
   registerDoParallel(cl)
   mcoptions <- list(preschedule=FALSE, set.seed=FALSE)
@@ -884,7 +884,7 @@ enc.hln.Robust = function(formula = NULL, data = NULL, bench = NULL, lowR = NULL
   if(is.null(highR)){
     highR = ceiling(nrow(data) * .85)
   }
-  kores = detectCores()-2
+  kores = detectCores()-1
   cl = makeCluster(kores,type = "FORK")
   registerDoParallel(cl)
   mcoptions <- list(preschedule=FALSE, set.seed=FALSE)
@@ -1044,7 +1044,8 @@ ratio.test1 = function(rets1,rets2,n_samples = 10000){
   rx2 = Sratio(rets2)
   sample_diff = rx1 - rx2
   ts_obj = as.ts(data.table(rets1,rets2))
-  clust = makeCluster(10,type = "FORK")
+  kores = detectCores()
+  clust = makeCluster(kores-1,type = "FORK")
   registerDoParallel(clust)
   ts_ratios = tsboot(tseries = ts_obj,statistic = Sratio_diff,R = n_samples,l = 3,sim = "geom",
                      parallel = "multicore",cl = clust)$t
@@ -1064,7 +1065,8 @@ ratio.test2 = function(rets1,rets2,n_samples = 1000,
   o_ratio_diff = o_ratio[1] - o_ratio[2]
   o_se = ratio_diff_se(rets1,rets2,ratio)
   stand_oratio = c(o_ratio_diff / o_se)
-  clust = makeCluster(10,type = "FORK")
+  cors = detectCores()
+  clust = makeCluster(cors-1,type = "FORK")
   registerDoParallel(clust)
   ts_ratios = tsboot(tseries = ts_obj,statistic = stand_ratio,R = n_samples,l = 3,sim = "geom",
          parallel = "multicore",cl = clust,ratio=ratio,o_diff = o_ratio_diff)$t
@@ -1526,7 +1528,7 @@ comp.portfo = function(xa,xb,alp){
 }
 
 compall=function(xa,xb){ #New function for all comparisons
-  alpp=c(.01,seq(0.1, 0.9, by=0.1),0.99)
+  alpp=c(.01,seq(0.1, 0.9, by=0.1),0.99,1)
   out=matrix(NA,length(alpp),5)
   for (i in 1:length(alpp)){
     out[i,1]=alpp[i]
