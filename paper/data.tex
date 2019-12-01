@@ -20,7 +20,7 @@ where $\widehat{\rho_{m,n,t}}$ is the Pearson correlation between m and n.\footn
 %AV_{t} ~:~ \bar{\sigma}^{2}_{t} &= \sum_{m=1}^{N}w_{m,t}\sigma^{2}_{t}\\
 %AC_{t} ~:~ \bar{\rho}_{t} &= \sum_{m=1}^{N}\sum_{n=1}^{N}w_{m,t}w_{n,t}\rho_{m,n,t}
 %\end{align}
-\citet{pollet_average_2010} show that SV $\approx$ AV*AC. To calculate average correlations, they follow a method which makes an assumption on the deviation of individual asset variance from the average variance. This approach has the advantage of not implying that all variance terms vanish as taking the number of assets, N, to infinity implies.\footnote{This is detailed as approach (b) on \citet{nematrian}.} However, as \citet{tierens_anadu} note it makes no practical difference which approximation is used.
+\citet{pollet_average_2010} show that SV $\approx$ AV*AC. To calculate average correlations, they follow a method which makes an assumption on the deviation of individual asset variance from the average variance. This approach has the advantage of not implying that all variance terms vanish as taking the number of assets, N, to infinity implies.\footnote{This is detailed as approach (b) in \citet{nematrian}.} However, as \citet{tierens_anadu} note it makes no practical difference which approximation is used.
 
 %These conditions make the calculation of asset variance:
 %\begin{equation}
@@ -65,11 +65,12 @@ Table \ref{tab_summary_stats} panels (a) - (c) show the summary statistics for t
 \bigskip
 
 As my primary interest is in the use of AV versus SV in the management of leverage in the CRSP market portfolio, I test AV and SV against log excess returns.
-Specifically, I take the difference between the natural log of one plus the CRSP market return and the natural log of one plus the risk-free rate using:
-\begin{equation}
-	r_{t} = \log R_{m,t} - \log R_{f,t} 
-\end{equation}
-where $R_{f,t}$ the risk-free return for which I use the 1-month treasury bill, T-bill, rate from Ken French's website\footnote{http://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data\_library.html\#Research}. As shown in table \ref{tab:tab_correlations} panel (a), over the full data period, each variance and correlation time series are contemporaneously correlated to lower log excess returns. AV is significantly correlated with next month's SV, AV, and AC. Surprisingly, over the full data set, this month's AV is even nominally more correlated with next month's SV than this month's SV is, 0.625 versus 0.612.% Over the basis period, AV is the time series most negatively correlated with next months log excess return at -0.129, while it is entirely unrelated to next month's return over the whole data set.
+Specifically, I take the difference between the natural log of one plus the CRSP market return and the natural log of one plus the risk-free rate using %:
+%\begin{equation}
+%	r_{t} = \log R_{m,t} - \log R_{f,t} 
+%\end{equation}
+%where $R_{f,t}$ the risk-free return for which I use 
+the 1-month treasury bill, T-bill, rate from Ken French's website\footnote{http://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data\_library.html\#Research}. As shown in table \ref{tab:tab_correlations} panel (a), over the full data period, each variance and correlation time series are contemporaneously correlated to lower log excess returns. AV is significantly correlated with next month's SV, AV, and AC. Surprisingly, over the full data set, this month's AV is even nominally more correlated with next month's SV than this month's SV is, 0.625 versus 0.612.% Over the basis period, AV is the time series most negatively correlated with next months log excess return at -0.129, while it is entirely unrelated to next month's return over the whole data set.
 
 \bigskip
 \centerline{\bf [Place Table~\ref{tab:tab_correlations} about here]}

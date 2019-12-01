@@ -1,3 +1,44 @@
+\subsection{Theory}
+To explore the relationship of variance and future returns, we start with the market equilibrium optimal portfolio weights for investors with power utility over end-of-period wealth from \citet{noauthor_strategic_nodate}:
+
+\begin{align*}
+E_{t}[r_{i,t+1}-r_{f,t+1}] + \frac{\sigma^{2}_{i,t}}{2} \approxeq& \gamma \sigma_{im,t}
+\end{align*}
+
+where $i$ is an asset in the market, $r_{f,t+1}$ is the log return to the risk free rate, and $\sigma_{im,t}$ is the covariance of $i$ and the market, m.. The implication is that the excess returns of an asset are proportional to the conditional covariance of the asset with the market. This log CAPM holds for the stock market observed by an index proxy, asset s, like the S\&P 500 or CRSP index. Hence, by replacing the covariance of the index, s, and the market with the level covariance of $R_{s}$ and $R_{m}$ and then decomposing this covariance into the weighted sum of the variance of the market index and the covariance of the index with the remainder of the market aggregate wealth not observable through the index, asset u, excess returns are related to observed index variance and return covariance.
+
+\begin{align*}
+E_{t}[r_{s,t+1}-r_{f,t+1}] + \frac{\sigma^{2}_{s,t}}{2} \approxeq& \gamma cov_{t}(R_{s,t+1},R_{m,t+1})\\
+& \gamma cov_{t}(R_{s,t+1},w_{s,t}R_{s,t}+(1-w_{s,t}R_{u,t+1}))\\
+& \gamma (w_{s,t}Var_{t}(R_{s,t+1})+(1-w_{s,t})cov_{t}(R_{s,t+1},R_{u,t+1}))
+\end{align*}
+
+Total index, or portfolio, variance is a function of the variances and covariances of the individual assets. The total portfolio variance of holding K assets is given by:
+\begin{equation}
+SV_{t} ~:~ \sigma^{2}_{s,t} =  \sum_{j=1}^{K}\sum_{k=1}^{K}w_{j,t}w_{k,t}cov(R_{j,t},R_{k,t})
+\end{equation}
+where $w_{t}$ is the market capitalization weight of the asset in the index or portfolio. Average variance and average correlation are defined as:
+\begin{align}
+AV_{t} ~:~ \bar{\sigma}^{2}_{t} &= \sum_{k=1}^{K}w_{k,t}\sigma^{2}_{t}\\
+AC_{t} ~:~ \bar{\rho}_{t} &= \sum_{j=1}^{K}\sum_{k=1}^{K}w_{j,t}w_{k,t}\rho_{j,k,t}
+\end{align}
+
+The return of the stock market index as a function of the return on aggregate wealth, market, is given by the equation:
+\begin{align*}
+R_{s,t+1} = \beta_{t}R_{m,t+1} + \epsilon_{t+1}
+\end{align*}
+where $\epsilon_{t+1}$ is the stock-specific shock component of any shock to aggregate wealth. Any such shock to the stock market, will have a common stock component, $\bar{\epsilon}_{z,t+1}$, with variance $\theta_{t+1}\sigma^{2}_{z,t+1}$ and an idiosyncratic component with variance (1-$\theta_{t+1}$)$\sigma^{2}_{z,t+1}$. The shock to the stock market will be a component of a shock to aggregate wealth with variance $\sigma^{2}_{m,t}$. As the number of assets, K, grows the pairwise covariance converges to the variance of the market index and the return on aggregate wealth is the weighted combination of the return to the stock market and the unobserved portfolio. Thus, the return unobservable from the market index, $R_{u,t+1}$, can be written as:
+\begin{align*}
+R_{u,t+1} = \left(\frac{1-w_{s,t}\beta_{t}}{1-w_{s,t}}\right)R_{m,t+1} - \left(\frac{w_{s,t}}{1-w_{s,t}}\right)\bar{\epsilon}_{z,t+1}
+\end{align*}
+
+and the covariance of returns to the observable index and the unobservable component of aggregate wealth is:
+
+\begin{align*}
+Cov(R_{s,t+1},R_{u,t+1}) = \left(\frac{1-w_{s,t}\beta_{t}}{1-w_{s,t}}\right)\frac{\bar{\sigma}^{2}_{t}}{\beta_{t}}\left(\frac{\bar{\rho}_{t}-\theta_{t}}{1-\theta_{t}}\right) - \left(\frac{w_{s,t}}{1-w_{s,t}}\right)\left(\frac{1-\bar{\rho}_{t}}{1-\theta_{t}}\right)\bar{\sigma}^{2}_{t}.
+\end{align*}
+
+
 \subsection{data}
 The data liquidity restrictions make the calculation of asset variance:
 \begin{equation}
@@ -19,6 +60,27 @@ $\widehat{f}_{h}(x)={\frac{1}{n}}\sum_{i=1}^{n}K_{h}(x-x_{i})={\frac{1}{nh}}\sum
 is used where K is a non-negative function, the kernel, and h is a non-negative smoothing parameter, often called the bandwidth. $K_{h}$ is the scaled kernel, $\frac{1}{h}K(\frac{x}{h})$. The Gaussian kernel is used, 
 $K(x^{*},x_{i})= exp\left(-{\frac  {(x^{*}-x_{i})^{2}}{2b^{2}}}\right)$
 along with Silverman's, \citet{silverman2018density}, "rule of thumb" bandwidth which is 0.9 times the minimum of the standard deviation and the interquartile range of x divided by 1.34 times the sample size to the negative one-fifth power.
+
+\begin{figure}[htb]
+	\centering
+	\caption{{\bf These figures show the smoothed kernel density PDF estimates and empirical CDFs calculated for the returns to the unconstrained AV and SV managed US equity portfolios. The CDF functions are shown to illuminate the stochastic dominance tests which follow. See section \ref{sec:stoc_dom}}} \label{fig:kd_graph}
+	\begin{subfigure}{\textwidth}
+		\input{figures/kd_plots}
+	\end{subfigure}
+	
+	\begin{subfigure}{\textwidth}
+		\input{figures/kd_plots2}
+	\end{subfigure}
+	
+	\begin{subfigure}{\textwidth}
+		\input{figures/kd_plots3}
+	\end{subfigure}
+	
+	\begin{subfigure}{\textwidth}
+		\input{figures/kd_plots4}
+	\end{subfigure}
+\end{figure}
+
 \subsubsection{Vinod's Test}
 Repeated simulated return series are taken from the observed returns to the AV and SV management strategies. These the empirical CDFs from these simulated series are tested for stochastic dominance to the forth order while incorporating deviations from EUT. For example, the test for second-order stochastic dominance checks if 
 $\int_{x*}^{x} F_{ab}(y)dy \leq 0$ for $x \in [x_{*},x*]$ comparing distributions a and b. This involves the integral of $F_{ab}$ itself the integral of the empirical probability distribution defined by the simulated samples. The method of \citet{anderson_1996} is used to convert this integration into matrix pre-multiplication on the vectors of observed return probabilities. For a detailed walk-through of the calculations with supporting code see \citet{vinod_hands-intermediate_2008}. 
@@ -44,7 +106,14 @@ $\int_{x*}^{x} F_{ab}(y)dy \leq 0$ for $x \in [x_{*},x*]$ comparing distribution
 %\end{figure}
 %The stochastic dominance tests involve the comparisons of the CDFs of the appropriate order, or power, of the portfolio returns. Generally, the test is a comparison of which distributions CDF sits "to the right" of the other. The CDF "to the right" means the return distribution which has more likely higher values. The portfolio CDFs can now be compared to test stochastic dominance at various orders, but more information on the preferences of investors can be incorporated before performing the tests.
 %
-%\citet{prelec_probability_1998} defines a flexible function with parameter $\alpha$ controlling the "slope" of the "weight" an investor places on an observed return, ordered from smallest to largest. When $\alpha$ equals zero, investors are EUT-compliant and place equal weight on all observed utilities from returns regardless of size when evaluating two possible portfolios. When $\alpha$ is less than one but greater than zero, investors place greater weight on the lower, negative, realized returns than the higher a result consistent with loss aversion from prospect theory. Figure \ref{fig:sd_ill_graph} shows the relationship between $\alpha$, the ordered cumulative return probability and the weight the investor places on the probability of such a return.\\
+\citet{prelec_probability_1998} defines a flexible function with parameter $\alpha$ controlling the "slope" of the "weight" an investor places on an observed return, ordered from smallest to largest. When $\alpha$ equals zero, investors are EUT-compliant and place equal weight on all observed utilities from returns regardless of size when evaluating two possible portfolios. When $\alpha$ is less than one but greater than zero, investors place greater weight on the lower, negative, realized returns than the higher a result consistent with loss aversion from prospect theory. Figure \ref{fig:sd_ill_graph} shows the relationship between $\alpha$, the ordered cumulative return probability and the weight the investor places on the probability of such a return.\\
+
+\begin{figure}[htb]
+	\centering
+	\caption{{\bf Non-EUT Investor Decision Weights}: This figure illustrates the incorporation of non-EUT investor preferences in the decision between two investment portfolios used in the stochastic dominance analysis. The cumulative probability, p, of the rank order statistics of the portfolio returns are on the x-axis. The perceived utility weight, W(p,$\alpha$), or importance placed on the possibility of incurring a return with probability p. The parameter $\alpha$ measures EUT compliance, $\alpha$ = 1 when investors care equally about all returns and $\alpha <$ 1 when investors care about extreme loses "more than they should". See section \ref{sec:stoc_dom}} \label{fig:sd_ill_graph}
+	\input{figures/sd_ill_plot}
+\end{figure}
+
 %\begin{figure}[htb]
 %	\centering
 %	\caption{{\bf Non-EUT Investor Decision Weights}: This figure illustrates the incorporation of non-EUT investor preferences in the decision between two investment portfolios used in the stochastic dominance analysis. The cumulative probability, p, of the rank order statistics of the portfolio returns are on the x-axis. The perceived utility weight, W(p,$\alpha$), or importance placed on the possibility of incurring a return with probability p. The parameter $\alpha$ measures EUT compliance, $\alpha$ = 1 when investors care equally about all returns and $\alpha$ < 1 when investors care about extreme loses more than they should".} \label{fig:sd_ill_graph}

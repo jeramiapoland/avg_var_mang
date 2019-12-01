@@ -1,15 +1,12 @@
-\begin{thebibliography}{105}
+\begin{thebibliography}{106}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 
-\bibitem[mos(2013)]{most_2013}
-, 2013, Top 10 most traded currency pairs.
+\bibitem[noa(????)]{noauthor_investment_1964}
+, ????, Investment plan making comeback; {Big} {Board}'s {M}.{I}.{P}.
+  {Registers} {Gains} for {Half} {Year} .
 
 \bibitem[mos(2015)]{most_2015}
 , 2015, The {Most} {Traded} {Currency} {Pairs} in 2015.
-
-\bibitem[mos(2016)]{most_2016}
-, 2016, The {Most} {Traded} {Currency} {Pairs} in the {Forex} {Market} in 2016
-  and {Why} {You} {Should} {Choose} {STO}.
 
 \bibitem[Amihud and Hurvich(2004)]{Amihud2004}
 Amihud, Yakov, and Clifford~M. Hurvich, 2004, Predictive regressions: A
@@ -69,9 +66,9 @@ Bollerslev, Tim, Benjamin Hood, John Huss, and Lasse~Heje Pedersen, 2017, Risk
   {Everywhere}: {Modeling} and {Managing} {Volatility}, {SSRN} {Scholarly}
   {Paper} ID 2722591, Social Science Research Network, Rochester, NY.
 
-\bibitem[Bradfield(2019)]{most_2018}
-Bradfield, David, 2019, Major {Currency} {Pairs}: {A} {Guide} to the {Most}
-  {Traded} {Forex} {Pairs}.
+\bibitem[Brokerage(2016)]{most_2016}
+Brokerage, STOFS~Forex, 2016, The {Most} {Traded} {Currency} {Pairs} in the
+  {Forex} {Market} in 2016 and {Why} {You} {Should} {Choose} {STO}.
 
 \bibitem[Brunnermeier et~al.(2009)Brunnermeier, Nagel, and
   Pedersen]{brunnermeier_carry_nodate}
@@ -118,6 +115,11 @@ Carr, Peter, Hongzhong Zhang, and Olympia Hadjiliadis, 2011, Maximum {Drawdown}
   {Insurance}, {\em International Journal of Theoretical and Applied Finance\/}
   14, 1195--1230.
 
+\bibitem[Cederburg and Xuemin(Forthcoming)]{cederburg_2019}
+Cederburg, O'Doherty-M. Feifei~W., P., and Y.~Xuemin, Forthcoming, On the
+  performance of volatility-managed portfolios, {\em Journal of Financial
+  Economics\/} .
+
 \bibitem[Chan et~al.(2016)Chan, Clark, and Wong]{chan_third_2016}
 Chan, Raymond~H., Ephraim Clark, and Wing-Keung Wong, 2016, On the {Third}
   {Order} {Stochastic} {Dominance} for {Risk}-{Averse} and {Risk}-{Seeking}
@@ -128,8 +130,11 @@ Chan, Raymond~H., Ephraim Clark, and Wing-Keung Wong, 2016, On the {Third}
 Chong, Yock~Y, and David~F Hendry, 1986, Econometric evaluation of linear
   macro-economic models, {\em Review of Economic Studies\/} 53, 671--690.
 
+\bibitem[Cliffe(2013)]{most_2013}
+Cliffe, Callum, 2013, Top 10 most traded currency pairs.
+
 \bibitem[Collins(2018)]{ici_factbook}
-Collins, Sean, 2018, Fact book, http://www.icifactbook.org/.
+Collins, Sean, 2018, Fact book, \url{http://www.icifactbook.org/}.
 
 \bibitem[Davison and Hinkley(1997)]{davison1997bootstrap}
 Davison, Anthony~Christopher, and David~Victor Hinkley, 1997, {\em Bootstrap
@@ -238,6 +243,10 @@ Huang, Dashan, Fuwei Jiang, Jun Tu, and Guofu Zhou, 2015, {Investor sentiment
 \bibitem[Investopedia(2003)]{staff_american_2003}
 Investopedia, 2003, American {Stock} {Exchange} - {AMEX},
   \url{https://www.investopedia.com/terms/a/amex.asp}.
+
+\bibitem[Jobson and Korkie(1981)]{jobson_1981}
+Jobson, J., and B.~Korkie, 1981, Performance hypothesis testing with the sharpe
+  and treynor measures, {\em Journal of Finance\/} 36, 889--908.
 
 \bibitem[Johansen and Sornette(2000)]{johansen_large_2000}
 Johansen, Anders, and Didier Sornette, 2000, Large {Stock} {Market} {Price}
@@ -428,9 +437,9 @@ Sornette, {D}., 2003, {\em {Why} {Stock} {Markets} {Crash}: {Critical} {Events}
 Sortino, Frank~A., and Lee~N. Price, 1994, Performance {Measurement} in a
   {Downside} {Risk} {Framework}, {\em The Journal of Investing\/} 3, 59--64.
 
-\bibitem[Staff(1964)]{noauthor_investment_1964}
-Staff, 1964, Investment plan making comeback; {Big} {Board}'s {M}.{I}.{P}.
-  {Registers} {Gains} for {Half} {Year}, {\em The New York Times\/} .
+\bibitem[Staff(2019)]{most_2018}
+Staff, DailyFx, 2019, Major {Currency} {Pairs}: {A} {Guide} to the {Most}
+  {Traded} {Forex} {Pairs}.
 
 \bibitem[Stambaugh(1999)]{stambaugh_predictive_1999}
 Stambaugh, Robert~F., 1999, Predictive regressions, {\em Journal of Financial
@@ -471,10 +480,6 @@ Vinod, H.D., 2004, Ranking mutual funds using unconventional utility theory and
 Vinod, Hrishikesh~D, 2008, {\em Hands-{On} {Intermediate} {Econometrics}
   {Using} {R}: {Templates} for {Extending} {Dozens} of {Practical}
   {Examples}({With} {CD}-{ROM})\/} (WORLD SCIENTIFIC).
-
-\bibitem[Vinod(2016)]{vinod_generalized_2016}
-Vinod, Hrishikesh~D., 2016, Generalized {Correlations} and {Kernel} {Causality}
-  {Using} {R} {Package} {GeneralCorr}, {\em SSRN Electronic Journal\/} .
 
 \bibitem[Welch and Goyal(2008)]{Welch2008}
 Welch, Ivo, and Amit Goyal, 2008, {A comprehensive look at the empirical

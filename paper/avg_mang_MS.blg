@@ -1,0 +1,136 @@
+This is BibTeX, Version 0.99d (TeX Live 2017/Debian)
+Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
+The top-level auxiliary file: avg_mang_MS.aux
+The style file: informs2014.bst
+Database file #1: avg_var_mang.bib
+Warning--I'm ignoring most_2018's extra "author" field
+--line 61 of file avg_var_mang.bib
+I was expecting a `,' or a `}'---line 181 of file avg_var_mang.bib
+ : 
+ : @article{levine_sensitivity_1992,
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+Repeated entry---line 1001 of file avg_var_mang.bib
+ : @article{hocquard_constant-volatility_2013
+ :                                           ,
+I'm skipping whatever remains of this entry
+Repeated entry---line 2033 of file avg_var_mang.bib
+ : @article{ang_cross-section_2006
+ :                                ,
+I'm skipping whatever remains of this entry
+Repeated entry---line 2045 of file avg_var_mang.bib
+ : @article{gonzalez-urteaga_cross-sectional_2016
+ :                                               ,
+I'm skipping whatever remains of this entry
+Database file #2: margin_credit.bib
+I was expecting a `,' or a `}'---line 1308 of file margin_credit.bib
+ :   
+ :   %  pages={qjx017},
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+I was expecting a `,' or a `}'---line 1646 of file margin_credit.bib
+ :   
+ :   editor = {Elliott, Graham and Granger, Clive W.J.  and Timmermann, Allan},
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+You're missing a field name---line 1684 of file margin_credit.bib
+ : 
+ : % title={GDPNow: A Model for GDP`Nowcasting'},
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+Name 1 in "Cederburg, P., O'Doherty, M., Feifei, W., and Xuemin, Y." has a comma at the end for entry cederburg_2019
+while executing---line 2819 of file informs2014.bst
+Too many commas in name 1 of "Cederburg, P., O'Doherty, M., Feifei, W., and Xuemin, Y." for entry cederburg_2019
+while executing---line 2819 of file informs2014.bst
+Too many commas in name 1 of "Cederburg, P., O'Doherty, M., Feifei, W., and Xuemin, Y." for entry cederburg_2019
+while executing---line 2819 of file informs2014.bst
+Too many commas in name 1 of "Cederburg, P., O'Doherty, M., Feifei, W., and Xuemin, Y." for entry cederburg_2019
+while executing---line 2819 of file informs2014.bst
+Name 1 in "Cederburg, P., O'Doherty, M., Feifei, W., and Xuemin, Y." has a comma at the end for entry cederburg_2019
+while executing---line 2819 of file informs2014.bst
+Too many commas in name 1 of "Cederburg, P., O'Doherty, M., Feifei, W., and Xuemin, Y." for entry cederburg_2019
+while executing---line 2819 of file informs2014.bst
+Too many commas in name 1 of "Cederburg, P., O'Doherty, M., Feifei, W., and Xuemin, Y." for entry cederburg_2019
+while executing---line 2819 of file informs2014.bst
+Too many commas in name 1 of "Cederburg, P., O'Doherty, M., Feifei, W., and Xuemin, Y." for entry cederburg_2019
+while executing---line 2819 of file informs2014.bst
+Name 1 in "Jobson, J., and Korkie, B." has a comma at the end for entry jobson_1981
+while executing---line 2819 of file informs2014.bst
+Name 1 in "Jobson, J., and Korkie, B." has a comma at the end for entry jobson_1981
+while executing---line 2819 of file informs2014.bst
+Too many commas in name 1 of "Lang, S., Gupta, F. and Prestbo, J." for entry lang_2006
+while executing---line 2819 of file informs2014.bst
+Too many commas in name 1 of "Lang, S., Gupta, F. and Prestbo, J." for entry lang_2006
+while executing---line 2819 of file informs2014.bst
+Warning--to sort, need author or key in most_2015
+Warning--to sort, need author or key in noauthor_investment_1964
+Warning--empty author in noauthor_investment_1964
+Warning--empty year in noauthor_investment_1964; set to ????
+Warning--empty journal in noauthor_investment_1964
+Warning--missing institution in cao_risk_2016
+Name 1 in "Cederburg, P., O'Doherty, M., Feifei, W., and Xuemin, Y." has a comma at the end for entry cederburg_2019
+while executing---line 2987 of file informs2014.bst
+Too many commas in name 1 of "Cederburg, P., O'Doherty, M., Feifei, W., and Xuemin, Y." for entry cederburg_2019
+while executing---line 2987 of file informs2014.bst
+Too many commas in name 1 of "Cederburg, P., O'Doherty, M., Feifei, W., and Xuemin, Y." for entry cederburg_2019
+while executing---line 2987 of file informs2014.bst
+Too many commas in name 1 of "Cederburg, P., O'Doherty, M., Feifei, W., and Xuemin, Y." for entry cederburg_2019
+while executing---line 2987 of file informs2014.bst
+Name 1 in "Cederburg, P., O'Doherty, M., Feifei, W., and Xuemin, Y." has a comma at the end for entry cederburg_2019
+while executing---line 2987 of file informs2014.bst
+Too many commas in name 1 of "Cederburg, P., O'Doherty, M., Feifei, W., and Xuemin, Y." for entry cederburg_2019
+while executing---line 2987 of file informs2014.bst
+Too many commas in name 1 of "Cederburg, P., O'Doherty, M., Feifei, W., and Xuemin, Y." for entry cederburg_2019
+while executing---line 2987 of file informs2014.bst
+Too many commas in name 1 of "Cederburg, P., O'Doherty, M., Feifei, W., and Xuemin, Y." for entry cederburg_2019
+while executing---line 2987 of file informs2014.bst
+Name 1 in "Jobson, J., and Korkie, B." has a comma at the end for entry jobson_1981
+while executing---line 2987 of file informs2014.bst
+Name 1 in "Jobson, J., and Korkie, B." has a comma at the end for entry jobson_1981
+while executing---line 2987 of file informs2014.bst
+Too many commas in name 1 of "Lang, S., Gupta, F. and Prestbo, J." for entry lang_2006
+while executing---line 2987 of file informs2014.bst
+Too many commas in name 1 of "Lang, S., Gupta, F. and Prestbo, J." for entry lang_2006
+while executing---line 2987 of file informs2014.bst
+You've used 106 entries,
+            2869 wiz_defined-function locations,
+            1354 strings with 27004 characters,
+and the built_in function-call counts, 85273 in all, are:
+= -- 8730
+> -- 1899
+< -- 91
++ -- 752
+- -- 609
+* -- 6330
+:= -- 10998
+add.period$ -- 206
+call.type$ -- 106
+change.case$ -- 733
+chr.to.int$ -- 107
+cite$ -- 116
+duplicate$ -- 8339
+empty$ -- 6753
+format.name$ -- 941
+if$ -- 17455
+int.to.chr$ -- 1
+int.to.str$ -- 1
+missing$ -- 949
+newline$ -- 324
+num.names$ -- 418
+pop$ -- 3607
+preamble$ -- 1
+purify$ -- 626
+quote$ -- 0
+skip$ -- 1590
+stack$ -- 0
+substring$ -- 8259
+swap$ -- 2458
+text.length$ -- 11
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 936
+warning$ -- 6
+while$ -- 639
+width$ -- 0
+write$ -- 1282
+(There were 31 error messages)

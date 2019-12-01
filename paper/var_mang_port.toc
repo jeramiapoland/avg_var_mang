@@ -1,0 +1,28 @@
+\thispagestyle {empty}
+\contentsline {section}{\numberline {I}Theoretical Framework}{6}{section.1}
+\contentsline {section}{\numberline {II}Data and Methodology}{9}{section.2}
+\contentsline {section}{\numberline {III}Investment}{12}{section.3}
+\contentsline {subsection}{\numberline {A}US Performance}{14}{subsection.3.1}
+\contentsline {subsection}{\numberline {B}Drawdowns}{15}{subsection.3.2}
+\contentsline {subsection}{\numberline {C}Global Performance}{16}{subsection.3.3}
+\contentsline {section}{\numberline {IV}Leverage}{17}{section.4}
+\contentsline {subsection}{\numberline {A}Investment Weights}{18}{subsection.4.1}
+\contentsline {subsection}{\numberline {B}Costs}{19}{subsection.4.2}
+\contentsline {subsection}{\numberline {C}Investor Utility}{20}{subsection.4.3}
+\contentsline {subsection}{\numberline {D}Stochastic Dominance}{21}{subsection.4.4}
+\contentsline {section}{\numberline {V}Systematic Risk}{23}{section.5}
+\contentsline {subsection}{\numberline {A}Additional Investment}{23}{subsection.5.1}
+\contentsline {subsection}{\numberline {B}Return Dependence}{26}{subsection.5.2}
+\contentsline {subsection}{\numberline {C}In-Sample}{27}{subsection.5.3}
+\contentsline {subsection}{\numberline {D}Regression Sub-sampling}{28}{subsection.5.4}
+\contentsline {subsection}{\numberline {E}Out-of-Sample}{29}{subsection.5.5}
+\contentsline {subsection}{\numberline {F}Robust Out-of-Sample}{32}{subsection.5.6}
+\contentsline {section}{\numberline {VI}Conclusion}{34}{section.6}
+\contentsline {section}{\numberline {VII}Appendix}{65}{section.7}
+\contentsline {subsection}{\numberline {A}data}{65}{subsection.7.1}
+\contentsline {subsection}{\numberline {B}Stochastic Dominance}{65}{subsection.7.2}
+\contentsline {subsubsection}{\numberline {B.1}Kernel Estimation}{65}{subsubsection.7.2.1}
+\contentsline {subsubsection}{\numberline {B.2}Vinod's Test}{66}{subsubsection.7.2.2}
+\contentsline {subsection}{\numberline {C}In Sample Regressions}{66}{subsection.7.3}
+\contentsline {subsection}{\numberline {D}Out-of-sample Robust}{70}{subsection.7.4}
+\contentsline {subsection}{\numberline {E}Alternate Asset Classes}{71}{subsection.7.5}
