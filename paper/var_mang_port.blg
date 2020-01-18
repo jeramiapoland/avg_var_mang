@@ -5,20 +5,15 @@ The style file: jf.bst
 Database file #1: avg_var_mang.bib
 Warning--I'm ignoring most_2018's extra "author" field
 --line 61 of file avg_var_mang.bib
-I was expecting a `,' or a `}'---line 181 of file avg_var_mang.bib
- : 
- : @article{levine_sensitivity_1992,
-(Error may have been on previous line)
-I'm skipping whatever remains of this entry
-Repeated entry---line 1001 of file avg_var_mang.bib
+Repeated entry---line 1002 of file avg_var_mang.bib
  : @article{hocquard_constant-volatility_2013
  :                                           ,
 I'm skipping whatever remains of this entry
-Repeated entry---line 2033 of file avg_var_mang.bib
+Repeated entry---line 2034 of file avg_var_mang.bib
  : @article{ang_cross-section_2006
  :                                ,
 I'm skipping whatever remains of this entry
-Repeated entry---line 2045 of file avg_var_mang.bib
+Repeated entry---line 2046 of file avg_var_mang.bib
  : @article{gonzalez-urteaga_cross-sectional_2016
  :                                               ,
 I'm skipping whatever remains of this entry
@@ -62,11 +57,6 @@ Too many commas in name 1 of "Lang, S., Gupta, F. and Prestbo, J." for entry lan
 while executing---line 2701 of file jf.bst
 Too many commas in name 1 of "Lang, S., Gupta, F. and Prestbo, J." for entry lang_2006
 while executing---line 2701 of file jf.bst
-Warning--to sort, need author or key in most_2015
-Warning--to sort, need author or key in noauthor_investment_1964
-Warning--empty author in noauthor_investment_1964
-Warning--empty year in noauthor_investment_1964; set to ????
-Warning--empty journal in noauthor_investment_1964
 Warning--empty institution in cao_risk_2016
 Name 1 in "Cederburg, P., O'Doherty, M., Feifei, W., and Xuemin, Y." has a comma at the end for entry cederburg_2019
 while executing---line 2867 of file jf.bst
@@ -94,43 +84,43 @@ Too many commas in name 1 of "Lang, S., Gupta, F. and Prestbo, J." for entry lan
 while executing---line 2867 of file jf.bst
 You've used 106 entries,
             2716 wiz_defined-function locations,
-            1200 strings with 20439 characters,
-and the built_in function-call counts, 43688 in all, are:
-= -- 4054
-> -- 2102
-< -- 97
-+ -- 752
-- -- 608
-* -- 3934
-:= -- 7988
+            1204 strings with 20465 characters,
+and the built_in function-call counts, 43786 in all, are:
+= -- 4061
+> -- 2124
+< -- 99
++ -- 758
+- -- 614
+* -- 3929
+:= -- 8037
 add.period$ -- 106
 call.type$ -- 106
-change.case$ -- 729
+change.case$ -- 731
 chr.to.int$ -- 106
-cite$ -- 116
+cite$ -- 107
 duplicate$ -- 1859
-empty$ -- 2952
-format.name$ -- 802
-if$ -- 8325
+empty$ -- 2944
+format.name$ -- 810
+if$ -- 8336
 int.to.chr$ -- 1
 int.to.str$ -- 1
 missing$ -- 87
 newline$ -- 322
-num.names$ -- 418
-pop$ -- 493
+num.names$ -- 426
+pop$ -- 484
 preamble$ -- 1
-purify$ -- 625
+purify$ -- 627
 quote$ -- 0
-skip$ -- 1384
+skip$ -- 1389
 stack$ -- 0
-substring$ -- 2760
-swap$ -- 417
+substring$ -- 2756
+swap$ -- 418
 text.length$ -- 17
 text.prefix$ -- 0
 top$ -- 0
 type$ -- 936
-warning$ -- 6
-while$ -- 435
+warning$ -- 1
+while$ -- 441
 width$ -- 0
-write$ -- 1149
-(There were 31 error messages)
+write$ -- 1152
+(There were 30 error messages)

@@ -1,13 +1,6 @@
 \begin{thebibliography}{106}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 
-\bibitem[noa(????)]{noauthor_investment_1964}
-, ????, Investment plan making comeback; {Big} {Board}'s {M}.{I}.{P}.
-  {Registers} {Gains} for {Half} {Year} .
-
-\bibitem[mos(2015)]{most_2015}
-, 2015, The {Most} {Traded} {Currency} {Pairs} in 2015.
-
 \bibitem[Amihud and Hurvich(2004)]{Amihud2004}
 Amihud, Yakov, and Clifford~M. Hurvich, 2004, Predictive regressions: A
   reduced-bias estimation method, {\em Journal of Financial and Quantitative
@@ -437,6 +430,13 @@ Sornette, {D}., 2003, {\em {Why} {Stock} {Markets} {Crash}: {Critical} {Events}
 Sortino, Frank~A., and Lee~N. Price, 1994, Performance {Measurement} in a
   {Downside} {Risk} {Framework}, {\em The Journal of Investing\/} 3, 59--64.
 
+\bibitem[Staff(1964)]{noauthor_investment_1964}
+Staff, 1964, Investment plan making comeback; {Big} {Board}'s {M}.{I}.{P}.
+  {Registers} {Gains} for {Half} {Year}, {\em The New York Times\/} .
+
+\bibitem[Staff(2015)]{most_2015}
+Staff, 2015, The {Most} {Traded} {Currency} {Pairs} in 2015.
+
 \bibitem[Staff(2019)]{most_2018}
 Staff, DailyFx, 2019, Major {Currency} {Pairs}: {A} {Guide} to the {Most}
   {Traded} {Forex} {Pairs}.
@@ -469,7 +469,7 @@ Vecer, Jan, 2006, {Maximum} {Drawdown} and {Directional} {Trading},
 
 \bibitem[Verma(2018)]{verma_volatility-targeting_2018}
 Verma, Sid, 2018, Volatility-{Targeting} {Funds} {Could} {Sell} \$225 {Billion}
-  of {Stocks}, {\em Bloomberg.com\/} .
+  of {Stocks}, {\em Bloomberg\/} .
 
 \bibitem[Vinod(2004)]{vinod_h.d._ranking_2004}
 Vinod, H.D., 2004, Ranking mutual funds using unconventional utility theory and
